@@ -1,28 +1,41 @@
 package com.example.app_android;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
+import javax.net.ssl.HttpsURLConnection;
+
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.os.Build;
 
 public class MainActivity extends Activity {
-
+	
+	TextView textView;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
+        textView = (TextView) findViewById(R.id.pageContent);
+        connectTask task = new connectTask();
+        task.execute();
     }
 
 
@@ -45,21 +58,61 @@ public class MainActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    /**
-     * A placeholder fragment containing a simple view.
+ 
+    /*
+     * AsyncTask for connecting to server and print response in log
      */
-    public static class PlaceholderFragment extends Fragment {
+    public class connectTask extends AsyncTask<Void, Void, Void> {
+    	ProgressDialog mProgressDialog;
+    	
+    	@Override
+		protected void onPreExecute() {
+			mProgressDialog = new ProgressDialog(MainActivity.this);
+			mProgressDialog.setTitle("Connecting To Server");
+			mProgressDialog.setMessage("connecting...");
+			mProgressDialog.show();
+			super.onPreExecute();
+		}
+    	
+		@Override
+		protected Void doInBackground(Void... params) {
+			URL url;
+			String inputLine = "";
+			try {
+				url = new URL("https://studentportal.bth.se/web/studentportal.nsf/web.xsp/ny_student");
+						
+				HttpsURLConnection urlCon = (HttpsURLConnection)url.openConnection();
+				InputStream inStream = urlCon.getInputStream();
+				BufferedReader readBuff = new BufferedReader(new InputStreamReader(inStream));
+				
+				while((inputLine = readBuff.readLine()) != null) {
+					System.out.println(inputLine);
+				}
+				
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			return null;
+		}
 
-        public PlaceholderFragment() {
-        }
+		@Override
+		protected void onProgressUpdate(Void... values) {
+			// TODO Auto-generated method stub
+			super.onProgressUpdate(values);
+		}
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			mProgressDialog.dismiss();
+			super.onPostExecute(result);
+		}
     }
 
 }
