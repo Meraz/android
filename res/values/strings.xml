@@ -4,5 +4,19 @@
     <string name="app_name">app-android</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+	
+    <string-array name="main_page_list" >
+        <item >Ny Student</item>
+        <item >Mitt Schema</item>
+        <item >Mina Kurser/Program</item>
+        <item >På Campus</item>
+        <item >Karta över Campus</item>
+        <item >BTH Kontakter</item>
+    </string-array>
+    
+    <string-array name="cities_dialog" >
+        <item >Karlskrona</item>
+        <item >Karlshamn</item>
+    </string-array>
+    
 </resources>
