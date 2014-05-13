@@ -1,0 +1,101 @@
+package com.example.app_android;
+
+
+import com.example.app_android.MyCoursesFragment.ListSelectionListener;
+
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.os.Message;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class MyCoursesAndProgramActivity extends Activity implements ListSelectionListener{
+
+	private static final String TAG = "MyCoursesAndProgramActivity";
+	public static String[] mMyCoursesAndProgramArray;
+	EditText courseCode;
+	MyCoursesHelperAdapter mMyCoursesHelper;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.my_courses_and_program);
+		courseCode = (EditText) findViewById(R.id.courseCode);
+		mMyCoursesHelper = new MyCoursesHelperAdapter(this);
+		mMyCoursesAndProgramArray = mMyCoursesHelper.readAllCourses();
+		
+	}
+	
+    @Override
+	protected void onDestroy() {
+		Log.i(TAG, getClass().getSimpleName() + ":entered onDestroy()");
+		super.onDestroy();
+	}
+
+	@Override
+	protected void onPause() {
+		Log.i(TAG, getClass().getSimpleName() + ":entered onPause()");
+		super.onPause();
+	}
+
+	@Override
+	protected void onRestart() {
+		Log.i(TAG, getClass().getSimpleName() + ":entered onRestart()");
+		super.onRestart();
+	}
+
+	@Override
+	protected void onResume() {
+		Log.i(TAG, getClass().getSimpleName() + ":entered onResume()");
+		super.onResume();
+	}
+
+	@Override
+	protected void onStart() {
+		Log.i(TAG, getClass().getSimpleName() + ":entered onStart()");
+		super.onStart();		
+	}
+
+	@Override
+	protected void onStop() {
+		Log.i(TAG, getClass().getSimpleName() + ":entered onStop()");
+		super.onStop();
+	}
+	
+	public void addCourse(View view) {
+		String cCode = courseCode.getText().toString();
+		long id = mMyCoursesHelper.insertData(cCode);
+		if(id < 0) {
+			Toast.makeText(this, "Unsuccessful", Toast.LENGTH_LONG).show();
+		}
+		else {
+			Toast.makeText(this, "Insert successful", Toast.LENGTH_LONG).show();
+			finish();
+			startActivity(getIntent());			
+		}		
+	}
+	
+	public void readCourses() {
+		mMyCoursesAndProgramArray = mMyCoursesHelper.readAllCourses();
+	}
+	
+	public void courseChecked(View v) {
+		Log.i(TAG, "Checked");
+	}
+
+	@Override
+	public void onListSelection(int index) {
+		// TODO Auto-generated method stub
+		
+	}
+}

@@ -1,6 +1,5 @@
 package com.example.app_android;
 
-
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
@@ -9,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
 
-public class MainPageFragment extends ListFragment{
+
+public class MyCoursesFragment extends ListFragment {
 	
-	private static final String TAG = "MainPagesFragment";
+	private static final String TAG = "MyCouseFragment";
 	private ListSelectionListener mListener = null;
 
 	public interface ListSelectionListener {
@@ -58,8 +59,9 @@ public class MainPageFragment extends ListFragment{
 	public void onActivityCreated(Bundle savedState) {
 		Log.i(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
-		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.main_page_item, MainActivity.mMainPageArray));
-		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);					
+		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.course_item, R.id.label, MyCoursesAndProgramActivity.mMyCoursesAndProgramArray));
+		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);	
+		
 	}
 
 	@Override

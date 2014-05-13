@@ -149,12 +149,8 @@ public class NewStudentFragment extends ListFragment{
 				JSONArray jsonArray = new JSONArray(result);
 				//System.out.println(jsonArray);
 				for (int i = 0; i < jsonArray.length(); i++) {
-					JSONObject jsonObject = jsonArray.getJSONObject(i);
-					String items = "";
-					for(int j = 0; j<jsonObject.getJSONArray("items").length(); j++) {
-						items = items + "- " + jsonObject.getJSONArray("items").getString(j) + "\n \n";
-					}
-					finalResult.add(jsonObject.getString("header")+" \n \n" + items);
+					JSONObject jsonObject = jsonArray.getJSONObject(i);					
+					finalResult.add(jsonObject.getString("header"));
 				}
 				mNewStudentArray = (String[]) finalResult.toArray(new String[finalResult.size()]);
 				

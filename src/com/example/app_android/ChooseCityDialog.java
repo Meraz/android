@@ -22,6 +22,7 @@ public class ChooseCityDialog extends DialogFragment {
 
 				Intent intent = new Intent(getActivity().getApplicationContext(), FullMapActivity.class);
 				intent.putExtra("cityId", which);
+				intent.putExtra("Room", "unknown");
 				startActivity(intent);
 			}
 

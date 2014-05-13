@@ -1,6 +1,5 @@
 package com.example.app_android;
 
-
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
@@ -11,14 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MainPageFragment extends ListFragment{
+public class ScheduleFragment extends ListFragment{
 	
-	private static final String TAG = "MainPagesFragment";
-	private ListSelectionListener mListener = null;
+	private static final String TAG = "ScheduleFragment";
+	private Communicator mListener = null;
 
-	public interface ListSelectionListener {
+	public interface Communicator {
 		public void onListSelection(int index);
-
 	}
 		
 	@Override
@@ -33,7 +31,7 @@ public class MainPageFragment extends ListFragment{
 		super.onAttach(activity);
 		
 		try {
-			mListener = (ListSelectionListener) activity;
+			mListener = (Communicator) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnArticleSelectedListener");
@@ -58,7 +56,7 @@ public class MainPageFragment extends ListFragment{
 	public void onActivityCreated(Bundle savedState) {
 		Log.i(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
-		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.main_page_item, MainActivity.mMainPageArray));
+		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.schedule_item, ScheduleActivity.mScheduleArray));
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);					
 	}
 
@@ -103,5 +101,4 @@ public class MainPageFragment extends ListFragment{
 		Log.i(TAG, getClass().getSimpleName() + ":entered onDestroyView()");
 		super.onDestroyView();
 	}
-
 }

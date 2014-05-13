@@ -44,10 +44,12 @@
          <activity android:name="NewStudentActivity"></activity>
          <activity android:name="NewStudentContentActivity"></activity>
          <activity android:name="FullMapActivity"></activity>
+         <activity android:name="ScheduleActivity"></activity>
+         <activity android:name="MyCoursesAndProgramActivity"></activity>
          
          <meta-data
     		android:name="com.google.android.maps.v2.API_KEY"
-    		android:value="AIzaSyCPM0m_EGQhxlXZydk_ZohgCvcZKGFE85A"/>
+    		android:value="AIzaSyAg8-ZWBvXfQnwMmg1b2p-xJdBYn6aMvcU"/>
          
     </application>
 

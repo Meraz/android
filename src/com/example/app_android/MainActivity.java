@@ -75,17 +75,13 @@ public class MainActivity extends Activity implements ListSelectionListener {
 			startActivity(intent);
 			break;
 		case 1:
-			long startMillis;
-			Calendar beginTime = Calendar.getInstance();
-			startMillis = beginTime.getTimeInMillis();
-			Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
-			builder.appendPath("time");
-			ContentUris.appendId(builder, startMillis);
-			Intent intent1 = new Intent(Intent.ACTION_VIEW)
-			    .setData(builder.build());
+			Intent intent1 = new Intent(getApplicationContext(), ScheduleActivity.class);
 			startActivity(intent1);
 			break;
-		
+		case 2:
+			Intent intent2 = new Intent(getApplicationContext(), MyCoursesAndProgramActivity.class);
+			startActivity(intent2);
+			break;
 		case 4:
 			showDialog();
 			break;
