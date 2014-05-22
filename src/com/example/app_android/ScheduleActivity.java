@@ -10,6 +10,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ScheduleActivity extends Activity implements ScheduleFragment.Communicator{
@@ -37,10 +42,21 @@ public class ScheduleActivity extends Activity implements ScheduleFragment.Commu
         
         actionBar.addTab(tab0);
         actionBar.addTab(tab1);
-        mMySchemaHelper = new MyScheduleHelperAdapter(this);
-        mMySchemaHelper.readAllEvent();
+        //mMySchemaHelper = new MyScheduleHelperAdapter(this);
+        //mMySchemaHelper.readAllEvent();
     }
-
+    
+    public void getRoomLocation(View view) {
+    	TextView rowTextView;
+    	String text;
+    	LinearLayout row = (LinearLayout) view.getParent();
+    	rowTextView = (TextView) row.getChildAt(2);
+    	//test = (TextView) findViewById(child.getId());
+    	text = (String) rowTextView.getText();
+    	String[] nameAndId = text.split(" ");
+    	
+    }
+    
 	@Override
 	protected void onPause() {
 		Log.i(TAG, getClass().getSimpleName() + ":entered onPause()");

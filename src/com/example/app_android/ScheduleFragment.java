@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class ScheduleFragment extends ListFragment{
+public class ScheduleFragment extends ListFragment {
 	
 	private static final String TAG = "ScheduleFragment";
 	private Communicator mListener = null;
@@ -21,13 +23,18 @@ public class ScheduleFragment extends ListFragment{
 	public interface Communicator {
 		public void onListSelection(int index);
 	}
-		
+	
+	public void getRoomLocation(View view) {
+    	 
+    	System.out.println(getListView().getCount());
+    	Toast.makeText(getActivity().getApplicationContext(), view.getParentForAccessibility().toString(), Toast.LENGTH_SHORT).show();
+    }
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		getListView().setItemChecked(pos, true);
 		mListener.onListSelection(pos);
 	}
-
+		
 	@Override
 	public void onAttach(Activity activity) {
 		Log.i(TAG, getClass().getSimpleName() + ":entered onAttach()");
@@ -70,7 +77,7 @@ public class ScheduleFragment extends ListFragment{
 		//for	(int i = 0; i< 2; i++) {
 		//	adapter.addAll(t);
 		//}
-		
+		getListView().getChildCount();
 		setListAdapter(adapter);
 		getListView().setChoiceMode(ListView.CHOICE_MODE_NONE);					
 	}

@@ -37,7 +37,7 @@ public class SchemaUpdateService extends IntentService {
 			//Print all result in log
 			while((inputLine = readBuff.readLine()) != null) {
 				//System.out.println(inputLine);
-				if(count > 3) {
+				if(count > 6) {
 					String[] tokens = inputLine.split(",");
 					long id = mMySchemaHelper.insertData(tokens);
 				}

@@ -48,6 +48,7 @@
     
     <ImageView 
         android:id="@+id/mapMarker"
+        android:onClick="getRoomLocation"
         android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:src="@drawable/ic_action_forward"
