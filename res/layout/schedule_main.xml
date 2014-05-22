@@ -37,15 +37,10 @@
 
 	</RelativeLayout>
 
-	
-    
-    	<fragment
-        android:id="@+id/main_page_container"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_marginTop="?android:attr/actionBarSize"
-        class="com.example.app_android.ScheduleFragment" >
-	    </fragment>
+	<FrameLayout
+	    android:id="@+id/main_page_container"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" >
+	</FrameLayout>
 	    	
 </LinearLayout>

@@ -17,13 +17,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ScheduleActivity extends Activity implements ScheduleFragment.Communicator{
+public class ScheduleActivity extends FragmentActivity implements ScheduleFragment.Communicator, ActionBar.TabListener{
 
 	public static String[] mScheduleArray;
 	private static final String TAG = "ScheduleActivity";
 	private ActionBar actionBar;
 	MyScheduleHelperAdapter mMySchemaHelper;
-	
+	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
+		
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,17 +32,12 @@ public class ScheduleActivity extends Activity implements ScheduleFragment.Commu
         mScheduleArray = new String[]{"J1610", "C230"};
         Fragment mScheduleFragment = new ScheduleFragment();
         setContentView(R.layout.schedule_main); 
-        actionBar = getActionBar();
+        final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        ActionBar.Tab tab0 = actionBar.newTab();
-        tab0.setText("Day");
-        tab0.setTabListener(new MyTabsListener(mScheduleFragment, getApplicationContext()));
-        ActionBar.Tab tab1 = actionBar.newTab();
-        tab1.setText("Week");
-        tab1.setTabListener(new MyTabsListener(mScheduleFragment, getApplicationContext()));
-        
-        actionBar.addTab(tab0);
-        actionBar.addTab(tab1);
+ 
+        // For each of the sections in the app, add a tab to the action bar.
+        actionBar.addTab(actionBar.newTab().setText("Day").setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("Week").setTabListener(this));
         //mMySchemaHelper = new MyScheduleHelperAdapter(this);
         //mMySchemaHelper.readAllEvent();
     }
@@ -94,6 +90,43 @@ public class ScheduleActivity extends Activity implements ScheduleFragment.Commu
 		intent.putExtra("cityId", 0); // 0 -> Karlskrona
 		intent.putExtra("Room", "unknown");
 		startActivity(intent);
+	}
+
+	@Override
+	public void onTabSelected(Tab tab, FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+		if (tab.getPosition() == 0) {
+			ScheduleFragment simpleListFragment = new ScheduleFragment();
+		    getFragmentManager().beginTransaction().replace(R.id.main_page_container, simpleListFragment).commit();
+		}	else {
+		    ScheduleFragment androidversionlist = new ScheduleFragment();
+			getFragmentManager().beginTransaction().replace(R.id.main_page_container, androidversionlist).commit();
+		}
+	}
+	@Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM)) {
+            getActionBar().setSelectedNavigationItem(savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
+        }
+    }
+ 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getActionBar().getSelectedNavigationIndex());
+    }
+ 
+    
+
+	@Override
+	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTabReselected(Tab tab, FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
