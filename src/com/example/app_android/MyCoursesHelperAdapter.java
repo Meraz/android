@@ -21,6 +21,7 @@ public class MyCoursesHelperAdapter {
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(helper.CCode, courseCode);
 		long id = db.insert(helper.TABLE_NAME, null, contentValues);
+		db.close();
 		return id;
 	}
 	
@@ -37,12 +38,14 @@ public class MyCoursesHelperAdapter {
 			String courseCode = cursor.getString(index2);
 			courses.add(courseCode);
 		}
+		db.close();
 		return (String[]) courses.toArray(new String [courses.size()]);
 	}
 	
 	public void removeCourse(String course) {
 		SQLiteDatabase db = helper.getWritableDatabase();
 		db.delete(helper.TABLE_NAME, helper.CCode + "=" + course, null);
+		db.close();
 	}
 	
 	static class MyCoursesHelper extends SQLiteOpenHelper {

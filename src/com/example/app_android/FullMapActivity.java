@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,6 +20,8 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Tile;
+
+
 
 
 import android.app.Activity;
@@ -34,8 +37,10 @@ public class FullMapActivity extends Activity{
 	private LatLng place; 
 	private LatLng roomMarker;
 	private int id;
+	private String city;
 	private String room;
-	public static String[] mArray;
+	private static JSONArray mJsonArray;
+	private static String[] mArray;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +48,40 @@ public class FullMapActivity extends Activity{
         Bundle bundle = getIntent().getExtras();
         id = bundle.getInt("cityId");
         room = bundle.getString("Room");
+        connectDB con = new connectDB();
         if(id == 0) {
-        	place = new LatLng(56.182242, 15.590712);
+        	city = "Karlskrona";
+        	con.execute(city);
+        	try {
+				mJsonArray = con.get();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         } else if (id == 1){
-        	place = new LatLng(56.164384, 14.866024);
+        	city = "Karlshamn";
+        	con.execute(city);
+        	try {
+				mJsonArray = con.get();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
+        
+        //Parse JSON to LatLng coordinates
+        try {
+			parseJsonToLanLng();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         if(room.equals("J1610")) {
         	place = new LatLng(56.183006, 15.590559);
@@ -55,10 +89,11 @@ public class FullMapActivity extends Activity{
         else if (room.equals("C230")){
         	place = new LatLng(56.181478, 15.592322);
         }
-        connectDB con = new connectDB();
-        con.execute();
+        
+        
         setContentView(R.layout.map_layout_full);
         initilizeMap();
+        //Add marker if id is -1 (comes from schema)
         if(id == -1) {
         	mMap.addMarker(new MarkerOptions()
             				.position(place)
@@ -119,14 +154,24 @@ public class FullMapActivity extends Activity{
         }
     }
 	
-	public class connectDB extends AsyncTask<Void, Void, Void> {
+	private void parseJsonToLanLng() throws JSONException {
+		for(int i = 0; i < mJsonArray.length(); i++) {
+			JSONObject jsonObj = mJsonArray.getJSONObject(i);
+			if(jsonObj.getString("cityName").equals(city)) {
+				place = new LatLng(jsonObj.getDouble("lat"), jsonObj.getDouble("lng"));
+				System.out.println(place);
+			}
+		}
+	}
+	
+	public class connectDB extends AsyncTask<String, Void, JSONArray> {
 
 		@Override
-		protected Void doInBackground(Void... params) {
+		protected JSONArray doInBackground(String... params) {
 			URL url;
 			String inputLine = "";
 			String result = "";
-			ArrayList<String> finalResult = new ArrayList<String>();
+			JSONArray jsonArray = null;
 			try {
 				url = new URL("http://www.student.bth.se/~pael10/BTHApp/getCity.php");
 				
@@ -138,14 +183,7 @@ public class FullMapActivity extends Activity{
 					//System.out.println(inputLine);
 					result = result + inputLine;
 				}			
-				JSONArray jsonArray = new JSONArray(result);
-				//System.out.println(jsonArray);
-				for (int i = 0; i < jsonArray.length(); i++) {
-						JSONObject jsonObject = jsonArray.getJSONObject(i);	
-					System.out.println(jsonArray.getJSONObject(i));
-				}
-				mArray = (String[]) finalResult.toArray(new String[finalResult.size()]);
-				System.out.println(jsonArray);
+				jsonArray = new JSONArray(result);	
 				
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
@@ -157,7 +195,7 @@ public class FullMapActivity extends Activity{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}			
-			return null;
+			return jsonArray;
 		}
 
 		@Override
@@ -167,7 +205,7 @@ public class FullMapActivity extends Activity{
 		}
 
 		@Override
-		protected void onPostExecute(Void result) {
+		protected void onPostExecute(JSONArray result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 		}

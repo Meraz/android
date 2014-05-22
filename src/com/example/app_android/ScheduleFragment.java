@@ -1,5 +1,7 @@
 package com.example.app_android;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ public class ScheduleFragment extends ListFragment{
 	
 	private static final String TAG = "ScheduleFragment";
 	private Communicator mListener = null;
+	MyScheduleHelperAdapter mMySchemaHelper;
 
 	public interface Communicator {
 		public void onListSelection(int index);
@@ -56,8 +59,20 @@ public class ScheduleFragment extends ListFragment{
 	public void onActivityCreated(Bundle savedState) {
 		Log.i(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
-		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.schedule_item, ScheduleActivity.mScheduleArray));
-		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);					
+		mMySchemaHelper = new MyScheduleHelperAdapter(getActivity().getApplicationContext());
+		String[] t1 = mMySchemaHelper.readStartTime();
+		String[] t2 = mMySchemaHelper.readEndTime();
+		String[] t3 = mMySchemaHelper.readMoment();
+		String[] t4 = mMySchemaHelper.readRoom();
+		
+		
+		ScheduleCustomAdapter adapter = new ScheduleCustomAdapter(getActivity(), t1, t2, t3, t4);
+		//for	(int i = 0; i< 2; i++) {
+		//	adapter.addAll(t);
+		//}
+		
+		setListAdapter(adapter);
+		getListView().setChoiceMode(ListView.CHOICE_MODE_NONE);					
 	}
 
 	@Override
@@ -88,12 +103,6 @@ public class ScheduleFragment extends ListFragment{
 	public void onDetach() {
 		Log.i(TAG, getClass().getSimpleName() + ":entered onDetach()");
 		super.onDetach();
-	}
-
-	@Override
-	public void onDestroy() {
-		Log.i(TAG, getClass().getSimpleName() + ":entered onDestroy()");
-		super.onDestroy();
 	}
 
 	@Override

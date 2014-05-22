@@ -18,14 +18,16 @@ import android.util.Log;
 public class MainActivity extends Activity implements ListSelectionListener {
 	
 	public static String[] mMainPageArray;
-	private static final String TAG = "MainActivity";
+	private static final String TAG = "MainActivity";	
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Get resources from stored string array
         mMainPageArray = getResources().getStringArray(R.array.main_page_list);
-        
+        Intent intent = new Intent(this, SchemaUpdateService.class);
+        intent.putExtra("URL", "https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=dv2545&type=root&startdate=20140101&enddate=20140620&p=0.m%2C2.w");
+        startService(intent);
         setContentView(R.layout.activity_main); 	
     }
     
