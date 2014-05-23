@@ -15,16 +15,17 @@ import android.widget.TextView;
 public class ScheduleCustomAdapter extends BaseAdapter{
 	
 	private String[] startTime, endTime, type, place;
-	private Context context;
+	
+	private LayoutInflater inflater;
 
 
 	public ScheduleCustomAdapter(Context context, String[] startTime, String [] endTime, String[] type, String[] place) {
 		super();
-		this.context = context;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.type = type;
 		this.place = place;
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 
@@ -47,24 +48,38 @@ public class ScheduleCustomAdapter extends BaseAdapter{
 
 
 
-	public View getView(int position, View convertView, ViewGroup parent) {
+	private static class Holder {
+		TextView startTime;
+		TextView endTime;
+		TextView type;
+		TextView place;
+		ImageView img;
+	}
+	
+	public View getView(int position, View convertView, ViewGroup parent) {		
 		
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View row;
+		Holder holder;
+		if (convertView == null) {
 		
-		row = inflater.inflate(R.layout.schedule_item, parent, false);
-		
-		TextView tStartTime = (TextView) row.findViewById(R.id.textViewStartTime); 
-		TextView tEndTime = (TextView) row.findViewById(R.id.textViewEndTime); 
-		TextView tType = (TextView) row.findViewById(R.id.textViewType); 
-		TextView tPlace = (TextView) row.findViewById(R.id.textViewPlace);
-	    ImageView img =(ImageView) row.findViewById(R.id.mapMarker);
-	    
-	    tStartTime.setText(startTime[position]);
-	    tEndTime.setText(endTime[position]);
-	    tType.setText(type[position]);
-	    tPlace.setText(place[position]);
-	    img.setImageResource(R.drawable.ic_action_forward);
+			row = inflater.inflate(R.layout.schedule_item, parent, false);
+			holder = new Holder();
+			holder.startTime = (TextView) row.findViewById(R.id.textViewStartTime); 
+			holder.endTime = (TextView) row.findViewById(R.id.textViewEndTime); 
+			holder.type = (TextView) row.findViewById(R.id.textViewType); 
+			holder.place = (TextView) row.findViewById(R.id.textViewPlace);
+		    holder.img =(ImageView) row.findViewById(R.id.mapMarker);
+		    row.setTag(holder);
+		}
+		else {
+			row = convertView;
+			holder = (Holder) row.getTag();
+		}
+	    holder.startTime.setText(startTime[position]);
+	    holder.endTime.setText(endTime[position]);
+	    holder.type.setText(type[position]);
+	    holder.place.setText(place[position]);
+	    holder.img.setImageResource(R.drawable.ic_action_forward);
 
 	    return row;
 	}

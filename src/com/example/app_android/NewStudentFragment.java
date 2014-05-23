@@ -31,6 +31,7 @@ public class NewStudentFragment extends ListFragment{
 	private ListSelectionListener mListener = null;
 
 	public static String[] mNewStudentArray;
+	private final static boolean verbose = true;
 	
 	public interface ListSelectionListener {
 		public void onListSelection(int index);
@@ -44,7 +45,8 @@ public class NewStudentFragment extends ListFragment{
 
 	@Override
 	public void onAttach(Activity activity) {
-		Log.i(TAG, getClass().getSimpleName() + ":entered onAttach()");
+		if (verbose)
+    		Log.v(TAG, getClass().getSimpleName() + ":entered onAttach()");
 		super.onAttach(activity);
 		
 		try {
@@ -56,21 +58,24 @@ public class NewStudentFragment extends ListFragment{
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
+		if (verbose)
+    		Log.v(TAG, getClass().getSimpleName() + ":entered onCreate()");
 		super.onCreate(savedInstanceState);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 		Bundle savedInstanceState) {
-		Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
+		if (verbose)
+    		Log.v(TAG, getClass().getSimpleName() + ":entered onCreate()");
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 
 	@Override
 	public void onActivityCreated(Bundle savedState) {
-		Log.i(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
+		if (verbose)
+    		Log.v(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
 		connectTask task = new connectTask();
         task.execute();
@@ -78,43 +83,50 @@ public class NewStudentFragment extends ListFragment{
 
 	@Override
 	public void onStart() {
-		Log.i(TAG, getClass().getSimpleName() + ":entered onStart()");
+		if (verbose)
+    		Log.v(TAG, getClass().getSimpleName() + ":entered onStart()");
 		super.onStart();
 	}
 
 	@Override
 	public void onResume() {
-		Log.i(TAG, getClass().getSimpleName() + ":entered onResume()");
+		if (verbose)
+    		Log.v(TAG, getClass().getSimpleName() + ":entered onResume()");
 		super.onResume();
 	}
 
 	@Override
 	public void onPause() {
-		Log.i(TAG, getClass().getSimpleName() + ":entered onPause()");
+		if (verbose)
+    		Log.v(TAG, getClass().getSimpleName() + ":entered onPause()");
 		super.onPause();
 	}
 
 	@Override
 	public void onStop() {
-		Log.i(TAG, getClass().getSimpleName() + ":entered onStop()");
+		if (verbose)
+    		Log.v(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
 
 	@Override
 	public void onDetach() {
-		Log.i(TAG, getClass().getSimpleName() + ":entered onDetach()");
+		if (verbose)
+    		Log.v(TAG, getClass().getSimpleName() + ":entered onDetach()");
 		super.onDetach();
 	}
 
 	@Override
 	public void onDestroy() {
-		Log.i(TAG, getClass().getSimpleName() + ":entered onDestroy()");
+		if (verbose)
+    		Log.v(TAG, getClass().getSimpleName() + ":entered onDestroy()");
 		super.onDestroy();
 	}
 
 	@Override
 	public void onDestroyView() {
-		Log.i(TAG, getClass().getSimpleName() + ":entered onDestroyView()");
+		if (verbose)
+    		Log.v(TAG, getClass().getSimpleName() + ":entered onDestroyView()");
 		super.onDestroyView();
 	}
 	
