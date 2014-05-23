@@ -1,6 +1,9 @@
 package com.example.app_android;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import android.app.Activity;
 import android.app.ListFragment;
@@ -14,18 +17,24 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ScheduleFragment extends ListFragment {
+public class ScheduleDayFragment extends ListFragment {
 	
 	private static final String TAG = "ScheduleFragment";
 	private Communicator mListener = null;
 	MyScheduleHelperAdapter mMySchemaHelper;
+	private String[] mDates;
 
 	public interface Communicator {
 		public void onListSelection(int index);
 	}
 	
-	public void getRoomLocation(View view) {
-    	 
+	public void setDate(String[] c) {
+		mDates = c;
+		//Toast.makeText(getActivity().getApplicationContext(), "place 0", Toast.LENGTH_LONG).show();
+	}
+	
+	//Debug function
+	public void getRoomLocation(View view) {    	 
     	System.out.println(getListView().getCount());
     	Toast.makeText(getActivity().getApplicationContext(), view.getParentForAccessibility().toString(), Toast.LENGTH_SHORT).show();
     }
@@ -67,16 +76,14 @@ public class ScheduleFragment extends ListFragment {
 		Log.i(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
 		mMySchemaHelper = new MyScheduleHelperAdapter(getActivity().getApplicationContext());
-		String[] t1 = mMySchemaHelper.readStartTime();
-		String[] t2 = mMySchemaHelper.readEndTime();
-		String[] t3 = mMySchemaHelper.readMoment();
-		String[] t4 = mMySchemaHelper.readRoom();
-		
-		
+		String[] t1 = mMySchemaHelper.readStartTime2(mDates[0], mDates[1]);
+		String[] t2 = mMySchemaHelper.readEndTime2(mDates[0], mDates[1]);
+		String[] t3 = mMySchemaHelper.readMoment2(mDates[0], mDates[1]);
+		String[] t4 = mMySchemaHelper.readRoom2(mDates[0], mDates[1]);
+				
+		//Add all items to customized adapter
 		ScheduleCustomAdapter adapter = new ScheduleCustomAdapter(getActivity(), t1, t2, t3, t4);
-		//for	(int i = 0; i< 2; i++) {
-		//	adapter.addAll(t);
-		//}
+	
 		getListView().getChildCount();
 		setListAdapter(adapter);
 		getListView().setChoiceMode(ListView.CHOICE_MODE_NONE);					

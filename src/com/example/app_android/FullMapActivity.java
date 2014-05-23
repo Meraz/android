@@ -48,9 +48,10 @@ public class FullMapActivity extends Activity{
         Bundle bundle = getIntent().getExtras();
         id = bundle.getInt("cityId");
         room = bundle.getString("Room");
-        connectDB con = new connectDB();
+        
         if(id == 0) {
         	city = "Karlskrona";
+        	connectDBCity con = new connectDBCity();
         	con.execute(city);
         	try {
 				mJsonArray = con.get();
@@ -63,6 +64,7 @@ public class FullMapActivity extends Activity{
 			}
         } else if (id == 1){
         	city = "Karlshamn";
+        	connectDBCity con = new connectDBCity();
         	con.execute(city);
         	try {
 				mJsonArray = con.get();
@@ -73,8 +75,20 @@ public class FullMapActivity extends Activity{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+        } else {
+        	connectDBRoom con = new connectDBRoom();
+        	con.execute(room);
+        	try {
+				mJsonArray = con.get();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
-        
+        System.out.println(mJsonArray);
         //Parse JSON to LatLng coordinates
         try {
 			parseJsonToLanLng();
@@ -83,12 +97,6 @@ public class FullMapActivity extends Activity{
 			e.printStackTrace();
 		}
         
-        if(room.equals("J1610")) {
-        	place = new LatLng(56.183006, 15.590559);
-        } 
-        else if (room.equals("C230")){
-        	place = new LatLng(56.181478, 15.592322);
-        }
         
         
         setContentView(R.layout.map_layout_full);
@@ -157,14 +165,19 @@ public class FullMapActivity extends Activity{
 	private void parseJsonToLanLng() throws JSONException {
 		for(int i = 0; i < mJsonArray.length(); i++) {
 			JSONObject jsonObj = mJsonArray.getJSONObject(i);
-			if(jsonObj.getString("cityName").equals(city)) {
-				place = new LatLng(jsonObj.getDouble("lat"), jsonObj.getDouble("lng"));
-				System.out.println(place);
+			if(id == -1) {
+				if(jsonObj.getString("roomNr").equals(room)) {
+					place = new LatLng(jsonObj.getDouble("lat"), jsonObj.getDouble("lng"));
+				}
+			} else {
+				if(jsonObj.getString("cityName").equals(city)) {
+					place = new LatLng(jsonObj.getDouble("lat"), jsonObj.getDouble("lng"));
+				}
 			}
 		}
 	}
 	
-	public class connectDB extends AsyncTask<String, Void, JSONArray> {
+	public class connectDBCity extends AsyncTask<String, Void, JSONArray> {
 
 		@Override
 		protected JSONArray doInBackground(String... params) {
@@ -174,6 +187,55 @@ public class FullMapActivity extends Activity{
 			JSONArray jsonArray = null;
 			try {
 				url = new URL("http://www.student.bth.se/~pael10/BTHApp/getCity.php");
+				
+				HttpURLConnection urlCon = (HttpURLConnection)url.openConnection();
+				InputStream inStream = urlCon.getInputStream();
+				BufferedReader readBuff = new BufferedReader(new InputStreamReader(inStream));
+				//Print all result in log
+				while((inputLine = readBuff.readLine()) != null) {
+					//System.out.println(inputLine);
+					result = result + inputLine;
+				}			
+				jsonArray = new JSONArray(result);	
+				
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
+			return jsonArray;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+		}
+
+		@Override
+		protected void onPostExecute(JSONArray result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+		}
+		
+	}
+	
+	public class connectDBRoom extends AsyncTask<String, Void, JSONArray> {
+
+		@Override
+		protected JSONArray doInBackground(String... params) {
+			URL url;
+			String inputLine = "";
+			String result = "";
+			JSONArray jsonArray = null;
+			System.out.println(params[0]);
+			try {
+				url = new URL("http://www.student.bth.se/~pael10/BTHApp/getRoom.php?p="+params[0]);
 				
 				HttpURLConnection urlCon = (HttpURLConnection)url.openConnection();
 				InputStream inStream = urlCon.getInputStream();

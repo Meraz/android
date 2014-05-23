@@ -117,11 +117,49 @@ public class MyScheduleHelperAdapter {
 		return (String[]) event.toArray(new String [event.size()]);
 	}
 	
+	public String[] readStartTime2(String startDate, String endDate) {
+		SQLiteDatabase db = helper.getReadableDatabase();
+		//String[] columns = {helper.UID, helper.StartDate, helper.StartTime, helper.EndDate, helper.EndTime, helper.Course, helper.Moment, helper.Group, helper.Person, helper.Room, helper.Note, helper.URL, helper.MyName, helper.Program};		
+		String[] columns = {helper.UID, helper.StartDate, helper.EndDate,helper.StartTime};		
+		String[] values = {startDate, endDate};
+		Cursor cursor = db.query(helper.TABLE_NAME, columns, helper.StartDate + " BETWEEN ? AND ?", values, null, null, null);
+		ArrayList<String> event = new ArrayList<String>();
+		
+		while (cursor.moveToNext()) {
+			int index1 = cursor.getColumnIndex(helper.UID);
+			int index2 = cursor.getColumnIndex(helper.StartTime);
+			int cid = cursor.getInt(index1);
+			String startTime = cursor.getString(index2);
+			event.add(startTime);
+		}
+		db.close();
+		return (String[]) event.toArray(new String [event.size()]);
+	}
+	
 	public String[] readEndTime() {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		//String[] columns = {helper.UID, helper.StartDate, helper.StartTime, helper.EndDate, helper.EndTime, helper.Course, helper.Moment, helper.Group, helper.Person, helper.Room, helper.Note, helper.URL, helper.MyName, helper.Program};		
 		String[] columns = {helper.UID, helper.EndTime};		
 		Cursor cursor = db.query(helper.TABLE_NAME, columns, null, null, null, null, null);
+		ArrayList<String> event = new ArrayList<String>();
+		
+		while (cursor.moveToNext()) {
+			int index1 = cursor.getColumnIndex(helper.UID);
+			int index2 = cursor.getColumnIndex(helper.EndTime);
+			int cid = cursor.getInt(index1);
+			String endTime = cursor.getString(index2);
+			event.add(endTime);
+		}
+		db.close();
+		return (String[]) event.toArray(new String [event.size()]);
+	}
+	
+	public String[] readEndTime2(String startDate, String endDate) {
+		SQLiteDatabase db = helper.getReadableDatabase();
+		//String[] columns = {helper.UID, helper.StartDate, helper.StartTime, helper.EndDate, helper.EndTime, helper.Course, helper.Moment, helper.Group, helper.Person, helper.Room, helper.Note, helper.URL, helper.MyName, helper.Program};		
+		String[] columns = {helper.UID, helper.StartDate, helper.EndDate,helper.EndTime};		
+		String[] values = {startDate, endDate};
+		Cursor cursor = db.query(helper.TABLE_NAME, columns, helper.StartDate + " BETWEEN ? AND ?", values, null, null, null);
 		ArrayList<String> event = new ArrayList<String>();
 		
 		while (cursor.moveToNext()) {
@@ -153,6 +191,25 @@ public class MyScheduleHelperAdapter {
 		return (String[]) event.toArray(new String [event.size()]);
 	}
 	
+	public String[] readRoom2(String startDate, String endDate) {
+		SQLiteDatabase db = helper.getReadableDatabase();
+		//String[] columns = {helper.UID, helper.StartDate, helper.StartTime, helper.EndDate, helper.EndTime, helper.Course, helper.Moment, helper.Group, helper.Person, helper.Room, helper.Note, helper.URL, helper.MyName, helper.Program};		
+		String[] columns = {helper.UID, helper.StartDate, helper.EndDate,helper.Room};		
+		String[] values = {startDate, endDate};
+		Cursor cursor = db.query(helper.TABLE_NAME, columns, helper.StartDate + " BETWEEN ? AND ?", values, null, null, null);
+		ArrayList<String> event = new ArrayList<String>();
+		
+		while (cursor.moveToNext()) {
+			int index1 = cursor.getColumnIndex(helper.UID);
+			int index2 = cursor.getColumnIndex(helper.Room);
+			int cid = cursor.getInt(index1);
+			String room = cursor.getString(index2);
+			event.add(room);
+		}
+		db.close();
+		return (String[]) event.toArray(new String [event.size()]);
+	}
+	
 	public String[] readMoment() {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		//String[] columns = {helper.UID, helper.StartDate, helper.StartTime, helper.EndDate, helper.EndTime, helper.Course, helper.Moment, helper.Group, helper.Person, helper.Room, helper.Note, helper.URL, helper.MyName, helper.Program};		
@@ -166,6 +223,26 @@ public class MyScheduleHelperAdapter {
 			int cid = cursor.getInt(index1);
 			String moment = cursor.getString(index2);
 			event.add(moment);
+		}
+		db.close();
+		return (String[]) event.toArray(new String [event.size()]);
+	}
+	
+	public String[] readMoment2(String startDate, String endDate) {
+		SQLiteDatabase db = helper.getReadableDatabase();
+		//String[] columns = {helper.UID, helper.StartDate, helper.StartTime, helper.EndDate, helper.EndTime, helper.Course, helper.Moment, helper.Group, helper.Person, helper.Room, helper.Note, helper.URL, helper.MyName, helper.Program};		
+		String[] columns = {helper.UID, helper.StartDate, helper.EndDate, helper.Moment};
+		String[] values = {startDate, endDate};
+		Cursor cursor = db.query(helper.TABLE_NAME, columns, helper.StartDate + " BETWEEN ? AND ?", values, null, null, null);
+		ArrayList<String> event = new ArrayList<String>();
+		System.out.println("Start: "+startDate+", End: "+endDate );
+		while (cursor.moveToNext()) {
+			int index1 = cursor.getColumnIndex(helper.UID);
+			int index2 = cursor.getColumnIndex(helper.Moment);
+			int cid = cursor.getInt(index1);
+			String moment = cursor.getString(index2);
+			event.add(moment);
+			System.out.println(moment);
 		}
 		db.close();
 		return (String[]) event.toArray(new String [event.size()]);
