@@ -84,6 +84,5 @@ public class MyCoursesHelperAdapter {
 				e.printStackTrace();
 			}
 		}
-
 	}
 }

@@ -50,7 +50,5 @@ public class SchemaUpdateService extends IntentService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
-
 }

@@ -45,13 +45,11 @@ public class ScheduleActivity extends FragmentActivity implements ScheduleDayFra
         displayCal = Calendar.getInstance(); 
         Date displayDate = new Date(displayCal.getTimeInMillis());
         if(tabId == 0) {
-        	
+        	// Empty ? 
         } else {
         	SimpleDateFormat df = new SimpleDateFormat("w");
             date.setText(df.format(displayDate));
-        }
-        
-       
+        }   
         
         //c.set(Calendar.WEEK_OF_YEAR, (c.get(Calendar.WEEK_OF_YEAR)+1));
         final ActionBar actionBar = getActionBar();
@@ -112,29 +110,32 @@ public class ScheduleActivity extends FragmentActivity implements ScheduleDayFra
 		String endDate;
     	if(tabId == 0) {
     		displayCal.set(displayCal.DATE, (displayCal.get(displayCal.DATE)-1));
-    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            Date displayDate = new Date(displayCal.getTimeInMillis());
-            SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
+    		
+    		SimpleDateFormat 	df 			= new SimpleDateFormat("yyyy-MM-dd");
+            Date 				displayDate = new Date(displayCal.getTimeInMillis());
+            SimpleDateFormat 	df2 		= new SimpleDateFormat("yyyy-MM-dd");
+            ScheduleDayFragment dayFrag 	= new ScheduleDayFragment();
             date.setText(df2.format(displayDate));
             startDate = df.format(displayDate);
             endDate = df.format(displayDate);
-			ScheduleDayFragment dayFrag = new ScheduleDayFragment();
+			
 			dayFrag.setDate(new String[] {startDate, endDate});
 		    getFragmentManager().beginTransaction().replace(R.id.main_page_container, dayFrag).commit();
     	}
     	else {
     		displayCal.set(displayCal.WEEK_OF_YEAR, (displayCal.get(displayCal.WEEK_OF_YEAR)-1));
     		
-    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-    		Date displayDate = new Date(displayCal.getTimeInMillis());
-            SimpleDateFormat df2 = new SimpleDateFormat("w");
+    		SimpleDateFormat 	df 			= new SimpleDateFormat("yyyy-MM-dd");
+    		Date 				displayDate = new Date(displayCal.getTimeInMillis());
+            SimpleDateFormat 	df2 		= new SimpleDateFormat("w");
+            ScheduleDayFragment dayFrag 	= new ScheduleDayFragment();
+            
             date.setText("Vecka "+df2.format(displayDate));
-            endDate = df.format(displayDate);
+            endDate 	= df.format(displayDate);            
             displayCal.set(displayCal.DAY_OF_WEEK, 1);
             displayDate = new Date(displayCal.getTimeInMillis());
-            startDate = df.format(displayDate);
-            displayCal.set(displayCal.DAY_OF_WEEK, 7);
-			ScheduleDayFragment dayFrag = new ScheduleDayFragment();
+            startDate = df.format(displayDate);            
+            displayCal.set(displayCal.DAY_OF_WEEK, 7);            			
 			dayFrag.setDate(new String[] {startDate, endDate});
 			getFragmentManager().beginTransaction().replace(R.id.main_page_container, dayFrag).commit();
     	}

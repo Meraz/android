@@ -21,9 +21,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Tile;
 
-
-
-
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;

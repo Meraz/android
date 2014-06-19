@@ -116,5 +116,4 @@ public class MainPageFragment extends ListFragment{
     		Log.v(TAG, getClass().getSimpleName() + ":entered onDestroyView()");
 		super.onDestroyView();
 	}
-
 }

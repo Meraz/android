@@ -77,7 +77,6 @@ public class ScheduleDayFragment extends ListFragment {
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
-
 	@Override
 	public void onActivityCreated(Bundle savedState) {
 		if (verbose)

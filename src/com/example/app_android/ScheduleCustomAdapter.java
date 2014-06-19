@@ -27,26 +27,18 @@ public class ScheduleCustomAdapter extends BaseAdapter{
 		this.place = place;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
-
-
-
+	
 	public int getCount() {
 		return type.length;
 	}
-
-
 
 	public Object getItem(int position) {
 		return position;
 	}
 
-
-
 	public long getItemId(int position){
 	    return position;
 	}
-
-
 
 	private static class Holder {
 		TextView startTime;

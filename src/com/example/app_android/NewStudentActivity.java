@@ -38,8 +38,7 @@ public class NewStudentActivity extends Activity implements ListSelectionListene
         super.onCreate(savedInstanceState);
         connectTask task = new connectTask();
         task.execute();
-        setContentView(R.layout.new_student);
-        
+        setContentView(R.layout.new_student);        
     }    
 
     @Override
@@ -86,8 +85,7 @@ public class NewStudentActivity extends Activity implements ListSelectionListene
 
     //Listener to handle interaction on the list 
     @Override
-	public void onListSelection(int index) {
-    	
+	public void onListSelection(int index) {    	
     	NewStudentContentFragment fragment = (NewStudentContentFragment) getFragmentManager().findFragmentById(R.id.newStudentContentFragment);
     	
     	//Check landscape or port layout
@@ -111,10 +109,8 @@ public class NewStudentActivity extends Activity implements ListSelectionListene
 			intent.putExtra("res", jsonString);
 			intent.putExtra("id", index);
 			startActivity(intent);
-		}	
-		
+		}			
 	}
-
 	
 	/*
      * AsyncTask for connecting to server and print response in log
@@ -173,9 +169,7 @@ public class NewStudentActivity extends Activity implements ListSelectionListene
 		}
 		
 		@Override
-		protected void onPostExecute(Void result) {
-			
-			
+		protected void onPostExecute(Void result) {		
 			super.onPostExecute(result);
 		}
     }

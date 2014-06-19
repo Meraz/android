@@ -292,7 +292,5 @@ public class MyScheduleHelperAdapter {
 				e.printStackTrace();
 			}
 		}
-
 	}
-
 }

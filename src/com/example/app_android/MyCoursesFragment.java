@@ -17,9 +17,9 @@ public class MyCoursesFragment extends ListFragment {
 	private static final String TAG = "MyCouseFragment";
 	private ListSelectionListener mListener = null;
 
+	// Interface
 	public interface ListSelectionListener {
 		public void onListSelection(int index);
-
 	}
 		
 	@Override
@@ -60,8 +60,7 @@ public class MyCoursesFragment extends ListFragment {
 		Log.i(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
 		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.course_item, R.id.label, MyCoursesAndProgramActivity.mMyCoursesAndProgramArray));
-		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);	
-		
+		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 	}
 
 	@Override
@@ -105,5 +104,4 @@ public class MyCoursesFragment extends ListFragment {
 		Log.i(TAG, getClass().getSimpleName() + ":entered onDestroyView()");
 		super.onDestroyView();
 	}
-
 }

@@ -185,15 +185,12 @@ public class NewStudentFragment extends ListFragment{
 			// TODO Auto-generated method stub
 			super.onProgressUpdate(values);
 		}
-
 		
 		@Override
-		protected void onPostExecute(Void result) {
-			
+		protected void onPostExecute(Void result) {			
 			setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.main_page_item, mNewStudentArray));
 			getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 			super.onPostExecute(result);
 		}
     }
-
 }
