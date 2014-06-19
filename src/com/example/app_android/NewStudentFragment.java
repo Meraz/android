@@ -33,6 +33,7 @@ public class NewStudentFragment extends ListFragment{
 	public static String[] mNewStudentArray;
 	private final static boolean verbose = true;
 	
+	// Interface
 	public interface ListSelectionListener {
 		public void onListSelection(int index);
 	}

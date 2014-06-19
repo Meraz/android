@@ -12,16 +12,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class MainPageFragment extends ListFragment{
-	
+
 	private static final String TAG = "MainPagesFragment";
 	private ListSelectionListener mListener = null;
 	private final static boolean verbose = true;
-	
+
+
+	// Interface
 	public interface ListSelectionListener {
 		public void onListSelection(int index);
-
 	}
-		
+
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		getListView().setItemChecked(pos, true);
@@ -33,7 +34,7 @@ public class MainPageFragment extends ListFragment{
 		if (verbose)
     		Log.v(TAG, getClass().getSimpleName() + ":entered onAttach()");
 		super.onAttach(activity);
-		
+
 		try {
 			mListener = (ListSelectionListener) activity;
 		} catch (ClassCastException e) {
@@ -64,7 +65,7 @@ public class MainPageFragment extends ListFragment{
     		Log.v(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
 		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.main_page_item, MainActivity.mMainPageArray));
-		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);					
+		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 	}
 
 	@Override
