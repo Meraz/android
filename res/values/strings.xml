@@ -12,6 +12,7 @@
         <item >På Campus</item>
         <item >Karta över Campus</item>
         <item >BTH Kontakter</item>
+	<item >Blekinge Studentkår</item>
     </string-array>
     
     <string-array name="cities_dialog" >

@@ -79,7 +79,11 @@ public class MainActivity extends Activity implements ListSelectionListener {
 
     @Override
 	public void onListSelection(int index) {
-    	System.out.println(index); // Debug ?
+    	if (verbose){
+    		Log.v(TAG, getClass().getSimpleName() + ":entered onListSelection()");
+    		Log.v(TAG, getClass().getSimpleName() + ":pressed on " + index);
+    	}
+
     	Intent intent;
     	switch (index) {
         case 0:
@@ -97,14 +101,14 @@ public class MainActivity extends Activity implements ListSelectionListener {
           startActivity(intent);
           break;
           
-        case 3:
-            intent = new Intent(getApplicationContext(), StudentUnionActivity.class);
-            startActivity(intent);
-            break;
-
         case 4:
           showDialog();
           break;
+          
+        case 6:
+            intent = new Intent(getApplicationContext(), StudentUnionActivity.class);
+            startActivity(intent);
+            break;
 
         default:
           break;
