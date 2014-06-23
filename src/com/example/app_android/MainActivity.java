@@ -29,6 +29,7 @@ public class MainActivity extends Activity implements ListSelectionListener {
         intent.putExtra("URL", "https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=dv2544&type=root&startdate=20140101&enddate=20140620&p=0.m%2C2.w");
         startService(intent);
         setContentView(R.layout.activity_main);
+        
     }
 
 
@@ -79,21 +80,27 @@ public class MainActivity extends Activity implements ListSelectionListener {
     @Override
 	public void onListSelection(int index) {
     	System.out.println(index); // Debug ?
+    	Intent intent;
     	switch (index) {
         case 0:
-          Intent intent = new Intent(getApplicationContext(), NewStudentActivity.class);
+          intent = new Intent(getApplicationContext(), NewStudentActivity.class);
           startActivity(intent);
           break;
 
         case 1:
-          Intent intent1 = new Intent(getApplicationContext(), ScheduleActivity.class);
-          startActivity(intent1);
+          intent = new Intent(getApplicationContext(), ScheduleActivity.class);
+          startActivity(intent);
           break;
 
         case 2:
-          Intent intent2 = new Intent(getApplicationContext(), MyCoursesAndProgramActivity.class);
-          startActivity(intent2);
+          intent = new Intent(getApplicationContext(), MyCoursesAndProgramActivity.class);
+          startActivity(intent);
           break;
+          
+        case 3:
+            intent = new Intent(getApplicationContext(), StudentUnionActivity.class);
+            startActivity(intent);
+            break;
 
         case 4:
           showDialog();

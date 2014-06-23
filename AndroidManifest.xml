@@ -46,6 +46,7 @@
          <activity android:name="FullMapActivity"></activity>
          <activity android:name="ScheduleActivity"></activity>
          <activity android:name="MyCoursesAndProgramActivity"></activity>
+         <activity android:name="StudentUnionActivity"></activity>
          
          <meta-data
     		android:name="com.google.android.maps.v2.API_KEY"
