@@ -1,6 +1,6 @@
 package com.example.app_android;
 
-import com.example.app_android.MainPageFragment.ListSelectionListener;
+import com.example.app_android.ListSelectionListener;
 
 import android.app.Activity;
 import android.app.FragmentManager;

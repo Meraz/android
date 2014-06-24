@@ -32,11 +32,6 @@ public class NewStudentFragment extends ListFragment{
 
 	public String[] mNewStudentArray;
 	private final static boolean verbose = true;
-	
-	// Interface
-	public interface ListSelectionListener {
-		public void onListSelection(int index);
-	}
 		
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {

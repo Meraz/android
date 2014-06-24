@@ -13,7 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.example.app_android.NewStudentFragment.ListSelectionListener;
+import com.example.app_android.ListSelectionListener;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
