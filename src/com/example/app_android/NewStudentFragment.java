@@ -30,7 +30,7 @@ public class NewStudentFragment extends ListFragment{
 	private static final String TAG = "NewStudentFragment";
 	private ListSelectionListener mListener = null;
 
-	public static String[] mNewStudentArray;
+	public String[] mNewStudentArray;
 	private final static boolean verbose = true;
 	
 	// Interface
@@ -134,7 +134,7 @@ public class NewStudentFragment extends ListFragment{
 	/*
      * AsyncTask for connecting to server and print response in log
      */
-    public class connectTask extends AsyncTask<Void, Void, Void> {
+    public class connectTask extends AsyncTask<Void, Void, String[]> {
     	ProgressDialog mProgressDialog;
     	
     	@Override
@@ -143,10 +143,11 @@ public class NewStudentFragment extends ListFragment{
 		}
     	//Connect to server and handle response
 		@Override
-		protected Void doInBackground(Void... params) {
+		protected String[] doInBackground(Void... params) {
 			URL url;
 			String inputLine = "";
 			String result = "";
+			String[] newStudentArray = null;
 			ArrayList<String> finalResult = new ArrayList<String>();
 			try {
 				url = new URL("http://bth.djazz.se/sp/?p=checklista");
@@ -165,7 +166,7 @@ public class NewStudentFragment extends ListFragment{
 					JSONObject jsonObject = jsonArray.getJSONObject(i);					
 					finalResult.add(jsonObject.getString("header"));
 				}
-				mNewStudentArray = (String[]) finalResult.toArray(new String[finalResult.size()]);
+				newStudentArray = (String[]) finalResult.toArray(new String[finalResult.size()]);
 				
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
@@ -177,7 +178,7 @@ public class NewStudentFragment extends ListFragment{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}			
-			return null;
+			return newStudentArray;
 		}
 
 		@Override
@@ -187,7 +188,8 @@ public class NewStudentFragment extends ListFragment{
 		}
 		
 		@Override
-		protected void onPostExecute(Void result) {			
+		protected void onPostExecute(String[] result) {
+			mNewStudentArray = result;
 			setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.main_page_item, mNewStudentArray));
 			getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 			super.onPostExecute(result);
