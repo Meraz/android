@@ -21,12 +21,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 public class NewStudentActivity extends Activity implements ListSelectionListener {
 	
-	private static String[] mNewStudentArray;
+	//private String[] mNewStudentArray;
 	private JSONArray mJsonArray;
 	
 	private static final String TAG = "NewStudentActivity";
@@ -111,11 +109,10 @@ public class NewStudentActivity extends Activity implements ListSelectionListene
 			startActivity(intent);
 		}			
 	}
-	
-	/*
+    /*
      * AsyncTask for connecting to server and print response in log
      */
-    public class connectTask extends AsyncTask<Void, Void, Void> {
+    public class connectTask extends AsyncTask<Void, Void, String[]> {
     	ProgressDialog mProgressDialog;
     	
     	@Override
@@ -124,10 +121,11 @@ public class NewStudentActivity extends Activity implements ListSelectionListene
 		}
     	//Connect to server and handle response
 		@Override
-		protected Void doInBackground(Void... params) {
+		protected String[] doInBackground(Void... params) {
 			URL url;
 			String inputLine = "";
 			String result = "";
+			String[] newStudentArray = null;
 			ArrayList<String> finalResult = new ArrayList<String>();
 			try {
 				url = new URL("http://bth.djazz.se/sp/?p=checklista");
@@ -147,7 +145,7 @@ public class NewStudentActivity extends Activity implements ListSelectionListene
 					JSONObject jsonObject = mJsonArray.getJSONObject(i);					
 					finalResult.add(jsonObject.getString("header"));					
 				}
-				mNewStudentArray = (String[]) finalResult.toArray(new String[finalResult.size()]);
+				newStudentArray = (String[]) finalResult.toArray(new String[finalResult.size()]);
 				
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
@@ -159,7 +157,7 @@ public class NewStudentActivity extends Activity implements ListSelectionListene
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}			
-			return null;
+			return newStudentArray;
 		}
 
 		@Override
@@ -169,7 +167,8 @@ public class NewStudentActivity extends Activity implements ListSelectionListene
 		}
 		
 		@Override
-		protected void onPostExecute(Void result) {		
+		protected void onPostExecute(String[] result) {
+			//mNewStudentArray = result;
 			super.onPostExecute(result);
 		}
     }

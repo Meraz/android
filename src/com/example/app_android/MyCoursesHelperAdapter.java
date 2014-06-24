@@ -7,7 +7,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyCoursesHelperAdapter {
@@ -19,23 +18,21 @@ public class MyCoursesHelperAdapter {
 	public long insertData(String courseCode) {
 		SQLiteDatabase db = helper.getWritableDatabase();
 		ContentValues contentValues = new ContentValues();
-		contentValues.put(helper.CCode, courseCode);
-		long id = db.insert(helper.TABLE_NAME, null, contentValues);
+		contentValues.put(MyCoursesHelper.CCode, courseCode);
+		long id = db.insert(MyCoursesHelper.TABLE_NAME, null, contentValues);
 		db.close();
 		return id;
 	}
 	
 	public String[] readAllCourses() {
 		SQLiteDatabase db = helper.getReadableDatabase();
-		String[] columns = {helper.UID, helper.CCode};		
-		Cursor cursor = db.query(helper.TABLE_NAME, columns, null, null, null, null, null);
+		String[] columns = {MyCoursesHelper.UID, MyCoursesHelper.CCode};		
+		Cursor cursor = db.query(MyCoursesHelper.TABLE_NAME, columns, null, null, null, null, null);
 		ArrayList<String> courses = new ArrayList<String>();
 		
 		while (cursor.moveToNext()) {
-			int index1 = cursor.getColumnIndex(helper.UID);
-			int index2 = cursor.getColumnIndex(helper.CCode);
-			int cid = cursor.getInt(index1);
-			String courseCode = cursor.getString(index2);
+			int index = cursor.getColumnIndex(MyCoursesHelper.CCode);
+			String courseCode = cursor.getString(index);
 			courses.add(courseCode);
 		}
 		db.close();
@@ -44,7 +41,7 @@ public class MyCoursesHelperAdapter {
 	
 	public void removeCourse(String course) {
 		SQLiteDatabase db = helper.getWritableDatabase();
-		db.delete(helper.TABLE_NAME, helper.CCode + "=" + course, null);
+		db.delete(MyCoursesHelper.TABLE_NAME, MyCoursesHelper.CCode + "=" + course, null);
 		db.close();
 	}
 	

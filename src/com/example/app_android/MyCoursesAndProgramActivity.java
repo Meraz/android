@@ -4,17 +4,9 @@ package com.example.app_android;
 import com.example.app_android.MyCoursesFragment.ListSelectionListener;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 

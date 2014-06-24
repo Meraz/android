@@ -3,31 +3,24 @@ package com.example.app_android;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ActionBar.Tab;
-import android.app.ActionBar.TabListener;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.text.format.DateFormat;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+@SuppressLint("SimpleDateFormat") //Warns about not being given a locale. This is irrelevant since this app is intended for use in Sweden only
 public class ScheduleActivity extends FragmentActivity implements ScheduleDayFragment.Communicator, ActionBar.TabListener{
 
 	public static String[] mScheduleArray;
 	private static final String TAG = "ScheduleActivity";
-	private ActionBar actionBar;
+	//private ActionBar actionBar;
 	private TextView date;
 	private Calendar displayCal;
 	private int tabId;
@@ -35,7 +28,7 @@ public class ScheduleActivity extends FragmentActivity implements ScheduleDayFra
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 	private final static boolean verbose = true;
 		
-    @Override
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Fragment mScheduleFragment = new ScheduleDayFragment();
@@ -47,7 +40,7 @@ public class ScheduleActivity extends FragmentActivity implements ScheduleDayFra
         if(tabId == 0) {
         	// Empty ? 
         } else {
-        	SimpleDateFormat df = new SimpleDateFormat("w");
+        	SimpleDateFormat df = new SimpleDateFormat("w");	//Week
             date.setText(df.format(displayDate));
         }   
         
@@ -78,7 +71,7 @@ public class ScheduleActivity extends FragmentActivity implements ScheduleDayFra
     	String startDate;
 		String endDate;
     	if(tabId == 0) {
-    		displayCal.set(displayCal.DATE, (displayCal.get(displayCal.DATE)+1));
+    		displayCal.set(Calendar.DATE, (displayCal.get(Calendar.DATE)+1));
     		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             Date displayDate = new Date(displayCal.getTimeInMillis());
             SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -90,13 +83,13 @@ public class ScheduleActivity extends FragmentActivity implements ScheduleDayFra
 		    getFragmentManager().beginTransaction().replace(R.id.main_page_container, dayFrag).commit();
     	}
     	else {
-    		displayCal.set(displayCal.DATE, (displayCal.get(displayCal.DATE)+1));    		
+    		displayCal.set(Calendar.DATE, (displayCal.get(Calendar.DATE)+1));    		
     		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     		Date displayDate = new Date(displayCal.getTimeInMillis());
             SimpleDateFormat df2 = new SimpleDateFormat("w");
             date.setText("Vecka "+df2.format(displayDate));
             startDate = df.format(displayDate);
-            displayCal.set(displayCal.DAY_OF_WEEK, 7);
+            displayCal.set(Calendar.DAY_OF_WEEK, 7);
             displayDate = new Date(displayCal.getTimeInMillis());
             endDate = df.format(displayDate);
 			ScheduleDayFragment dayFrag = new ScheduleDayFragment();
@@ -109,7 +102,7 @@ public class ScheduleActivity extends FragmentActivity implements ScheduleDayFra
     	String startDate;
 		String endDate;
     	if(tabId == 0) {
-    		displayCal.set(displayCal.DATE, (displayCal.get(displayCal.DATE)-1));
+    		displayCal.set(Calendar.DATE, (displayCal.get(Calendar.DATE)-1));
     		
     		SimpleDateFormat 	df 			= new SimpleDateFormat("yyyy-MM-dd");
             Date 				displayDate = new Date(displayCal.getTimeInMillis());
@@ -123,7 +116,7 @@ public class ScheduleActivity extends FragmentActivity implements ScheduleDayFra
 		    getFragmentManager().beginTransaction().replace(R.id.main_page_container, dayFrag).commit();
     	}
     	else {
-    		displayCal.set(displayCal.WEEK_OF_YEAR, (displayCal.get(displayCal.WEEK_OF_YEAR)-1));
+    		displayCal.set(Calendar.WEEK_OF_YEAR, (displayCal.get(Calendar.WEEK_OF_YEAR)-1));
     		
     		SimpleDateFormat 	df 			= new SimpleDateFormat("yyyy-MM-dd");
     		Date 				displayDate = new Date(displayCal.getTimeInMillis());
@@ -132,10 +125,10 @@ public class ScheduleActivity extends FragmentActivity implements ScheduleDayFra
             
             date.setText("Vecka "+df2.format(displayDate));
             endDate 	= df.format(displayDate);            
-            displayCal.set(displayCal.DAY_OF_WEEK, 1);
+            displayCal.set(Calendar.DAY_OF_WEEK, 1);
             displayDate = new Date(displayCal.getTimeInMillis());
             startDate = df.format(displayDate);            
-            displayCal.set(displayCal.DAY_OF_WEEK, 7);            			
+            displayCal.set(Calendar.DAY_OF_WEEK, 7);            			
 			dayFrag.setDate(new String[] {startDate, endDate});
 			getFragmentManager().beginTransaction().replace(R.id.main_page_container, dayFrag).commit();
     	}
@@ -208,7 +201,7 @@ public class ScheduleActivity extends FragmentActivity implements ScheduleDayFra
             SimpleDateFormat df2 = new SimpleDateFormat("w");
             date.setText("Vecka "+df2.format(displayDate));
             startDate = df.format(displayDate);
-            displayCal.set(displayCal.DAY_OF_WEEK, 7);
+            displayCal.set(Calendar.DAY_OF_WEEK, 7);
             displayDate = new Date(displayCal.getTimeInMillis());
             endDate = df.format(displayDate);
 			ScheduleDayFragment dayFrag = new ScheduleDayFragment();

@@ -19,41 +19,41 @@ public class MyScheduleHelperAdapter {
 		SQLiteDatabase db = helper.getWritableDatabase();
 		int index = 4;
 		ContentValues contentValues = new ContentValues();
-		contentValues.put(helper.StartDate, event[0]);
-		contentValues.put(helper.StartTime, event[1]);
-		contentValues.put(helper.EndDate, event[2]);
-		contentValues.put(helper.EndTime, event[3]);
+		contentValues.put(MyScheduleHelper.StartDate, event[0]);
+		contentValues.put(MyScheduleHelper.StartTime, event[1]);
+		contentValues.put(MyScheduleHelper.EndDate, event[2]);
+		contentValues.put(MyScheduleHelper.EndTime, event[3]);
 		if(event[index].indexOf('"') == 1) {
-			contentValues.put(helper.Course, event[index++]+event[index++]);
+			contentValues.put(MyScheduleHelper.Course, event[index++]+event[index++]);
 		} else {
-			contentValues.put(helper.Course, event[index++]);
+			contentValues.put(MyScheduleHelper.Course, event[index++]);
 		}
 		if(event[index].indexOf('"') == 1) {
-			contentValues.put(helper.Group, event[index++]+event[index++]);
+			contentValues.put(MyScheduleHelper.Group, event[index++]+event[index++]);
 		} else {
-			contentValues.put(helper.Group, event[index++]);
+			contentValues.put(MyScheduleHelper.Group, event[index++]);
 		}
 		if(event[index].indexOf('"') == 1) {
-			contentValues.put(helper.Room, event[index++]+event[index++]);
+			contentValues.put(MyScheduleHelper.Room, event[index++]+event[index++]);
 		} else {
-			contentValues.put(helper.Room, event[index++]);
+			contentValues.put(MyScheduleHelper.Room, event[index++]);
 		}
 		if(event[index].indexOf('"') == 1) {
-			contentValues.put(helper.Person, event[index++]+event[index++]);
+			contentValues.put(MyScheduleHelper.Person, event[index++]+event[index++]);
 		} else {
-			contentValues.put(helper.Person, event[index++]);
+			contentValues.put(MyScheduleHelper.Person, event[index++]);
 		}
 		if(event[index].indexOf('"') == 1) {
-			contentValues.put(helper.Moment, event[index++]+event[index++]);
+			contentValues.put(MyScheduleHelper.Moment, event[index++]+event[index++]);
 		} else {
-			contentValues.put(helper.Moment, event[index++]);
+			contentValues.put(MyScheduleHelper.Moment, event[index++]);
 		}
 		if(event[index].indexOf('"') == 1) {
-			contentValues.put(helper.Note, event[index++]+event[index++]);
+			contentValues.put(MyScheduleHelper.Note, event[index++]+event[index++]);
 		} else {
-			contentValues.put(helper.Note, event[index++]);
+			contentValues.put(MyScheduleHelper.Note, event[index++]);
 		}
-		long id = db.insert(helper.TABLE_NAME, null, contentValues);
+		long id = db.insert(MyScheduleHelper.TABLE_NAME, null, contentValues);
 		db.close();
 		return id;
 	}
@@ -61,7 +61,7 @@ public class MyScheduleHelperAdapter {
 	public void resetData() {
 		SQLiteDatabase db = helper.getWritableDatabase();
 		try {
-			db.execSQL(helper.DROP_TABLE);
+			db.execSQL(MyScheduleHelper.DROP_TABLE);
 			helper.onCreate(db);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -72,26 +72,26 @@ public class MyScheduleHelperAdapter {
 	public String[] readAllEvent() {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		//String[] columns = {helper.UID, helper.StartDate, helper.StartTime, helper.EndDate, helper.EndTime, helper.Course, helper.Moment, helper.Group, helper.Person, helper.Room, helper.Note, helper.URL, helper.MyName, helper.Program};		
-		String[] columns = {helper.UID, helper.StartDate, helper.StartTime, helper.EndDate, helper.EndTime, helper.Course, helper.Group, helper.Room, helper.Person, helper.Moment,  helper.Note};		
-		Cursor cursor = db.query(helper.TABLE_NAME, columns, null, null, null, null, null);
+		String[] columns = {MyScheduleHelper.UID, MyScheduleHelper.StartDate, MyScheduleHelper.StartTime, MyScheduleHelper.EndDate, MyScheduleHelper.EndTime, MyScheduleHelper.Course, MyScheduleHelper.Group, MyScheduleHelper.Room, MyScheduleHelper.Person, MyScheduleHelper.Moment,  MyScheduleHelper.Note};		
+		Cursor cursor = db.query(MyScheduleHelper.TABLE_NAME, columns, null, null, null, null, null);
 		ArrayList<String> event = new ArrayList<String>();
 		
 		while (cursor.moveToNext()) {
-			int index1 = cursor.getColumnIndex(helper.UID);
-			int index2 = cursor.getColumnIndex(helper.StartDate);
-			int index3 = cursor.getColumnIndex(helper.StartTime);
-			int index4 = cursor.getColumnIndex(helper.EndDate);
-			int index5 = cursor.getColumnIndex(helper.EndTime);
-			int index6 = cursor.getColumnIndex(helper.Course);
-			int index7 = cursor.getColumnIndex(helper.Group);
-			int index8 = cursor.getColumnIndex(helper.Room);
-			int index9 = cursor.getColumnIndex(helper.Person);
-			int index10 = cursor.getColumnIndex(helper.Moment);
-			int index11 = cursor.getColumnIndex(helper.Note);
-			int cid = cursor.getInt(index1);
+			//int index1 = cursor.getColumnIndex(MyScheduleHelper.UID);
+			//int index2 = cursor.getColumnIndex(MyScheduleHelper.StartDate);
+			int index3 = cursor.getColumnIndex(MyScheduleHelper.StartTime);
+			//int index4 = cursor.getColumnIndex(MyScheduleHelper.EndDate);
+			//int index5 = cursor.getColumnIndex(MyScheduleHelper.EndTime);
+			int index6 = cursor.getColumnIndex(MyScheduleHelper.Course);
+			//int index7 = cursor.getColumnIndex(MyScheduleHelper.Group);
+			int index8 = cursor.getColumnIndex(MyScheduleHelper.Room);
+			//int index9 = cursor.getColumnIndex(MyScheduleHelper.Person);
+			//int index10 = cursor.getColumnIndex(MyScheduleHelper.Moment);
+			//int index11 = cursor.getColumnIndex(MyScheduleHelper.Note);
+			//int cid = cursor.getInt(index1);
 			String courseCode = cursor.getString(index6);
 			String room = cursor.getString(index8);
-			String person = cursor.getString(index9);
+			//String person = cursor.getString(index9);
 			event.add(courseCode+" "+room);
 			System.out.println(courseCode+" "+room+" "+cursor.getString(index3));
 		}
@@ -102,14 +102,14 @@ public class MyScheduleHelperAdapter {
 	public String[] readStartTime() {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		//String[] columns = {helper.UID, helper.StartDate, helper.StartTime, helper.EndDate, helper.EndTime, helper.Course, helper.Moment, helper.Group, helper.Person, helper.Room, helper.Note, helper.URL, helper.MyName, helper.Program};		
-		String[] columns = {helper.UID, helper.StartTime};		
-		Cursor cursor = db.query(helper.TABLE_NAME, columns, null, null, null, null, null);
+		String[] columns = {MyScheduleHelper.UID, MyScheduleHelper.StartTime};		
+		Cursor cursor = db.query(MyScheduleHelper.TABLE_NAME, columns, null, null, null, null, null);
 		ArrayList<String> event = new ArrayList<String>();
 		
 		while (cursor.moveToNext()) {
-			int index1 = cursor.getColumnIndex(helper.UID);
-			int index2 = cursor.getColumnIndex(helper.StartTime);
-			int cid = cursor.getInt(index1);
+			//int index1 = cursor.getColumnIndex(MyScheduleHelper.UID);
+			int index2 = cursor.getColumnIndex(MyScheduleHelper.StartTime);
+			//int cid = cursor.getInt(index1);
 			String startTime = cursor.getString(index2);
 			event.add(startTime);
 		}
@@ -120,15 +120,15 @@ public class MyScheduleHelperAdapter {
 	public String[] readStartTime2(String startDate, String endDate) {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		//String[] columns = {helper.UID, helper.StartDate, helper.StartTime, helper.EndDate, helper.EndTime, helper.Course, helper.Moment, helper.Group, helper.Person, helper.Room, helper.Note, helper.URL, helper.MyName, helper.Program};		
-		String[] columns = {helper.UID, helper.StartDate, helper.EndDate,helper.StartTime};		
+		String[] columns = {MyScheduleHelper.UID, MyScheduleHelper.StartDate, MyScheduleHelper.EndDate,MyScheduleHelper.StartTime};		
 		String[] values = {startDate, endDate};
-		Cursor cursor = db.query(helper.TABLE_NAME, columns, helper.StartDate + " BETWEEN ? AND ?", values, null, null, null);
+		Cursor cursor = db.query(MyScheduleHelper.TABLE_NAME, columns, MyScheduleHelper.StartDate + " BETWEEN ? AND ?", values, null, null, null);
 		ArrayList<String> event = new ArrayList<String>();
 		
 		while (cursor.moveToNext()) {
-			int index1 = cursor.getColumnIndex(helper.UID);
-			int index2 = cursor.getColumnIndex(helper.StartTime);
-			int cid = cursor.getInt(index1);
+			//int index1 = cursor.getColumnIndex(MyScheduleHelper.UID);
+			int index2 = cursor.getColumnIndex(MyScheduleHelper.StartTime);
+			//int cid = cursor.getInt(index1);
 			String startTime = cursor.getString(index2);
 			event.add(startTime);
 		}
@@ -139,14 +139,14 @@ public class MyScheduleHelperAdapter {
 	public String[] readEndTime() {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		//String[] columns = {helper.UID, helper.StartDate, helper.StartTime, helper.EndDate, helper.EndTime, helper.Course, helper.Moment, helper.Group, helper.Person, helper.Room, helper.Note, helper.URL, helper.MyName, helper.Program};		
-		String[] columns = {helper.UID, helper.EndTime};		
-		Cursor cursor = db.query(helper.TABLE_NAME, columns, null, null, null, null, null);
+		String[] columns = {MyScheduleHelper.UID, MyScheduleHelper.EndTime};		
+		Cursor cursor = db.query(MyScheduleHelper.TABLE_NAME, columns, null, null, null, null, null);
 		ArrayList<String> event = new ArrayList<String>();
 		
 		while (cursor.moveToNext()) {
-			int index1 = cursor.getColumnIndex(helper.UID);
-			int index2 = cursor.getColumnIndex(helper.EndTime);
-			int cid = cursor.getInt(index1);
+			//int index1 = cursor.getColumnIndex(MyScheduleHelper.UID);
+			int index2 = cursor.getColumnIndex(MyScheduleHelper.EndTime);
+			//int cid = cursor.getInt(index1);
 			String endTime = cursor.getString(index2);
 			event.add(endTime);
 		}
@@ -157,15 +157,15 @@ public class MyScheduleHelperAdapter {
 	public String[] readEndTime2(String startDate, String endDate) {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		//String[] columns = {helper.UID, helper.StartDate, helper.StartTime, helper.EndDate, helper.EndTime, helper.Course, helper.Moment, helper.Group, helper.Person, helper.Room, helper.Note, helper.URL, helper.MyName, helper.Program};		
-		String[] columns = {helper.UID, helper.StartDate, helper.EndDate,helper.EndTime};		
+		String[] columns = {MyScheduleHelper.UID, MyScheduleHelper.StartDate, MyScheduleHelper.EndDate,MyScheduleHelper.EndTime};		
 		String[] values = {startDate, endDate};
-		Cursor cursor = db.query(helper.TABLE_NAME, columns, helper.StartDate + " BETWEEN ? AND ?", values, null, null, null);
+		Cursor cursor = db.query(MyScheduleHelper.TABLE_NAME, columns, MyScheduleHelper.StartDate + " BETWEEN ? AND ?", values, null, null, null);
 		ArrayList<String> event = new ArrayList<String>();
 		
 		while (cursor.moveToNext()) {
-			int index1 = cursor.getColumnIndex(helper.UID);
-			int index2 = cursor.getColumnIndex(helper.EndTime);
-			int cid = cursor.getInt(index1);
+			//int index1 = cursor.getColumnIndex(MyScheduleHelper.UID);
+			int index2 = cursor.getColumnIndex(MyScheduleHelper.EndTime);
+			//int cid = cursor.getInt(index1);
 			String endTime = cursor.getString(index2);
 			event.add(endTime);
 		}
@@ -176,14 +176,14 @@ public class MyScheduleHelperAdapter {
 	public String[] readRoom() {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		//String[] columns = {helper.UID, helper.StartDate, helper.StartTime, helper.EndDate, helper.EndTime, helper.Course, helper.Moment, helper.Group, helper.Person, helper.Room, helper.Note, helper.URL, helper.MyName, helper.Program};		
-		String[] columns = {helper.UID, helper.Room};		
-		Cursor cursor = db.query(helper.TABLE_NAME, columns, null, null, null, null, null);
+		String[] columns = {MyScheduleHelper.UID, MyScheduleHelper.Room};		
+		Cursor cursor = db.query(MyScheduleHelper.TABLE_NAME, columns, null, null, null, null, null);
 		ArrayList<String> event = new ArrayList<String>();
 		
 		while (cursor.moveToNext()) {
-			int index1 = cursor.getColumnIndex(helper.UID);
-			int index2 = cursor.getColumnIndex(helper.Room);
-			int cid = cursor.getInt(index1);
+			//int index1 = cursor.getColumnIndex(MyScheduleHelper.UID);
+			int index2 = cursor.getColumnIndex(MyScheduleHelper.Room);
+			//int cid = cursor.getInt(index1);
 			String room = cursor.getString(index2);
 			event.add(room);
 		}
@@ -194,15 +194,15 @@ public class MyScheduleHelperAdapter {
 	public String[] readRoom2(String startDate, String endDate) {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		//String[] columns = {helper.UID, helper.StartDate, helper.StartTime, helper.EndDate, helper.EndTime, helper.Course, helper.Moment, helper.Group, helper.Person, helper.Room, helper.Note, helper.URL, helper.MyName, helper.Program};		
-		String[] columns = {helper.UID, helper.StartDate, helper.EndDate,helper.Room};		
+		String[] columns = {MyScheduleHelper.UID, MyScheduleHelper.StartDate, MyScheduleHelper.EndDate,MyScheduleHelper.Room};		
 		String[] values = {startDate, endDate};
-		Cursor cursor = db.query(helper.TABLE_NAME, columns, helper.StartDate + " BETWEEN ? AND ?", values, null, null, null);
+		Cursor cursor = db.query(MyScheduleHelper.TABLE_NAME, columns, MyScheduleHelper.StartDate + " BETWEEN ? AND ?", values, null, null, null);
 		ArrayList<String> event = new ArrayList<String>();
 		
 		while (cursor.moveToNext()) {
-			int index1 = cursor.getColumnIndex(helper.UID);
-			int index2 = cursor.getColumnIndex(helper.Room);
-			int cid = cursor.getInt(index1);
+			//int index1 = cursor.getColumnIndex(MyScheduleHelper.UID);
+			int index2 = cursor.getColumnIndex(MyScheduleHelper.Room);
+			//int cid = cursor.getInt(index1);
 			String room = cursor.getString(index2);
 			event.add(room);
 		}
@@ -213,14 +213,14 @@ public class MyScheduleHelperAdapter {
 	public String[] readMoment() {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		//String[] columns = {helper.UID, helper.StartDate, helper.StartTime, helper.EndDate, helper.EndTime, helper.Course, helper.Moment, helper.Group, helper.Person, helper.Room, helper.Note, helper.URL, helper.MyName, helper.Program};		
-		String[] columns = {helper.UID, helper.Moment};		
-		Cursor cursor = db.query(helper.TABLE_NAME, columns, null, null, null, null, null);
+		String[] columns = {MyScheduleHelper.UID, MyScheduleHelper.Moment};		
+		Cursor cursor = db.query(MyScheduleHelper.TABLE_NAME, columns, null, null, null, null, null);
 		ArrayList<String> event = new ArrayList<String>();
 		
 		while (cursor.moveToNext()) {
-			int index1 = cursor.getColumnIndex(helper.UID);
-			int index2 = cursor.getColumnIndex(helper.Moment);
-			int cid = cursor.getInt(index1);
+			//int index1 = cursor.getColumnIndex(MyScheduleHelper.UID);
+			int index2 = cursor.getColumnIndex(MyScheduleHelper.Moment);
+			//int cid = cursor.getInt(index1);
 			String moment = cursor.getString(index2);
 			event.add(moment);
 		}
@@ -231,15 +231,15 @@ public class MyScheduleHelperAdapter {
 	public String[] readMoment2(String startDate, String endDate) {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		//String[] columns = {helper.UID, helper.StartDate, helper.StartTime, helper.EndDate, helper.EndTime, helper.Course, helper.Moment, helper.Group, helper.Person, helper.Room, helper.Note, helper.URL, helper.MyName, helper.Program};		
-		String[] columns = {helper.UID, helper.StartDate, helper.EndDate, helper.Moment};
+		String[] columns = {MyScheduleHelper.UID, MyScheduleHelper.StartDate, MyScheduleHelper.EndDate, MyScheduleHelper.Moment};
 		String[] values = {startDate, endDate};
-		Cursor cursor = db.query(helper.TABLE_NAME, columns, helper.StartDate + " BETWEEN ? AND ?", values, null, null, null);
+		Cursor cursor = db.query(MyScheduleHelper.TABLE_NAME, columns, MyScheduleHelper.StartDate + " BETWEEN ? AND ?", values, null, null, null);
 		ArrayList<String> event = new ArrayList<String>();
 		System.out.println("Start: "+startDate+", End: "+endDate );
 		while (cursor.moveToNext()) {
-			int index1 = cursor.getColumnIndex(helper.UID);
-			int index2 = cursor.getColumnIndex(helper.Moment);
-			int cid = cursor.getInt(index1);
+			//int index1 = cursor.getColumnIndex(MyScheduleHelper.UID);
+			int index2 = cursor.getColumnIndex(MyScheduleHelper.Moment);
+			//int cid = cursor.getInt(index1);
 			String moment = cursor.getString(index2);
 			event.add(moment);
 			System.out.println(moment);

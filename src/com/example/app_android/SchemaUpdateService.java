@@ -10,7 +10,6 @@ import java.net.URL;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.widget.Toast;
 
 public class SchemaUpdateService extends IntentService {
 
@@ -21,28 +20,30 @@ public class SchemaUpdateService extends IntentService {
 		// TODO Auto-generated constructor stub
 	}
 
+	@SuppressWarnings("unused")//Supressed until this function actually does something
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		// TODO Auto-generated method stub
 		mMySchemaHelper = new MyScheduleHelperAdapter(getApplicationContext());
 		mMySchemaHelper.resetData();
-		String inputLine;
+		//String inputLine;
 		String urlString = intent.getStringExtra("URL");
 		try {
 			URL url = new URL(urlString);
 			HttpURLConnection urlCon = (HttpURLConnection)url.openConnection();
 			InputStream inStream = urlCon.getInputStream();
 			BufferedReader readBuff = new BufferedReader(new InputStreamReader(inStream));
-			int count = 0;
+			//DEBUG CODE
+			//int count = 0;
 			//Print all result in log
-			while((inputLine = readBuff.readLine()) != null) {
+			//while((inputLine = readBuff.readLine()) != null) {
 				//System.out.println(inputLine);
-				if(count > 6) {
-					String[] tokens = inputLine.split(",");
-					long id = mMySchemaHelper.insertData(tokens);
-				}
-				count++;
-			}			
+				//if(count > 6) {
+				//	String[] tokens = inputLine.split(",");
+				//	long id = mMySchemaHelper.insertData(tokens);
+				//}
+				//count++;
+			//}			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

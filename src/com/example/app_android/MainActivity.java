@@ -1,27 +1,19 @@
 package com.example.app_android;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-
 import com.example.app_android.MainPageFragment.ListSelectionListener;
 
 import android.app.Activity;
 import android.app.FragmentManager;
-import android.content.ContentUris;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.CalendarContract;
-import android.provider.CalendarContract.Events;
 import android.util.Log;
 
 public class MainActivity extends Activity implements ListSelectionListener {
 
 	public static String[] mMainPageArray;
 	private static final String TAG = "MainActivity";
+	private final static boolean verbose = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +24,7 @@ public class MainActivity extends Activity implements ListSelectionListener {
         intent.putExtra("URL", "https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=dv2544&type=root&startdate=20140101&enddate=20140620&p=0.m%2C2.w");
         startService(intent);
         setContentView(R.layout.activity_main);
-        
     }
-
-
-    private final static boolean verbose = true;
 
     @Override
 	protected void onDestroy() {
@@ -109,9 +97,8 @@ public class MainActivity extends Activity implements ListSelectionListener {
           break;
           
         case 6:
-            intent = new Intent(getApplicationContext(), StudentUnionActivity.class);
-            startActivity(intent);
-            break;
+          launchApp("se.bthstudent.android.bsk");
+          break;
 
         default:
           break;
@@ -121,5 +108,21 @@ public class MainActivity extends Activity implements ListSelectionListener {
     	FragmentManager manager = getFragmentManager();
     	ChooseCityDialog dialog = new ChooseCityDialog();
     	dialog.show(manager, "chooseCityDialog");
+    }
+    
+    //Attempts to start to app with the inputed packageName. If it doesn't exist it opens the apps market page
+    private void launchApp(String packageName) {
+    	
+    	Intent intent = getPackageManager().getLaunchIntentForPackage(packageName);
+    	if (intent != null) {
+    		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+   		    startActivity(intent);
+   		}
+   		else  { //If the app isn't installed, send the user to the apps store page
+   		    intent = new Intent(Intent.ACTION_VIEW);
+  		    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+   		    intent.setData(Uri.parse("market://details?id=" + packageName));
+    	    startActivity(intent);
+    	}
     }
 }

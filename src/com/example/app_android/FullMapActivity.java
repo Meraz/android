@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import org.json.JSONArray;
@@ -19,7 +18,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Tile;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -32,12 +30,12 @@ public class FullMapActivity extends Activity{
 	private GoogleMap mMap;
 	private static final String TAG = "FullMapActivity";
 	private LatLng place; 
-	private LatLng roomMarker;
+	//private LatLng roomMarker;
 	private int id;
 	private String city;
 	private String room;
 	private static JSONArray mJsonArray;
-	private static String[] mArray;
+	//private static String[] mArray;
 	private final static boolean verbose = true;
 	
 	@Override
