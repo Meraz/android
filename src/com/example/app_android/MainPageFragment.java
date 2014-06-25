@@ -17,6 +17,10 @@ public class MainPageFragment extends ListFragment{
 	private ListSelectionListener mListener = null;
 	private final static boolean verbose = true;
 
+	/*
+	 * This is the method that is invoked when clicking a menuobject on the mainpage.
+	 * 
+	 */
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		getListView().setItemChecked(pos, true);

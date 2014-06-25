@@ -13,17 +13,20 @@ public class MainActivity extends Activity implements ListSelectionListener {
 
 	public static String[] mMainPageArray;
 	private static final String TAG = "MainActivity";
+	private static final String blekingeStudentUnionPackageName = "se.bthstudent.android.bsk";
 	private final static boolean verbose = true;
 
+	/*
+	 * This is the first function that us runned for this application.
+	 * Specified in the file 'AndroidManifest.xml"
+	 */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //Get resources from stored string array
+    	super.onCreate(savedInstanceState);        
+    	//Get resources from stored string array
         mMainPageArray = getResources().getStringArray(R.array.main_page_list);
-        Intent intent = new Intent(this, SchemaUpdateService.class);
-        intent.putExtra("URL", "https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=dv2544&type=root&startdate=20140101&enddate=20140620&p=0.m%2C2.w");
-        startService(intent);
-        setContentView(R.layout.activity_main);
+
+        setContentView(R.layout.activity_main);       
     }
 
     @Override
@@ -97,20 +100,21 @@ public class MainActivity extends Activity implements ListSelectionListener {
           break;
           
         case 6:
-          launchApp("se.bthstudent.android.bsk");
+          launchApp(blekingeStudentUnionPackageName);
           break;
 
         default:
           break;
       }
 	}
+    
     public void showDialog() {
     	FragmentManager manager = getFragmentManager();
     	ChooseCityDialog dialog = new ChooseCityDialog();
     	dialog.show(manager, "chooseCityDialog");
     }
     
-    //Attempts to start to app with the inputed packageName. If it doesn't exist it opens the apps market page
+    // Attempts to start to app with the inputed packageName. If it doesn't exist it opens the apps market page
     private void launchApp(String packageName) {
     	
     	Intent intent = getPackageManager().getLaunchIntentForPackage(packageName);
@@ -118,7 +122,7 @@ public class MainActivity extends Activity implements ListSelectionListener {
     		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
    		    startActivity(intent);
    		}
-   		else  { //If the app isn't installed, send the user to the apps store page
+   		else  { // If the app isn't installed, send the user to the apps store page
    		    intent = new Intent(Intent.ACTION_VIEW);
   		    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
    		    intent.setData(Uri.parse("market://details?id=" + packageName));
