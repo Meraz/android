@@ -20,7 +20,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 
 public class NewStudentActivity extends Activity implements ListSelectionListener {
 	
@@ -29,7 +28,6 @@ public class NewStudentActivity extends Activity implements ListSelectionListene
 	
 	private static final String TAG = "NewStudentActivity";
 	private String jsonString;
-	private final static boolean verbose = true;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,43 +39,37 @@ public class NewStudentActivity extends Activity implements ListSelectionListene
 
     @Override
 	protected void onDestroy() {
-    	if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onDestroy()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onPause() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onPause()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
 		super.onPause();
 	}
 
 	@Override
 	protected void onRestart() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onRestart()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
 		super.onRestart();
 	}
 
 	@Override
 	protected void onResume() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onResume()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
 		super.onResume();
 	}
 
 	@Override
 	protected void onStart() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onStart()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
 		super.onStart();
 	}
 
 	@Override
 	protected void onStop() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onStop()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
 

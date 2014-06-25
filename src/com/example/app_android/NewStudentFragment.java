@@ -18,7 +18,6 @@ import android.app.ListFragment;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,6 @@ public class NewStudentFragment extends ListFragment{
 	private ListSelectionListener mListener = null;
 
 	public String[] mNewStudentArray;
-	private final static boolean verbose = true;
 		
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
@@ -41,8 +39,7 @@ public class NewStudentFragment extends ListFragment{
 
 	@Override
 	public void onAttach(Activity activity) {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onAttach()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onAttach()");
 		super.onAttach(activity);
 		
 		try {
@@ -54,24 +51,20 @@ public class NewStudentFragment extends ListFragment{
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onCreate()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
 		super.onCreate(savedInstanceState);
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-		Bundle savedInstanceState) {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onCreate()");
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreateView()");
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 
 	@Override
 	public void onActivityCreated(Bundle savedState) {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
 		connectTask task = new connectTask();
         task.execute();
@@ -79,50 +72,43 @@ public class NewStudentFragment extends ListFragment{
 
 	@Override
 	public void onStart() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onStart()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
 		super.onStart();
 	}
 
 	@Override
 	public void onResume() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onResume()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
 		super.onResume();
 	}
 
 	@Override
 	public void onPause() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onPause()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
 		super.onPause();
 	}
 
 	@Override
 	public void onStop() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onStop()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
 
 	@Override
 	public void onDetach() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onDetach()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDetach()");
 		super.onDetach();
 	}
 
 	@Override
 	public void onDestroy() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onDestroy()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
 		super.onDestroy();
 	}
 
 	@Override
 	public void onDestroyView() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onDestroyView()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroyView()");
 		super.onDestroyView();
 	}
 	
