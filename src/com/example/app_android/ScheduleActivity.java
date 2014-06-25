@@ -3,6 +3,7 @@ package com.example.app_android;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -20,7 +21,7 @@ public class ScheduleActivity extends FragmentActivity implements ScheduleDayFra
 
 	public static String[] mScheduleArray;
 	private static final String TAG = "ScheduleActivity";
-	//private ActionBar actionBar;
+	private ActionBar actionBar;
 	private TextView date;
 	private Calendar displayCal;
 	private int tabId;
@@ -71,7 +72,7 @@ public class ScheduleActivity extends FragmentActivity implements ScheduleDayFra
     	String startDate;
 		String endDate;
     	if(tabId == 0) {
-    		displayCal.set(Calendar.DATE, (displayCal.get(Calendar.DATE)+1));
+    		displayCal.set(displayCal.DATE, (displayCal.get(displayCal.DATE)+1));
     		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             Date displayDate = new Date(displayCal.getTimeInMillis());
             SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -83,13 +84,13 @@ public class ScheduleActivity extends FragmentActivity implements ScheduleDayFra
 		    getFragmentManager().beginTransaction().replace(R.id.main_page_container, dayFrag).commit();
     	}
     	else {
-    		displayCal.set(Calendar.DATE, (displayCal.get(Calendar.DATE)+1));    		
+    		displayCal.set(displayCal.DATE, (displayCal.get(displayCal.DATE)+1));    		
     		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     		Date displayDate = new Date(displayCal.getTimeInMillis());
             SimpleDateFormat df2 = new SimpleDateFormat("w");
             date.setText("Vecka "+df2.format(displayDate));
             startDate = df.format(displayDate);
-            displayCal.set(Calendar.DAY_OF_WEEK, 7);
+            displayCal.set(displayCal.DAY_OF_WEEK, 7);
             displayDate = new Date(displayCal.getTimeInMillis());
             endDate = df.format(displayDate);
 			ScheduleDayFragment dayFrag = new ScheduleDayFragment();
@@ -102,7 +103,7 @@ public class ScheduleActivity extends FragmentActivity implements ScheduleDayFra
     	String startDate;
 		String endDate;
     	if(tabId == 0) {
-    		displayCal.set(Calendar.DATE, (displayCal.get(Calendar.DATE)-1));
+    		displayCal.set(displayCal.DATE, (displayCal.get(displayCal.DATE)-1));
     		
     		SimpleDateFormat 	df 			= new SimpleDateFormat("yyyy-MM-dd");
             Date 				displayDate = new Date(displayCal.getTimeInMillis());
@@ -116,7 +117,7 @@ public class ScheduleActivity extends FragmentActivity implements ScheduleDayFra
 		    getFragmentManager().beginTransaction().replace(R.id.main_page_container, dayFrag).commit();
     	}
     	else {
-    		displayCal.set(Calendar.WEEK_OF_YEAR, (displayCal.get(Calendar.WEEK_OF_YEAR)-1));
+    		displayCal.set(displayCal.WEEK_OF_YEAR, (displayCal.get(displayCal.WEEK_OF_YEAR)-1));
     		
     		SimpleDateFormat 	df 			= new SimpleDateFormat("yyyy-MM-dd");
     		Date 				displayDate = new Date(displayCal.getTimeInMillis());
@@ -125,10 +126,10 @@ public class ScheduleActivity extends FragmentActivity implements ScheduleDayFra
             
             date.setText("Vecka "+df2.format(displayDate));
             endDate 	= df.format(displayDate);            
-            displayCal.set(Calendar.DAY_OF_WEEK, 1);
+            displayCal.set(displayCal.DAY_OF_WEEK, 1);
             displayDate = new Date(displayCal.getTimeInMillis());
             startDate = df.format(displayDate);            
-            displayCal.set(Calendar.DAY_OF_WEEK, 7);            			
+            displayCal.set(displayCal.DAY_OF_WEEK, 7);            			
 			dayFrag.setDate(new String[] {startDate, endDate});
 			getFragmentManager().beginTransaction().replace(R.id.main_page_container, dayFrag).commit();
     	}
@@ -180,34 +181,25 @@ public class ScheduleActivity extends FragmentActivity implements ScheduleDayFra
 		
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
 		String startDate;
 		String endDate;
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
+        Date displayDate = new Date(displayCal.getTimeInMillis());
+        startDate = df.format(displayDate);
+        endDate = df.format(displayDate);
+        ScheduleDayFragment dayFrag = new ScheduleDayFragment();
+        dayFrag.setDate(new String[] {startDate, endDate});
+        
 		if (tab.getPosition() == 0) {
 			tabId = 0;
-    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            Date displayDate = new Date(displayCal.getTimeInMillis());
-            SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
             date.setText(df2.format(displayDate));
-            startDate = df.format(displayDate);
-            endDate = df.format(displayDate);
-			ScheduleDayFragment dayFrag = new ScheduleDayFragment();
-			dayFrag.setDate(new String[] {startDate, endDate});
-		    getFragmentManager().beginTransaction().replace(R.id.main_page_container, dayFrag).commit();
 		}	else {
 			tabId = 1;
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            Date displayDate = new Date(displayCal.getTimeInMillis());
-            SimpleDateFormat df2 = new SimpleDateFormat("w");
-            date.setText("Vecka "+df2.format(displayDate));
-            startDate = df.format(displayDate);
+            date.setText("Week "+df2.format(displayDate));
             displayCal.set(Calendar.DAY_OF_WEEK, 7);
-            displayDate = new Date(displayCal.getTimeInMillis());
-            endDate = df.format(displayDate);
-			ScheduleDayFragment dayFrag = new ScheduleDayFragment();
-			dayFrag.setDate(new String[] {startDate, endDate});
-			getFragmentManager().beginTransaction().replace(R.id.main_page_container, dayFrag).commit();
 		}
+		getFragmentManager().beginTransaction().replace(R.id.main_page_container, dayFrag).commit();
 	}
 	@Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {

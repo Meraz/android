@@ -195,7 +195,7 @@ public class FullMapActivity extends Activity{
 				BufferedReader readBuff = new BufferedReader(new InputStreamReader(inStream));
 				//Print all result in log
 				while((inputLine = readBuff.readLine()) != null) {
-					//System.out.println(inputLine);
+					System.out.println(inputLine);
 					result = result + inputLine;
 				}			
 				jsonArray = new JSONArray(result);	

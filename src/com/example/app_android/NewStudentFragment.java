@@ -145,7 +145,7 @@ public class NewStudentFragment extends ListFragment{
 			String[] newStudentArray = null;
 			ArrayList<String> finalResult = new ArrayList<String>();
 			try {
-				url = new URL("http://bth.djazz.se/sp/?p=checklista");
+				url = new URL("http://194.47.131.73/test.php");
 				
 				HttpURLConnection urlCon = (HttpURLConnection)url.openConnection();
 				InputStream inStream = urlCon.getInputStream();

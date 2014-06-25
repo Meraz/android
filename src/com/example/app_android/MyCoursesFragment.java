@@ -16,11 +16,6 @@ public class MyCoursesFragment extends ListFragment {
 	private static final String TAG = "MyCouseFragment";
 	private ListSelectionListener mListener = null;
 
-	// Interface
-	public interface ListSelectionListener {
-		public void onListSelection(int index);
-	}
-		
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		getListView().setItemChecked(pos, true);

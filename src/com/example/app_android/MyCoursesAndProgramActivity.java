@@ -1,7 +1,7 @@
 package com.example.app_android;
 
 
-import com.example.app_android.MyCoursesFragment.ListSelectionListener;
+import com.example.app_android.ListSelectionListener;
 
 import android.app.Activity;
 import android.os.Bundle;

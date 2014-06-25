@@ -193,7 +193,8 @@ public class MyScheduleHelperAdapter {
 	
 	public String[] readRoom2(String startDate, String endDate) {
 		SQLiteDatabase db = helper.getReadableDatabase();
-		//String[] columns = {helper.UID, helper.StartDate, helper.StartTime, helper.EndDate, helper.EndTime, helper.Course, helper.Moment, helper.Group, helper.Person, helper.Room, helper.Note, helper.URL, helper.MyName, helper.Program};		
+		//String[] columns = {helper.UID, helper.StartDate, helper.StartTime, helper.EndDate, helper.EndTime,helper.Course, helper.Moment,
+		//helper.Group, helper.Person, helper.Room, helper.Note, helper.URL, helper.MyName, helper.Program};		
 		String[] columns = {MyScheduleHelper.UID, MyScheduleHelper.StartDate, MyScheduleHelper.EndDate,MyScheduleHelper.Room};		
 		String[] values = {startDate, endDate};
 		Cursor cursor = db.query(MyScheduleHelper.TABLE_NAME, columns, MyScheduleHelper.StartDate + " BETWEEN ? AND ?", values, null, null, null);
