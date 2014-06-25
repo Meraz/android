@@ -50,7 +50,7 @@ public class AdapterScheduleCustom extends BaseAdapter{
 		Holder holder;
 		if (convertView == null) {
 		
-			row = inflater.inflate(R.layout.schedule_item, parent, false);
+			row = inflater.inflate(R.layout.item_schedule, parent, false);
 			holder = new Holder();
 			holder.startTime = (TextView) row.findViewById(R.id.textViewStartTime); 
 			holder.endTime = (TextView) row.findViewById(R.id.textViewEndTime); 

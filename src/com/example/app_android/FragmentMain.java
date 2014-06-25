@@ -61,7 +61,7 @@ public class FragmentMain extends ListFragment{
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
 		
-		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.main_page_item, mMainMenu));
+		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_main, mMainMenu));
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 	}
 

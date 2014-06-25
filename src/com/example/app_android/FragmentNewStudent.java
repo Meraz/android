@@ -171,7 +171,7 @@ public class FragmentNewStudent extends ListFragment{
 		@Override
 		protected void onPostExecute(String[] result) {
 			mNewStudentArray = result;
-			setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.main_page_item, mNewStudentArray));
+			setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_main, mNewStudentArray));
 			getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 			super.onPostExecute(result);
 		}
