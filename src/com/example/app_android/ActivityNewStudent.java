@@ -34,7 +34,7 @@ public class ActivityNewStudent extends Activity implements InterfaceListSelecti
         super.onCreate(savedInstanceState);
         connectTask task = new connectTask();
         task.execute();
-        setContentView(R.layout.new_student);        
+        setContentView(R.layout.activity_newstudent);        
     }    
 
     @Override

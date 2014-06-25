@@ -79,7 +79,7 @@ public class ActivityMain extends Activity implements InterfaceListSelectionList
           break;
 
         case 2:
-          intent = new Intent(getApplicationContext(), ActivityCoursesAndProgram.class);
+          intent = new Intent(getApplicationContext(), ActivityMyCoursesAndProgram.class);
           startActivity(intent);
           break;
           

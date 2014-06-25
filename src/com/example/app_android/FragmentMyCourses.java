@@ -53,7 +53,7 @@ public class FragmentMyCourses extends ListFragment {
 	public void onActivityCreated(Bundle savedState) {
 		Log.i(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
-		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.course_item, R.id.label, ActivityCoursesAndProgram.mMyCoursesAndProgramArray));
+		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.course_item, R.id.label, ActivityMyCoursesAndProgram.mMyCoursesAndProgramArray));
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 	}
 

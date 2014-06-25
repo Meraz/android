@@ -33,7 +33,7 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Fragment mScheduleFragment = new ScheduleDayFragment();
-        setContentView(R.layout.schedule_main); 
+        setContentView(R.layout.activity_schedule); 
         //Get resources from stored string array
         date = (TextView) findViewById(R.id.scheduleDate);
         displayCal = Calendar.getInstance(); 

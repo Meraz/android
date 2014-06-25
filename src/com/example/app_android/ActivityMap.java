@@ -95,7 +95,7 @@ public class ActivityMap extends Activity{
         
         
         
-        setContentView(R.layout.map_layout_full);
+        setContentView(R.layout.activity_maplayout_full);
         initilizeMap();
         //Add marker if id is -1 (comes from schema)
         if(id == -1) {

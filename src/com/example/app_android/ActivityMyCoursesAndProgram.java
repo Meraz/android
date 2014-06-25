@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class ActivityCoursesAndProgram extends Activity implements InterfaceListSelectionListener{
+public class ActivityMyCoursesAndProgram extends Activity implements InterfaceListSelectionListener{
 
 	private static final String TAG = "MyCoursesAndProgramActivity";
 	public static String[] mMyCoursesAndProgramArray;
@@ -22,7 +22,7 @@ public class ActivityCoursesAndProgram extends Activity implements InterfaceList
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.my_courses_and_program);
+		setContentView(R.layout.activity_mycoursesandprogram);
 		courseCode = (EditText) findViewById(R.id.courseCode);
 		mMyCoursesHelper = new AdapterCoursesHelper(this);
 		mMyCoursesAndProgramArray = mMyCoursesHelper.readAllCourses();

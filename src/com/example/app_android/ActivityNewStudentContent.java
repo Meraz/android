@@ -41,7 +41,7 @@ public class ActivityNewStudentContent extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		setContentView(R.layout.student_content);
+		setContentView(R.layout.activity_studentcontent);
 		TextView view = (TextView) findViewById(R.id.detailsText);
 		view.setText(items);
 	}

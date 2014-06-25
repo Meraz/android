@@ -45,7 +45,7 @@
          <activity android:name="ActivityNewStudentContent"></activity>
          <activity android:name="ActivityFullMap"></activity>
          <activity android:name="ActivitySchedule"></activity>
-         <activity android:name="ActivityCoursesAndProgram"></activity>
+         <activity android:name="ActivityMyCoursesAndProgram"></activity>
          <activity android:name="ActivityStudentUnion"></activity>
          
          <meta-data
