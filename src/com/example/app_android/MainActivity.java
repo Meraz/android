@@ -7,14 +7,12 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 
 public class MainActivity extends Activity implements ListSelectionListener {
 
-	public static String[] mMainPageArray;
+	//public static String[] mMainPageArray;
 	private static final String TAG = "MainActivity";
 	private static final String blekingeStudentUnionPackageName = "se.bthstudent.android.bsk";
-	private final static boolean verbose = true;
 
 	/*
 	 * This is the first function that us runned for this application.
@@ -22,62 +20,52 @@ public class MainActivity extends Activity implements ListSelectionListener {
 	 */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	super.onCreate(savedInstanceState);        
-    	//Get resources from stored string array
-        mMainPageArray = getResources().getStringArray(R.array.main_page_list);
-
+    	super.onCreate(savedInstanceState);
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
+    	
+        // Sets the content specified in the file in res/layout/activity_main.xml
+        // This also specifies which fragment to active
         setContentView(R.layout.activity_main);       
     }
 
     @Override
 	protected void onDestroy() {
-    	if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onDestroy()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onPause() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onPause()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
 		super.onPause();
 	}
 
 	@Override
 	protected void onRestart() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onRestart()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
 		super.onRestart();
 	}
 
 	@Override
 	protected void onResume() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onResume()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
 		super.onResume();
 	}
 
 	@Override
 	protected void onStart() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onStart()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
 		super.onStart();
 	}
 
 	@Override
 	protected void onStop() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onStop()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
 
     @Override
 	public void onListSelection(int index) {
-    	if (verbose){
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onListSelection()");
-    		Log.v(TAG, getClass().getSimpleName() + ":pressed on " + index);
-    	}
-
     	Intent intent;
     	switch (index) {
         case 0:
