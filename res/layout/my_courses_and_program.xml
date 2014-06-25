@@ -34,7 +34,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="?android:attr/actionBarSize"
-        class="com.example.app_android.MyCoursesFragment" >
+        class="com.example.app_android.FragmentMyCourses" >
 	</fragment>
     
 </LinearLayout>

@@ -8,7 +8,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="?android:attr/actionBarSize"
-		class="com.example.app_android.MainActivityFragment" >
+		class="com.example.app_android.FragmentMain" >
 	</fragment>
 </LinearLayout>
 

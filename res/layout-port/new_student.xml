@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_width="fill_parent"
         android:layout_marginTop="?android:attr/actionBarSize"
-        class="com.example.app_android.NewStudentFragment" >
+        class="com.example.app_android.FragmentNewStudent" >
 	</fragment>
 	
 </LinearLayout>

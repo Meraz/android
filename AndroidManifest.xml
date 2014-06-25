@@ -33,7 +33,7 @@
 		    android:value="@integer/google_play_services_version" />
         
         <activity
-            android:name="com.example.app_android.MainActivity"
+            android:name="com.example.app_android.ActivityMain"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,18 +41,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-         <activity android:name="NewStudentActivity"></activity>
-         <activity android:name="NewStudentContentActivity"></activity>
-         <activity android:name="FullMapActivity"></activity>
-         <activity android:name="ScheduleActivity"></activity>
-         <activity android:name="MyCoursesAndProgramActivity"></activity>
-         <activity android:name="StudentUnionActivity"></activity>
+         <activity android:name="ActivityNewStudent"></activity>
+         <activity android:name="ActivityNewStudentContent"></activity>
+         <activity android:name="ActivityFullMap"></activity>
+         <activity android:name="ActivitySchedule"></activity>
+         <activity android:name="ActivityCoursesAndProgram"></activity>
+         <activity android:name="ActivityStudentUnion"></activity>
          
          <meta-data
     		android:name="com.google.android.maps.v2.API_KEY"
     		android:value="AIzaSyAg8-ZWBvXfQnwMmg1b2p-xJdBYn6aMvcU"/>
          
-         <service android:name="com.example.app_android.SchemaUpdateService" >
+         <service android:name="com.example.app_android.ServiceSchemaUpdate" >
         </service>
          
     </application>

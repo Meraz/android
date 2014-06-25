@@ -10,7 +10,7 @@
 	    android:layout_height="match_parent"
 	    android:layout_marginTop="?android:attr/actionBarSize"
 	    android:layout_weight="1.50"
-	    class="com.example.app_android.NewStudentFragment" >
+	    class="com.example.app_android.FragmentNewStudent" >
 	    
 	</fragment>
 
@@ -19,7 +19,7 @@
         android:layout_width="0dp"
         android:layout_weight="1.5"
         android:layout_height="match_parent"
-        class="com.example.app_android.NewStudentContentFragment" >
+        class="com.example.app_android.FragmentNewStudentContent" >
         <!-- Preview: layout=@layout/details -->
     </fragment>
 
