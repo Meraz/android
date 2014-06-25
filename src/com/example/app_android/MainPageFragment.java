@@ -23,7 +23,6 @@ public class MainPageFragment extends ListFragment{
 	 */
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
-		getListView().setItemChecked(pos, true);
 		mListener.onListSelection(pos);
 	}
 
