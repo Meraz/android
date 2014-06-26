@@ -43,14 +43,14 @@
         </activity>
          <activity android:name="ActivityNewStudent"></activity>
          <activity android:name="ActivityNewStudentContent"></activity>
-         <activity android:name="ActivityFullMap"></activity>
+         <activity android:name="ActivityMap"></activity>
          <activity android:name="ActivitySchedule"></activity>
          <activity android:name="ActivityMyCoursesAndProgram"></activity>
          <activity android:name="ActivityStudentUnion"></activity>
          
          <meta-data
     		android:name="com.google.android.maps.v2.API_KEY"
-    		android:value="AIzaSyAg8-ZWBvXfQnwMmg1b2p-xJdBYn6aMvcU"/>
+    		android:value="AIzaSyAW0yYTCoB4QXjtpmXiU_rZKEzu1HvB5x4"/>
          
          <service android:name="com.example.app_android.ServiceSchemaUpdate" >
         </service>

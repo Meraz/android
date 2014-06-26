@@ -47,6 +47,7 @@ public class ActivityMap extends Activity{
         
         if(id == 0) {
         	city = "Karlskrona";
+        	place = new LatLng(56.182242, 15.590712); //TODO move this and the other one for karlshamn to some unified space (remove the hard code)
         	connectDBCity con = new connectDBCity();
         	con.execute(city);
         	try {
@@ -60,6 +61,7 @@ public class ActivityMap extends Activity{
 			}
         } else if (id == 1){
         	city = "Karlshamn";
+        	place = new LatLng(56.164384, 14.866024);
         	connectDBCity con = new connectDBCity();
         	con.execute(city);
         	try {
@@ -93,18 +95,16 @@ public class ActivityMap extends Activity{
 			e.printStackTrace();
 		}
         
-        
-        
         setContentView(R.layout.activity_maplayout_full);
-        initilizeMap();
-        //Add marker if id is -1 (comes from schema)
-        if(id == -1) {
-        	mMap.addMarker(new MarkerOptions()
-            				.position(place)
-            				.title(room));
+        if(initilizeMap()) {
+            if(id == 0 || id == 1) {
+            	mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));
+            }
+            else { //Add marker if id is -1 (comes from schedule)
+            	mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));
+            	mMap.addMarker(new MarkerOptions().position(place).title(room));
+            }
         }
-       
-        mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));
     }
 	
 
@@ -152,7 +152,7 @@ public class ActivityMap extends Activity{
 	}
 
 	
-	private void initilizeMap() {
+	private boolean initilizeMap() {
         if (mMap == null) {
             mMap = ((MapFragment) getFragmentManager().findFragmentById(
                     R.id.map)).getMap();
@@ -160,8 +160,10 @@ public class ActivityMap extends Activity{
             // check if map is created successfully or not
             if (mMap == null) {
                 Toast.makeText(getApplicationContext(), "Sorry! unable to create maps", Toast.LENGTH_SHORT).show();
+                return false;
             }
         }
+        return true;
     }
 	
 	private void parseJsonToLanLng() throws JSONException {
@@ -188,14 +190,12 @@ public class ActivityMap extends Activity{
 			String result = "";
 			JSONArray jsonArray = null;
 			try {
-				url = new URL("http://www.student.bth.se/~pael10/BTHApp/getCity.php");
+				url = new URL("http://194.47.131.73/database-files-and-server-script/Script/getCity.php");
 				
 				HttpURLConnection urlCon = (HttpURLConnection)url.openConnection();
 				InputStream inStream = urlCon.getInputStream();
 				BufferedReader readBuff = new BufferedReader(new InputStreamReader(inStream));
-				//Print all result in log
 				while((inputLine = readBuff.readLine()) != null) {
-					System.out.println(inputLine);
 					result = result + inputLine;
 				}			
 				jsonArray = new JSONArray(result);	
@@ -237,7 +237,7 @@ public class ActivityMap extends Activity{
 			JSONArray jsonArray = null;
 			System.out.println(params[0]);
 			try {
-				url = new URL("http://www.student.bth.se/~pael10/BTHApp/getRoom.php?p="+params[0]);
+				url = new URL("http://194.47.131.73/database-files-and-server-script/Script/getRoom.php?p=J1270");
 				
 				HttpURLConnection urlCon = (HttpURLConnection)url.openConnection();
 				InputStream inStream = urlCon.getInputStream();

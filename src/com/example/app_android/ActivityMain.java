@@ -15,7 +15,7 @@ public class ActivityMain extends Activity implements InterfaceListSelectionList
 	private static final String blekingeStudentUnionPackageName = "se.bthstudent.android.bsk";
 
 	/*
-	 * This is the first function that us runned for this application.
+	 * This is the first function that is runned for this application.
 	 * Specified in the file 'AndroidManifest.xml"
 	 */
     @Override
@@ -66,6 +66,7 @@ public class ActivityMain extends Activity implements InterfaceListSelectionList
 
     @Override
 	public void onListSelection(int index) {
+    	Logger.VerboseLog(TAG, "Tapped on index " + index);
     	Intent intent;
     	switch (index) {
         case 0:
