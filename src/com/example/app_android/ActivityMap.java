@@ -89,7 +89,11 @@ public class ActivityMap extends Activity{
         System.out.println(mJsonArray);
         //Parse JSON to LatLng coordinates
         try {
-			parseJsonToLanLng();
+			if(!parseJsonToLanLng()){
+				place = null;
+			}
+			
+				
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -97,13 +101,18 @@ public class ActivityMap extends Activity{
         
         setContentView(R.layout.activity_maplayout_full);
         if(initilizeMap()) {
-            if(id == 0 || id == 1) {
-            	mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));
-            }
-            else { //Add marker if id is -1 (comes from schedule)
-            	mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));
-            	mMap.addMarker(new MarkerOptions().position(place).title(room));
-            }
+        	if(place != null) {
+        		if(id == 0 || id == 1) {
+            		mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));	//Center the camera over the chosen campus
+            	}
+            	else if(id == -1) { //Add room marker and center on it if we are coming from the schedule
+            		mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));
+            		mMap.addMarker(new MarkerOptions().position(place).title(room));
+            	}
+        	}
+        	else { //Show both campuses and center near Ronneby
+        		mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(new LatLng(56.169908, 15.225654), 9.0f));
+        	}
         }
     }
 	
@@ -151,7 +160,7 @@ public class ActivityMap extends Activity{
 		super.onStop();
 	}
 
-	
+	//
 	private boolean initilizeMap() {
         if (mMap == null) {
             mMap = ((MapFragment) getFragmentManager().findFragmentById(
@@ -159,26 +168,32 @@ public class ActivityMap extends Activity{
  
             // check if map is created successfully or not
             if (mMap == null) {
-                Toast.makeText(getApplicationContext(), "Sorry! unable to create maps", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Unable to start Google Maps. Sorry! :(", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
         return true;
     }
 	
-	private void parseJsonToLanLng() throws JSONException {
-		for(int i = 0; i < mJsonArray.length(); i++) {
+	private boolean parseJsonToLanLng() throws JSONException {
+		if(mJsonArray == null)
+			return false;
+		
+		for(int i = 0; i < mJsonArray.length(); ++i) {
 			JSONObject jsonObj = mJsonArray.getJSONObject(i);
 			if(id == -1) {
 				if(jsonObj.getString("roomNr").equals(room)) {
 					place = new LatLng(jsonObj.getDouble("lat"), jsonObj.getDouble("lng"));
+					return true;
 				}
 			} else {
 				if(jsonObj.getString("cityName").equals(city)) {
 					place = new LatLng(jsonObj.getDouble("lat"), jsonObj.getDouble("lng"));
+					return true;
 				}
 			}
 		}
+		return false;
 	}
 	
 	public class connectDBCity extends AsyncTask<String, Void, JSONArray> {
