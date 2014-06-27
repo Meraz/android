@@ -17,14 +17,16 @@ public class ActivityNewStudentContent extends Activity {
 	private final static boolean verbose = true;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+	protected void onCreate(Bundle savedInstanceState) {		
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
 		super.onCreate(savedInstanceState);
 		
-		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+		// WTF? this just returns if in landscape mode... (?)
+		/*if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 	    	finish();
 	    	return;
-	    }
+	    }*/
+		
 		Bundle bundle = getIntent().getExtras();
         json = bundle.getString("res");
         id = bundle.getInt("id");
@@ -33,7 +35,11 @@ public class ActivityNewStudentContent extends Activity {
 			JSONArray arr = new JSONArray(json);
 			JSONObject jsonObject = arr.getJSONObject(id);
 			
-			for(int j = 0; j<jsonObject.getJSONArray("items").length(); j++) {
+			JSONArray test = jsonObject.getJSONArray("items");
+			
+			int limit = test.length();
+			
+			for(int j = 0; j < limit; j++) {
 				items = items + "- " + jsonObject.getJSONArray("items").getString(j) + "\n \n";
 			}
 			
@@ -48,43 +54,37 @@ public class ActivityNewStudentContent extends Activity {
 
     @Override
 	protected void onDestroy() {
-    	if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onDestroy()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onPause() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onPause()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
 		super.onPause();
 	}
 
 	@Override
 	protected void onRestart() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onRestart()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
 		super.onRestart();
 	}
 
 	@Override
 	protected void onResume() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onResume()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
 		super.onResume();
 	}
 
 	@Override
 	protected void onStart() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onStart()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
 		super.onStart();
 	}
 
 	@Override
 	protected void onStop() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onStop()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
 }

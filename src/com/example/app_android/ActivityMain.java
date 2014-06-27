@@ -20,8 +20,9 @@ public class ActivityMain extends Activity implements InterfaceListSelectionList
 	 */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	super.onCreate(savedInstanceState);
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
+    	super.onCreate(savedInstanceState);
+    	
     	
         // Sets the content specified in the file in res/layout/activity_main.xml
         // This also specifies which fragment to active

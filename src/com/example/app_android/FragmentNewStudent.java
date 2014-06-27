@@ -131,7 +131,7 @@ public class FragmentNewStudent extends ListFragment{
 			String[] newStudentArray = null;
 			ArrayList<String> finalResult = new ArrayList<String>();
 			try {
-				url = new URL("http://194.47.131.73/test.php");
+				url = new URL("http://194.47.131.73/database-files-and-server-script/Script/newstudent.php");
 				
 				HttpURLConnection urlCon = (HttpURLConnection)url.openConnection();
 				InputStream inStream = urlCon.getInputStream();

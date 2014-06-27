@@ -14,16 +14,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.example.app_android.InterfaceListSelectionListener;
+import com.example.app_android.FragmentNewStudent.connectTask;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class ActivityNewStudent extends Activity implements InterfaceListSelectionListener {
 	
-	//private String[] mNewStudentArray;
+	private static String[] mNewStudentArray;
 	private JSONArray mJsonArray;
 	
 	private static final String TAG = "NewStudentActivity";
@@ -31,9 +35,12 @@ public class ActivityNewStudent extends Activity implements InterfaceListSelecti
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
         super.onCreate(savedInstanceState);
+		
         connectTask task = new connectTask();
         task.execute();
+        
         setContentView(R.layout.activity_newstudent);        
     }    
 
@@ -69,42 +76,22 @@ public class ActivityNewStudent extends Activity implements InterfaceListSelecti
 
 	@Override
 	protected void onStop() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
 		super.onStop();
 	}
 
     //Listener to handle interaction on the list 
     @Override
 	public void onListSelection(int index) {    	
-    	FragmentNewStudentContent fragment = (FragmentNewStudentContent) getFragmentManager().findFragmentById(R.id.newStudentContentFragment);
-    	
-    	//Check landscape or port layout
-    	if(fragment != null && fragment.isInLayout()) {
-			try {
-				//Load and parse JSON
-				JSONObject jsonObject = mJsonArray.getJSONObject(index);
-				String items = "";
-				for(int j = 0; j<jsonObject.getJSONArray("items").length(); j++) {
-					items = items + "- " + jsonObject.getJSONArray("items").getString(j) + "\n \n";
-				}
-				fragment.setText(items);
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
-		}
-		else {
-			//Create new activity
-			Intent intent = new Intent(getApplicationContext(), ActivityNewStudentContent.class);
-			intent.putExtra("res", jsonString);
-			intent.putExtra("id", index);
-			startActivity(intent);
-		}			
+		//Create new activity
+		Intent intent = new Intent(getApplicationContext(), ActivityNewStudentContent.class);
+		intent.putExtra("res", jsonString);
+		intent.putExtra("id", index);
+		startActivity(intent);	
 	}
-    /*
-     * AsyncTask for connecting to server and print response in log
-     */
-    public class connectTask extends AsyncTask<Void, Void, String[]> {
+    
+    // AsyncTask for connecting to server and print response in log
+    public class connectTask extends AsyncTask<Void, Void, Void> {
     	ProgressDialog mProgressDialog;
     	
     	@Override
@@ -113,14 +100,13 @@ public class ActivityNewStudent extends Activity implements InterfaceListSelecti
 		}
     	//Connect to server and handle response
 		@Override
-		protected String[] doInBackground(Void... params) {
+		protected Void doInBackground(Void... params) {
 			URL url;
 			String inputLine = "";
 			String result = "";
-			String[] newStudentArray = null;
 			ArrayList<String> finalResult = new ArrayList<String>();
 			try {
-				url = new URL("http://194.47.131.73/test.php");
+				url = new URL("http://194.47.131.73/database-files-and-server-script/Script/newstudent.php");
 				
 				HttpURLConnection urlCon = (HttpURLConnection)url.openConnection();
 				InputStream inStream = urlCon.getInputStream();
@@ -137,20 +123,19 @@ public class ActivityNewStudent extends Activity implements InterfaceListSelecti
 					JSONObject jsonObject = mJsonArray.getJSONObject(i);					
 					finalResult.add(jsonObject.getString("header"));					
 				}
-				newStudentArray = (String[]) finalResult.toArray(new String[finalResult.size()]);
+				mNewStudentArray = (String[]) finalResult.toArray(new String[finalResult.size()]);
 				
 			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
+				// TODO
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				// TODO
 				e.printStackTrace();
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				System.out.println(e.toString());
+				// TODO
 				e.printStackTrace();
 			}			
-			return newStudentArray;
+			return null; // TODO RETURN mNewStudentArray
 		}
 
 		@Override
@@ -160,9 +145,11 @@ public class ActivityNewStudent extends Activity implements InterfaceListSelecti
 		}
 		
 		@Override
-		protected void onPostExecute(String[] result) {
-			//mNewStudentArray = result;
+		protected void onPostExecute(Void result) {
+			
+			// TODO Move mJsonArray = new JSONArray(result); to down here
 			super.onPostExecute(result);
 		}
     }
+    
 }
