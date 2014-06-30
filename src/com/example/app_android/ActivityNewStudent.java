@@ -1,6 +1,7 @@
 package com.example.app_android;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -27,11 +28,9 @@ import android.widget.ListView;
 
 public class ActivityNewStudent extends Activity implements InterfaceListSelectionListener {
 	
-	private static String[] mNewStudentArray;
-	private JSONArray mJsonArray;
+	private static String mData = "";
 	
 	private static final String TAG = "NewStudentActivity";
-	private String jsonString;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,73 +82,66 @@ public class ActivityNewStudent extends Activity implements InterfaceListSelecti
     //Listener to handle interaction on the list 
     @Override
 	public void onListSelection(int index) {    	
-		//Create new activity
+		
+    	//Create new activity
 		Intent intent = new Intent(getApplicationContext(), ActivityNewStudentContent.class);
-		intent.putExtra("res", jsonString);
+		intent.putExtra("res", mData);
 		intent.putExtra("id", index);
 		startActivity(intent);	
 	}
     
     // AsyncTask for connecting to server and print response in log
-    public class connectTask extends AsyncTask<Void, Void, Void> {
-    	ProgressDialog mProgressDialog;
+    public class connectTask extends AsyncTask<Void, Void, String> {
+    	//ProgressDialog mProgressDialog; // is this ever used?
     	
     	@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 		}
-    	//Connect to server and handle response
-		@Override
-		protected Void doInBackground(Void... params) {
-			URL url;
-			String inputLine = "";
+    	
+    	//Connect to server and fetch entire json string
+    	@Override
+		protected String doInBackground(Void... params) {
 			String result = "";
-			ArrayList<String> finalResult = new ArrayList<String>();
+			InputStream inStream = null;
 			try {
-				url = new URL("http://194.47.131.73/database-files-and-server-script/Script/newstudent.php");
-				
+				URL url = new URL("http://194.47.131.73/database-files-and-server-script/Script/newstudent.php");				
 				HttpURLConnection urlCon = (HttpURLConnection)url.openConnection();
-				InputStream inStream = urlCon.getInputStream();
-				BufferedReader readBuff = new BufferedReader(new InputStreamReader(inStream));
-				//Print all result in log
+				inStream = urlCon.getInputStream();				
+			} 
+			catch (MalformedURLException e) {
+				e.printStackTrace();
+			} 
+			catch (IOException e) {
+				e.printStackTrace();
+			}	
+			
+			// Createreader
+			BufferedReader readBuff = new BufferedReader(new InputStreamReader(inStream));
+			
+			try {
+				String inputLine = "";
 				while((inputLine = readBuff.readLine()) != null) {
-					//System.out.println(inputLine);
 					result = result + inputLine;
-				}			
-				jsonString = result;
-				mJsonArray = new JSONArray(result);
-				//System.out.println(jsonArray);
-				for (int i = 0; i < mJsonArray.length(); i++) {
-					JSONObject jsonObject = mJsonArray.getJSONObject(i);					
-					finalResult.add(jsonObject.getString("header"));					
 				}
-				mNewStudentArray = (String[]) finalResult.toArray(new String[finalResult.size()]);
-				
-			} catch (MalformedURLException e) {
-				// TODO
+			} 
+			catch (IOException e) 
+			{
 				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO
-				e.printStackTrace();
-			} catch (JSONException e) {
-				// TODO
-				e.printStackTrace();
-			}			
-			return null; // TODO RETURN mNewStudentArray
+			}
+			return result;
 		}
 
 		@Override
 		protected void onProgressUpdate(Void... values) {
-			// TODO Auto-generated method stub
+			// TODO 
 			super.onProgressUpdate(values);
 		}
 		
 		@Override
-		protected void onPostExecute(Void result) {
-			
-			// TODO Move mJsonArray = new JSONArray(result); to down here
+		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
+			mData = result;
 		}
-    }
-    
+    }     
 }

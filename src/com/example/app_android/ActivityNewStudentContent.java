@@ -14,7 +14,6 @@ public class ActivityNewStudentContent extends Activity {
 	private final static String TAG = "NewStudentContentActivity";
 	private String json;
 	private int id;
-	private final static boolean verbose = true;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {		

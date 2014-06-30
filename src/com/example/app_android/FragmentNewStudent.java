@@ -29,7 +29,7 @@ public class FragmentNewStudent extends ListFragment{
 	private static final String TAG = "NewStudentFragment";
 	private InterfaceListSelectionListener mListener = null;
 
-	public String[] mNewStudentArray;
+	private String[] mNewStudentArray;
 		
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
@@ -68,6 +68,7 @@ public class FragmentNewStudent extends ListFragment{
 		super.onActivityCreated(savedState);
 		connectTask task = new connectTask();
         task.execute();
+        ShowDetails(0);
 	}
 
 	@Override
@@ -112,11 +113,16 @@ public class FragmentNewStudent extends ListFragment{
 		super.onDestroyView();
 	}
 	
+	private void ShowDetails(int index)
+	{
+			FragmentNewStudentContent a = (FragmentNewStudentContent) getFragmentManager().findFragmentByTag("FragmentNewStudentContent");
+	}
+	
 	/*
      * AsyncTask for connecting to server and print response in log
      */
     public class connectTask extends AsyncTask<Void, Void, String[]> {
-    	ProgressDialog mProgressDialog;
+    	//ProgressDialog mProgressDialog;
     	
     	@Override
 		protected void onPreExecute() {
@@ -128,7 +134,7 @@ public class FragmentNewStudent extends ListFragment{
 			URL url;
 			String inputLine = "";
 			String result = "";
-			String[] newStudentArray = null;
+			String[] lDataArray = null;
 			ArrayList<String> finalResult = new ArrayList<String>();
 			try {
 				url = new URL("http://194.47.131.73/database-files-and-server-script/Script/newstudent.php");
@@ -136,18 +142,15 @@ public class FragmentNewStudent extends ListFragment{
 				HttpURLConnection urlCon = (HttpURLConnection)url.openConnection();
 				InputStream inStream = urlCon.getInputStream();
 				BufferedReader readBuff = new BufferedReader(new InputStreamReader(inStream));
-				//Print all result in log
 				while((inputLine = readBuff.readLine()) != null) {
-					//System.out.println(inputLine);
 					result = result + inputLine;
 				}			
 				JSONArray jsonArray = new JSONArray(result);
-				//System.out.println(jsonArray);
 				for (int i = 0; i < jsonArray.length(); i++) {
 					JSONObject jsonObject = jsonArray.getJSONObject(i);					
 					finalResult.add(jsonObject.getString("header"));
 				}
-				newStudentArray = (String[]) finalResult.toArray(new String[finalResult.size()]);
+				lDataArray = (String[]) finalResult.toArray(new String[finalResult.size()]);
 				
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
@@ -159,7 +162,7 @@ public class FragmentNewStudent extends ListFragment{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}			
-			return newStudentArray;
+			return lDataArray;
 		}
 
 		@Override
