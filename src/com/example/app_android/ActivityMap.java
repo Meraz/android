@@ -1,5 +1,4 @@
 package com.example.app_android;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -11,49 +10,58 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-public class ActivityMap extends Activity{
-	
-	private GoogleMap mMap;
+public class ActivityMap extends Activity {
+	private GoogleMap map;
 	private static final String TAG = "ActivityMap";
-	private LatLng place; 
-	private int entryID;
-	private String city;
-	private String room;
 	private final static boolean verbose = true;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String city = "";
+        LatLng place = null;
+        
+        //Get input parameters
         Bundle bundle = getIntent().getExtras();
-        entryID = bundle.getInt("cityId");
-        room = bundle.getString("Room");
-        
-        if(entryID == 0) { //Karlskrona Selected
-        	city = "Karlskrona";
-        	place = (LatLng)Cache.getMapCoordinate(city);
-			}
-         else if (entryID == 1){ //Karlshamn Selected
-        	city = "Karlshamn";
-        	place = (LatLng)Cache.getMapCoordinate(city);
-        } else { //Entered trough an entrypoint that specified a room
-        	place = (LatLng)Cache.getMapCoordinate(room);
+    	int entryID = bundle.getInt("entryID");
+    	int startPositionID = bundle.getInt("startPositionID");
+    	String room = bundle.getString("room");
+    	
+    	setContentView(R.layout.activity_maplayout_full);
+    	
+    	 if(initilizeMap()) {
+    		 assert entryID >= 0 && entryID <= 1;
+    		 if(entryID == 0) { 
+    			 assert startPositionID >= 0 && startPositionID <= 2;
+    			 if(startPositionID == 0) { //Karlskrona Selected
+    				 city = "Karlskrona";
+    				 place = (LatLng)Cache.getMapCoordinate(city);
+    				 map.moveCamera(CameraUpdateFactory.newLatLngZoom(place, 17.0f));	//Center the camera over the chosen campus
+    			 } 
+    			 else if (startPositionID == 1) { //Karlshamn Selected
+    				 city = "Karlshamn";
+    				 place = (LatLng)Cache.getMapCoordinate(city);
+    			 }
+    		 }
+    		 else if(entryID == 1) { //Entered trough an entrypoint that specified a room
+    			place = (LatLng)Cache.getMapCoordinate(room);
+         		map.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));
+         		map.addMarker(new MarkerOptions().position(place).title(room));
+    		 }
+    	 }
+    }
+	
+	private boolean initilizeMap() {
+        if (map == null) {
+        	//Try to create the map
+        	map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+            // check if map is created successfully or not
+            if (map == null) {
+                Toast.makeText(getApplicationContext(), "Unable to start Google Maps. Sorry! :(", Toast.LENGTH_LONG).show();
+                return false;
+            }
         }
-        
-        setContentView(R.layout.activity_maplayout_full);
-        if(initilizeMap()) {
-        	if(place != null) {
-        		if(entryID == 0 || entryID == 1) {
-            		mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));	//Center the camera over the chosen campus
-            	}
-            	else if(entryID == -1) { //Add room marker and center on it if we are coming from the schedule
-            		mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));
-            		mMap.addMarker(new MarkerOptions().position(place).title(room));
-            	}
-        	}
-        	else { //Show both campuses and center near Ronneby
-        		mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(new LatLng(56.169908, 15.225654), 9.0f));
-        	}
-        }
+        return true;
     }
 	
     @Override
@@ -98,20 +106,4 @@ public class ActivityMap extends Activity{
     		Log.v(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
-
-	//
-	private boolean initilizeMap() {
-        if (mMap == null) {
-        	//Try to create the map
-            mMap = ((MapFragment) getFragmentManager().findFragmentById(
-                    R.id.map)).getMap();
- 
-            // check if map is created successfully or not
-            if (mMap == null) {
-                Toast.makeText(getApplicationContext(), "Unable to start Google Maps. Sorry! :(", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        }
-        return true;
-    }	
 }

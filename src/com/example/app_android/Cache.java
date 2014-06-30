@@ -31,7 +31,7 @@ public class Cache {
 	}
 	
 	public static void initialize(Context context) {
-		appContext = context;
+		appContext = context; //Needed for later use in serialization methods
 		deSerializeFromFile();
 	}
 	
@@ -77,6 +77,7 @@ public class Cache {
 		}
 	}
 	
+	//Manually serializes the coordinate map
 	private static void serializeCoordinateMap(ObjectOutputStream objectOutStream) throws IOException {
 		objectOutStream.writeInt(googleMapCoordinates.size());
 		Iterator<Entry<String, LatLng>> it = googleMapCoordinates.entrySet().iterator();
@@ -88,6 +89,7 @@ public class Cache {
 		}
 	}
 	
+	//Manually deserializes the coordinate map
 	private static void deSerializeCoordinateMap(ObjectInputStream objectInStream) throws IOException {
 		int coordinateCount = objectInStream.readInt();
 		for(int i = 0; i < coordinateCount; ++i ) {
