@@ -1,18 +1,5 @@
 package com.example.app_android;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.concurrent.ExecutionException;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -20,7 +7,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -28,86 +14,48 @@ import android.widget.Toast;
 public class ActivityMap extends Activity{
 	
 	private GoogleMap mMap;
-	private static final String TAG = "FullMapActivity";
+	private static final String TAG = "ActivityMap";
 	private LatLng place; 
-	//private LatLng roomMarker;
-	private int id;
+	private int entryID;
 	private String city;
 	private String room;
-	private static JSONArray mJsonArray;
-	//private static String[] mArray;
 	private final static boolean verbose = true;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
-        id = bundle.getInt("cityId");
+        entryID = bundle.getInt("cityId");
         room = bundle.getString("Room");
         
-        if(id == 0) {
+        if(entryID == 0) { //Karlskrona Selected
         	city = "Karlskrona";
-        	place = new LatLng(56.182242, 15.590712); //TODO move this and the other one for karlshamn to some unified space (remove the hard code)
-        	connectDBCity con = new connectDBCity();
-        	con.execute(city);
-        	try {
-				mJsonArray = con.get();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+        	place = (LatLng)Cache.GetData(Cache.DataCategories.CITYCOORDINATES, city);
 			}
-        } else if (id == 1){
+         else if (entryID == 1){ //Karlshamn Selected
         	city = "Karlshamn";
-        	place = new LatLng(56.164384, 14.866024);
-        	connectDBCity con = new connectDBCity();
-        	con.execute(city);
-        	try {
-				mJsonArray = con.get();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        } else {
-        	connectDBRoom con = new connectDBRoom();
-        	con.execute(room);
-        	try {
-				mJsonArray = con.get();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        	place = (LatLng)Cache.GetData(Cache.DataCategories.CITYCOORDINATES, city);
+        } else { //Entered trough an entrypoint that specified a room
+        	place = (LatLng)Cache.GetData(Cache.DataCategories.ROOMCOORDINATES, room);
         }
-        System.out.println(mJsonArray);
-        //Parse JSON to LatLng coordinates
-        try {
-			parseJsonToLanLng();
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
         
         setContentView(R.layout.activity_maplayout_full);
         if(initilizeMap()) {
-            if(id == 0 || id == 1) {
-            	mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));
-            }
-            else { //Add marker if id is -1 (comes from schedule)
-            	mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));
-            	mMap.addMarker(new MarkerOptions().position(place).title(room));
-            }
+        	if(place != null) {
+        		if(entryID == 0 || entryID == 1) {
+            		mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));	//Center the camera over the chosen campus
+            	}
+            	else if(entryID == -1) { //Add room marker and center on it if we are coming from the schedule
+            		mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));
+            		mMap.addMarker(new MarkerOptions().position(place).title(room));
+            	}
+        	}
+        	else { //Show both campuses and center near Ronneby
+        		mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(new LatLng(56.169908, 15.225654), 9.0f));
+        	}
         }
     }
 	
-
     @Override
 	protected void onDestroy() {
     	if (verbose)
@@ -151,129 +99,19 @@ public class ActivityMap extends Activity{
 		super.onStop();
 	}
 
-	
+	//
 	private boolean initilizeMap() {
         if (mMap == null) {
+        	//Try to create the map
             mMap = ((MapFragment) getFragmentManager().findFragmentById(
                     R.id.map)).getMap();
  
             // check if map is created successfully or not
             if (mMap == null) {
-                Toast.makeText(getApplicationContext(), "Sorry! unable to create maps", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Unable to start Google Maps. Sorry! :(", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
         return true;
-    }
-	
-	private void parseJsonToLanLng() throws JSONException {
-		for(int i = 0; i < mJsonArray.length(); i++) {
-			JSONObject jsonObj = mJsonArray.getJSONObject(i);
-			if(id == -1) {
-				if(jsonObj.getString("roomNr").equals(room)) {
-					place = new LatLng(jsonObj.getDouble("lat"), jsonObj.getDouble("lng"));
-				}
-			} else {
-				if(jsonObj.getString("cityName").equals(city)) {
-					place = new LatLng(jsonObj.getDouble("lat"), jsonObj.getDouble("lng"));
-				}
-			}
-		}
-	}
-	
-	public class connectDBCity extends AsyncTask<String, Void, JSONArray> {
-
-		@Override
-		protected JSONArray doInBackground(String... params) {
-			URL url;
-			String inputLine = "";
-			String result = "";
-			JSONArray jsonArray = null;
-			try {
-				url = new URL("http://194.47.131.73/database-files-and-server-script/Script/getCity.php");
-				
-				HttpURLConnection urlCon = (HttpURLConnection)url.openConnection();
-				InputStream inStream = urlCon.getInputStream();
-				BufferedReader readBuff = new BufferedReader(new InputStreamReader(inStream));
-				while((inputLine = readBuff.readLine()) != null) {
-					result = result + inputLine;
-				}			
-				jsonArray = new JSONArray(result);	
-				
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}			
-			return jsonArray;
-		}
-
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-		}
-
-		@Override
-		protected void onPostExecute(JSONArray result) {
-			// TODO Auto-generated method stub
-			super.onPostExecute(result);
-		}
-		
-	}
-	
-	public class connectDBRoom extends AsyncTask<String, Void, JSONArray> {
-
-		@Override
-		protected JSONArray doInBackground(String... params) {
-			URL url;
-			String inputLine = "";
-			String result = "";
-			JSONArray jsonArray = null;
-			System.out.println(params[0]);
-			try {
-				url = new URL("http://194.47.131.73/database-files-and-server-script/Script/getRoom.php?p=J1270");
-				
-				HttpURLConnection urlCon = (HttpURLConnection)url.openConnection();
-				InputStream inStream = urlCon.getInputStream();
-				BufferedReader readBuff = new BufferedReader(new InputStreamReader(inStream));
-				//Print all result in log
-				while((inputLine = readBuff.readLine()) != null) {
-					//System.out.println(inputLine);
-					result = result + inputLine;
-				}			
-				jsonArray = new JSONArray(result);	
-				
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}			
-			return jsonArray;
-		}
-
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-		}
-
-		@Override
-		protected void onPostExecute(JSONArray result) {
-			// TODO Auto-generated method stub
-			super.onPostExecute(result);
-		}
-		
-	}
-	
+    }	
 }

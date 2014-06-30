@@ -15,14 +15,15 @@ public class ActivityMain extends Activity implements InterfaceListSelectionList
 	private static final String blekingeStudentUnionPackageName = "se.bthstudent.android.bsk";
 
 	/*
-	 * This is the first function that is runned for this application.
+	 * This is the first function that is executed for this application.
 	 * Specified in the file 'AndroidManifest.xml"
 	 */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
     	super.onCreate(savedInstanceState);
-    	
+
+    	Cache.Initialize();
     	
         // Sets the content specified in the file in res/layout/activity_main.xml
         // This also specifies which fragment to active
