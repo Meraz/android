@@ -30,13 +30,13 @@ public class ActivityMap extends Activity{
         
         if(entryID == 0) { //Karlskrona Selected
         	city = "Karlskrona";
-        	place = (LatLng)Cache.GetData(Cache.DataCategories.CITYCOORDINATES, city);
+        	place = (LatLng)Cache.getMapCoordinate(city);
 			}
          else if (entryID == 1){ //Karlshamn Selected
         	city = "Karlshamn";
-        	place = (LatLng)Cache.GetData(Cache.DataCategories.CITYCOORDINATES, city);
+        	place = (LatLng)Cache.getMapCoordinate(city);
         } else { //Entered trough an entrypoint that specified a room
-        	place = (LatLng)Cache.GetData(Cache.DataCategories.ROOMCOORDINATES, room);
+        	place = (LatLng)Cache.getMapCoordinate(room);
         }
         
         setContentView(R.layout.activity_maplayout_full);

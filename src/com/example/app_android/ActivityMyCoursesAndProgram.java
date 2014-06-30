@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 public class ActivityMyCoursesAndProgram extends Activity implements InterfaceListSelectionListener{
 
-	private static final String TAG = "MyCoursesAndProgramActivity";
+	private static final String TAG = "ActivityCoursesAndProgram";
 	public static String[] mMyCoursesAndProgramArray;
 	EditText courseCode;
 	AdapterCoursesHelper mMyCoursesHelper;
