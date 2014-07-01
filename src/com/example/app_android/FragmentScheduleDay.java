@@ -23,16 +23,7 @@ public class FragmentScheduleDay extends ListFragment {
 	
 	public void setDate(String[] c) {
 		mDates = c;
-		//Toast.makeText(getActivity().getApplicationContext(), "place 0", Toast.LENGTH_LONG).show();
 	}
-	
-	/*
-	//Debug function
-	public void getRoomLocation(View view) {    	 
-    	System.out.println(getListView().getCount());
-    	Toast.makeText(getActivity().getApplicationContext(), view.getParentForAccessibility().toString(), Toast.LENGTH_SHORT).show();
-    }
-	*/
 	
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {

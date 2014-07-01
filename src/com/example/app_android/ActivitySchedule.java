@@ -191,14 +191,13 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 			displayDate = new Date(displayCal.getTimeInMillis());
 		}
 		
-		//TODO: Figure out what this code does
-		/*dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		//Find out which dates the currently selected week stretches over and display the schedule for that period.
+		dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String startDate = dateFormat.format(displayDate);
 		String endDate = dateFormat.format(displayDate);
 		FragmentScheduleDay dayFrag = new FragmentScheduleDay();
 		dayFrag.setDate(new String[] {startDate, endDate});
 		getFragmentManager().beginTransaction().replace(R.id.main_page_container, dayFrag).commit();
-		*/
 	}
 	@Override
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
