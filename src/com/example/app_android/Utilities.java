@@ -13,7 +13,7 @@ import android.os.AsyncTask;
 
 public class Utilities {
 	//Fetches string data from the specified address asynchronously (Although blocking on get)
-	public static String GetDataFromWeb(final String adress) {
+	public static String fetchDataFromWeb(final String adress) {
 		String fetchResult = "";
 		
     	DataFromWeb task = new DataFromWeb();

@@ -57,12 +57,12 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
     	String text;
     	LinearLayout row = (LinearLayout) view.getParent();
     	rowTextView = (TextView) row.getChildAt(2);
-    	//test = (TextView) findViewById(child.getId());
     	text = (String) rowTextView.getText();
     	String[] nameAndId = text.split(" ");
     	Intent intent = new Intent(getApplicationContext(), ActivityMap.class);
-    	intent.putExtra("cityId", -1); 
-    	intent.putExtra("Room", nameAndId[2]);
+    	intent.putExtra("entryID", 1);
+    	intent.putExtra("startPositionID", -1);
+    	intent.putExtra("room", nameAndId[2]);
     	startActivity(intent);
     }
     
