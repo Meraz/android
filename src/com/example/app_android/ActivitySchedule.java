@@ -22,7 +22,7 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 	private static final String TAG = "ScheduleActivity";
 	private TextView date;
 	private Calendar displayCal;
-	private int tabId;
+	private int tabID;
 	AdapterScheduleHelper mMySchemaHelper;
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 	private final static boolean verbose = true;
@@ -36,11 +36,12 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 		date = (TextView) findViewById(R.id.scheduleDate);
 		displayCal = Calendar.getInstance(); 
 		Date displayDate = new Date(displayCal.getTimeInMillis());
-		if(tabId == 0) {
+		assert tabID >= 0 && tabID <= 1;
+		if(tabID == 0) {
 			// Empty ? 
 		} else {
 			SimpleDateFormat df = new SimpleDateFormat("w");	//Week
-			date.setText(df.format(displayDate));
+			date.setText("Week"+ df.format(displayDate));
 		}   
 
 		//c.set(Calendar.WEEK_OF_YEAR, (c.get(Calendar.WEEK_OF_YEAR)+1));
@@ -66,70 +67,51 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 		startActivity(intent);
 	}
 
+	//Moves the calendar to the next day/week
 	public void next(View view) {
-		String startDate;
-		String endDate;
-		if(tabId == 0) {
+		SimpleDateFormat df 		= new SimpleDateFormat("yyyy-MM-dd");
+		Date displayDate 			= new Date(displayCal.getTimeInMillis());
+		FragmentScheduleDay dayFrag = new FragmentScheduleDay();
+		
+		if(tabID == 0) { //Day tab selected
 			displayCal.set(Calendar.DATE, (displayCal.get(Calendar.DATE)+1));
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			Date displayDate = new Date(displayCal.getTimeInMillis());
 			SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
 			date.setText(df2.format(displayDate));
-			startDate = df.format(displayDate);
-			endDate = df.format(displayDate);
-			FragmentScheduleDay dayFrag = new FragmentScheduleDay();
-			dayFrag.setDate(new String[] {startDate, endDate});
-			getFragmentManager().beginTransaction().replace(R.id.main_page_container, dayFrag).commit();
 		}
-		else {
-			displayCal.set(Calendar.DATE, (displayCal.get(Calendar.DATE)+1));    		
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			Date displayDate = new Date(displayCal.getTimeInMillis());
+		else { //Week tab selected
+			displayCal.set(Calendar.WEEK_OF_YEAR, (displayCal.get(Calendar.WEEK_OF_YEAR)+1));
 			SimpleDateFormat df2 = new SimpleDateFormat("w");
 			date.setText("Week "+df2.format(displayDate));
-			startDate = df.format(displayDate);
-			displayCal.set(Calendar.DAY_OF_WEEK, 7);
-			displayDate = new Date(displayCal.getTimeInMillis());
-			endDate = df.format(displayDate);
-			FragmentScheduleDay dayFrag = new FragmentScheduleDay();
-			dayFrag.setDate(new String[] {startDate, endDate});
-			getFragmentManager().beginTransaction().replace(R.id.main_page_container, dayFrag).commit();
+			//displayCal.set(Calendar.DAY_OF_WEEK, 7); //TODO Check what this code actually does. It is everywhere and messes up the date every time it is called
 		}
+		String startDate = df.format(displayDate);
+		String endDate = df.format(displayDate);
+	
+		dayFrag.setDate(new String[] {startDate, endDate});
+		getFragmentManager().beginTransaction().replace(R.id.main_page_container, dayFrag).commit();
 	}
 
 	public void prev(View view) {
-		String startDate;
-		String endDate;
-		if(tabId == 0) {
+		SimpleDateFormat 	df 			= new SimpleDateFormat("yyyy-MM-dd");
+		Date 				displayDate = new Date(displayCal.getTimeInMillis());
+		FragmentScheduleDay dayFrag 	= new FragmentScheduleDay();
+		
+		if(tabID == 0) { //Day tab selected
 			displayCal.set(Calendar.DATE, (displayCal.get(Calendar.DATE)-1));
-
-			SimpleDateFormat 	df 			= new SimpleDateFormat("yyyy-MM-dd");
-			Date 				displayDate = new Date(displayCal.getTimeInMillis());
 			SimpleDateFormat 	df2 		= new SimpleDateFormat("yyyy-MM-dd");
-			FragmentScheduleDay dayFrag 	= new FragmentScheduleDay();
 			date.setText(df2.format(displayDate));
-			startDate = df.format(displayDate);
-			endDate = df.format(displayDate);
-			dayFrag.setDate(new String[] {startDate, endDate});
-			getFragmentManager().beginTransaction().replace(R.id.main_page_container, dayFrag).commit();
 		}
-		else {
+		else { //Week tab selected
 			displayCal.set(Calendar.WEEK_OF_YEAR, (displayCal.get(Calendar.WEEK_OF_YEAR)-1));
-
-			SimpleDateFormat 	df 			= new SimpleDateFormat("yyyy-MM-dd");
-			Date 				displayDate = new Date(displayCal.getTimeInMillis());
 			SimpleDateFormat 	df2 		= new SimpleDateFormat("w");
-			FragmentScheduleDay dayFrag 	= new FragmentScheduleDay();
-
-			date.setText("Vecka "+df2.format(displayDate));
-			endDate 	= df.format(displayDate);            
-			displayCal.set(Calendar.DAY_OF_WEEK, 1);
-			displayDate = new Date(displayCal.getTimeInMillis());
-			startDate = df.format(displayDate);            
-			displayCal.set(Calendar.DAY_OF_WEEK, 7);            			
-			dayFrag.setDate(new String[] {startDate, endDate});
-			getFragmentManager().beginTransaction().replace(R.id.main_page_container, dayFrag).commit();
+			date.setText("Week "+df2.format(displayDate));      
+			//displayCal.set(Calendar.DAY_OF_WEEK, 1);
+			//displayCal.set(Calendar.DAY_OF_WEEK, 7);            			
 		}
+		String startDate = df.format(displayDate);
+		String endDate = df.format(displayDate);
+		dayFrag.setDate(new String[] {startDate, endDate});
+		getFragmentManager().beginTransaction().replace(R.id.main_page_container, dayFrag).commit();
 	}
 
 	@Override
@@ -181,14 +163,13 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 		int tabPosition = tab.getPosition();
 		assert tabPosition >= 0 && tabPosition <= 1;
 		if (tabPosition == 0) { //Day tab
-			tabId = 0;
+			tabID = 0;
 			dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			date.setText(dateFormat.format(displayDate));
 		} else if(tabPosition == 1) { //Week tab
-			tabId = 1;
+			tabID = 1;
 			dateFormat = new SimpleDateFormat("w");
 			date.setText("Week "+dateFormat.format(displayDate));
-			displayDate = new Date(displayCal.getTimeInMillis());
 		}
 		
 		//Find out which dates the currently selected week stretches over and display the schedule for that period.
