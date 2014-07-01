@@ -169,11 +169,7 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 
 	@Override
 	public void onListSelection(int index) {
-		// TODO Auto-generated method stub
-		//Intent intent = new Intent(getApplicationContext(), FullMapActivity.class);
-		//intent.putExtra("cityId", 0); // 0 -> Karlskrona
-		//intent.putExtra("Room", "unknown");
-		//startActivity(intent);
+
 	}
 
 	@Override
@@ -225,5 +221,4 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
 	}
-
 }
