@@ -16,8 +16,8 @@
     </string-array>
     
     <string-array name="cities_dialog" >
-        <item >Karlskrona</item>
-        <item >Karlshamn</item>
+        <item >Campus Karlskrona</item>
+        <item >Campus Karlshamn</item>
     </string-array>
     
 </resources>

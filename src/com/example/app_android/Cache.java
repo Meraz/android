@@ -71,7 +71,8 @@ public class Cache {
 			deSerializeCoordinateMap(objectInStream);
 			objectInStream.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			serializeToFile();
+			System.out.println("Cache.binary not found. Writing new cache file");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
