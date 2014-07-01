@@ -1,8 +1,10 @@
 package com.example.app_android;
 
-
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.ListFragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,16 +15,70 @@ import android.widget.ListView;
 public class FragmentMain extends ListFragment{
 
 	private static final String TAG = "MainPagesFragment";
-	
-	private InterfaceListSelectionListener mListener = null;
-	private static String[] mMainMenu;
+	private static final String blekingeStudentUnionPackageName = "se.bthstudent.android.bsk";
+		private static String[] mMainMenu;
 
 	// This is the method that is invoked when clicking a menuobject on the mainpage.
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
-		mListener.onListSelection(pos);
+		onListSelection(pos);
 	}
 	
+
+	private void onListSelection(int index) {
+    	Logger.VerboseLog(TAG, "::Tapped on index " + index);
+    	Intent intent;
+    	switch (index) {
+        case 0:
+          intent = new Intent(getActivity().getApplicationContext(), ActivityNewStudent.class);
+          startActivity(intent);
+          break;
+
+        case 1:
+          intent = new Intent(getActivity().getApplicationContext(), ActivitySchedule.class);
+          startActivity(intent);
+          break;
+
+        case 2:
+          intent = new Intent(getActivity().getApplicationContext(), ActivityMyCoursesAndProgram.class);
+          startActivity(intent);
+          break;
+          
+        case 4:
+          showDialog();
+          break;
+          
+        case 6:
+          launchApp(blekingeStudentUnionPackageName);
+          break;
+
+        default:
+          break;
+      }
+	}
+    
+    private void showDialog() {
+    	FragmentManager manager = getFragmentManager();
+    	DialogChooseCity dialog = new DialogChooseCity();
+    	dialog.show(manager, "chooseCityDialog");
+    }
+    
+    // Attempts to start to app with the inputed packageName. If it doesn't exist it opens the apps market page
+    private void launchApp(String packageName) {
+    	
+    	Intent intent = getActivity().getPackageManager().getLaunchIntentForPackage(packageName);
+    	if (intent != null) {
+    		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+   		    startActivity(intent);
+   		}
+   		else  { // If the app isn't installed, send the user to the apps store page
+   		    intent = new Intent(Intent.ACTION_VIEW);
+  		    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+   		    intent.setData(Uri.parse("market://details?id=" + packageName));
+    	    startActivity(intent);
+    	}
+    }
+    	
 	// Called when a fragment is first attached to its activity. 
 	// onCreate() will be called after this
 	@Override
@@ -35,13 +91,14 @@ public class FragmentMain extends ListFragment{
         mMainMenu = getResources().getStringArray(R.array.main_page_list);
 
 		try {
-			mListener = (InterfaceListSelectionListener) activity;
+			//mListener = (InterfaceListSelectionListener) activity;
 		} 
 		catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString() + " must implement OnArticleSelectedListener");
 		}		
 		
 	}
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
