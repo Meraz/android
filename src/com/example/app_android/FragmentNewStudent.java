@@ -60,8 +60,6 @@ public class FragmentNewStudent extends ListFragment{
 		super.onActivityCreated(savedState);
 		mData = Cache.getNewStudentData();
 		CreateMenu(mData);
-		///connectTask task = new connectTask();
-        //task.execute();
 	}
 	
 	private void CreateMenu(String dataString)

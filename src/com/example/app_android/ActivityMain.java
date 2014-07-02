@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 public class ActivityMain extends Activity {
 
-	//public static String[] mMainPageArray;
 	private static final String TAG = "ActivityMain";
 
 	/*

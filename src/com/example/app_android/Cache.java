@@ -170,7 +170,6 @@ public class Cache {
 		}
 	}
 
-	
 	// Fetch all data needed to generate menu and more detailed view for new students
 	private static void fetchNewString(String key)
 	{
