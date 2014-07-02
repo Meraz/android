@@ -5,7 +5,6 @@ import com.example.app_android.InterfaceListSelectionListener;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,7 +15,6 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 	public static String[] coursesAndProgramArray;
 	EditText courseCode;
 	AdapterCoursesHelper coursesHelper;
-	private final static boolean verbose = true;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,48 +24,41 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 		courseCode = (EditText) findViewById(R.id.courseCode);
 		coursesHelper = new AdapterCoursesHelper(this);
 		coursesAndProgramArray = coursesHelper.readAllCourses();
-		
 	}
 	
     @Override
 	protected void onDestroy() {
-    	if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onDestroy()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onPause() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onPause()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
 		super.onPause();
 	}
 
 	@Override
 	protected void onRestart() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onRestart()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
 		super.onRestart();
 	}
 
 	@Override
 	protected void onResume() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onResume()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
 		super.onResume();
 	}
 
 	@Override
 	protected void onStart() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onStart()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
 		super.onStart();		
 	}
 
 	@Override
 	protected void onStop() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onStop()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
 	
@@ -89,8 +80,7 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 	}
 	
 	public void courseChecked(View v) {
-		if (verbose)
-    		Log.v(TAG, "Checked");
+		Logger.VerboseLog(TAG, "Checked or Unchecked");
 	}
 
 	@Override
