@@ -10,7 +10,6 @@ import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,10 +24,10 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 	private int tabID;
 	AdapterScheduleHelper mMySchemaHelper;
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
-	private final static boolean verbose = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate");
 		super.onCreate(savedInstanceState);
 		//Fragment mScheduleFragment = new ScheduleDayFragment();
 		setContentView(R.layout.activity_schedule); 
@@ -37,7 +36,7 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 		displayCal = Calendar.getInstance(); 
 		Date displayDate = new Date(displayCal.getTimeInMillis());
 		assert tabID >= 0 && tabID <= 1;
-		if(tabID == 0) {
+		if(tabID != 0) {
 			// Empty ? 
 		} else {
 			SimpleDateFormat df = new SimpleDateFormat("w");	//Week
@@ -111,36 +110,31 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 
 	@Override
 	protected void onPause() {
-		if (verbose)
-			Log.v(TAG, getClass().getSimpleName() + ":entered onPause()");
+			Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
 		super.onPause();
 	}
 
 	@Override
 	protected void onRestart() {
-		if (verbose)
-			Log.v(TAG, getClass().getSimpleName() + ":entered onRestart()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
 		super.onRestart();
 	}
 
 	@Override
 	protected void onResume() {
-		if (verbose)
-			Log.v(TAG, getClass().getSimpleName() + ":entered onResume()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
 		super.onResume();
 	}
 
 	@Override
 	protected void onStart() {
-		if (verbose)
-			Log.v(TAG, getClass().getSimpleName() + ":entered onStart()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
 		super.onStart();
 	}
 
 	@Override
 	protected void onStop() {
-		if (verbose)
-			Log.v(TAG, getClass().getSimpleName() + ":entered onStop()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
 
@@ -151,6 +145,7 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onTabSelected with tabID " + tab.getPosition());
 		Date displayDate = new Date(displayCal.getTimeInMillis()); //Get the current time (and date)
 		SimpleDateFormat dateFormat = null;
 		
