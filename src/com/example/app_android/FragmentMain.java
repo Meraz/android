@@ -22,8 +22,7 @@ public class FragmentMain extends ListFragment{
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		onListSelection(pos);
-	}
-	
+	}	
 
 	private void onListSelection(int index) {
     	Logger.VerboseLog(TAG, "::Tapped on index " + index);
