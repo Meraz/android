@@ -36,7 +36,7 @@ public class FragmentNewStudentContent extends Fragment{
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreateView()");
 		
 		View view = inflater.inflate(R.layout.activity_studentcontent,container, false);
 		return view;	

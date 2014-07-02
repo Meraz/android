@@ -107,7 +107,7 @@ public class FragmentMain extends ListFragment{
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreateView()");
 		
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
