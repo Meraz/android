@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +29,7 @@ import com.google.android.gms.maps.model.LatLng;
 //This class fetches data from the web and stores it locally for later use
 public class Cache {
 	private static HashMap<String, LatLng> googleMapCoordinates = new HashMap<String, LatLng>();
+	private static HashMap<String, String> fetchedDataStrings = new HashMap<String, String>();
 	private static Context appContext = null;
 	
 	//Blocking instantiation
@@ -52,14 +52,28 @@ public class Cache {
 			return googleMapCoordinates.get(dataKey);
 	}
 	
+	public static String getNewStudentData()
+	{
+		if(!fetchedDataStrings.containsKey("newStudent"))
+		{
+			fetchNewString("newStudent");
+			
+			// serializeToFile();		
+		}
+		return fetchedDataStrings.get("newStudent");
+	}
+	
 	private static void serializeToFile() {
 		FileOutputStream fileOutStream;
 		ObjectOutputStream objectOutStream;
 		try {
 			fileOutStream = appContext.openFileOutput("Cache.binary", Context.MODE_PRIVATE);
 			objectOutStream = new ObjectOutputStream(fileOutStream);
-			serializeCoordinateMap(objectOutStream);
+			
 			//Write more objects to the file here
+			serializeCoordinateMap(objectOutStream);
+			objectOutStream.writeObject(fetchedDataStrings);
+			
 			objectOutStream.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -68,17 +82,23 @@ public class Cache {
 		}
 	}
 	
+	@SuppressWarnings("unchecked") // TODO not sure if this is the best way of solving this.
 	private static void deSerializeFromFile() {
 		try {
 			FileInputStream fileInStream = appContext.openFileInput("Cache.binary");
 			ObjectInputStream objectInStream = new ObjectInputStream(fileInStream);
-			deSerializeCoordinateMap(objectInStream);
+			
 			//Read more objects from the file here (Make sure it is read in the same order it is written in serializeToFile())
+			deSerializeCoordinateMap(objectInStream);
+			fetchedDataStrings = (HashMap<String, String>)objectInStream.readObject();	
+			
 			objectInStream.close();
 		} catch (FileNotFoundException e) {
 			serializeToFile();	//If the file doesn't exist. Write a default version of it.
 			System.out.println("Cache.binary not found. Writing new cache file");
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
@@ -148,5 +168,16 @@ public class Cache {
 		catch (JSONException e) {
 			e.printStackTrace();
 		}
+	}
+
+	
+	// Fetch all data needed to generate menu and more detailed view for new students
+	private static void fetchNewString(String key)
+	{
+		final String adress = "http://194.47.131.73/database-files-and-server-script/Script/newstudent.php";
+		String fetchResult = Utilities.fetchDataFromWeb(adress);
+		
+		// Save value
+		fetchedDataStrings.put(key, fetchResult);
 	}
 }

@@ -1,12 +1,5 @@
 package com.example.app_android;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -16,7 +9,6 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +19,6 @@ import android.widget.ListView;
 public class FragmentNewStudent extends ListFragment{
 	
 	private static final String TAG = "FragmentNewStudent";
-
 	private String mData;
 		
 	@Override
@@ -63,15 +54,41 @@ public class FragmentNewStudent extends ListFragment{
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
-
 	@Override
 	public void onActivityCreated(Bundle savedState) {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
+		mData = Cache.getNewStudentData();
+		CreateMenu(mData);
+		///connectTask task = new connectTask();
+        //task.execute();
+	}
+	
+	private void CreateMenu(String dataString)
+	{
+		// As name says, final result from this parsing
+		ArrayList<String> finalResult = new ArrayList<String>();
 		
-		connectTask task = new connectTask();
-        task.execute();
-        // ShowDetails(0); // Not used as of 2014-06-02 
+		// Parse json string for "header" TAGS
+		try {
+			JSONArray jsonArray = new JSONArray(dataString); // Create an json array from data fetched from server
+			JSONObject jsonObject = null; 
+			for (int i = 0; i < jsonArray.length(); i++) {
+				// Get a single object in the jsonArray
+				jsonObject = jsonArray.getJSONObject(i);
+				
+				// put all entries with "header" tag in a array as we do not know how many there is.
+				finalResult.add(jsonObject.getString("header")); 
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}					
+		// Create string array, from parsed data, that is to represent the menu
+		String[] lmenuArray = (String[]) finalResult.toArray(new String[finalResult.size()]);			
+		
+		// Set menu
+		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_main, lmenuArray));
+		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);	
 	}
 
 	@Override
@@ -115,86 +132,4 @@ public class FragmentNewStudent extends ListFragment{
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroyView()");
 		super.onDestroyView();
 	}
-		
-	/*
-     * AsyncTask for connecting to server and print response in log
-     */
-    public class connectTask extends AsyncTask<Void, Void, String> {
-    	//ProgressDialog mProgressDialog;
-    	
-    	@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-		}
-    	// Connect to server and fetch entire json string
-    	@Override
-		protected String doInBackground(Void... params) {
-			String result = "";
-			InputStream inStream = null;
-			try {
-				URL url = new URL("http://194.47.131.73/database-files-and-server-script/Script/newstudent.php");				
-				HttpURLConnection urlCon = (HttpURLConnection)url.openConnection();
-				inStream = urlCon.getInputStream();				
-			} 
-			catch (MalformedURLException e) {
-				e.printStackTrace();
-			} 
-			catch (IOException e) {
-				e.printStackTrace();
-			}	
-			
-			// Createreader
-			BufferedReader readBuff = new BufferedReader(new InputStreamReader(inStream));
-			
-			try {
-				String inputLine = "";
-				while((inputLine = readBuff.readLine()) != null) {
-					result = result + inputLine;
-				}
-			} 
-			catch (IOException e) 
-			{
-				e.printStackTrace();
-			}
-			return result;
-		}
-
-		@Override
-		protected void onProgressUpdate(Void... values) {
-			// TODO Auto-generated method stub
-			super.onProgressUpdate(values);
-		}
-		
-		@Override
-		protected void onPostExecute(String result) {
-			mData = result;
-			
-			// As name says, final result from this parsing
-			ArrayList<String> finalResult = new ArrayList<String>();
-			
-			// Parse json string for "header" TAGS
-			try {
-				JSONArray jsonArray = new JSONArray(result); // Create an json array from data fetched from server
-				JSONObject jsonObject = null; 
-				for (int i = 0; i < jsonArray.length(); i++) {
-					// Get a single object in the jsonArray
-					jsonObject = jsonArray.getJSONObject(i);
-					
-					// put all entries with "header" tag in a array as we do not know how many there is.
-					finalResult.add(jsonObject.getString("header")); 
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}			
-			
-			// Create string array, from parsed data, that is to represent the menu
-			String[] lmenuArray = (String[]) finalResult.toArray(new String[finalResult.size()]);			
-			
-			// Set menu
-			setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_main, lmenuArray));
-			getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);			
-			
-			super.onPostExecute(result);
-		}
-    }
 }
