@@ -26,7 +26,7 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class ActivityNewStudent extends Activity implements InterfaceListSelectionListener {
+public class ActivityNewStudent extends Activity {
 	
 	private static String mData = "";
 	
@@ -78,18 +78,7 @@ public class ActivityNewStudent extends Activity implements InterfaceListSelecti
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
 		super.onStop();
 	}
-
-    //Listener to handle interaction on the list 
-    @Override
-	public void onListSelection(int index) {    	
-		
-    	//Create new activity
-		Intent intent = new Intent(getApplicationContext(), ActivityNewStudentContent.class);
-		intent.putExtra("res", mData);
-		intent.putExtra("id", index);
-		startActivity(intent);	
-	}
-    
+   
     // AsyncTask for connecting to server and print response in log
     public class connectTask extends AsyncTask<Void, Void, String> {
     	//ProgressDialog mProgressDialog; // is this ever used?
@@ -99,7 +88,7 @@ public class ActivityNewStudent extends Activity implements InterfaceListSelecti
 			super.onPreExecute();
 		}
     	
-    	//Connect to server and fetch entire json string
+    	// Connect to server and fetch entire json string
     	@Override
 		protected String doInBackground(Void... params) {
 			String result = "";

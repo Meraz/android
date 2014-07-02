@@ -1,54 +1,20 @@
 package com.example.app_android;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.Activity;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
+import android.support.v4.app.FragmentActivity;
+
 public class ActivityNewStudentContent extends Activity {
 	
-	private final static String TAG = "NewStudentContentActivity";
-	private String json;
-	private int id;
-	
+	private final static String TAG = "ActivityNewStudentContent";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {		
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
 		super.onCreate(savedInstanceState);
 		
-		// WTF? this just returns if in landscape mode... (?)
-		/*if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-	    	finish();
-	    	return;
-	    }*/
-		
-		Bundle bundle = getIntent().getExtras();
-        json = bundle.getString("res");
-        id = bundle.getInt("id");
-        String items = "";
-        try {
-			JSONArray arr = new JSONArray(json);
-			JSONObject jsonObject = arr.getJSONObject(id);
-			
-			JSONArray test = jsonObject.getJSONArray("items");
-			
-			int limit = test.length();
-			
-			for(int j = 0; j < limit; j++) {
-				items = items + "- " + jsonObject.getJSONArray("items").getString(j) + "\n \n";
-			}
-			
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		setContentView(R.layout.activity_studentcontent);
-		TextView view = (TextView) findViewById(R.id.detailsText);
-		view.setText(items);
 	}
 
     @Override

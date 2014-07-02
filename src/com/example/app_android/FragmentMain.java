@@ -16,7 +16,7 @@ public class FragmentMain extends ListFragment{
 
 	private static final String TAG = "MainPagesFragment";
 	private static final String blekingeStudentUnionPackageName = "se.bthstudent.android.bsk";
-		private static String[] mMainMenu;
+	private static String[] mMainMenu;
 
 	// This is the method that is invoked when clicking a menuobject on the mainpage.
 	@Override
@@ -97,7 +97,6 @@ public class FragmentMain extends ListFragment{
 		}		
 		
 	}
-
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
