@@ -1,9 +1,7 @@
 package com.example.app_android;
 
-
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
 public class ActivityNewStudentContent extends Activity {
 	

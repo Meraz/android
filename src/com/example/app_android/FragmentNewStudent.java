@@ -15,7 +15,6 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ListFragment;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -116,15 +115,7 @@ public class FragmentNewStudent extends ListFragment{
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroyView()");
 		super.onDestroyView();
 	}
-	
-	// Not used as of 2014-06-02
-	/*
-	private void ShowDetails(int index)
-	{
-		//FragmentNewStudentContent a = (FragmentNewStudentContent) getFragmentManager().findFragmentByTag("FragmentNewStudentContent");
-	}
-	*/
-	
+		
 	/*
      * AsyncTask for connecting to server and print response in log
      */
@@ -194,8 +185,7 @@ public class FragmentNewStudent extends ListFragment{
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
-			}
-			
+			}			
 			
 			// Create string array, from parsed data, that is to represent the menu
 			String[] lmenuArray = (String[]) finalResult.toArray(new String[finalResult.size()]);			

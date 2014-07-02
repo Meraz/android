@@ -10,22 +10,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 public class FragmentNewStudentContent extends Fragment{
 	
 	private static final String TAG = "FragmentNewStudentContent";
 	private String mData;
-	
-	/*
-	public void setText(String item) {
-		TextView view = (TextView) getView().findViewById(R.id.detailsText);
-		view.setText(item);
-	}*/
-	
-	
+		
 	// Called when a fragment is first attached to its activity. 
 	// onCreate() will be called after this
 	@Override
@@ -68,8 +59,7 @@ public class FragmentNewStudentContent extends Fragment{
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreateView()");
 		
 		View view = inflater.inflate(R.layout.item_newstudent,container, false);
-		return view;	
-		//return super.onCreateView(inflater, container, savedInstanceState);
+		return view;
 	}	
 
 	@Override

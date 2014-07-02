@@ -95,7 +95,6 @@ public class FragmentMain extends ListFragment{
 		catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString() + " must implement OnArticleSelectedListener");
 		}		
-		
 	}
 
 	@Override
