@@ -10,24 +10,27 @@
         android:layout_margin="20dp"
         android:layout_alignParentBottom="true">
         
-		<ImageView
-		    android:id="@+id/imageButton2"
+		<ImageButton
+		    android:id="@+id/imageButtonNext"
 		    android:onClick="next"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:src="@drawable/ic_action_forward" 
-		    android:layout_alignParentRight="true"/>
+		    android:src="@drawable/ic_action_forward"
+		    android:background="?android:selectableItemBackground"
+		    android:layout_alignParentRight="true"
+		    android:scaleX="1.5"
+		    android:scaleY="1.5"/>
 
- 		
-	    
-
-		<ImageView
-		    android:id="@+id/imageButton1"
+		<ImageButton
+		    android:id="@+id/imageButtonPrev"
 		    android:onClick="prev"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:src="@drawable/ic_action_back" 
-		    android:layout_alignParentLeft="true"/>
+		    android:src="@drawable/ic_action_back"
+		    android:background="?android:selectableItemBackground"
+		    android:layout_alignParentLeft="true"
+		    android:scaleX="1.5"
+		    android:scaleY="1.5"/>
 
 		<TextView
 		    android:id="@+id/scheduleDate"

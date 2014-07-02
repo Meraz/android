@@ -62,19 +62,21 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 
 	//Moves the calendar to the next day/week
 	public void next(View view) {
-		SimpleDateFormat df 		= new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat df 		= null;
 		Date displayDate 			= new Date(displayCal.getTimeInMillis());
 		FragmentScheduleDay dayFrag = new FragmentScheduleDay();
+		
 		assert tabID >= 0 && tabID <= 1;
 		if(tabID == 0) { //Day tab selected
 			displayCal.set(Calendar.DATE, (displayCal.get(Calendar.DATE)+1));
-			SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
-			date.setText(df2.format(displayDate));
+			df = new SimpleDateFormat("yyyy-MM-dd");
+			date.setText(df.format(displayDate));
 		} else if(tabID == 1){ //Week tab selected
 			displayCal.set(Calendar.WEEK_OF_YEAR, (displayCal.get(Calendar.WEEK_OF_YEAR)+1));
-			SimpleDateFormat df2 = new SimpleDateFormat("w");
-			date.setText("Week "+df2.format(displayDate));
+			df = new SimpleDateFormat("w");
+			date.setText("Week "+df.format(displayDate));
 		}
+		
 		String startDate = df.format(displayDate);
 		String endDate = df.format(displayDate);
 	
@@ -83,19 +85,21 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 	}
 
 	public void prev(View view) {
-		SimpleDateFormat 	df 			= new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat 	df 			= null;
 		Date 				displayDate = new Date(displayCal.getTimeInMillis());
 		FragmentScheduleDay dayFrag 	= new FragmentScheduleDay();
+		
 		assert tabID >= 0 && tabID <= 1;
 		if(tabID == 0) { //Day tab selected
 			displayCal.set(Calendar.DATE, (displayCal.get(Calendar.DATE)-1));
-			SimpleDateFormat 	df2 		= new SimpleDateFormat("yyyy-MM-dd");
-			date.setText(df2.format(displayDate));
+			df 	= new SimpleDateFormat("yyyy-MM-dd");
+			date.setText(df.format(displayDate));
 		} else if (tabID == 1){ //Week tab selected
 			displayCal.set(Calendar.WEEK_OF_YEAR, (displayCal.get(Calendar.WEEK_OF_YEAR)-1));
-			SimpleDateFormat 	df2 		= new SimpleDateFormat("w");
-			date.setText("Week "+df2.format(displayDate));            			
+			df = new SimpleDateFormat("w");
+			date.setText("Week "+df.format(displayDate));            			
 		}
+		
 		String startDate = df.format(displayDate);
 		String endDate = df.format(displayDate);
 		
