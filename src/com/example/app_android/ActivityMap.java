@@ -35,13 +35,12 @@ public class ActivityMap extends Activity {
     			 assert startPositionID >= 0 && startPositionID <= 2;
     			 if(startPositionID == 0) { //Karlskrona Selected
     				 city = "Karlskrona";
-    				 place = (LatLng)Cache.getMapCoordinate(city);
-    				 map.moveCamera(CameraUpdateFactory.newLatLngZoom(place, 17.0f));	//Center the camera over the chosen campus
     			 } 
     			 else if (startPositionID == 1) { //Karlshamn Selected
     				 city = "Karlshamn";
-    				 place = (LatLng)Cache.getMapCoordinate(city);
     			 }
+    			 place = (LatLng)Cache.getMapCoordinate(city);
+				 map.moveCamera(CameraUpdateFactory.newLatLngZoom(place, 17.0f)); //Center the camera over the chosen campus
     		 }
     		 else if(entryID == 1) { //Entered trough an entrypoint that specified a room
     			place = (LatLng)Cache.getMapCoordinate(room);
