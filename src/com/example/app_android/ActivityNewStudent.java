@@ -30,7 +30,7 @@ public class ActivityNewStudent extends Activity implements InterfaceListSelecti
 	
 	private static String mData = "";
 	
-	private static final String TAG = "NewStudentActivity";
+	private static final String TAG = "ActivityNewStudent";
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {

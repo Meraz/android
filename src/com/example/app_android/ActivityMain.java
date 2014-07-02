@@ -8,7 +8,7 @@ import android.os.Bundle;
 public class ActivityMain extends Activity {
 
 	//public static String[] mMainPageArray;
-	private static final String TAG = "MainActivity";
+	private static final String TAG = "ActivityMain";
 
 	/*
 	 * This is the first function that is executed for this application.
