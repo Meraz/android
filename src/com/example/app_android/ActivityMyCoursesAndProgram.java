@@ -13,9 +13,9 @@ import android.widget.Toast;
 public class ActivityMyCoursesAndProgram extends Activity implements InterfaceListSelectionListener{
 
 	private static final String TAG = "ActivityCoursesAndProgram";
-	public static String[] mMyCoursesAndProgramArray;
+	public static String[] coursesAndProgramArray;
 	EditText courseCode;
-	AdapterCoursesHelper mMyCoursesHelper;
+	AdapterCoursesHelper coursesHelper;
 	private final static boolean verbose = true;
 	
 	@Override
@@ -24,8 +24,8 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_mycoursesandprogram);
 		courseCode = (EditText) findViewById(R.id.courseCode);
-		mMyCoursesHelper = new AdapterCoursesHelper(this);
-		mMyCoursesAndProgramArray = mMyCoursesHelper.readAllCourses();
+		coursesHelper = new AdapterCoursesHelper(this);
+		coursesAndProgramArray = coursesHelper.readAllCourses();
 		
 	}
 	
@@ -73,7 +73,7 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 	
 	public void addCourse(View view) {
 		String cCode = courseCode.getText().toString();
-		long id = mMyCoursesHelper.insertData(cCode);
+		long id = coursesHelper.insertData(cCode);
 		if(id < 0) {
 			Toast.makeText(this, "Unsuccessful", Toast.LENGTH_LONG).show();
 		}
@@ -85,7 +85,7 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 	}
 	
 	public void readCourses() {
-		mMyCoursesAndProgramArray = mMyCoursesHelper.readAllCourses();
+		coursesAndProgramArray = coursesHelper.readAllCourses();
 	}
 	
 	public void courseChecked(View v) {
@@ -96,6 +96,5 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 	@Override
 	public void onListSelection(int index) {
 		// TODO Auto-generated method stub
-		
 	}
 }
