@@ -72,17 +72,15 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 		SimpleDateFormat df 		= new SimpleDateFormat("yyyy-MM-dd");
 		Date displayDate 			= new Date(displayCal.getTimeInMillis());
 		FragmentScheduleDay dayFrag = new FragmentScheduleDay();
-		
+		assert tabID >= 0 && tabID <= 1;
 		if(tabID == 0) { //Day tab selected
 			displayCal.set(Calendar.DATE, (displayCal.get(Calendar.DATE)+1));
 			SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
 			date.setText(df2.format(displayDate));
-		}
-		else { //Week tab selected
+		} else if(tabID == 1){ //Week tab selected
 			displayCal.set(Calendar.WEEK_OF_YEAR, (displayCal.get(Calendar.WEEK_OF_YEAR)+1));
 			SimpleDateFormat df2 = new SimpleDateFormat("w");
 			date.setText("Week "+df2.format(displayDate));
-			//displayCal.set(Calendar.DAY_OF_WEEK, 7); //TODO Check what this code actually does. It is everywhere and messes up the date every time it is called
 		}
 		String startDate = df.format(displayDate);
 		String endDate = df.format(displayDate);
@@ -95,18 +93,15 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 		SimpleDateFormat 	df 			= new SimpleDateFormat("yyyy-MM-dd");
 		Date 				displayDate = new Date(displayCal.getTimeInMillis());
 		FragmentScheduleDay dayFrag 	= new FragmentScheduleDay();
-		
+		assert tabID >= 0 && tabID <= 1;
 		if(tabID == 0) { //Day tab selected
 			displayCal.set(Calendar.DATE, (displayCal.get(Calendar.DATE)-1));
 			SimpleDateFormat 	df2 		= new SimpleDateFormat("yyyy-MM-dd");
 			date.setText(df2.format(displayDate));
-		}
-		else { //Week tab selected
+		} else if (tabID == 1){ //Week tab selected
 			displayCal.set(Calendar.WEEK_OF_YEAR, (displayCal.get(Calendar.WEEK_OF_YEAR)-1));
 			SimpleDateFormat 	df2 		= new SimpleDateFormat("w");
-			date.setText("Week "+df2.format(displayDate));      
-			//displayCal.set(Calendar.DAY_OF_WEEK, 1);
-			//displayCal.set(Calendar.DAY_OF_WEEK, 7);            			
+			date.setText("Week "+df2.format(displayDate));            			
 		}
 		String startDate = df.format(displayDate);
 		String endDate = df.format(displayDate);
@@ -162,11 +157,11 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 		//Format the time displayed to the user to display the correct time format depending on which tab was selected
 		int tabPosition = tab.getPosition();
 		assert tabPosition >= 0 && tabPosition <= 1;
-		if (tabPosition == 0) { //Day tab
+		if (tabPosition == 0) { //Day tab tapped
 			tabID = 0;
 			dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			date.setText(dateFormat.format(displayDate));
-		} else if(tabPosition == 1) { //Week tab
+		} else if(tabPosition == 1) { //Week tab tapped
 			tabID = 1;
 			dateFormat = new SimpleDateFormat("w");
 			date.setText("Week "+dateFormat.format(displayDate));
