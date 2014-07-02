@@ -63,17 +63,19 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 	//Moves the calendar to the next day/week
 	public void next(View view) {
 		SimpleDateFormat df 		= null;
-		Date displayDate 			= new Date(displayCal.getTimeInMillis());
+		Date displayDate 			= null;
 		FragmentScheduleDay dayFrag = new FragmentScheduleDay();
 		
 		assert tabID >= 0 && tabID <= 1;
 		if(tabID == 0) { //Day tab selected
 			displayCal.set(Calendar.DATE, (displayCal.get(Calendar.DATE)+1));
 			df = new SimpleDateFormat("yyyy-MM-dd");
+			displayDate = new Date(displayCal.getTimeInMillis());
 			date.setText(df.format(displayDate));
 		} else if(tabID == 1){ //Week tab selected
 			displayCal.set(Calendar.WEEK_OF_YEAR, (displayCal.get(Calendar.WEEK_OF_YEAR)+1));
 			df = new SimpleDateFormat("w");
+			displayDate = new Date(displayCal.getTimeInMillis());
 			date.setText("Week "+df.format(displayDate));
 		}
 		
@@ -86,17 +88,19 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 
 	public void prev(View view) {
 		SimpleDateFormat 	df 			= null;
-		Date 				displayDate = new Date(displayCal.getTimeInMillis());
+		Date 				displayDate = null;
 		FragmentScheduleDay dayFrag 	= new FragmentScheduleDay();
 		
 		assert tabID >= 0 && tabID <= 1;
 		if(tabID == 0) { //Day tab selected
 			displayCal.set(Calendar.DATE, (displayCal.get(Calendar.DATE)-1));
 			df 	= new SimpleDateFormat("yyyy-MM-dd");
+			displayDate = new Date(displayCal.getTimeInMillis());
 			date.setText(df.format(displayDate));
 		} else if (tabID == 1){ //Week tab selected
 			displayCal.set(Calendar.WEEK_OF_YEAR, (displayCal.get(Calendar.WEEK_OF_YEAR)-1));
 			df = new SimpleDateFormat("w");
+			displayDate = new Date(displayCal.getTimeInMillis());
 			date.setText("Week "+df.format(displayDate));            			
 		}
 		
@@ -145,7 +149,7 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onTabSelected with tabID " + tab.getPosition());
-		Date displayDate = new Date(displayCal.getTimeInMillis()); //Get the current time (and date)
+		Date displayDate = null;
 		SimpleDateFormat dateFormat = null;
 		
 		//Format the time displayed to the user to display the correct time format depending on which tab was selected
@@ -154,10 +158,12 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 		if (tabPosition == 0) { //Day tab tapped
 			tabID = 0;
 			dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			displayDate = new Date(displayCal.getTimeInMillis());
 			date.setText(dateFormat.format(displayDate));
 		} else if(tabPosition == 1) { //Week tab tapped
 			tabID = 1;
 			dateFormat = new SimpleDateFormat("w");
+			displayDate = new Date(displayCal.getTimeInMillis());
 			date.setText("Week "+dateFormat.format(displayDate));
 		}
 		
