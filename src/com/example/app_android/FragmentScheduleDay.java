@@ -19,8 +19,8 @@ public class FragmentScheduleDay extends ListFragment {
 		public void onListSelection(int index);
 	}
 	
-	public void setDate(String[] c) {
-		dates = c;
+	public void setDate(String[] datesToSet) {
+		dates = datesToSet;
 	}
 	
 	@Override
@@ -69,7 +69,7 @@ public class FragmentScheduleDay extends ListFragment {
 	
 		getListView().getChildCount();
 		setListAdapter(adapter);
-		getListView().setChoiceMode(ListView.CHOICE_MODE_NONE);					
+		getListView().setChoiceMode(ListView.CHOICE_MODE_NONE);
 	}
 
 	@Override

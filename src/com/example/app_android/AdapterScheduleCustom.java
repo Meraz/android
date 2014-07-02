@@ -45,7 +45,6 @@ public class AdapterScheduleCustom extends BaseAdapter{
 	}
 	
 	public View getView(int position, View convertView, ViewGroup parent) {		
-		
 		View row;
 		Holder holder;
 		if (convertView == null) {
