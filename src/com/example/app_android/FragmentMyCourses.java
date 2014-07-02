@@ -3,7 +3,6 @@ package com.example.app_android;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,21 +12,21 @@ import android.widget.ListView;
 public class FragmentMyCourses extends ListFragment {
 	
 	private static final String TAG = "FragmentMyCourses";
-	private InterfaceListSelectionListener mListener = null;
+	private InterfaceListSelectionListener listener = null;
 
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		getListView().setItemChecked(pos, true);
-		mListener.onListSelection(pos);
+		listener.onListSelection(pos);
 	}
 
 	@Override
 	public void onAttach(Activity activity) {
-		Log.i(TAG, getClass().getSimpleName() + ":entered onAttach()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onAttach()");
 		super.onAttach(activity);
 		
 		try {
-			mListener = (InterfaceListSelectionListener) activity;
+			listener = (InterfaceListSelectionListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnArticleSelectedListener");

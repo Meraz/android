@@ -17,12 +17,11 @@ import android.widget.TextView;
 @SuppressLint("SimpleDateFormat") //Warns about not being given a locale. This is irrelevant since this app is intended for use in Sweden only
 public class ActivitySchedule extends FragmentActivity implements FragmentScheduleDay.Communicator, ActionBar.TabListener {
 
-	public static String[] mScheduleArray;
-	private static final String TAG = "ScheduleActivity";
+	private static final String TAG = "ActivitySchedule";
 	private TextView date;
 	private Calendar displayCal;
 	private int tabID;
-	AdapterScheduleHelper mMySchemaHelper;
+	AdapterScheduleHelper scheduleHelper;
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 
 	@Override
