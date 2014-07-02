@@ -29,13 +29,16 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 	protected void onCreate(Bundle savedInstanceState) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate");
 		super.onCreate(savedInstanceState);
-		//Fragment mScheduleFragment = new ScheduleDayFragment();
+		//Fragment mScheduleFragment = new ScheduleDayFragment(); //TODO check what this would do here and uncomment/remove it
 		setContentView(R.layout.activity_schedule);
+		
 		//Get resources from stored string array
 		date = (TextView) findViewById(R.id.scheduleDate);
+		
+		//Store the Calendar instance for later use. It is needed in almost all functions in this class
 		displayCal = Calendar.getInstance();
-
-		c.set(Calendar.WEEK_OF_YEAR, (c.get(Calendar.WEEK_OF_YEAR)+1));
+		
+		//Set the navigation mode for the action bar
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
