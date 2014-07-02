@@ -99,6 +99,7 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 		}
 		String startDate = df.format(displayDate);
 		String endDate = df.format(displayDate);
+		
 		dayFrag.setDate(new String[] {startDate, endDate});
 		getFragmentManager().beginTransaction().replace(R.id.main_page_container, dayFrag).commit();
 	}
@@ -161,6 +162,7 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 		dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String startDate = dateFormat.format(displayDate);
 		String endDate = dateFormat.format(displayDate);
+		
 		FragmentScheduleDay dayFrag = new FragmentScheduleDay();
 		dayFrag.setDate(new String[] {startDate, endDate});
 		getFragmentManager().beginTransaction().replace(R.id.main_page_container, dayFrag).commit();

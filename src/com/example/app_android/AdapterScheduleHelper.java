@@ -24,7 +24,7 @@ public class AdapterScheduleHelper {
 		contentValues.put(MyScheduleHelper.EndDate, event[2]);
 		contentValues.put(MyScheduleHelper.EndTime, event[3]);
 		if(event[index].indexOf('"') == 1) {
-			contentValues.put(MyScheduleHelper.Course, event[index++]+event[index++]);
+			contentValues.put(MyScheduleHelper.Course, event[index++]	+event[index++]);
 		} else {
 			contentValues.put(MyScheduleHelper.Course, event[index++]);
 		}
