@@ -25,7 +25,6 @@ public class ActivityMap extends Activity {
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String city = "";
         LatLng place = null;
         
         //Get input parameters
@@ -64,6 +63,7 @@ public class ActivityMap extends Activity {
                 Toast.makeText(getApplicationContext(), "Unable to start Google Maps. Sorry! :(", Toast.LENGTH_LONG).show();
                 return false;
             }
+            addHouseMarkers();
         }
         return true;
     }
@@ -75,6 +75,41 @@ public class ActivityMap extends Activity {
 		
 		drawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.item_map_drawer, listItems));
 		drawerList.setOnItemClickListener(new DrawerItemClickListener());
+	}
+	
+	private void moveToKarlskrona() {
+		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("Karlskrona"), 17.0f));
+		map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+	}
+	
+	private void moveToKarlshamn() {
+		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("Karlshamn"), 17.0f));
+		map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+	}
+	
+	private void addHouseMarkers() { //TODO add icons and descriptions to the markers
+		MarkerOptions options = new MarkerOptions();
+		
+		options.position(Cache.getMapCoordinate("HOUSE_A"));
+		map.addMarker(options);
+		
+		options.position(Cache.getMapCoordinate("HOUSE_B"));
+		map.addMarker(options);
+		
+		options.position(Cache.getMapCoordinate("HOUSE_C"));
+		map.addMarker(options);
+		
+		options.position(Cache.getMapCoordinate("HOUSE_D"));
+		map.addMarker(options);
+		
+		options.position(Cache.getMapCoordinate("HOUSE_G"));
+		map.addMarker(options);
+		
+		options.position(Cache.getMapCoordinate("HOUSE_H"));
+		map.addMarker(options);
+		
+		options.position(Cache.getMapCoordinate("HOUSE_J"));
+		map.addMarker(options);
 	}
 	
     @Override
@@ -120,39 +155,27 @@ public class ActivityMap extends Activity {
 		super.onStop();
 	}
 	
-	private void moveToKarlskrona() {
-		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("Karlskrona"), 17.0f));
-		map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-	}
-	
-	private void moveToKarlshamn() {
-		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("Karlshamn"), 17.0f));
-		map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-	}
-	
 	private class DrawerItemClickListener implements ListView.OnItemClickListener {
-	    @Override
+	    @SuppressWarnings("rawtypes")
+		@Override
 	    public void onItemClick(AdapterView parent, View view, int position, long id) {
-	        selectItem(position);
-	    }
-	    private void selectItem(int position) {
-	        drawerList.setItemChecked(position, true);
-	        drawerLayout.closeDrawer(drawerList);
-	        
-	    	if(position == 0) {
-	    		moveToKarlskrona();
-	    	}
-	    	else if(position == 1) {
-	    		moveToKarlshamn();
-	    	}
+	    	 drawerList.setItemChecked(position, true);
+		     drawerLayout.closeDrawer(drawerList);
+		        
+		    if(position == 0) {
+		    	moveToKarlskrona();
+		   	}
+		   	else if(position == 1) {
+		   		moveToKarlshamn();
+		   	}
 	    	else if(position == 2) {
 	    		MarkerOptions o = new MarkerOptions();
-	    		o.position(Cache.getMapCoordinate("J1270"));
-	    		o.title("J1270");
-	    		o.snippet("Här ligger J1270");
-	    		map.addMarker(o);
-	    		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("J1270"), 17.0f));
-	    	}
+		    	o.position(Cache.getMapCoordinate("J1270"));
+		   		o.title("J1270");
+		   		o.snippet("Här ligger J1270");
+		   		map.addMarker(o);
+		   		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("J1270"), 17.0f));
+		    }
 	    }
 	}
 }

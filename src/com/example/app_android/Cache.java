@@ -39,6 +39,7 @@ public class Cache {
 	
 	public static void initialize(Context context) {
 		appContext = context; //Needed for later use in serialization methods
+		addMapHouseMarkerCoordinates();
 		deSerializeFromFile();
 	}
 	
@@ -178,5 +179,15 @@ public class Cache {
 		
 		// Save value
 		fetchedDataStrings.put(key, fetchResult);
+	}
+	
+	private static void addMapHouseMarkerCoordinates() {
+		googleMapCoordinates.put("HOUSE_A", new LatLng(56.182016, 15.590502));
+		googleMapCoordinates.put("HOUSE_B", new LatLng(56.180673, 15.590691));
+		googleMapCoordinates.put("HOUSE_C", new LatLng(56.181237, 15.592322));
+		googleMapCoordinates.put("HOUSE_D", new LatLng(56.181670, 15.592375));
+		googleMapCoordinates.put("HOUSE_G", new LatLng(56.181891, 15.591308));
+		googleMapCoordinates.put("HOUSE_H", new LatLng(56.182348, 15.590819));
+		googleMapCoordinates.put("HOUSE_J", new LatLng(56.182933, 15.590401));
 	}
 }
