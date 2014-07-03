@@ -1,18 +1,13 @@
 package com.example.app_android;
 
-import com.example.app_android.InterfaceListSelectionListener;
 
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.content.Intent;
-import android.net.Uri;
+
 import android.os.Bundle;
 
-public class ActivityMain extends Activity implements InterfaceListSelectionListener {
+public class ActivityMain extends Activity {
 
-	//public static String[] mMainPageArray;
-	private static final String TAG = "MainActivity";
-	private static final String blekingeStudentUnionPackageName = "se.bthstudent.android.bsk";
+	private static final String TAG = "ActivityMain";
 
 	/*
 	 * This is the first function that is executed for this application.
@@ -64,59 +59,4 @@ public class ActivityMain extends Activity implements InterfaceListSelectionList
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
-
-    @Override
-	public void onListSelection(int index) {
-    	Logger.VerboseLog(TAG, "Tapped on index " + index);
-    	Intent intent;
-    	switch (index) {
-        case 0:
-          intent = new Intent(getApplicationContext(), ActivityNewStudent.class);
-          startActivity(intent);
-          break;
-
-        case 1:
-          intent = new Intent(getApplicationContext(), ActivitySchedule.class);
-          startActivity(intent);
-          break;
-
-        case 2:
-          intent = new Intent(getApplicationContext(), ActivityMyCoursesAndProgram.class);
-          startActivity(intent);
-          break;
-          
-        case 4:
-          showDialog();
-          break;
-          
-        case 6:
-          launchApp(blekingeStudentUnionPackageName);
-          break;
-
-        default:
-          break;
-      }
-	}
-    
-    public void showDialog() {
-    	FragmentManager manager = getFragmentManager();
-    	DialogChooseCity dialog = new DialogChooseCity();
-    	dialog.show(manager, "chooseCityDialog");
-    }
-    
-    // Attempts to start to app with the inputed packageName. If it doesn't exist it opens the apps market page
-    private void launchApp(String packageName) {
-    	
-    	Intent intent = getPackageManager().getLaunchIntentForPackage(packageName);
-    	if (intent != null) {
-    		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-   		    startActivity(intent);
-   		}
-   		else  { // If the app isn't installed, send the user to the apps store page
-   		    intent = new Intent(Intent.ACTION_VIEW);
-  		    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-   		    intent.setData(Uri.parse("market://details?id=" + packageName));
-    	    startActivity(intent);
-    	}
-    }
 }

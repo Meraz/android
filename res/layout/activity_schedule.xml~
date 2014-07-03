@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="vertical" >
+	<RelativeLayout 
+	    android:id="@+id/innerRelativeLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_alignParentBottom="true">
+        
+		<ImageButton
+		    android:id="@+id/imageButtonNext"
+		    android:onClick="next"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+<<<<<<< HEAD
+		    android:src="@drawable/ic_action_forward"
+		    android:background="?android:selectableItemBackground"
+		    android:layout_alignParentRight="true"
+		    android:scaleX="1.5"
+		    android:scaleY="1.5"/>
+
+		<ImageButton
+		    android:id="@+id/imageButtonPrev"
+
+		    android:onClick="prev"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:src="@drawable/ic_action_back"
+		    android:background="?android:selectableItemBackground"
+		    android:layout_alignParentLeft="true"
+		    android:scaleX="1.5"
+		    android:scaleY="1.5"/>
+
+		<TextView
+		    android:id="@+id/scheduleDate"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_centerHorizontal="true"
+		    android:layout_centerVertical="true" />
+
+	</RelativeLayout>
+
+	<FrameLayout
+	    android:id="@+id/main_page_container"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" >
+	</FrameLayout>
+	    	
+</LinearLayout>

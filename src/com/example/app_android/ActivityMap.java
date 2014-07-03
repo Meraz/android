@@ -1,17 +1,25 @@
 package com.example.app_android;
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
-
 public class ActivityMap extends Activity {
 	private GoogleMap map;
+	private DrawerLayout drawerLayout;
+	private ListView drawerList;
 	private static final String TAG = "ActivityMap";
 	private final static boolean verbose = true;
 	
@@ -47,12 +55,12 @@ public class ActivityMap extends Activity {
          		map.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));
          		map.addMarker(new MarkerOptions().position(place).title(room));
     		 }
+    		 initializeDrawer();
     	 }
     }
 	
 	private boolean initilizeMap() {
         if (map == null) {
-        	//Try to create the map
         	map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
             // check if map is created successfully or not
             if (map == null) {
@@ -62,6 +70,15 @@ public class ActivityMap extends Activity {
         }
         return true;
     }
+	
+	private void initializeDrawer() {
+		String[] listItems = getResources().getStringArray(R.array.map_drawer_items);
+		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		drawerList = (ListView) findViewById(R.id.left_drawer);
+		
+		drawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.item_map_drawer, listItems));
+		drawerList.setOnItemClickListener(new DrawerItemClickListener());
+	}
 	
     @Override
 	protected void onDestroy() {
@@ -104,5 +121,30 @@ public class ActivityMap extends Activity {
 		if (verbose)
     		Log.v(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
+	}
+	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+	    @Override
+	    public void onItemClick(AdapterView parent, View view, int position, long id) {
+	        selectItem(position);
+	    }
+	    private void selectItem(int position) {
+	        drawerList.setItemChecked(position, true);
+	        drawerLayout.closeDrawer(drawerList);
+	        
+	    	if(position == 0) {
+	    		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("Karlskrona"), 17.0f));
+	    	}
+	    	else if(position == 1) {
+	    		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("Karlshamn"), 17.0f));
+	    	}
+	    	else if(position == 2) {
+	    		MarkerOptions o = new MarkerOptions();
+	    		o.position(Cache.getMapCoordinate("J1270"));
+	    		o.title("J1270");
+	    		o.snippet("Här ligger J1270");
+	    		map.addMarker(o);
+	    		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("J1270"), 17.0f));
+	    	}
+	    }
 	}
 }
