@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -42,13 +41,11 @@ public class ActivityMap extends Activity {
     		 if(entryID == 0) { 
     			 assert startPositionID >= 0 && startPositionID <= 2;
     			 if(startPositionID == 0) { //Karlskrona Selected
-    				 city = "Karlskrona";
+    				 moveToKarlskrona();
     			 } 
     			 else if (startPositionID == 1) { //Karlshamn Selected
-    				 city = "Karlshamn";
+    				 moveToKarlshamn();
     			 }
-    			 place = (LatLng)Cache.getMapCoordinate(city);
-				 map.moveCamera(CameraUpdateFactory.newLatLngZoom(place, 17.0f)); //Center the camera over the chosen campus
     		 }
     		 else if(entryID == 1) { //Entered trough an entrypoint that specified a room
     			place = (LatLng)Cache.getMapCoordinate(room);
@@ -122,6 +119,17 @@ public class ActivityMap extends Activity {
     		Log.v(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
+	
+	private void moveToKarlskrona() {
+		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("Karlskrona"), 17.0f));
+		map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+	}
+	
+	private void moveToKarlshamn() {
+		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("Karlshamn"), 17.0f));
+		map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+	}
+	
 	private class DrawerItemClickListener implements ListView.OnItemClickListener {
 	    @Override
 	    public void onItemClick(AdapterView parent, View view, int position, long id) {
@@ -132,10 +140,10 @@ public class ActivityMap extends Activity {
 	        drawerLayout.closeDrawer(drawerList);
 	        
 	    	if(position == 0) {
-	    		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("Karlskrona"), 17.0f));
+	    		moveToKarlskrona();
 	    	}
 	    	else if(position == 1) {
-	    		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("Karlshamn"), 17.0f));
+	    		moveToKarlshamn();
 	    	}
 	    	else if(position == 2) {
 	    		MarkerOptions o = new MarkerOptions();
