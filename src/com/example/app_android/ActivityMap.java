@@ -2,17 +2,21 @@ package com.example.app_android;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class ActivityMap extends Activity {
@@ -63,7 +67,9 @@ public class ActivityMap extends Activity {
                 Toast.makeText(getApplicationContext(), "Unable to start Google Maps. Sorry! :(", Toast.LENGTH_LONG).show();
                 return false;
             }
+            map.setInfoWindowAdapter(new SnippetInfoWindowAdapter()); //Changes the way marker descriptions is presented. If this is not done; multi line descriptions cannot be used.
             addHouseMarkers();
+            
         }
         return true;
     }
@@ -87,28 +93,36 @@ public class ActivityMap extends Activity {
 		map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 	}
 	
-	private void addHouseMarkers() { //TODO add icons and descriptions to the markers
+	private void addHouseMarkers() { //TODO add icons to the markers
 		MarkerOptions options = new MarkerOptions();
+		options.title("");
 		
 		options.position(Cache.getMapCoordinate("HOUSE_A"));
+		options.snippet(Cache.getMapMarkerSnippet("HOUSE_A"));
 		map.addMarker(options);
 		
 		options.position(Cache.getMapCoordinate("HOUSE_B"));
+		options.snippet(Cache.getMapMarkerSnippet("HOUSE_B"));
 		map.addMarker(options);
 		
 		options.position(Cache.getMapCoordinate("HOUSE_C"));
+		options.snippet(Cache.getMapMarkerSnippet("HOUSE_C"));
 		map.addMarker(options);
 		
 		options.position(Cache.getMapCoordinate("HOUSE_D"));
+		options.snippet(Cache.getMapMarkerSnippet("HOUSE_D"));
 		map.addMarker(options);
 		
 		options.position(Cache.getMapCoordinate("HOUSE_G"));
+		options.snippet(Cache.getMapMarkerSnippet("HOUSE_G"));
 		map.addMarker(options);
 		
 		options.position(Cache.getMapCoordinate("HOUSE_H"));
+		options.snippet(Cache.getMapMarkerSnippet("HOUSE_H"));
 		map.addMarker(options);
 		
 		options.position(Cache.getMapCoordinate("HOUSE_J"));
+		options.snippet(Cache.getMapMarkerSnippet("HOUSE_J"));
 		map.addMarker(options);
 	}
 	
@@ -165,6 +179,7 @@ public class ActivityMap extends Activity {
 		    if(position == 0) {
 		    	moveToKarlskrona();
 		   	}
+
 		   	else if(position == 1) {
 		   		moveToKarlshamn();
 		   	}
@@ -177,5 +192,22 @@ public class ActivityMap extends Activity {
 		   		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("J1270"), 17.0f));
 		    }
 	    }
+	}
+	//Used to display HTML-based text as marker snippets
+	private class SnippetInfoWindowAdapter implements InfoWindowAdapter{	
+
+		@Override
+		public View getInfoContents(Marker marker) {
+            View view = getLayoutInflater().inflate(R.layout.item_marker_snippet, null);
+            TextView info = (TextView) view.findViewById(R.id.info);
+            info.setText(Html.fromHtml(marker.getSnippet()));
+            
+            return view;
+		}
+
+		@Override
+		public View getInfoWindow(Marker marker) {
+			return null;
+		}
 	}
 }
