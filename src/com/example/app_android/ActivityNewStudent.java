@@ -1,10 +1,12 @@
 package com.example.app_android;
 
+import com.example.app_android.FragmentNewStudent.InterfaceActivityMain;
+
 import android.app.Activity;
 
 import android.os.Bundle;
 
-public class ActivityNewStudent extends Activity {
+public class ActivityNewStudent extends Activity implements InterfaceActivityMain {
 	
 	private static final String TAG = "ActivityNewStudent";
 	

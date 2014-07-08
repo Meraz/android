@@ -45,7 +45,7 @@ public class AdapterCoursesHelper {
 		db.close();
 	}
 	
-	static class MyCoursesHelper extends SQLiteOpenHelper {
+	private static class MyCoursesHelper extends SQLiteOpenHelper {
 		private static final String DATABASE_NAME = "MyCourses";
 		private static final int DATABASE_VERSION = 1;
 		private static final String TABLE_NAME = "CourseCode";
@@ -54,14 +54,13 @@ public class AdapterCoursesHelper {
 		private static final String CREATE_TABLE = "CREATE TABLE "+TABLE_NAME+" ("+UID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+CCode+" VARCHAR(8));";
 		private static final String DROP_TABLE = "DROP TABLE IF EXISTS "+TABLE_NAME;
 
-		
 		public MyCoursesHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);		
 		}
 		
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			// TODO Auto-generated method stub
+			// TODO
 			try {
 			db.execSQL(CREATE_TABLE);
 			}
@@ -72,12 +71,12 @@ public class AdapterCoursesHelper {
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			// TODO Auto-generated method stub
+			// TODO
 			try {
 				db.execSQL(DROP_TABLE);
 				onCreate(db);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				// TODO
 				e.printStackTrace();
 			}
 		}

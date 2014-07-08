@@ -1,5 +1,6 @@
 package com.example.app_android;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -18,8 +19,14 @@ import android.widget.ListView;
 
 public class FragmentNewStudent extends ListFragment{
 	
+	// Interface for communication between fragment and activity
+	public interface InterfaceActivityMain {
+		
+	}
+	
 	private static final String TAG = "FragmentNewStudent";
 	private String mData;
+	private InterfaceActivityMain mActivity;
 		
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
@@ -39,6 +46,13 @@ public class FragmentNewStudent extends ListFragment{
 	@Override
 	public void onAttach(Activity activity) {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onAttach()");
+    	
+		try {
+			mActivity = (InterfaceActivityMain) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()+ " must implement InterfaceActivityMain");
+		}
+    	
 		super.onAttach(activity);
 	}
 
@@ -58,7 +72,12 @@ public class FragmentNewStudent extends ListFragment{
 	public void onActivityCreated(Bundle savedState) {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
-		mData = Cache.getNewStudentData();
+		//mData = Cache.getNewStudentData();
+		
+		mData = RESTFunctions.doGetRequest("http://bthapp.bthinnovation.se/?newstudent=5", "");
+
+		
+		
 		CreateMenu(mData);
 	}
 	
