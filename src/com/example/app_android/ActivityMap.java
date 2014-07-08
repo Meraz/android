@@ -3,7 +3,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -116,44 +115,38 @@ public class ActivityMap extends Activity {
 	
     @Override
 	protected void onDestroy() {
-    	if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onDestroy()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onPause() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onPause()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
 		super.onPause();
 	}
 
 	@Override
 	protected void onRestart() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onRestart()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
 		super.onRestart();
 	}
 
 	@Override
 	protected void onResume() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onResume()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
 		super.onResume();
 		initilizeMap();
 	}
 
 	@Override
 	protected void onStart() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onStart()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
 		super.onStart();
 	}
 
 	@Override
 	protected void onStop() {
-		if (verbose)
-    		Log.v(TAG, getClass().getSimpleName() + ":entered onStop()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
 	
@@ -171,10 +164,10 @@ public class ActivityMap extends Activity {
 		   	else if(position == 1) {
 		   		moveToKarlshamn();
 		   	}
-	    	else if(position == 2) {
+	    	else if(position == 2) { //TODO remove test code
 	    		MarkerOptions o = new MarkerOptions();
 		    	o.position(Cache.getMapCoordinate("J1270"));
-		   		o.title("J1270");
+		   		o.title("");
 		   		o.snippet("Här ligger J1270");
 		   		map.addMarker(o);
 		   		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("J1270"), 17.0f));
