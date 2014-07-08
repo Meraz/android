@@ -30,6 +30,8 @@ public class ActivityMain extends Activity {
     @Override
 	protected void onDestroy() {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
+    	Cache.serializeToFile();
+    	
 		super.onDestroy();
 	}
 

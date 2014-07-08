@@ -87,10 +87,9 @@ public class Cache {
 	
 	public static void setDefaultMapLocation(int newLocation) {
 		defaultMapLocation = newLocation;
-		serializeToFile();
 	}
 	
-	private static void serializeToFile() {
+	public static void serializeToFile() {
 		FileOutputStream fileOutStream;
 		ObjectOutputStream objectOutStream;
 		try {
