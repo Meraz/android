@@ -94,36 +94,24 @@ public class ActivityMap extends Activity {
 	}
 	
 	private void addHouseMarkers() { //TODO add icons to the markers
+		addHouseMarker("HOUSE_A");
+		addHouseMarker("HOUSE_B");
+		addHouseMarker("HOUSE_C");
+		addHouseMarker("HOUSE_D");
+		addHouseMarker("HOUSE_G");
+		addHouseMarker("HOUSE_H");
+		addHouseMarker("HOUSE_J");
+	}
+	
+	private void addHouseMarker(String house) {
 		MarkerOptions options = new MarkerOptions();
+		
 		options.title("");
+		options.position(Cache.getMapCoordinate(house));
+		options.snippet(Cache.getMapMarkerSnippet(house));
 		
-		options.position(Cache.getMapCoordinate("HOUSE_A"));
-		options.snippet(Cache.getMapMarkerSnippet("HOUSE_A"));
-		map.addMarker(options);
-		
-		options.position(Cache.getMapCoordinate("HOUSE_B"));
-		options.snippet(Cache.getMapMarkerSnippet("HOUSE_B"));
-		map.addMarker(options);
-		
-		options.position(Cache.getMapCoordinate("HOUSE_C"));
-		options.snippet(Cache.getMapMarkerSnippet("HOUSE_C"));
-		map.addMarker(options);
-		
-		options.position(Cache.getMapCoordinate("HOUSE_D"));
-		options.snippet(Cache.getMapMarkerSnippet("HOUSE_D"));
-		map.addMarker(options);
-		
-		options.position(Cache.getMapCoordinate("HOUSE_G"));
-		options.snippet(Cache.getMapMarkerSnippet("HOUSE_G"));
-		map.addMarker(options);
-		
-		options.position(Cache.getMapCoordinate("HOUSE_H"));
-		options.snippet(Cache.getMapMarkerSnippet("HOUSE_H"));
-		map.addMarker(options);
-		
-		options.position(Cache.getMapCoordinate("HOUSE_J"));
-		options.snippet(Cache.getMapMarkerSnippet("HOUSE_J"));
-		map.addMarker(options);
+		if(options.getPosition() != null)
+			map.addMarker(options);
 	}
 	
     @Override
