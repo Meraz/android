@@ -23,7 +23,6 @@ public class ActivityMap extends Activity {
 	private DrawerLayout drawerLayout;
 	private ListView drawerList;
 	private static final String TAG = "ActivityMap";
-	private final static boolean verbose = true;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {

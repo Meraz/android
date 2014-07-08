@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OptionalDataException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -29,9 +30,14 @@ import com.google.android.gms.maps.model.LatLng;
 
 //This class fetches data from the web and stores it locally for later use
 public class Cache {
+	private static Context appContext = null;
+	
+	//Cached data
 	private static HashMap<String, LatLng> googleMapCoordinates = new HashMap<String, LatLng>();
 	private static HashMap<String, String> fetchedDataStrings = new HashMap<String, String>(); //Contains all pure string data.
-	private static Context appContext = null;
+	
+	//Settings
+	private static int defaultMapLocation = -1;
 	
 	//Blocking instantiation
 	private Cache() {
@@ -40,8 +46,9 @@ public class Cache {
 	
 	public static void initialize(Context context) {
 		appContext = context; //Needed for later use in serialization methods
-		addMapHouseMarkerCoordinates();
-		//deSerializeFromFile();
+		deSerializeFromFile();
+		if(!googleMapCoordinates.containsKey("HOUSE_A"))
+			addMapHouseMarkerCoordinates();
 	}
 	
 	//Checks if the requested data is within the cache and return it if it is. Otherwise, fetch it from the web, cache it and return it.
@@ -74,6 +81,15 @@ public class Cache {
 		return fetchedDataStrings.get("newStudent");
 	}
 	
+	public static int getDefaultMapLocation() {
+		return defaultMapLocation;
+	}
+	
+	public static void setDefaultMapLocation(int newLocation) {
+		defaultMapLocation = newLocation;
+		serializeToFile();
+	}
+	
 	private static void serializeToFile() {
 		FileOutputStream fileOutStream;
 		ObjectOutputStream objectOutStream;
@@ -82,8 +98,8 @@ public class Cache {
 			objectOutStream = new ObjectOutputStream(fileOutStream);
 			
 			//Write more objects to the file here
-			serializeCoordinateMap(objectOutStream);
-			objectOutStream.writeObject(fetchedDataStrings);
+			serializeSettings(objectOutStream);
+			serializeWebResources(objectOutStream);
 			
 			objectOutStream.close();
 		} catch (FileNotFoundException e) {
@@ -93,15 +109,24 @@ public class Cache {
 		}
 	}
 	
-	@SuppressWarnings("unchecked") // TODO not sure if this is the best way of solving this.
+	private static void serializeWebResources(ObjectOutputStream outputStream) throws IOException {
+		serializeCoordinateMap(outputStream);
+		//outputStream.writeObject(fetchedDataStrings);
+	}
+	
+	private static void serializeSettings(ObjectOutputStream outputStream) throws IOException {
+		outputStream.writeInt(defaultMapLocation);
+	}
+	
+
 	private static void deSerializeFromFile() {
 		try {
 			FileInputStream fileInStream = appContext.openFileInput("Cache.binary");
 			ObjectInputStream objectInStream = new ObjectInputStream(fileInStream);
 			
 			//Read more objects from the file here (Make sure it is read in the same order it is written in serializeToFile())
-			deSerializeCoordinateMap(objectInStream);
-			fetchedDataStrings = (HashMap<String, String>)objectInStream.readObject();	
+			deSerializeSettings(objectInStream);
+			deSerializeWebResources(objectInStream);
 			
 			objectInStream.close();
 		} catch (FileNotFoundException e) {
@@ -112,6 +137,16 @@ public class Cache {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@SuppressWarnings("unchecked") // TODO not sure if this is the best way of solving this.
+	private static void deSerializeWebResources(ObjectInputStream inputStream) throws OptionalDataException, ClassNotFoundException, IOException {
+		deSerializeCoordinateMap(inputStream);
+		//fetchedDataStrings = (HashMap<String, String>)inputStream.readObject();	
+	}
+	
+	private static void deSerializeSettings(ObjectInputStream inputStream) throws IOException {
+		defaultMapLocation = inputStream.readInt();
 	}
 	
 	//Manually serializes the coordinate map

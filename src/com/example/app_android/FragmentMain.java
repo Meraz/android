@@ -44,7 +44,16 @@ public class FragmentMain extends ListFragment{
           break;
           
         case 4:
-          showDialog();
+        	int startLocation = Cache.getDefaultMapLocation();
+        	if(startLocation >= 0 && startLocation <= 1) {
+				intent = new Intent(getActivity().getApplicationContext(), ActivityMap.class);
+				intent.putExtra("entryID", 0);
+				intent.putExtra("startPositionID", startLocation);
+				intent.putExtra("room", "unknown");
+				startActivity(intent);
+        	}
+        	else
+        		showDialog(); //Starts the map activity with user input
           break;
           
         case 6:
