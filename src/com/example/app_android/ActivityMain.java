@@ -4,8 +4,9 @@ package com.example.app_android;
 import android.app.Activity;
 
 import android.os.Bundle;
+import com.example.app_android.services.ServiceHelper;
 
-public class ActivityMain extends Activity {
+public class ActivityMain extends Activity implements ServiceHelper.ActivityCallback {
 
 	private static final String TAG = "ActivityMain";
 
@@ -19,9 +20,11 @@ public class ActivityMain extends Activity {
     	super.onCreate(savedInstanceState);
     	Cache.initialize(getApplicationContext());
     	
+    	ServiceHelper.loginStudentportal(this, this, 5, "http://194.47.131.73/database-files-and-server-script/Script/serverResponse.php");
+    	
         // Sets the content specified in the file in res/layout/activity_main.xml
         // This also specifies which fragment to active
-        setContentView(R.layout.activity_main);       
+       // setContentView(R.layout.activity_main);       
     }
 
     @Override
@@ -58,5 +61,10 @@ public class ActivityMain extends Activity {
 	protected void onStop() {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
+	}
+
+	@Override
+	public void receiveResult(int i) {
+		System.out.println("TEEEEEEEEEEEEEEEEEST");		
 	}
 }
