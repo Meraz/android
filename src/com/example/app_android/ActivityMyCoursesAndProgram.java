@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.TimeZone;
+import java.util.concurrent.ExecutionException;
 
 import com.example.app_android.InterfaceListSelectionListener;
 import com.example.app_android.AdapterScheduleHelper.MyScheduleHelper;
@@ -34,13 +35,12 @@ import android.widget.Toast;
 public class ActivityMyCoursesAndProgram extends Activity implements InterfaceListSelectionListener {
 
 	private static final String TAG = "ActivityCoursesAndProgram";
-	public static String[] coursesAndProgramArray;
+	public static ArrayList<String> coursesAndProgramArray;
 	EditText courseCode;
 	AdapterCoursesHelper coursesHelper;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_mycoursesandprogram);
 		
@@ -102,11 +102,15 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 		}		
 	}
 	
-	public void exportSchedule(View view) {
+	public void exportSchedule(View view) throws InterruptedException, ExecutionException {
 		Logger.VerboseLog(TAG, "Exporting schedule to Google Calendar");
-		
-		FetchTimeEditDataTask dataFetchTask = new FetchTimeEditDataTask();
-		dataFetchTask.execute("https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=dv2544&type=root&startdate=20140101&enddate=20140620&p=0.m%2C2.w");
+		ArrayList<String> courseCodes = coursesHelper.readAllCourses();
+		for (int i = 0; i < courseCodes.size(); ++i) {
+			FetchTimeEditDataTask dataFetchTask = new FetchTimeEditDataTask();
+			dataFetchTask.execute("https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=" + courseCodes.get(i) +
+					"&type=root&startdate=20140101&enddate=20140620&p=0.m%2C2.w");
+			dataFetchTask.get();
+		}
 	}
 	
 	public void readCourses() {
@@ -119,21 +123,22 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 
 	@Override
 	public void onListSelection(int index) {
-		// TODO Auto-generated method stub
 	}
 	
 	private ArrayList<String[]> getTimeEditData(String stringURL) {
 		String inputLine;
 		ArrayList<String[]> lectures = new ArrayList<String[]>();
 		try {
+			//Connect and fetch data
 			URL url = new URL(stringURL);
 			HttpURLConnection urlCon = (HttpURLConnection)url.openConnection();
 			InputStream inStream = urlCon.getInputStream();
 			BufferedReader readBuff = new BufferedReader(new InputStreamReader(inStream));
 
+			//Save the data we are actually interested in and throw away the rest
 			int count = 0;
 			while((inputLine = readBuff.readLine()) != null) {
-				if(count > 6) {
+				if(count > 3) {
 					String[] tokens = inputLine.split(",");
 					String[] lecture =  parseTimeEditData(tokens);
 					lectures.add(lecture);
@@ -141,12 +146,11 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 				count++;
 			}			
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return lectures;
 	}
 	
@@ -160,32 +164,32 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 		
 		int index = 4;
 		
-		if(tokens[index].indexOf('"') == 1) { //Course
+		if(tokens[index].indexOf('"') == 1) { 	//Course
 			stringParts[4] = tokens[index++] + tokens[index++];
 		} else {
 			stringParts[4] = tokens[index++];
 		}
-		if(tokens[index].indexOf('"') == 1) {	//? TODO Check what this should contain
+		if(tokens[index].indexOf('"') == 1) {	//Group
 			stringParts[5] = tokens[index++] + tokens[index++];
 		} else {
 			stringParts[5] = tokens[index++];
 		}
-		if(tokens[index].indexOf('"') == 1) { //Room
+		if(tokens[index].indexOf('"') == 1) { 	//Room
 			stringParts[6] = tokens[index++] + tokens[index++];
 		} else {
 			stringParts[6] = tokens[index++];
 		}
-		if(tokens[index].indexOf('"') == 1) { //Booking person
+		if(tokens[index].indexOf('"') == 1) { 	//Booking person
 			stringParts[7] = tokens[index++] + tokens[index++];
 		} else {
 			stringParts[7] = tokens[index++];
 		}
-		if(tokens[index].indexOf('"') == 1) {	//Info
+		if(tokens[index].indexOf('"') == 1) {	//Purpose
 			stringParts[8] = tokens[index++] + tokens[index++];
 		} else {
 			stringParts[8] = tokens[index++];
 		}
-		if(tokens[index].indexOf('"') == 1) {	//Group
+		if(tokens[index].indexOf('"') == 1) {	//Extra info
 			stringParts[9] = tokens[index++] + tokens[index++];
 		} else {
 			stringParts[9] = tokens[index++];
@@ -204,7 +208,7 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 		String[] endDateParts 	= eventData[2].split("-");
 		String[] endTimeParts 	= eventData[3].split(":");
 		
-		Calendar beginTime = Calendar.getInstance();
+		Calendar beginTime = Calendar.getInstance();  //TODO Something is wrong with the epoch time. It pushes the events 1 months worth of milliseconds forward in time.
 		beginTime.set(Integer.parseInt(startDateParts[0]), Integer.parseInt(startDateParts[1]), Integer.parseInt(startDateParts[2]),
 				Integer.parseInt(startTimeParts[0]), Integer.parseInt(startTimeParts[1]));
 		startTimeMillis = beginTime.getTimeInMillis();
@@ -231,6 +235,9 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
                 cursor.moveToNext();
             }
         }
+		cursor.close();
+		
+		System.out.println("exporting event: " + eventData[0] + " " + eventData[1]+"(" + startTimeMillis + ")" +  " - " + eventData[3] + eventData[4] + eventData[8] + eventData[7] + eventData[6]);
 		
 		//Insert the event
 		ContentValues values = new ContentValues();
@@ -238,10 +245,13 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 		values.put(CalendarContract.Events.DTSTART, startTimeMillis);
 		values.put(CalendarContract.Events.DTEND, endTimeMillis);
 		values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
-		values.put(CalendarContract.Events.TITLE, eventData[4] + eventData[8] + eventData[7] + eventData[6]);
-		values.put(CalendarContract.Events.DESCRIPTION, "The storm troopers are coming and they are bringing cheese"); //TODO set relevant description
+		values.put(CalendarContract.Events.TITLE, eventData[4] + eventData[8] + eventData[6] + eventData[7]);
+		values.put(CalendarContract.Events.DESCRIPTION, "test");//eventData[9]);
 		values.put(CalendarContract.Events.CALENDAR_ID, calendarIDs[1]);
-		contentResolver.insert(CalendarContract.Events.CONTENT_URI, values);
+		Uri uri2 = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values);
+		
+		String eventID = uri2.getLastPathSegment();
+		System.out.println(eventID);
 	}
 	
 	private class FetchTimeEditDataTask extends AsyncTask<String, Void, Void> {
@@ -254,5 +264,4 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 			return null;
 		}
 	}
-	
 }
