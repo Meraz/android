@@ -47,9 +47,7 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 		courseCode = (EditText) findViewById(R.id.courseCode);
 		coursesHelper = new AdapterCoursesHelper(this);
 		coursesAndProgramArray = coursesHelper.readAllCourses();
-		
-		FetchTimeEditDataTask dataFetchTask = new FetchTimeEditDataTask();
-		dataFetchTask.execute("https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=dv2544&type=root&startdate=20140101&enddate=20140620&p=0.m%2C2.w");
+
     	//Intent intent = new Intent(this, ServiceSchemaUpdate.class);
     	//intent.putExtra("URL", "https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=dv2544&type=root&startdate=20140101&enddate=20140620&p=0.m%2C2.w");
     	//startService(intent);
@@ -106,6 +104,9 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 	
 	public void exportSchedule(View view) {
 		Logger.VerboseLog(TAG, "Exporting schedule to Google Calendar");
+		
+		FetchTimeEditDataTask dataFetchTask = new FetchTimeEditDataTask();
+		dataFetchTask.execute("https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=dv2544&type=root&startdate=20140101&enddate=20140620&p=0.m%2C2.w");
 	}
 	
 	public void readCourses() {
