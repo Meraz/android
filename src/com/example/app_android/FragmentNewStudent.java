@@ -29,8 +29,8 @@ public class FragmentNewStudent extends ListFragment{
     // Listener to handle interaction on the list 
     private void onListSelection(int index) {    		
     	//Create new activity
-		Intent intent = new Intent(getActivity().getApplicationContext(), ActivityNewStudentContent.class);
-		intent.putExtra("id", index);
+		Intent intent = new Intent(getActivity().getApplicationContext(), ActivityResidence.class);
+		//intent.putExtra("id", index);
 		startActivity(intent);	
 	}
 
