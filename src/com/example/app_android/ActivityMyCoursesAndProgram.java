@@ -9,15 +9,15 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
-
 import com.example.app_android.InterfaceListSelectionListener;
 import com.example.app_android.AdapterScheduleHelper.MyScheduleHelper;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -102,14 +102,21 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 		}		
 	}
 	
+	@SuppressLint("SimpleDateFormat")
 	public void exportSchedule(View view) throws InterruptedException, ExecutionException {
 		Logger.VerboseLog(TAG, "Exporting schedule to Google Calendar");
 		ArrayList<String> courseCodes = coursesHelper.readAllCourses();
 		ArrayList<String> requests = new ArrayList<String>();
 		
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		String startDate = dateFormat.format(calendar.getTime());
+		calendar.add(Calendar.MONTH, 6);
+		String endDate = dateFormat.format(calendar.getTime());
+		
 		for(int i = 0; i < courseCodes.size(); ++i) {
 			requests.add("https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=" + courseCodes.get(i) +
-					"&type=root&startdate=20140101&enddate=20140620&p=0.m%2C2.w");
+					"&type=root&startdate=" + startDate + "&enddate=" + endDate + "&p=0.m%2C2.w");
 		}
 			ExportToGCalFromTimeEditTask exportTask = new ExportToGCalFromTimeEditTask();
 			exportTask.execute(requests);
@@ -313,6 +320,9 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 		 protected void onPostExecute(Integer scheduleEventCount) {
 			 if(scheduleEventCount > 0) {
 				 Toast.makeText(getApplicationContext(), scheduleEventCount + " events added to calendar", Toast.LENGTH_SHORT).show();
+			 }
+			 else if(scheduleEventCount == 0) {
+				 Toast.makeText(getApplicationContext(), "No events found for the next six months", Toast.LENGTH_SHORT).show();
 			 }
 			 else {
 				 Toast.makeText(getApplicationContext(), "Failed to export - No Google calendar found", Toast.LENGTH_SHORT).show();
