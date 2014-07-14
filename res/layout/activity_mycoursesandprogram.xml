@@ -24,7 +24,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_toLeftOf="@id/addButton"
 	        android:ems="10" >
-	w
+	
 	        <requestFocus />
 	    </EditText>
 	    

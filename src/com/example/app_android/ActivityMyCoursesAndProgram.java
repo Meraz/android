@@ -105,12 +105,14 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 	public void exportSchedule(View view) throws InterruptedException, ExecutionException {
 		Logger.VerboseLog(TAG, "Exporting schedule to Google Calendar");
 		ArrayList<String> courseCodes = coursesHelper.readAllCourses();
-		for (int i = 0; i < courseCodes.size(); ++i) {
-			FetchTimeEditDataTask dataFetchTask = new FetchTimeEditDataTask();
-			dataFetchTask.execute("https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=" + courseCodes.get(i) +
+		ArrayList<String> requests = new ArrayList<String>();
+		
+		for(int i = 0; i < courseCodes.size(); ++i) {
+			requests.add("https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=" + courseCodes.get(i) +
 					"&type=root&startdate=20140101&enddate=20140620&p=0.m%2C2.w");
-			dataFetchTask.get();
 		}
+			ExportToGCalFromTimeEditTask exportTask = new ExportToGCalFromTimeEditTask();
+			exportTask.execute(requests);
 	}
 	
 	public void readCourses() {
@@ -138,7 +140,7 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 			//Save the data we are actually interested in and throw away the rest
 			int count = 0;
 			while((inputLine = readBuff.readLine()) != null) {
-				if(count > 3) {
+				if(count > 3) {	//The three first rows are not schedule entries
 					String[] tokens = inputLine.split(",");
 					String[] lecture =  parseTimeEditData(tokens);
 					lectures.add(lecture);
@@ -197,26 +199,56 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 		return stringParts;
 	}
 	
-	private void exportScheduleEvent(String[] eventData) {
-		int[] calendarIDs = null;
+	private void exportScheduleEvent(String[] eventData, int calendarID) {
 		long startTimeMillis = 0;
 		long endTimeMillis = 0;
 		
-		//Get start and end time in milliseconds
+		
+		//Prepare the time strings for conversion
 		String[] startDateParts = eventData[0].split("-");
 		String[] startTimeParts = eventData[1].split(":");
 		String[] endDateParts 	= eventData[2].split("-");
 		String[] endTimeParts 	= eventData[3].split(":");
 		
+		//Java.Util.Calendar uses 0 as January while TimeEdit uses 1 as January. This code fixes this.
+		int startMonth = Integer.parseInt(startDateParts[1]) - 1;
+		int endMonth = Integer.parseInt(endDateParts[1]) - 1;
+		
+		//Get start and end time in milliseconds
 		Calendar beginTime = Calendar.getInstance();  //TODO Something is wrong with the epoch time. It pushes the events 1 months worth of milliseconds forward in time.
-		beginTime.set(Integer.parseInt(startDateParts[0]), Integer.parseInt(startDateParts[1]), Integer.parseInt(startDateParts[2]),
+		beginTime.set(Integer.parseInt(startDateParts[0]), startMonth, Integer.parseInt(startDateParts[2]),
 				Integer.parseInt(startTimeParts[0]), Integer.parseInt(startTimeParts[1]));
 		startTimeMillis = beginTime.getTimeInMillis();
 		
 		Calendar endTime = Calendar.getInstance();
-		endTime.set(Integer.parseInt(endDateParts[0]), Integer.parseInt(endDateParts[1]), Integer.parseInt(endDateParts[2]),
+		endTime.set(Integer.parseInt(endDateParts[0]), endMonth, Integer.parseInt(endDateParts[2]),
 				Integer.parseInt(endTimeParts[0]), Integer.parseInt(endTimeParts[1]));
 		endTimeMillis  = endTime.getTimeInMillis();
+		
+	
+		
+		//Prepare the event for insertion
+		ContentValues values = new ContentValues();
+		TimeZone timeZone = TimeZone.getDefault();
+		values.put(CalendarContract.Events.DTSTART, startTimeMillis);
+		values.put(CalendarContract.Events.DTEND, endTimeMillis);
+		values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
+		values.put(CalendarContract.Events.TITLE, eventData[4] + eventData[8] + eventData[6] + eventData[7]);
+		values.put(CalendarContract.Events.DESCRIPTION, eventData[9]);
+		values.put(CalendarContract.Events.CALENDAR_ID, calendarID);
+		
+		//Insert the event
+		ContentResolver contentResolver = getContentResolver();
+		contentResolver.insert(CalendarContract.Events.CONTENT_URI, values);
+		
+		//In case we want to save this somewhere we can get an uri from ContentResolver.insert and run this row to get an eventID
+		//String eventID = uri.getLastPathSegment();
+	}
+	
+	private int findCalendarID() {
+		int returnCalendarID = -1;
+		int[] calendarIDs = null;
+		String[] calendarNames = null;
 		
 		//Get the calendar ID
 		ContentResolver contentResolver = getContentResolver();
@@ -228,40 +260,63 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 		       CalendarContract.Calendars.CALENDAR_COLOR
 		};
 		Cursor cursor = contentResolver.query(Uri.parse("content://com.android.calendar/calendars"), projection, null, null, null);
-		if (cursor.moveToFirst()) {
-			calendarIDs = new int[cursor.getCount()];
-            for (int i = 0; i < calendarIDs.length; i++) {
-            	calendarIDs[i] = cursor.getInt(0);
-                cursor.moveToNext();
-            }
-        }
-		cursor.close();
-		
-		System.out.println("exporting event: " + eventData[0] + " " + eventData[1]+"(" + startTimeMillis + ")" +  " - " + eventData[3] + eventData[4] + eventData[8] + eventData[7] + eventData[6]);
-		
-		//Insert the event
-		ContentValues values = new ContentValues();
-		TimeZone timeZone = TimeZone.getDefault();
-		values.put(CalendarContract.Events.DTSTART, startTimeMillis);
-		values.put(CalendarContract.Events.DTEND, endTimeMillis);
-		values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
-		values.put(CalendarContract.Events.TITLE, eventData[4] + eventData[8] + eventData[6] + eventData[7]);
-		values.put(CalendarContract.Events.DESCRIPTION, "test");//eventData[9]);
-		values.put(CalendarContract.Events.CALENDAR_ID, calendarIDs[1]);
-		Uri uri2 = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values);
-		
-		String eventID = uri2.getLastPathSegment();
-		System.out.println(eventID);
+			if (cursor.moveToFirst()) {	//If there are any calendars at all
+				int calendarCount = cursor.getCount();
+				calendarIDs = new int[calendarCount];
+				calendarNames = new String[calendarCount];
+				for (int i = 0; i < calendarIDs.length; i++) {
+					calendarIDs[i] = cursor.getInt(0);
+					calendarNames[i] = cursor.getString(1);
+					cursor.moveToNext();
+				}
+				cursor.close();
+				
+				//See if any of the found calendars is a Google calendar
+				for(int i = 0; i < calendarCount; ++i) {
+					if(calendarNames[i].contains("@gmail.com")) {
+						returnCalendarID = calendarIDs[i];
+						break;
+					}
+				}
+			}
+			return returnCalendarID;
 	}
 	
-	private class FetchTimeEditDataTask extends AsyncTask<String, Void, Void> {
-		@Override
-		protected Void doInBackground(String... params) {
-			ArrayList<String[]> lectureList = getTimeEditData(params[0]);
-			for(int i = 0; i < lectureList.size(); ++i) {
-				exportScheduleEvent(lectureList.get(i));
-			}
-			return null;
-		}
-	}
+	 private class ExportToGCalFromTimeEditTask extends AsyncTask<ArrayList<String>, Void, Integer> {
+		 
+		 @Override
+	     protected Integer doInBackground(ArrayList<String>... requests) {
+	    	 int scheduleEventCount = 0;
+				int calendarID = findCalendarID();
+				if(calendarID != -1) // -1 indicates that no Google account is linked to this device
+				{
+					//Export all courses
+					for(int i = 0; i < requests[0].size(); ++i) {
+						ArrayList<String[]> lectureList = getTimeEditData(requests[0].get(i));
+						int courseEventCount = lectureList.size();
+						scheduleEventCount += courseEventCount;
+						
+						//Export all events for a given course
+						for(int j = 0; j < courseEventCount; ++j) {
+							exportScheduleEvent(lectureList.get(j), calendarID); 
+						}
+					}
+				}
+				else {
+					return -1;
+				}
+				
+				return scheduleEventCount;
+	     }
+		 
+		 @Override
+		 protected void onPostExecute(Integer scheduleEventCount) {
+			 if(scheduleEventCount > 0) {
+				 Toast.makeText(getApplicationContext(), scheduleEventCount + " events added to calendar", Toast.LENGTH_SHORT).show();
+			 }
+			 else {
+				 Toast.makeText(getApplicationContext(), "Failed to export - No Google calendar found", Toast.LENGTH_SHORT).show();
+			 }
+		 }
+	 }
 }
