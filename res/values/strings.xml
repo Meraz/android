@@ -12,7 +12,7 @@
         <item >På Campus</item>
         <item >Karta över Campus</item>
         <item >BTH Kontakter</item>
-	<item >Blekinge Studentkår</item>
+	      <item >Blekinge Studentkår</item>
     </string-array>
 
     <string-array name="new_student_menu" >
