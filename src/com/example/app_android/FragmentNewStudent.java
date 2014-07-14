@@ -70,6 +70,7 @@ public class FragmentNewStudent extends ListFragment{
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
 				
+		// Get and set menu
 		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_main, mMenu));
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 	}
