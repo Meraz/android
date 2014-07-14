@@ -4,7 +4,7 @@
     <string name="app_name">app-android</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-	
+
     <string-array name="main_page_list" >
         <item >Ny Student</item>
         <item >Mitt Schema</item>
@@ -14,16 +14,26 @@
         <item >BTH Kontakter</item>
 	<item >Blekinge Studentkår</item>
     </string-array>
-    
+
+    <string-array name="new_student_menu" >
+        <item >Boende</item>
+        <item >Registrera program/kurser</item>
+        <item >Kartor över campus</item>
+        <item >Studentkoaren</item>
+        <item >Kursmaterial</item>
+        <item >Bra att veta / videor</item>
+	<item >Blekinge Studentkår</item>
+    </string-array>
+
     <string-array name="cities_dialog" >
         <item >Campus Karlskrona</item>
         <item >Campus Karlshamn</item>
     </string-array>
-    
+
     <string-array name="map_drawer_items">
         <item>Campus Karlskrona</item>
         <item>Campus Karlshamn</item>
         <item>J1270</item>
     </string-array>
-    
+
 </resources>
