@@ -18,9 +18,6 @@ public class ActivityMain extends Activity {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
     	super.onCreate(savedInstanceState);
     	Cache.initialize(getApplicationContext());
-    	Intent intent = new Intent(this, ServiceSchemaUpdate.class);
-    	intent.putExtra("URL", "https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=dv2544&type=root&startdate=20140101&enddate=20140620&p=0.m%2C2.w");
-    	startService(intent);
     	
         // Sets the content specified in the file in res/layout/activity_main.xml
         // This also specifies which fragment to active

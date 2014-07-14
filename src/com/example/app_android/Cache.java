@@ -47,7 +47,7 @@ public class Cache {
 	public static void initialize(Context context) {
 		appContext = context; //Needed for later use in serialization methods
 		deSerializeFromFile();
-		if(!googleMapCoordinates.containsKey("HOUSE_A"))
+		if(!googleMapCoordinates.containsKey("HOUSE_A"))	//If it doesn't contain this key it probably doesn't contain the other house marker keys either.
 			addMapHouseMarkerCoordinates();
 	}
 	
