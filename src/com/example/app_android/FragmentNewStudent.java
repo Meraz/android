@@ -1,11 +1,5 @@
 package com.example.app_android;
 
-import java.util.ArrayList;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Intent;
@@ -23,7 +17,6 @@ public class FragmentNewStudent extends ListFragment{
 	}
 	
 	private static final String TAG = "FragmentNewStudent";
-	private String mData;
 	private String[] mMenu;
 	private NewStudentListener mActivity;
 		
@@ -34,10 +27,9 @@ public class FragmentNewStudent extends ListFragment{
 	}
 	
     // Listener to handle interaction on the list 
-    public void onListSelection(int index) {    		
+    private void onListSelection(int index) {    		
     	//Create new activity
 		Intent intent = new Intent(getActivity().getApplicationContext(), ActivityNewStudentContent.class);
-		intent.putExtra("res", mData);
 		intent.putExtra("id", index);
 		startActivity(intent);	
 	}
@@ -77,37 +69,11 @@ public class FragmentNewStudent extends ListFragment{
 	public void onActivityCreated(Bundle savedState) {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
-		mData = Cache.getNewStudentData();
-		CreateMenu(mData);
+				
+		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_main, mMenu));
+		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 	}
 	
-	private void CreateMenu(String dataString)
-	{
-		// As name says, final result from this parsing
-		ArrayList<String> finalResult = new ArrayList<String>();
-		
-		// Parse json string for "header" TAGS
-		try {
-			JSONArray jsonArray = new JSONArray(dataString); // Create an json array from data fetched from server
-			JSONObject jsonObject = null; 
-			for (int i = 0; i < jsonArray.length(); i++) {
-				// Get a single object in the jsonArray
-				jsonObject = jsonArray.getJSONObject(i);
-				
-				// put all entries with "header" tag in a array as we do not know how many there is.
-				finalResult.add(jsonObject.getString("header")); 
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}					
-		// Create string array, from parsed data, that is to represent the menu
-		String[] lmenuArray = (String[]) finalResult.toArray(new String[finalResult.size()]);			
-		
-		// Set menu
-		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_main, lmenuArray));
-		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);	
-	}
-
 	@Override
 	public void onStart() {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
