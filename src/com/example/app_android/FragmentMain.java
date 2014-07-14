@@ -99,7 +99,7 @@ public class FragmentMain extends ListFragment{
         mMainMenu = getResources().getStringArray(R.array.main_page_list);
 
 		try {
-			//mListener = (InterfaceListSelectionListener) activity;
+			//mListener = (InterfaceListSelectionListener) activity; // TODO
 		} 
 		catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString() + " must implement OnArticleSelectedListener");

@@ -1,12 +1,12 @@
 package com.example.app_android;
 
-import com.example.app_android.FragmentNewStudent.NewStudentListener;
+import com.example.app_android.FragmentResidence.ResidenceListener;
 
 import android.app.Activity;
 
 import android.os.Bundle;
 
-public class ActivityNewStudent extends Activity implements NewStudentListener {
+public class ActivityResidence extends Activity implements ResidenceListener {
 	
 	private static final String TAG = "ActivityNewStudent";
 	
@@ -15,7 +15,7 @@ public class ActivityNewStudent extends Activity implements NewStudentListener {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.activity_newstudent);        
+        setContentView(R.layout.activity_residence);        
     }    
 
     @Override

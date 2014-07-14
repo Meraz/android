@@ -1,51 +1,46 @@
 package com.example.app_android;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
-public class FragmentNewStudent extends ListFragment{
+public class FragmentResidence extends Fragment{
 
-	public interface NewStudentListener {
+	public interface ResidenceListener {
 			
-	}
-	
-	private static final String TAG = "FragmentNewStudent";
-	private String[] mMenu;
-	private NewStudentListener mActivity;
-		
-	@Override
-	public void onListItemClick(ListView l, View v, int pos, long id) {
-		getListView().setItemChecked(pos, true);
-		onListSelection(pos);
-	}
-	
-    // Listener to handle interaction on the list 
-    private void onListSelection(int index) {    		
-    	//Create new activity
-		Intent intent = new Intent(getActivity().getApplicationContext(), ActivityResidence.class);
-		//intent.putExtra("id", index);
-		startActivity(intent);	
-	}
+	}	
+	private static final String TAG = "FragmentResidence";
+	private String mData;
+	private ResidenceListener mActivity;
 
 	@Override
 	public void onAttach(Activity activity) {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onAttach()");
-		super.onAttach(activity);
-    
-		// Get resources from stored string array
-    	// This can be found in /res/values/strings.xml
-        mMenu = getResources().getStringArray(R.array.new_student_menu);        
+		super.onAttach(activity); 
+		
+		mData = "Karlskronahem AB \n Karlskronahem har det största antalet lägenheter i Karlskrona. " +
+				"Företaget ägs av Karlskrona kommun och förvaltar cirka 3.900 hyreslägenheter." +
+				"www.karlskronahem.se" +
+				"\n\n Blekinge Bostadsportal" +
+				"Bostadsportalen är till för dig som är student vid Blekinge Tekniska Högskola. " +
+				"Här kan du hitta generell information om vad som gäller när du ska söka bostad i Blekinge." +
+				"www.bostad.bthstudent.se" +
+				"\n\n Krebo" +
+				"Krebo bygger bostadsområden som ska ge trygghet, känsla av tillhörighet och underlätta för god gemenskap." +
+				"Krebo har en huvudinriktning på studentbostäder. www.krebo.se" +
+				"\n \n Heimstaden" + 
+				"Heimstaden har ett 10-tal hyresfastigheter i Karlskrona. www.heimstaden.com";
         
         // Try to cast activity to the listener interface
 		try {
-			mActivity = (NewStudentListener) activity;
+			mActivity = (ResidenceListener) activity;
 		} 
 		// Throw an exception if failed
 		catch (ClassCastException e) {
@@ -62,17 +57,18 @@ public class FragmentNewStudent extends ListFragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreateView()");
-		return super.onCreateView(inflater, container, savedInstanceState);
+    	
+		View view = inflater.inflate(R.layout.item_newstudent, container, false);
+		return view;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedState) {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
-				
-		// Get and set menu
-		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_main, mMenu));
-		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		
+		TextView view = (TextView) getActivity().findViewById(R.id.detailsText);
+		view.setText(mData);
 	}
 	
 	@Override
