@@ -17,9 +17,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class FragmentNewStudent extends ListFragment{
+
+	public interface NewStudentListener {
+			
+	}
 	
 	private static final String TAG = "FragmentNewStudent";
 	private String mData;
+	private String[] mMenu;
+	private NewStudentListener mActivity;
 		
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
@@ -40,6 +46,19 @@ public class FragmentNewStudent extends ListFragment{
 	public void onAttach(Activity activity) {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onAttach()");
 		super.onAttach(activity);
+    
+		// Get resources from stored string array
+    	// This can be found in /res/values/strings.xml
+        mMenu = getResources().getStringArray(R.array.new_student_menu);        
+        
+        // Try to cast activity to the listener interface
+		try {
+			mActivity = (NewStudentListener) activity;
+		} 
+		// Throw an exception if failed
+		catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString() + " must implement listener interface defined in " + getClass().getSimpleName());
+		}		
 	}
 
 	@Override

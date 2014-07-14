@@ -1,10 +1,12 @@
 package com.example.app_android;
 
+import com.example.app_android.FragmentNewStudent.NewStudentListener;
+
 import android.app.Activity;
 
 import android.os.Bundle;
 
-public class ActivityNewStudent extends Activity {
+public class ActivityNewStudent extends Activity implements NewStudentListener {
 	
 	private static final String TAG = "ActivityNewStudent";
 	
