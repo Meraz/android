@@ -5,13 +5,16 @@ import android.app.Fragment;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class FragmentResidence extends Fragment{
+public class FragmentResidence extends Fragment {
 
 	public interface ResidenceListener {
 			
@@ -25,20 +28,23 @@ public class FragmentResidence extends Fragment{
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onAttach()");
 		super.onAttach(activity); 
 		
-		mData = "Karlskronahem AB \n Karlskronahem har det största antalet lägenheter i Karlskrona. " +
+		mData = "DYNAMISK DATA\n"+
+				"Karlskronahem AB \n Karlskronahem har det största antalet lägenheter i Karlskrona. " +
 				"Företaget ägs av Karlskrona kommun och förvaltar cirka 3.900 hyreslägenheter." +
-				"www.karlskronahem.se" +
-				"\n\n Blekinge Bostadsportal" +
+				"\nwww.karlskronahem.se" +
+				"\n\nBlekinge Bostadsportal" +
 				"Bostadsportalen är till för dig som är student vid Blekinge Tekniska Högskola. " +
 				"Här kan du hitta generell information om vad som gäller när du ska söka bostad i Blekinge." +
-				"www.bostad.bthstudent.se" +
-				"\n\n Krebo" +
+				"\nwww.bostad.bthstudent.se" +
+				"\n\nKrebo" +
 				"Krebo bygger bostadsområden som ska ge trygghet, känsla av tillhörighet och underlätta för god gemenskap." +
 				"Krebo har en huvudinriktning på studentbostäder. www.krebo.se" +
-				"\n \n Heimstaden" + 
-				"Heimstaden har ett 10-tal hyresfastigheter i Karlskrona. www.heimstaden.com";
-        
-        // Try to cast activity to the listener interface
+				"\n\nHeimstaden" + 
+				"Heimstaden har ett 10-tal hyresfastigheter i Karlskrona. " +
+				"\nwww.heimstaden.com";
+			for(int i = 0; i < 50; i++)
+				mData += "MER TEXT\n";
+        // Try to cast activitimplements OnTouchListenery to the listener interface
 		try {
 			mActivity = (ResidenceListener) activity;
 		} 
@@ -67,8 +73,12 @@ public class FragmentResidence extends Fragment{
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
 		
-		TextView view = (TextView) getActivity().findViewById(R.id.detailsText);
-		view.setText(mData);
+		TextView textView2 = (TextView) getActivity().findViewById(R.id.detailsText2);
+		textView2.setText("STATISK DATA\nAlla studenter måste ansöka om bostad på egen hand. Se till att du söker bostad så snart du kan."+
+    "Har du frågor kring detta ska du kontakta Studentkåren\n" + "bthstudent.se");
+		
+		TextView textView = (TextView) getActivity().findViewById(R.id.detailsText);
+		textView.setText(mData);
 	}
 	
 	@Override
