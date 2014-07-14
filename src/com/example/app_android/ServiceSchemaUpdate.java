@@ -26,7 +26,7 @@ public class ServiceSchemaUpdate extends IntentService {
 		// TODO Auto-generated method stub
 		mMySchemaHelper = new AdapterScheduleHelper(getApplicationContext());
 		mMySchemaHelper.resetData();
-		//String inputLine;
+		String inputLine;
 		String urlString = intent.getStringExtra("URL");
 		try {
 			URL url = new URL(urlString);
@@ -34,16 +34,14 @@ public class ServiceSchemaUpdate extends IntentService {
 			InputStream inStream = urlCon.getInputStream();
 			BufferedReader readBuff = new BufferedReader(new InputStreamReader(inStream));
 			//DEBUG CODE
-			//int count = 0;
-			//Print all result in log
-			//while((inputLine = readBuff.readLine()) != null) {
-				//System.out.println(inputLine);
-				//if(count > 6) {
-				//	String[] tokens = inputLine.split(",");
-				//	long id = mMySchemaHelper.insertData(tokens);
-				//}
-				//count++;
-			//}			
+			int count = 0;
+			while((inputLine = readBuff.readLine()) != null) {
+				if(count > 6) {
+					String[] tokens = inputLine.split(",");
+					long id = mMySchemaHelper.insertData(tokens);
+				}
+				count++;
+			}			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -12,22 +12,23 @@ public class DialogChooseCity extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {		
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle("Välj Startposition");
+		builder.setTitle(R.string.choose_city_dialog);
 		builder.setItems(
 				R.array.cities_dialog, new DialogInterface.OnClickListener() {			
 					@Override
 					public void onClick(DialogInterface dialog, int option) {
-						Intent intent = new Intent(getActivity().getApplicationContext(), ActivityMap.class);
 						assert option <= 0 && option >= 2;
-						if(option == 0 || option == 1) {
-							intent.putExtra("entryID", 0);
-							intent.putExtra("startPositionID", option);
-							intent.putExtra("room", "unknown");
-						}
+						Cache.setDefaultMapLocation(option); //Cache it so we don't have to ask again
+						
+						//Start the map activity
+						Intent intent = new Intent(getActivity().getApplicationContext(), ActivityMap.class);
+						intent.putExtra("entryID", 0);
+						intent.putExtra("startPositionID", option);
+						intent.putExtra("room", "unknown");
 						startActivity(intent);
 					}
 				});
 		Dialog dialog = builder.create();
-		return dialog;		
+		return dialog;
 	}	
 }
