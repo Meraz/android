@@ -28,7 +28,6 @@ public class ActivitySchedule extends FragmentActivity implements FragmentSchedu
 	protected void onCreate(Bundle savedInstanceState) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate");
 		super.onCreate(savedInstanceState);
-		//Fragment mScheduleFragment = new ScheduleDayFragment(); //TODO check what this would do here and uncomment/remove it
 		setContentView(R.layout.activity_schedule);
 		
 		//Get resources from stored string array

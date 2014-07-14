@@ -33,7 +33,7 @@ public class ServiceSchemaUpdate extends IntentService {
 			HttpURLConnection urlCon = (HttpURLConnection)url.openConnection();
 			InputStream inStream = urlCon.getInputStream();
 			BufferedReader readBuff = new BufferedReader(new InputStreamReader(inStream));
-			//DEBUG CODE
+
 			int count = 0;
 			while((inputLine = readBuff.readLine()) != null) {
 				if(count > 6) {

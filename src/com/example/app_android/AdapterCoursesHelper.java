@@ -24,7 +24,7 @@ public class AdapterCoursesHelper {
 		return id;
 	}
 	
-	public String[] readAllCourses() {
+	public ArrayList<String> readAllCourses() {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		String[] columns = {MyCoursesHelper.UID, MyCoursesHelper.CCode};		
 		Cursor cursor = db.query(MyCoursesHelper.TABLE_NAME, columns, null, null, null, null, null);
@@ -36,7 +36,7 @@ public class AdapterCoursesHelper {
 			courses.add(courseCode);
 		}
 		db.close();
-		return (String[]) courses.toArray(new String [courses.size()]);
+		return courses;
 	}
 	
 	public void removeCourse(String course) {

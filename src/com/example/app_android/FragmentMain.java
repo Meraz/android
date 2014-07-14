@@ -34,8 +34,10 @@ public class FragmentMain extends ListFragment{
           break;
 
         case 1:
-          intent = new Intent(getActivity().getApplicationContext(), ActivitySchedule.class);
-          startActivity(intent);
+        	//Start the calendar app
+        	Uri uri = Uri.parse("content://com.android.calendar/time");
+    		intent = new Intent("android.intent.action.VIEW", uri);		//TODO Check if there is a way to force google calendar to start in week view
+    		startActivity(intent);
           break;
 
         case 2:

@@ -11,30 +11,39 @@
         android:layout_alignParentBottom="true">
     		
 	    <Button
-	        android:id="@+id/button1"
+	        android:id="@+id/addButton"
 	        android:onClick="addCourse"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentRight="true"
 	        android:text="Add" />
 	
-	    	<EditText
+	   	<EditText
 	        android:id="@+id/courseCode"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_toLeftOf="@id/button1"
+	        android:layout_toLeftOf="@id/addButton"
 	        android:ems="10" >
 	
 	        <requestFocus />
 	    </EditText>
-    </RelativeLayout>
-    
-    <fragment
+	    
+	   <Button
+        android:id="@+id/exportButton"
+        android:onClick="exportSchedule"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/_container"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Export"/>
+	   
+	   <fragment
     	android:id="@+id/_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="?android:attr/actionBarSize"
         class="com.example.app_android.FragmentMyCourses" >
 	</fragment>
-    
+	    	
+    </RelativeLayout>
 </LinearLayout>
