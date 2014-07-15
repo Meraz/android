@@ -6,6 +6,7 @@ import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class ActivityMap extends Activity {
 	private GoogleMap map;
 	private DrawerLayout drawerLayout;
+	private LinearLayout drawerContent;
 	private ListView drawerList;
 	private static final String TAG = "ActivityMap";
 	
@@ -73,11 +75,12 @@ public class ActivityMap extends Activity {
     }
 	
 	private void initializeDrawer() {
-		String[] listItems = getResources().getStringArray(R.array.map_drawer_items);
+		String[] listItems = getResources().getStringArray(R.array.map_drawer_places);
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		drawerContent = (LinearLayout) findViewById(R.id.drawer_content);
 		drawerList = (ListView) findViewById(R.id.left_drawer);
 		
-		drawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.item_map_drawer, listItems));
+		drawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.item_map_drawer_textview    , listItems));
 		drawerList.setOnItemClickListener(new DrawerItemClickListener());
 	}
 	
@@ -153,8 +156,9 @@ public class ActivityMap extends Activity {
 	    @SuppressWarnings("rawtypes")
 		@Override
 	    public void onItemClick(AdapterView parent, View view, int position, long id) {
-	    	 drawerList.setItemChecked(position, true);
-		     drawerLayout.closeDrawer(drawerList);
+	    	assert position >= 0 && position <= 1; 
+	    	drawerList.setItemChecked(position, true);
+		    drawerLayout.closeDrawer(drawerContent);
 		        
 		    if(position == 0) {
 		    	moveToKarlskrona();
@@ -163,14 +167,6 @@ public class ActivityMap extends Activity {
 		   	else if(position == 1) {
 		   		moveToKarlshamn();
 		   	}
-	    	else if(position == 2) { //TODO remove test code
-	    		MarkerOptions o = new MarkerOptions();
-		    	o.position(Cache.getMapCoordinate("J1270"));
-		   		o.title("");
-		   		o.snippet("Här ligger J1270");
-		   		map.addMarker(o);
-		   		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("J1270"), 17.0f));
-		    }
 	    }
 	}
 	//Used to display HTML-based text as marker snippets
