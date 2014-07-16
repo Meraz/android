@@ -4,12 +4,13 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Html;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.HashMap;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,10 +22,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class ActivityMap extends Activity {
 	private GoogleMap map;
-	private DrawerLayout drawerLayout;
-	private LinearLayout drawerContent;
-	private ListView drawerList;
+	private HashMap<String, Marker> mapMarkers = new HashMap<String, Marker>();
 	private static final String TAG = "ActivityMap";
+	DrawerLayout 	drawerLayout 		= null;
+	RadioGroup 		campusRadioGroup 	= null;
+	RadioGroup 		viewRadioGroup 		= null;
+	EditText		searchField			= null;
+	Button			searchButton		= null;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +44,18 @@ public class ActivityMap extends Activity {
     	setContentView(R.layout.activity_maplayout_full);
     	
     	 if(initilizeMap()) {
+    		 initializeDrawer();
+    		 
     		 assert entryID >= 0 && entryID <= 1;
     		 if(entryID == 0) { 
     			 assert startPositionID >= 0 && startPositionID <= 2;
     			 if(startPositionID == 0) { //Karlskrona Selected
+    				 campusRadioGroup.check(R.id.radio_karlskrona);
     				 moveToKarlskrona();
+    				 
     			 } 
     			 else if (startPositionID == 1) { //Karlshamn Selected
+    				 campusRadioGroup.check(R.id.radio_karlshamn);
     				 moveToKarlshamn();
     			 }
     		 }
@@ -55,7 +64,6 @@ public class ActivityMap extends Activity {
          		map.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));
          		map.addMarker(new MarkerOptions().position(place).title(room));
     		 }
-    		 initializeDrawer();
     	 }
     }
 	
@@ -75,19 +83,27 @@ public class ActivityMap extends Activity {
     }
 	
 	private void initializeDrawer() {
-		String[] listItems = getResources().getStringArray(R.array.map_drawer_places);
-		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		drawerContent = (LinearLayout) findViewById(R.id.drawer_content);
+		drawerLayout 		= (DrawerLayout) findViewById(R.id.drawer_layout);
+		campusRadioGroup 	= (RadioGroup) findViewById(R.id.radio_group_campus);
+		viewRadioGroup 		= (RadioGroup) findViewById(R.id.radio_group_views);
+		searchField 		= (EditText) findViewById(R.id.search_field);
+		searchButton 		= (Button) findViewById(R.id.search_button);
 	}
 	
 	private void moveToKarlskrona() {
 		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("Karlskrona"), 17.0f));
-		map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+		if(map.getMapType() != GoogleMap.MAP_TYPE_NORMAL)  { //Only change if the normal map type is set. (The satellite and hybrid view of campus Karlskrona is outdated)
+			map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+			viewRadioGroup.check(R.id.radio_normal);
+		}
 	}
 	
 	private void moveToKarlshamn() {
 		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("Karlshamn"), 17.0f));
-		map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+		if(map.getMapType() == GoogleMap.MAP_TYPE_NORMAL) {//Only change if the normal map type is set. (Google Maps currently has no good data for that map type for the Karlshamn Campus area)
+			map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+			viewRadioGroup.check(R.id.radio_satellite);
+		}
 	}
 	
 	private void addHouseMarkers() { //TODO add icons to the markers
@@ -98,6 +114,7 @@ public class ActivityMap extends Activity {
 		addHouseMarker("HOUSE_G");
 		addHouseMarker("HOUSE_H");
 		addHouseMarker("HOUSE_J");
+		addHouseMarker("HOUSE_K");
 	}
 	
 	private void addHouseMarker(String house) {
@@ -108,7 +125,67 @@ public class ActivityMap extends Activity {
 		options.snippet(Cache.getMapMarkerSnippet(house));
 		
 		if(options.getPosition() != null)
-			map.addMarker(options);
+			mapMarkers.put(house, map.addMarker(options));
+	}
+	
+	public void onSearchButtonClicked(View view) {
+		searchField.clearFocus();
+		InputMethodManager imm = (InputMethodManager)getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
+		if(imm.isActive())
+			imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+		
+		String searchString = searchField.getText().toString();
+		if(!searchString.isEmpty()) {
+			searchString = searchString.toUpperCase();
+			LatLng markerCoordinates = Cache.getMapCoordinate(searchString);
+			if(markerCoordinates != null) {
+				if(!mapMarkers.containsKey("SearchMarker")) {
+					MarkerOptions markerOptions = new MarkerOptions();
+					markerOptions.position(markerCoordinates);
+					markerOptions.snippet(searchString);
+					mapMarkers.put("SearchMarker", map.addMarker(markerOptions));
+				}
+				else {
+					Marker marker = mapMarkers.get("SearchMarker");
+					marker.setPosition(markerCoordinates);
+					marker.setSnippet(searchString);
+				}
+				
+				//TODO - Add data to database regarding if the searched element is on campus Karlskrona och Karlshamn and switch map view accordingly
+				//TODO - Add a special search icon to this marker to make it easier to differentiate from the other markers
+				map.moveCamera( CameraUpdateFactory.newLatLngZoom(markerCoordinates, 17.0f));
+				drawerLayout.closeDrawers();
+				
+				Toast.makeText(getApplicationContext(), "Found it! :D", Toast.LENGTH_SHORT).show();
+			}
+			else
+				Toast.makeText(getApplicationContext(), "Nothing found :(", Toast.LENGTH_SHORT).show();
+		}
+		else {
+			searchField.requestFocus(); //TODO - Fix the annoying behavior of the soft keyboard. We want it to be closed at all times except when searchField has focus
+			Toast.makeText(getApplicationContext(), "The search field cannot be empty!", Toast.LENGTH_SHORT).show();;
+		}
+	}
+	
+	public void onRadioButtonClicked(View view) {
+		switch(view.getId()) {
+			case R.id.radio_karlskrona:
+				moveToKarlskrona();
+				break;
+			case R.id.radio_karlshamn:
+				moveToKarlshamn();
+				break;
+			case R.id.radio_normal:
+				map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+				break;
+			case R.id.radio_satellite:
+				map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+				break;
+			case R.id.radio_hybrid:
+				map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+				break;
+		}
+		drawerLayout.closeDrawers();
 	}
 	
     @Override
