@@ -76,8 +76,6 @@ public class FragmentNewStudent extends ListFragment{
 		
 		mData = RESTFunctions.doGetRequest("http://bthapp.bthinnovation.se/?newstudent=5", "");
 
-		
-		
 		CreateMenu(mData);
 	}
 	

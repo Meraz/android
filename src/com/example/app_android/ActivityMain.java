@@ -1,13 +1,22 @@
 package com.example.app_android;
 
-
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.widget.TextView;
+
+import com.example.app_android.FragmentMain.InterfaceActivityMain;
+import com.example.app_android.services.LoginStudentportal;
+import com.example.app_android.services.TestDatabase;
 import com.example.app_android.services.ServiceHelper;
+import com.example.app_android.util.MyBroadCastReceiver;;
 
-public class ActivityMain extends Activity implements ServiceHelper.ActivityCallback {
-
+public class ActivityMain extends Activity implements InterfaceActivityMain{
+	private TextView test;
 	private static final String TAG = "ActivityMain";
 
 	/*
@@ -19,12 +28,17 @@ public class ActivityMain extends Activity implements ServiceHelper.ActivityCall
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
     	super.onCreate(savedInstanceState);
     	Cache.initialize(getApplicationContext());
+    	ServiceHelper.initialize(getApplicationContext());
     	
-    	ServiceHelper.loginStudentportal(this, this, 5, "http://194.47.131.73/database-files-and-server-script/Script/serverResponse.php");
+    	//MyBroadCastReceiver b = new MyBroadCastReceiver("TEST1"); 
+    	//ServiceHelper.loginStudentportal(this, 5, "http://194.47.131.73/database-files-and-server-script/Script/serverResponse.php", b);
+    	//Intent i= new Intent(this, LoginStudentportal.class);
+    	//startService(i); 
     	
         // Sets the content specified in the file in res/layout/activity_main.xml
         // This also specifies which fragment to active
-       // setContentView(R.layout.activity_main);       
+        setContentView(R.layout.activity_main);       
+	
     }
 
     @Override
@@ -49,6 +63,9 @@ public class ActivityMain extends Activity implements ServiceHelper.ActivityCall
 	protected void onResume() {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
 		super.onResume();
+		
+    	test = (TextView) findViewById(R.id.textView1);
+    	test.setText(TestDatabase.getSomeData());    
 	}
 
 	@Override
@@ -63,8 +80,8 @@ public class ActivityMain extends Activity implements ServiceHelper.ActivityCall
 		super.onStop();
 	}
 
-	@Override
-	public void receiveResult(int i) {
-		System.out.println("TEEEEEEEEEEEEEEEEEST");		
+	public void aFunction()
+	{
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered aFunction()");
 	}
 }
