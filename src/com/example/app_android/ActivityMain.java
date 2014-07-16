@@ -20,7 +20,6 @@ public class ActivityMain extends Activity implements InterfaceActivityMain{
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
     	super.onCreate(savedInstanceState);
     	Cache.initialize(getApplicationContext());
-    	ServiceHelper.initialize(getApplicationContext());
     	
     	//MyBroadCastReceiver b = new MyBroadCastReceiver("TEST1"); 
     	//ServiceHelper.loginStudentportal(this, 5, "http://194.47.131.73/database-files-and-server-script/Script/serverResponse.php", b);
