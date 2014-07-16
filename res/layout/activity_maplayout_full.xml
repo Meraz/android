@@ -14,20 +14,40 @@
 
 <LinearLayout
     android:id="@+id/drawer_content"
-    android:layout_width="wrap_content"
+    android:layout_width="280dp"
     android:layout_height="fill_parent"
     android:layout_alignParentTop="true"
     android:layout_gravity="left"
+    android:background="#FFF"
     android:orientation="vertical" >
     
-    <EditText
-        android:id="@+id/search_field"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@drawable/item_textview_outline"
-        android:textColor="#000"
-        android:hint="Search" >
-    </EditText>
+    <LinearLayout 
+        android:id="@+id/search_content"
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal">
+    	<EditText
+        	android:id="@+id/search_field"
+       		android:layout_width="match_parent"
+        	android:layout_height="40dp"
+        	android:layout_weight="0.75"
+        	android:background="@drawable/item_textview_outline"
+        	android:textColor="#000"
+        	android:hint="Search" >
+    	</EditText>
+    	
+    	<Button 
+    	    android:id="@+id/search_button"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:layout_weight="0.25"
+    	    />
+    
+    </LinearLayout>
+    
+    <Space 
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"/>
     
     <TextView
     	android:id="@+id/places_label"
@@ -36,16 +56,59 @@
     	android:layout_height="wrap_content"
     	android:background="#FFF"
     	android:textColor="#33B5E5"
-    	android:text="Places"
+    	android:text="Campus"
     	android:textSize="15sp" />
     
-	<ListView android:id="@+id/left_drawer"
+	<RadioGroup
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <RadioButton android:id="@+id/radio_karlskrona"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:choiceMode="singleChoice"
-        android:dividerHeight="3dp"
-        android:background="#FFF"
-        android:textColor="#000"/>
+        android:layout_height="wrap_content"
+        android:text="Karlskrona"
+        android:onClick="onRadioButtonClicked"/>
+    <RadioButton android:id="@+id/radio_karlshamn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Karlshamn"
+        android:onClick="onRadioButtonClicked"/>
+	</RadioGroup>
+	
+	<Space 
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"/>
+	
+	<TextView
+    	android:id="@+id/controls_label"
+    	style="?android:attr/listSeparatorTextViewStyle"
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:background="#FFF"
+    	android:textColor="#33B5E5"
+    	android:text="Map View"
+    	android:textSize="15sp" />
+	
+	<RadioGroup
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <RadioButton android:id="@+id/radio_normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Normal"
+        android:onClick="onRadioButtonClicked"/>
+    <RadioButton android:id="@+id/radio_satellite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Satellite"
+        android:onClick="onRadioButtonClicked"/>
+    <RadioButton android:id="@+id/radio_hybrid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hybrid"
+        android:onClick="onRadioButtonClicked"/>
+	</RadioGroup>
+	
 </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

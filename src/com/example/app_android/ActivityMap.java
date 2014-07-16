@@ -78,10 +78,6 @@ public class ActivityMap extends Activity {
 		String[] listItems = getResources().getStringArray(R.array.map_drawer_places);
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawerContent = (LinearLayout) findViewById(R.id.drawer_content);
-		drawerList = (ListView) findViewById(R.id.left_drawer);
-		
-		drawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.item_map_drawer_textview    , listItems));
-		drawerList.setOnItemClickListener(new DrawerItemClickListener());
 	}
 	
 	private void moveToKarlskrona() {
@@ -152,23 +148,6 @@ public class ActivityMap extends Activity {
 		super.onStop();
 	}
 	
-	private class DrawerItemClickListener implements ListView.OnItemClickListener {
-	    @SuppressWarnings("rawtypes")
-		@Override
-	    public void onItemClick(AdapterView parent, View view, int position, long id) {
-	    	assert position >= 0 && position <= 1; 
-	    	drawerList.setItemChecked(position, true);
-		    drawerLayout.closeDrawer(drawerContent);
-		        
-		    if(position == 0) {
-		    	moveToKarlskrona();
-		   	}
-
-		   	else if(position == 1) {
-		   		moveToKarlshamn();
-		   	}
-	    }
-	}
 	//Used to display HTML-based text as marker snippets
 	private class SnippetInfoWindowAdapter implements InfoWindowAdapter{	
 
