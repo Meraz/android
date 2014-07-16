@@ -49,9 +49,10 @@
          <activity android:name="ActivitySchedule"></activity>
          <activity android:name="ActivityMyCoursesAndProgram"></activity>
          <activity android:name="ActivityStudentUnion"></activity>
-         <activity android:name="ActivityResidence"></activity>
+        
          
          <!-- NewStudent UI views -->   
+         <activity android:name="com.example.app_android.ui.newstudent.ActivityResidence"></activity>
          <activity android:name="com.example.app_android.ui.newstudent.ActivityCourseMaterial"></activity>
          <activity android:name="com.example.app_android.ui.newstudent.ActivityInformationBTH"></activity>
          <activity android:name="com.example.app_android.ui.newstudent.ActivityStudentCentre"></activity>
