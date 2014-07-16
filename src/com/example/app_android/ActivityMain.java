@@ -1,19 +1,11 @@
 package com.example.app_android;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-
 import android.os.Bundle;
-import android.os.Handler;
 import android.widget.TextView;
-
 import com.example.app_android.FragmentMain.InterfaceActivityMain;
-import com.example.app_android.services.LoginStudentportal;
 import com.example.app_android.services.TestDatabase;
 import com.example.app_android.services.ServiceHelper;
-import com.example.app_android.util.MyBroadCastReceiver;;
 
 public class ActivityMain extends Activity implements InterfaceActivityMain{
 	private TextView test;

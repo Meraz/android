@@ -1,6 +1,5 @@
 package com.example.app_android;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
