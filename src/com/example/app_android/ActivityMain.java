@@ -21,15 +21,9 @@ public class ActivityMain extends Activity implements InterfaceActivityMain{
     	super.onCreate(savedInstanceState);
     	Cache.initialize(getApplicationContext());
     	
-    	//MyBroadCastReceiver b = new MyBroadCastReceiver("TEST1"); 
-    	//ServiceHelper.loginStudentportal(this, 5, "http://194.47.131.73/database-files-and-server-script/Script/serverResponse.php", b);
-    	//Intent i= new Intent(this, LoginStudentportal.class);
-    	//startService(i); 
-    	
         // Sets the content specified in the file in res/layout/activity_main.xml
         // This also specifies which fragment to active
-        setContentView(R.layout.activity_main);       
-	
+        setContentView(R.layout.activity_main);     	
     }
 
     @Override

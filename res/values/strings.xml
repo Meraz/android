@@ -17,11 +17,12 @@
 
   <string-array name="new_student_menu" >
     <item >Boende</item>
-    <item >Registrera program/kurser</item>
-    <item >Kartor över campus</item>
-    <item >Studentkoaren</item>
+    <item >Studenportalen</item>
+    <item >StudentCentrum</item>
+    <item >Studentkauren</item>
     <item >Kursmaterial</item>
-    <item >Bra att veta / videor</item>
+    <item >Information BTH</item>
+    <item >Kartor över campus</item>
   </string-array>
 
   <string-array name="cities_dialog" >

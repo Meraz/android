@@ -12,20 +12,15 @@ import android.widget.ListView;
 
 public class FragmentNewStudent extends ListFragment{
 
+	// Interface for communication between fragment and activity
 	public interface NewStudentListener {
 			
-	}
-	
-	// Interface for communication between fragment and activity
-	public interface InterfaceActivityMain {
-		
 	}
 	
 	private static final String TAG = "FragmentNewStudent";
 	private String[] mMenu;
 	private NewStudentListener mActivity;
 
-		
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		getListView().setItemChecked(pos, true);
@@ -34,9 +29,9 @@ public class FragmentNewStudent extends ListFragment{
 	
     // Listener to handle interaction on the list 
     private void onListSelection(int index) {    		
-    	//Create new activity
+    	// Create new activity
 		Intent intent = new Intent(getActivity().getApplicationContext(), ActivityResidence.class);
-		//intent.putExtra("id", index);
+		intent.putExtra("id", index);
 		startActivity(intent);	
 	}
 
