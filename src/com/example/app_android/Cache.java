@@ -73,9 +73,9 @@ public class Cache {
 	
 	public static String getNewStudentData()
 	{
-		if(!fetchedDataStrings.containsKey("newStudent")) {
-			fetchNewString("newStudent");
-			
+		//if(!fetchedDataStrings.containsKey("newStudent")) // TODO
+		{
+			fetchNewStudentData("newStudent");			
 			// serializeToFile();		
 		}
 		return fetchedDataStrings.get("newStudent");
@@ -216,9 +216,11 @@ public class Cache {
 	}
 
 	// Fetch all data needed to generate menu and more detailed view for new students
-	private static void fetchNewString(String key)
+	private static void fetchNewStudentData(String key)
 	{
-		final String adress = "http://194.47.131.73/database-files-and-server-script/Script/newstudent.php";
+		//http://bthapp.bthinnovation.se/?newstudent
+		final String adress = "http://bthapp.bthinnovation.se/JsonEditor/?newstudent=5";
+			
 		String fetchResult = Utilities.fetchDataFromWeb(adress);
 		
 		// Save value

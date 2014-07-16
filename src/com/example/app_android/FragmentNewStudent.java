@@ -16,9 +16,15 @@ public class FragmentNewStudent extends ListFragment{
 			
 	}
 	
+	// Interface for communication between fragment and activity
+	public interface InterfaceActivityMain {
+		
+	}
+	
 	private static final String TAG = "FragmentNewStudent";
 	private String[] mMenu;
 	private NewStudentListener mActivity;
+
 		
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
@@ -36,7 +42,7 @@ public class FragmentNewStudent extends ListFragment{
 
 	@Override
 	public void onAttach(Activity activity) {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onAttach()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onAttach()");   	
 		super.onAttach(activity);
     
 		// Get resources from stored string array
@@ -69,12 +75,11 @@ public class FragmentNewStudent extends ListFragment{
 	public void onActivityCreated(Bundle savedState) {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
-				
-		// Get and set menu
+		
 		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_main, mMenu));
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 	}
-	
+
 	@Override
 	public void onStart() {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");

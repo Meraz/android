@@ -1,12 +1,14 @@
 package com.example.app_android;
 
-
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
+import com.example.app_android.FragmentMain.InterfaceActivityMain;
+import com.example.app_android.services.TestDatabase;
+import com.example.app_android.services.ServiceHelper;
 
-public class ActivityMain extends Activity {
-
+public class ActivityMain extends Activity implements InterfaceActivityMain{
+	private TextView test;
 	private static final String TAG = "ActivityMain";
 
 	/*
@@ -18,10 +20,17 @@ public class ActivityMain extends Activity {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
     	super.onCreate(savedInstanceState);
     	Cache.initialize(getApplicationContext());
+    	ServiceHelper.initialize(getApplicationContext());
+    	
+    	//MyBroadCastReceiver b = new MyBroadCastReceiver("TEST1"); 
+    	//ServiceHelper.loginStudentportal(this, 5, "http://194.47.131.73/database-files-and-server-script/Script/serverResponse.php", b);
+    	//Intent i= new Intent(this, LoginStudentportal.class);
+    	//startService(i); 
     	
         // Sets the content specified in the file in res/layout/activity_main.xml
         // This also specifies which fragment to active
         setContentView(R.layout.activity_main);       
+	
     }
 
     @Override
@@ -48,6 +57,9 @@ public class ActivityMain extends Activity {
 	protected void onResume() {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
 		super.onResume();
+		
+    	test = (TextView) findViewById(R.id.textView1);
+    	test.setText(TestDatabase.getSomeData());    
 	}
 
 	@Override
@@ -60,5 +72,10 @@ public class ActivityMain extends Activity {
 	protected void onStop() {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
+	}
+
+	public void aFunction()
+	{
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered aFunction()");
 	}
 }
