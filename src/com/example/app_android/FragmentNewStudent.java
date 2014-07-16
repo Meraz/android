@@ -1,8 +1,15 @@
 package com.example.app_android;
 
+
+import com.example.app_android.ui.newstudent.ActivityCourseMaterial;
+import com.example.app_android.ui.newstudent.ActivityInformationBTH;
+import com.example.app_android.ui.newstudent.ActivityStudentCentre;
+import com.example.app_android.ui.newstudent.ActivityStudentPortal;
+
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,15 +31,59 @@ public class FragmentNewStudent extends ListFragment{
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		getListView().setItemChecked(pos, true);
+		
 		onListSelection(pos);
 	}
 	
     // Listener to handle interaction on the list 
-    private void onListSelection(int index) {    		
+    private void onListSelection(int index) {   
+    	Logger.VerboseLog(TAG, "::Tapped on index " + index);
+    	
     	// Create new activity
-		Intent intent = new Intent(getActivity().getApplicationContext(), ActivityResidence.class);
-		intent.putExtra("id", index);
-		startActivity(intent);	
+    	Intent intent = null;
+    	switch (index) {
+        case 0:
+			intent = new Intent(getActivity().getApplicationContext(), ActivityResidence.class);
+			startActivity(intent);
+          break;
+          
+        case 1:
+			intent = new Intent(getActivity().getApplicationContext(), ActivityStudentPortal.class);
+			startActivity(intent);
+          break;
+
+        case 2:
+			intent = new Intent(getActivity().getApplicationContext(), ActivityStudentCentre.class);
+			startActivity(intent);
+          break;
+          
+        case 4:
+		//	intent = new Intent(getActivity().getApplicationContext(), Studenunion.class);
+		//	startActivity(intent);
+          break;
+          
+        case 5:
+			intent = new Intent(getActivity().getApplicationContext(), ActivityCourseMaterial.class);
+			startActivity(intent);
+            break;
+            
+        case 6:    
+			intent = new Intent(getActivity().getApplicationContext(), ActivityInformationBTH.class);
+			startActivity(intent);
+          break;
+          
+        case 7:    
+			intent = new Intent(getActivity().getApplicationContext(), ActivityMap.class);
+			startActivity(intent);
+          break;
+
+        default:
+          break;
+      }
+    	
+	//	Intent intent = new Intent(getActivity().getApplicationContext(), ActivityResidence.class);
+	//	intent.putExtra("id", index);
+	//	startActivity(intent);	
 	}
 
 	@Override

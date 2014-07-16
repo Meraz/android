@@ -51,11 +51,11 @@
          <activity android:name="ActivityStudentUnion"></activity>
          <activity android:name="ActivityResidence"></activity>
          
-         <!-- NewStudent UI views -->
-         <activity android:name="ActivityCourseMaterial"></activity>
-         <activity android:name="ActivityInformationBTH"></activity>
-         <activity android:name="ActivityStudentCentre"></activity>
-         <activity android:name="ActivityStudentPortal"></activity>
+         <!-- NewStudent UI views -->   
+         <activity android:name="com.example.app_android.ui.newstudent.ActivityCourseMaterial"></activity>
+         <activity android:name="com.example.app_android.ui.newstudent.ActivityInformationBTH"></activity>
+         <activity android:name="com.example.app_android.ui.newstudent.ActivityStudentCentre"></activity>
+         <activity android:name="com.example.app_android.ui.newstudent.ActivityStudentPortal"></activity>
          
          <service android:name="com.example.app_android.ServiceSchemaUpdate" /> 
          <service android:enabled="true" android:name="com.example.app_android.services.LoginStudentportal" />

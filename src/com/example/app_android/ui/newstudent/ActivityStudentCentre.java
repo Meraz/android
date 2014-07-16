@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.example.app_android.Logger;
+import com.example.app_android.R;
+import com.example.app_android.R.layout;
 
 public class ActivityStudentCentre extends Activity {
 	
@@ -13,6 +15,10 @@ public class ActivityStudentCentre extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
     	super.onCreate(savedInstanceState);
+    	
+    	// Sets the content specified in the file in res/layout
+        // This also specifies which fragment to active
+        setContentView(R.layout.activity_studentcentre);     	
     }
 
     @Override

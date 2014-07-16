@@ -4,15 +4,21 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.example.app_android.Logger;
+import com.example.app_android.R;
+import com.example.app_android.R.layout;
 
 public class ActivityStudentPortal extends Activity {
 	
-	private static final String TAG = "ActivityStudentCentre";
+	private static final String TAG = "ActivityStudentPortal";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()a");
     	super.onCreate(savedInstanceState);
+        
+    	// Sets the content specified in the file in res/layout
+        // This also specifies which fragment to active
+        setContentView(R.layout.activity_studentportal);     	
     }
 
     @Override
