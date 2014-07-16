@@ -36,4 +36,9 @@
     <item>J1270</item>
   </string-array>
 
+
+  <color name="Black">#eaeaea</color>
+<color name="ExpandChildBackground">#00abd7</color>
+<color name="ExpandGroupBackground">#666666</color>
+
 </resources>

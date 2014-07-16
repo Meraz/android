@@ -3,6 +3,7 @@ package com.example.app_android;
 
 import com.example.app_android.ui.newstudent.ActivityCourseMaterial;
 import com.example.app_android.ui.newstudent.ActivityInformationBTH;
+import com.example.app_android.ui.newstudent.ActivityResidence;
 import com.example.app_android.ui.newstudent.ActivityStudentCentre;
 import com.example.app_android.ui.newstudent.ActivityStudentPortal;
 
