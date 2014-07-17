@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class FragmentMain extends ListFragment{
 
@@ -46,16 +47,20 @@ public class FragmentMain extends ListFragment{
           break;
           
         case 4:
-        	int startLocation = Cache.getDefaultMapLocation();
-        	if(startLocation >= 0 && startLocation <= 1) {
-				intent = new Intent(getActivity().getApplicationContext(), ActivityMap.class);
-				intent.putExtra("entryID", 0);
-				intent.putExtra("startPositionID", startLocation);
-				intent.putExtra("room", "unknown");
-				startActivity(intent);
+        	if(Utilities.isNetworkAvailable(getActivity())) {
+        		int startLocation = Cache.getDefaultMapLocation();
+        		if(startLocation >= 0 && startLocation <= 1) {
+					intent = new Intent(getActivity().getApplicationContext(), ActivityMap.class);
+					intent.putExtra("entryID", 0);
+					intent.putExtra("startPositionID", startLocation);
+					intent.putExtra("room", "unknown");
+					startActivity(intent);
+        		}
+        		else
+        		showDialog(); //Starts the map activity with user input
         	}
         	else
-        		showDialog(); //Starts the map activity with user input
+        		Toast.makeText(getActivity(), "Missing internet connection", Toast.LENGTH_SHORT).show();
           break;
           
         case 6:

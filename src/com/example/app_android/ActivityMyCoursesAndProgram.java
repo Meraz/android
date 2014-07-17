@@ -104,22 +104,26 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 	
 	@SuppressLint("SimpleDateFormat")
 	public void exportSchedule(View view) throws InterruptedException, ExecutionException {
-		Logger.VerboseLog(TAG, "Exporting schedule to Google Calendar");
-		ArrayList<String> courseCodes = coursesHelper.readAllCourses();
-		ArrayList<String> requests = new ArrayList<String>();
+		if(Utilities.isNetworkAvailable(getApplicationContext())) {
+			Logger.VerboseLog(TAG, "Exporting schedule to Google Calendar");
+			ArrayList<String> courseCodes = coursesHelper.readAllCourses();
+			ArrayList<String> requests = new ArrayList<String>();
 		
-		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-		String startDate = dateFormat.format(calendar.getTime());
-		calendar.add(Calendar.MONTH, 6);
-		String endDate = dateFormat.format(calendar.getTime());
+			Calendar calendar = Calendar.getInstance();
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+			String startDate = dateFormat.format(calendar.getTime());
+			calendar.add(Calendar.MONTH, 6);
+			String endDate = dateFormat.format(calendar.getTime());
 		
-		for(int i = 0; i < courseCodes.size(); ++i) {
-			requests.add("https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=" + courseCodes.get(i) +
-					"&type=root&startdate=" + startDate + "&enddate=" + endDate + "&p=0.m%2C2.w");
+			for(int i = 0; i < courseCodes.size(); ++i) {
+				requests.add("https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=" + courseCodes.get(i) +
+						"&type=root&startdate=" + startDate + "&enddate=" + endDate + "&p=0.m%2C2.w");
+			}
+				ExportToGCalFromTimeEditTask exportTask = new ExportToGCalFromTimeEditTask();
+				exportTask.execute(requests);
 		}
-			ExportToGCalFromTimeEditTask exportTask = new ExportToGCalFromTimeEditTask();
-			exportTask.execute(requests);
+		else 
+			Toast.makeText(getApplicationContext(), "Missing internet connection", Toast.LENGTH_SHORT).show();
 	}
 	
 	public void readCourses() {

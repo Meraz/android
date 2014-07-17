@@ -9,6 +9,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 
 public class Utilities {
@@ -27,6 +30,12 @@ public class Utilities {
 		}
 		
 		return fetchResult;
+	}
+	
+	public static boolean isNetworkAvailable(Context activityContext) {
+	    ConnectivityManager connectivityManager = (ConnectivityManager) activityContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null;
 	}
 	
 	private static class DataFromWeb extends AsyncTask<String, Void, String> {

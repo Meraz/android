@@ -129,7 +129,7 @@ public class ActivityMap extends Activity {
 	
 	private void moveToKarlshamn() {
 		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("Karlshamn"), 17.0f));
-		if(map.getMapType() == GoogleMap.MAP_TYPE_NORMAL) {//Only change if the normal map type is set. (Google Maps currently has no good data for that map type for the Karlshamn Campus area)
+		if(map.getMapType() == GoogleMap.MAP_TYPE_NORMAL) {//Only change if the normal map type is set. (Google Maps currently has no good data for the map type for the Karlshamn Campus area)
 			map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 			viewRadioGroup.check(R.id.radio_satellite);
 		}
@@ -271,7 +271,7 @@ public class ActivityMap extends Activity {
         return super.onOptionsItemSelected(item);
     }
 	
-	//Used to display HTML-based text as marker snippets
+	//Used to display HTML-based text as marker snippet
 	private class SnippetInfoWindowAdapter implements InfoWindowAdapter{	
 
 		@Override
