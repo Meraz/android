@@ -1,10 +1,15 @@
 package com.example.app_android;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Html;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -217,6 +222,14 @@ public class ActivityMap extends Activity {
 		drawerLayout.closeDrawers();
 	}
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.layout.activity_map_action, menu);
+	    return super.onCreateOptionsMenu(menu);
+	}
+	
     @Override
 	protected void onDestroy() {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
@@ -264,6 +277,13 @@ public class ActivityMap extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
+        }
+        if(item.getItemId() == R.id.action_info) {
+        	Builder alert = new AlertDialog.Builder(this);
+        	alert.setTitle("Map");
+        	alert.setMessage("This dialog should contain information about how the map view works. But it doesn't, this is just hard code! :<");
+        	alert.setPositiveButton("OK",null);
+        	alert.show();
         }
         return super.onOptionsItemSelected(item);
     }
