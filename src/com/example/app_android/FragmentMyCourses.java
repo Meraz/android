@@ -50,7 +50,7 @@ public class FragmentMyCourses extends ListFragment {
 	public void onActivityCreated(Bundle savedState) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
-		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_course, R.id.label, ActivityMyCoursesAndProgram.coursesAndProgramArray));
+		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_course, R.id.label, ActivityCourses.coursesAndProgramArray));
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 	}
 

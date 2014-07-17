@@ -42,7 +42,7 @@ public class FragmentMain extends ListFragment{
           break;
 
         case 2:
-          intent = new Intent(getActivity().getApplicationContext(), ActivityMyCoursesAndProgram.class);
+          intent = new Intent(getActivity().getApplicationContext(), ActivityCourses.class);
           startActivity(intent);
           break;
           

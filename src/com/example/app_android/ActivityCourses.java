@@ -29,7 +29,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class ActivityMyCoursesAndProgram extends Activity implements InterfaceListSelectionListener {
+public class ActivityCourses extends Activity implements InterfaceListSelectionListener {
 
 	private static final String TAG = "ActivityCoursesAndProgram";
 	public static ArrayList<String> coursesAndProgramArray;
@@ -44,10 +44,6 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 		courseCode = (EditText) findViewById(R.id.courseCode);
 		coursesHelper = new AdapterCoursesHelper(this);
 		coursesAndProgramArray = coursesHelper.readAllCourses();
-
-    	//Intent intent = new Intent(this, ServiceSchemaUpdate.class);
-    	//intent.putExtra("URL", "https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=dv2544&type=root&startdate=20140101&enddate=20140620&p=0.m%2C2.w");
-    	//startService(intent);
 	}
 	
     @Override
