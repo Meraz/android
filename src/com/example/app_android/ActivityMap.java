@@ -278,7 +278,7 @@ public class ActivityMap extends Activity {
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        if(item.getItemId() == R.id.action_info) {
+        if(item.getItemId() == R.id.map_action_info) {
         	Builder alert = new AlertDialog.Builder(this);
         	alert.setTitle("Map");
         	alert.setMessage("This dialog should contain information about how the map view works. But it doesn't, this is just hard code! :<");

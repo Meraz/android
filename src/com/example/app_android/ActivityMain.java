@@ -2,7 +2,12 @@ package com.example.app_android;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 public class ActivityMain extends Activity {
 
@@ -60,4 +65,24 @@ public class ActivityMain extends Activity {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.layout.activity_main_action, menu);
+	    return super.onCreateOptionsMenu(menu);
+	}
+	
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.main_action_info) {
+        	Builder alert = new AlertDialog.Builder(this);
+        	alert.setTitle("About");
+        	alert.setMessage("This dialog will show general information about the app. TODO - Add bragging rights");
+        	alert.setPositiveButton("OK",null);
+        	alert.show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
