@@ -105,7 +105,7 @@ public class ActivityMap extends Activity {
 		searchField 		= (EditText) findViewById(R.id.search_field);
 		searchButton 		= (ImageButton) findViewById(R.id.search_button);
 		
-		drawerToggle		= new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_navigation_drawer, R.string.drawer_open, R.string.drawer_close){
+		drawerToggle		= new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close){
             public void onDrawerClosed(View view) {
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
