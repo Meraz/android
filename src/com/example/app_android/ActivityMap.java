@@ -1,15 +1,20 @@
 package com.example.app_android;
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.HashMap;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,11 +29,12 @@ public class ActivityMap extends Activity {
 	private GoogleMap map;
 	private HashMap<String, Marker> mapMarkers = new HashMap<String, Marker>();
 	private static final String TAG = "ActivityMap";
-	DrawerLayout 	drawerLayout 		= null;
-	RadioGroup 		campusRadioGroup 	= null;
-	RadioGroup 		viewRadioGroup 		= null;
-	EditText		searchField			= null;
-	Button			searchButton		= null;
+	private ActionBarDrawerToggle drawerToggle 	= null;
+	private DrawerLayout 	drawerLayout 		= null;
+	private RadioGroup 		campusRadioGroup 	= null;
+	private RadioGroup 		viewRadioGroup 		= null;
+	private EditText		searchField			= null;
+	private ImageButton		searchButton		= null;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +68,17 @@ public class ActivityMap extends Activity {
     		 else if(entryID == 1) { //Entered trough an entrypoint that specified a room
     			place = (LatLng)Cache.getMapCoordinate(room);
          		map.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));
-         		map.addMarker(new MarkerOptions().position(place).title(room));
+         		if(!mapMarkers.containsKey("SearchMarker")) {
+					MarkerOptions markerOptions = new MarkerOptions();
+					markerOptions.position(place);
+					markerOptions.snippet(room);
+					mapMarkers.put("SearchMarker", map.addMarker(markerOptions));
+				}
+				else {
+					Marker marker = mapMarkers.get("SearchMarker");
+					marker.setPosition(place);
+					marker.setSnippet(room);
+				}
     		 }
     	 }
     }
@@ -87,7 +103,20 @@ public class ActivityMap extends Activity {
 		campusRadioGroup 	= (RadioGroup) findViewById(R.id.radio_group_campus);
 		viewRadioGroup 		= (RadioGroup) findViewById(R.id.radio_group_views);
 		searchField 		= (EditText) findViewById(R.id.search_field);
-		searchButton 		= (Button) findViewById(R.id.search_button);
+		searchButton 		= (ImageButton) findViewById(R.id.search_button);
+		
+		drawerToggle		= new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_navigation_drawer, R.string.drawer_open, R.string.drawer_close){
+            public void onDrawerClosed(View view) {
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+ 
+            public void onDrawerOpened(View drawerView) {
+                invalidateOptionsMenu();
+            }
+        };
+		drawerLayout.setDrawerListener(drawerToggle);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
 	}
 	
 	private void moveToKarlskrona() {
@@ -115,8 +144,11 @@ public class ActivityMap extends Activity {
 		addHouseMarker("HOUSE_H");
 		addHouseMarker("HOUSE_J");
 		addHouseMarker("HOUSE_K");
+		addHouseMarker("KARLSHAMN_HOUSE_A");
+		addHouseMarker("KARLSHAMN_HOUSE_B");
 	}
 	
+	//Helper function to add makers to the houses on campus
 	private void addHouseMarker(String house) {
 		MarkerOptions options = new MarkerOptions();
 		
@@ -224,6 +256,20 @@ public class ActivityMap extends Activity {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
+	
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 	
 	//Used to display HTML-based text as marker snippets
 	private class SnippetInfoWindowAdapter implements InfoWindowAdapter{	

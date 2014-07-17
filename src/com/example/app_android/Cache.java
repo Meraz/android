@@ -235,5 +235,7 @@ public class Cache {
 		googleMapCoordinates.put("HOUSE_H", new LatLng(56.182348, 15.590819));
 		googleMapCoordinates.put("HOUSE_J", new LatLng(56.182933, 15.590401));
 		googleMapCoordinates.put("HOUSE_K", new LatLng(56.181816, 15.589894));
+		googleMapCoordinates.put("KARLSHAMN_HOUSE_A", new LatLng(56.163626, 14.866623));
+		googleMapCoordinates.put("KARLSHAMN_HOUSE_B", new LatLng(56.164464, 14.866012));
 	}
 }

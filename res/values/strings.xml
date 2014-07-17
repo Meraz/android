@@ -4,6 +4,9 @@
   <string name="app_name">app-android</string>
   <string name="action_settings">Settings</string>
   <string name="choose_city_dialog">Choose Campus</string>
+  
+  <string name="drawer_open">Open Drawer</string>
+  <string name="drawer_close">Close Drawer</string>
 
   <string-array name="main_page_list" >
     <item >Ny Student</item>
