@@ -2,7 +2,6 @@ package com.example.app_android;
 
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 
 public class ActivityMain extends Activity {

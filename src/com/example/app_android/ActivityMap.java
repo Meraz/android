@@ -1,6 +1,6 @@
 package com.example.app_android;
 import android.app.Activity;
-import android.content.res.Configuration;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -8,14 +8,13 @@ import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,7 +33,6 @@ public class ActivityMap extends Activity {
 	private RadioGroup 		campusRadioGroup 	= null;
 	private RadioGroup 		viewRadioGroup 		= null;
 	private EditText		searchField			= null;
-	private ImageButton		searchButton		= null;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +45,7 @@ public class ActivityMap extends Activity {
     	int startPositionID = bundle.getInt("startPositionID");
     	String room = bundle.getString("room");
     	
-    	setContentView(R.layout.activity_maplayout_full);
+    	setContentView(R.layout.activity_map);
     	
     	 if(initilizeMap()) {
     		 initializeDrawer();
@@ -103,7 +101,6 @@ public class ActivityMap extends Activity {
 		campusRadioGroup 	= (RadioGroup) findViewById(R.id.radio_group_campus);
 		viewRadioGroup 		= (RadioGroup) findViewById(R.id.radio_group_views);
 		searchField 		= (EditText) findViewById(R.id.search_field);
-		searchButton 		= (ImageButton) findViewById(R.id.search_button);
 		
 		drawerToggle		= new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close){
             public void onDrawerClosed(View view) {
@@ -162,13 +159,13 @@ public class ActivityMap extends Activity {
 	
 	public void onSearchButtonClicked(View view) {
 		searchField.clearFocus();
-		InputMethodManager imm = (InputMethodManager)getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
+		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 		if(imm.isActive())
 			imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 		
 		String searchString = searchField.getText().toString();
 		if(!searchString.isEmpty()) {
-			searchString = searchString.toUpperCase();
+			searchString = searchString.toUpperCase(new Locale("sv_SE"));
 			LatLng markerCoordinates = Cache.getMapCoordinate(searchString);
 			if(markerCoordinates != null) {
 				if(!mapMarkers.containsKey("SearchMarker")) {

@@ -139,7 +139,6 @@ public class Cache {
 		}
 	}
 	
-	@SuppressWarnings("unchecked") // TODO not sure if this is the best way of solving this.
 	private static void deSerializeWebResources(ObjectInputStream inputStream) throws OptionalDataException, ClassNotFoundException, IOException {
 		deSerializeCoordinateMap(inputStream);
 		//fetchedDataStrings = (HashMap<String, String>)inputStream.readObject();	

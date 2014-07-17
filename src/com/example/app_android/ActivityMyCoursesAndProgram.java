@@ -7,23 +7,20 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
+
 import com.example.app_android.InterfaceListSelectionListener;
-import com.example.app_android.AdapterScheduleHelper.MyScheduleHelper;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -42,7 +39,7 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_mycoursesandprogram);
+		setContentView(R.layout.activity_courses);
 		
 		courseCode = (EditText) findViewById(R.id.courseCode);
 		coursesHelper = new AdapterCoursesHelper(this);
@@ -102,6 +99,7 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 		}		
 	}
 	
+	@SuppressWarnings("unchecked") //Should be safe to ignore this warning. It complains about not knowing the type of arraylist being sent in exportTask.execute(requests)
 	@SuppressLint("SimpleDateFormat")
 	public void exportSchedule(View view) throws InterruptedException, ExecutionException {
 		if(Utilities.isNetworkAvailable(getApplicationContext())) {
