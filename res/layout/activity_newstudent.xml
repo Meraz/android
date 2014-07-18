@@ -9,6 +9,6 @@
 	    android:layout_height="match_parent"
 	    android:layout_marginTop="?android:attr/actionBarSize"
 	    android:layout_weight="1.50"
-	    class="com.example.app_android.FragmentNewStudent" >	    
+	    class="com.example.app_android.ui.FragmentNewStudent" >	    
 	</fragment>
 </LinearLayout>

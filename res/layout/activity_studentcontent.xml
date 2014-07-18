@@ -15,5 +15,5 @@
 		android:id="@+id/detailFragment"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		class="com.example.app_android.FragmentNewStudentContent" />
+		class="com.example.app_android.ui.FragmentNewStudentContent" />
 </LinearLayout>
