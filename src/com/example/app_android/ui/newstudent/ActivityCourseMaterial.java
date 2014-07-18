@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.example.app_android.R;
 import com.example.app_android.ui.elements.expandablelist.BaseExpandableListGroup;
 import com.example.app_android.ui.elements.expandablelist.MyBaseExpandableListAdapter;
+import com.example.app_android.ui.elements.expandablelist.MyResidenceExpandableListAdapter;
 import com.example.app_android.util.Logger;
 
 import android.app.Activity;
@@ -31,7 +32,7 @@ public class ActivityCourseMaterial extends Activity {
         
 		mExpandableList = (ExpandableListView) findViewById(R.id.ExpandableList);
 		mExpandableListItems = SetStandardGroups();
-		mExpandableListAdapter = new MyBaseExpandableListAdapter(this, mExpandableListItems);
+		mExpandableListAdapter = new MyResidenceExpandableListAdapter(this, mExpandableListItems);
 		mExpandableListAdapter.setAdapter(mExpandableList);
     }        
     
@@ -45,22 +46,22 @@ public class ActivityCourseMaterial extends Activity {
 
     	// TODO REMOVE HARDCODE
     	String groupText = "Allmän information kursmaterial";	    	
-    	String childText = "kursmaterial är bra";
+    	String childText = "För studenten är kurslitteraturen något av det viktigaste, inte bara att ha rätt kurslitteratur men även att man ska ha kvar pengar att leva för när denna är inhandlad. Nedan hittar du några nyttiga länkar.";
     	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
     	finalList.add(group);
     	
     	groupText = "Studentlitteratur";	    	
-    	childText = "Finns många bokhandlare, både fysiska och på Internet. Go find one, 10 points each. You win at 960 points";
+    	childText = "Med läromedel för förskola, grundskola och gymnasium, kurslitteratur för universitet och högskola samt kvalificerad facklitteratur, utbildningar och digitala informationstjänster för yrkesverksamma stöttar Studentlitteratur kontinuerlig kunskaps- och kompetensuppbyggnad längs hela kunskapsresan."+
+    	"<br><br>https://www.studentlitteratur.se/";
     	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
     	finalList.add(group);
     	
-    	for(int i = 0; i < 3; i++) {
-    		String text = new String();							
-    		for(int j = 0; j < 200; j++)
-    			text += "TEXT";
-    		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild("Group" + i, text, null);
-    		finalList.add(group);
-    	}
+    	groupText = "Bokus";	    	
+    	childText = "Fortare än du hinner slå upp sidan i en bok, har en ny kommit på bokus.com. Och innan du vet ordet av kommer nästa. Och nästa...Så fortsätter det dygnet runt. Bokus.com är bokhandeln som alltid är vaken och som har nyheterna i samma sekund som de släpps. Här får de sällskap av miljoner andra böcker. Ändå hittar du enkelt och utan omvägar boken du söker. Det är på bokus.com det händer. Och det händer dygnet runt. Finns boken, finns den hos oss. " +
+    			"<br><br>http://www.bokus.com/student";
+    	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
+    	finalList.add(group);
+    	
     	return finalList;
     }
 

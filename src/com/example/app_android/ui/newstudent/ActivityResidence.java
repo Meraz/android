@@ -44,25 +44,15 @@ public class ActivityResidence extends Activity {
     	BaseExpandableListGroup group;
 
 	
-    	String groupText = "Allmän information om bostäder";	    	
-    	String childText = "[Hardcoded] Alla studenter måste ansöka om bostad på egen hand. Se till att du söker bostad så snart du kan." +
-    						"Har du frågor kring detta ska du kontakta Studentkåren.";
+    	String groupText = "Allmänt";	    	
+    	String childText = "[Hardcoded] De flesta studenterna bor i närheten av skolan i områdena Galgamarken och Annebo. Skolan ligger enbart några hundra meter från områdena och med god tillgång till kollektivtrafiken.";
     	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
     	finalList.add(group);
     	
     	
-    	groupText = "AB Karlskronahem";	    	
-    	childText = "[Hardcoded] AB Karlskronahem är Karlskronas största bostadsbolag med fastigheter på ett flertal orter " +
-    			"i kommunen. Bolaget ägs av Karlskrona kommun och förvaltar cirka 3 900 hyreslägenheter varav vissa " +
-    			"studentboenden. Bland fastigheterna finns även särskilda boenden och ett mindre antal kommersiella lokaler." +
-    			"I kontoret på Norra Smedjegatan 12 finns bobutiken som ansvarar för uthyrning och felanmälningar. " +
-    			"Där finns också teknikavdelningen med ansvar för skötsel och underhåll samt ekonomiavdelningen med ansvar" +
-    			" för budget, bokföring, fakturering, hyresdebitering och personaladministration. Utöver det finns en" +
-    			" boendesekreterare som arbetar med störningsärenden.I ett kontor på Kungsmarksplan finns en servicechef, " +
-    			"sex bovärdar och fyra reparatörer. Bovärdarna ansvarar för mindre reparationer i lägenheterna, besiktningar," +
-    			" och hyresgästkontakter. Reparatörerna tar hand om större lägenhetsreparationer och underhåll. I övrigt sköter " +
-    			"entreprenörer de dagliga uppgifterna i bostadsområderna. På företaget finns drygt 30 anställda. 0455-30 49 00"
-    			+"\n http://www.karlskronahem.se/";
+    	groupText = "Karlskronahem AB";	    	
+    	childText = "[Hardcoded] Karlskromahem är Karlskronas största bostadsbolag och hyr ut både vanliga lägenheter och studentlägenheter."
+    			+"<br> http://www.karlskronahem.se/";
     	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
     	finalList.add(group);
     	
@@ -73,18 +63,9 @@ public class ActivityResidence extends Activity {
 				" längs havskanten. Här äger vi bl a vackra, äldre lägenheter med högt i tak och stuckaturer" +
 				" men även mer moderna områden. Vår stolthet har Karlskronas bästa bostadsläge på sjötomt där " +
 				"Du även kan hyra båtplats av oss!" +
-    			"\n http://www.heimstaden.com/";
+    			"<br> http://www.heimstaden.com/";
     	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
     	finalList.add(group);
-    	
-    	for(int i = 0; i < 10; i++) {
-    		groupText = "Group" + i;	    	
-    		String text = new String();
-    		for(int j = 0; j < 200; j++)
-    			text += "TEXT";
-    		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, text, null);
-    		finalList.add(group);
-    	}
     	
     	// Done
     	// Return final list
