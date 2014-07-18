@@ -60,7 +60,7 @@ public class ActivityMain extends Activity implements InterfaceActivityMain{
 	protected void onStart() {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
 		super.onStart();
-		
+		TestDatabase.resetSomeData();
     	test = (TextView) findViewById(R.id.textView1);
     	test.setText(TestDatabase.getSomeData());    
 	}

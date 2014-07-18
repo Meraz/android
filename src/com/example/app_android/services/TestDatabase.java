@@ -12,6 +12,11 @@ public class TestDatabase {
 		mData = data;
 	}
 	
+	static public void resetSomeData() {
+		mData = "FirstData";
+	}
+	
+	
 	static public String getSomeData()
 	{
 		return mData;

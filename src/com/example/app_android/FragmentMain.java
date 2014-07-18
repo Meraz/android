@@ -204,13 +204,13 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	@Override
 	public void onReceiveResult(int resultCode) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onReceiveResult()");
-		Toast.makeText(getActivity(), "Update successful", Toast.LENGTH_SHORT).show(); // TODO Engrish/swenglish
+		Toast.makeText(getActivity(), "[TESTCODE] Update successful", Toast.LENGTH_SHORT).show(); // TODO Engrish/swenglish
     	test.setText(TestDatabase.getSomeData());
 	}
 	
 	@Override
 	public void onServiceStart() {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStart()");
-    	Toast.makeText(getActivity(), "Attempting to update content", Toast.LENGTH_SHORT).show(); // TODO Engrish/swenglish
+    	Toast.makeText(getActivity(), "[TESTCODE] Attempting to update content", Toast.LENGTH_SHORT).show(); // TODO Engrish/swenglish
 	}	
 }
