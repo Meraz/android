@@ -1,11 +1,11 @@
 package com.example.app_android.ui.elements.expandablelist;
 
 import java.util.ArrayList;
-import android.widget.ExpandableListView.OnChildClickListener;
 
 import com.example.app_android.R;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,8 +42,18 @@ public class MyResidenceExpandableListAdapter extends MyBaseExpandableListAdapte
     	return super.getGroupView(groupPosition, isLastChild, view, parent);
     }
     
-    @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View view, ViewGroup parent) {
-    	return super.getChildView(groupPosition, childPosition, isLastChild, view, parent);
+    	BaseExpandableListChild child = (BaseExpandableListChild) getChild(groupPosition, childPosition);
+        if (view == null) {
+            LayoutInflater infalInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = infalInflater.inflate(R.layout.item_expandablelist_child, null);
+	    }	 
+        TextView tv = (TextView) view.findViewById(R.id.tvChild);
+      
+        // HTML        
+        tv.setText(Html.fromHtml(child.getName()));
+    	
+        tv.setTag(child.getTag());
+        return view;
     }
 }

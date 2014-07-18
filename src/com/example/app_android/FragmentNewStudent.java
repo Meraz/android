@@ -3,9 +3,9 @@ package com.example.app_android;
 
 import com.example.app_android.ui.newstudent.ActivityCourseMaterial;
 import com.example.app_android.ui.newstudent.ActivityInformationBTH;
-import com.example.app_android.ui.newstudent.ActivityResidence;
-import com.example.app_android.ui.newstudent.ActivityStudentCentre;
 import com.example.app_android.ui.newstudent.ActivityStudentPortal;
+import com.example.app_android.ui.newstudent.ActivityStudentCentre;
+import com.example.app_android.ui.newstudent.ActivityResidence;
 
 import android.app.Activity;
 import android.app.ListFragment;
@@ -57,23 +57,23 @@ public class FragmentNewStudent extends ListFragment{
 			intent = new Intent(getActivity().getApplicationContext(), ActivityStudentCentre.class);
 			startActivity(intent);
           break;
-          
-        case 4:
-		//	intent = new Intent(getActivity().getApplicationContext(), Studenunion.class);
-		//	startActivity(intent);
+                    
+        case 3:
+			intent = new Intent(getActivity().getApplicationContext(), ActivityStudentUnion.class);
+			startActivity(intent);
           break;
           
-        case 5:
+        case 4:
 			intent = new Intent(getActivity().getApplicationContext(), ActivityCourseMaterial.class);
 			startActivity(intent);
             break;
             
-        case 6:    
+        case 5:    
 			intent = new Intent(getActivity().getApplicationContext(), ActivityInformationBTH.class);
 			startActivity(intent);
           break;
           
-        case 7:    
+        case 6:    
 			intent = new Intent(getActivity().getApplicationContext(), ActivityMap.class);
 			startActivity(intent);
           break;

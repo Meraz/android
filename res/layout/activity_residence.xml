@@ -1,44 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+            <ExpandableListView
+                android:id="@+id/ExpandableList"
+                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-  <fragment
-            android:id="@+id/fragmentResidence"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="?android:attr/actionBarSize"
-            class="com.example.app_android.ui.newstudent.FragmentResidence" >
-  </fragment>
+                android:groupIndicator="@null"/>
 
-  <TextView
-            android:id="@+id/detailsText2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/fragmentResidence"
-            />
-
-  <ScrollView
-              android:id="@+id/SCROLLER_ID"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:scrollbars="vertical"
-               android:layout_below="@+id/detailsText2"
-              android:fillViewport="true">
-    <TextView
-              android:id="@+id/detailsText"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-      />
-  </ScrollView>
-
-  <ExpandableListView
-      android:id="@+id/expandableListView1"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_alignParentLeft="true"
-      android:layout_alignParentTop="true" >
-
-  </ExpandableListView>
-
-</RelativeLayout>
+</LinearLayout>
