@@ -43,13 +43,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-         <activity android:name="ActivityNewStudent"></activity>
-         <activity android:name="ActivityNewStudentContent"></activity>
-         <activity android:name="ActivityMap"></activity>
-         <activity android:name="ActivitySchedule"></activity>
-         <activity android:name="ActivityMyCoursesAndProgram"></activity>
-         <activity android:name="ActivityStudentUnion"></activity>
-        
+         <activity android:name="com.example.app_android.ActivityNewStudent"></activity>
+         <activity android:name="com.example.app_android.ActivityNewStudentContent"></activity>
+         <activity android:name="com.example.app_android.ActivityMap"></activity>
+         <activity android:name="com.example.app_android.ActivitySchedule"></activity>
+         <activity android:name="com.example.app_android.ActivityMyCoursesAndProgram"></activity>
+         <activity android:name="com.example.app_android.ActivityStudentUnion"></activity>
          
          <!-- NewStudent UI views -->   
          <activity android:name="com.example.app_android.ui.newstudent.ActivityResidence"></activity>
