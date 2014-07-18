@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class FragmentMain extends ListFragment{
 
@@ -28,7 +29,7 @@ public class FragmentMain extends ListFragment{
     	Logger.VerboseLog(TAG, "::Tapped on index " + index);
     	Intent intent;
     	switch (index) {
-        case 0:
+        case 0: //New student view
           intent = new Intent(getActivity().getApplicationContext(), ActivityNewStudent.class);
           startActivity(intent);
           break;
@@ -40,25 +41,29 @@ public class FragmentMain extends ListFragment{
     		startActivity(intent);
           break;
 
-        case 2:
-          intent = new Intent(getActivity().getApplicationContext(), ActivityMyCoursesAndProgram.class);
+        case 2://courses
+          intent = new Intent(getActivity().getApplicationContext(), ActivityCourses.class);
           startActivity(intent);
           break;
           
-        case 4:
-        	int startLocation = Cache.getDefaultMapLocation();
-        	if(startLocation >= 0 && startLocation <= 1) {
-				intent = new Intent(getActivity().getApplicationContext(), ActivityMap.class);
-				intent.putExtra("entryID", 0);
-				intent.putExtra("startPositionID", startLocation);
-				intent.putExtra("room", "unknown");
-				startActivity(intent);
+        case 3: //map
+        	if(Utilities.isNetworkAvailable(getActivity())) {
+        		int startLocation = Cache.getDefaultMapLocation();
+        		if(startLocation >= 0 && startLocation <= 1) {
+					intent = new Intent(getActivity().getApplicationContext(), ActivityMap.class);
+					intent.putExtra("entryID", 0);
+					intent.putExtra("startPositionID", startLocation);
+					intent.putExtra("room", "unknown");
+					startActivity(intent);
+        		}
+        		else
+        		showDialog(); //Starts the map activity with user input
         	}
         	else
-        		showDialog(); //Starts the map activity with user input
+        		Toast.makeText(getActivity(), "Missing internet connection", Toast.LENGTH_SHORT).show();
           break;
           
-        case 6:
+        case 4: //student Union
           launchApp(blekingeStudentUnionPackageName);
           break;
 

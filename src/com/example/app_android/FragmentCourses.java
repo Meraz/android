@@ -6,36 +6,27 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class FragmentScheduleDay extends ListFragment {
+public class FragmentCourses extends ListFragment {
 	
-	private static final String TAG = "ScheduleFragment";
-	private Communicator listener = null;
-	AdapterScheduleHelper scheduleHelper;
-	private String[] dates;
+	private static final String TAG = "FragmentMyCourses";
+	private InterfaceListSelectionListener listener = null;
 
-	public interface Communicator {
-		public void onListSelection(int index);
-	}
-	
-	public void setDate(String[] datesToSet) {
-		dates = datesToSet;
-	}
-	
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		getListView().setItemChecked(pos, true);
 		listener.onListSelection(pos);
 	}
-		
+
 	@Override
 	public void onAttach(Activity activity) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onAttach()");
 		super.onAttach(activity);
 		
 		try {
-			listener = (Communicator) activity;
+			listener = (InterfaceListSelectionListener) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnArticleSelectedListener");
@@ -49,7 +40,8 @@ public class FragmentScheduleDay extends ListFragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+		Bundle savedInstanceState) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
@@ -58,18 +50,8 @@ public class FragmentScheduleDay extends ListFragment {
 	public void onActivityCreated(Bundle savedState) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
-		scheduleHelper = new AdapterScheduleHelper(getActivity().getApplicationContext());
-		String[] t1 = scheduleHelper.readStartTime2(dates[0], dates[1]);
-		String[] t2 = scheduleHelper.readEndTime2(dates[0], dates[1]);
-		String[] t3 = scheduleHelper.readMoment2(dates[0], dates[1]);
-		String[] t4 = scheduleHelper.readRoom2(dates[0], dates[1]);
-				
-		//Add all items to customized adapter
-		AdapterScheduleCustom adapter = new AdapterScheduleCustom(getActivity(), t1, t2, t3, t4);
-	
-		getListView().getChildCount();
-		setListAdapter(adapter);
-		getListView().setChoiceMode(ListView.CHOICE_MODE_NONE);
+		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_course, R.id.label, ActivityCourses.coursesAndProgramArray));
+		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 	}
 
 	@Override
@@ -103,8 +85,14 @@ public class FragmentScheduleDay extends ListFragment {
 	}
 
 	@Override
+	public void onDestroy() {
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
+		super.onDestroy();
+	}
+
+	@Override
 	public void onDestroyView() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroyView()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroyView()");
 		super.onDestroyView();
 	}
 }

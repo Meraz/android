@@ -7,23 +7,20 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
+
 import com.example.app_android.InterfaceListSelectionListener;
-import com.example.app_android.AdapterScheduleHelper.MyScheduleHelper;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -32,7 +29,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class ActivityMyCoursesAndProgram extends Activity implements InterfaceListSelectionListener {
+public class ActivityCourses extends Activity implements InterfaceListSelectionListener {
 
 	private static final String TAG = "ActivityCoursesAndProgram";
 	public static ArrayList<String> coursesAndProgramArray;
@@ -42,15 +39,11 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_mycoursesandprogram);
+		setContentView(R.layout.activity_courses);
 		
 		courseCode = (EditText) findViewById(R.id.courseCode);
 		coursesHelper = new AdapterCoursesHelper(this);
 		coursesAndProgramArray = coursesHelper.readAllCourses();
-
-    	//Intent intent = new Intent(this, ServiceSchemaUpdate.class);
-    	//intent.putExtra("URL", "https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=dv2544&type=root&startdate=20140101&enddate=20140620&p=0.m%2C2.w");
-    	//startService(intent);
 	}
 	
     @Override
@@ -102,24 +95,29 @@ public class ActivityMyCoursesAndProgram extends Activity implements InterfaceLi
 		}		
 	}
 	
+	@SuppressWarnings("unchecked") //Should be safe to ignore this warning. It complains about not knowing the type of arraylist being sent in exportTask.execute(requests)
 	@SuppressLint("SimpleDateFormat")
 	public void exportSchedule(View view) throws InterruptedException, ExecutionException {
-		Logger.VerboseLog(TAG, "Exporting schedule to Google Calendar");
-		ArrayList<String> courseCodes = coursesHelper.readAllCourses();
-		ArrayList<String> requests = new ArrayList<String>();
+		if(Utilities.isNetworkAvailable(getApplicationContext())) {
+			Logger.VerboseLog(TAG, "Exporting schedule to Google Calendar");
+			ArrayList<String> courseCodes = coursesHelper.readAllCourses();
+			ArrayList<String> requests = new ArrayList<String>();
 		
-		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-		String startDate = dateFormat.format(calendar.getTime());
-		calendar.add(Calendar.MONTH, 6);
-		String endDate = dateFormat.format(calendar.getTime());
+			Calendar calendar = Calendar.getInstance();
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+			String startDate = dateFormat.format(calendar.getTime());
+			calendar.add(Calendar.MONTH, 6);
+			String endDate = dateFormat.format(calendar.getTime());
 		
-		for(int i = 0; i < courseCodes.size(); ++i) {
-			requests.add("https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=" + courseCodes.get(i) +
-					"&type=root&startdate=" + startDate + "&enddate=" + endDate + "&p=0.m%2C2.w");
+			for(int i = 0; i < courseCodes.size(); ++i) {
+				requests.add("https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=" + courseCodes.get(i) +
+						"&type=root&startdate=" + startDate + "&enddate=" + endDate + "&p=0.m%2C2.w");
+			}
+				ExportToGCalFromTimeEditTask exportTask = new ExportToGCalFromTimeEditTask();
+				exportTask.execute(requests);
 		}
-			ExportToGCalFromTimeEditTask exportTask = new ExportToGCalFromTimeEditTask();
-			exportTask.execute(requests);
+		else 
+			Toast.makeText(getApplicationContext(), "Missing internet connection", Toast.LENGTH_SHORT).show();
 	}
 	
 	public void readCourses() {

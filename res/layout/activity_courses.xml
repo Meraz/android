@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
 
-    <RelativeLayout 
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/innerRelativeLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -16,15 +12,15 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentRight="true"
-	        android:text="Add" />
+	        android:text="@string/add_button_text" />
 	
 	   	<EditText
 	        android:id="@+id/courseCode"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_toLeftOf="@id/addButton"
+	        android:hint="@string/search_field_hint_courses"
 	        android:ems="10" >
-	
 	        <requestFocus />
 	    </EditText>
 	    
@@ -35,15 +31,14 @@
         android:layout_below="@+id/_container"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Export"/>
+        android:text="@string/export_button_text"/>
 	   
 	   <fragment
     	android:id="@+id/_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="?android:attr/actionBarSize"
-        class="com.example.app_android.FragmentMyCourses" >
+        class="com.example.app_android.FragmentCourses" >
 	</fragment>
 	    	
     </RelativeLayout>
-</LinearLayout>
