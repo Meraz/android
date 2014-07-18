@@ -34,19 +34,12 @@ public class FragmentMain extends ListFragment{
           startActivity(intent);
           break;
 
-        case 1:
-        	//Start the calendar app
-        	Uri uri = Uri.parse("content://com.android.calendar/time");
-    		intent = new Intent("android.intent.action.VIEW", uri);		//TODO Check if there is a way to force google calendar to start in week view
-    		startActivity(intent);
-          break;
-
-        case 2://courses
+        case 1://courses
           intent = new Intent(getActivity().getApplicationContext(), ActivityCourses.class);
           startActivity(intent);
           break;
           
-        case 3: //map
+        case 2: //map
         	if(Utilities.isNetworkAvailable(getActivity())) {
         		int startLocation = Cache.getDefaultMapLocation();
         		if(startLocation >= 0 && startLocation <= 1) {
@@ -63,7 +56,7 @@ public class FragmentMain extends ListFragment{
         		Toast.makeText(getActivity(), "Missing internet connection", Toast.LENGTH_SHORT).show();
           break;
           
-        case 4: //student Union
+        case 3: //student Union
           launchApp(blekingeStudentUnionPackageName);
           break;
 

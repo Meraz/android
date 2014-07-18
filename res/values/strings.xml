@@ -21,12 +21,12 @@
   <!-- Courses and Schedule -->
   <string name="add_button_text">Add</string>
   <string name="export_button_text">Export</string>
+  <string name="schedule_button_text">View Schedule</string>
   <string name="search_field_hint_courses">Search</string>
 
 
   <string-array name="main_page_list" >
     <item >Ny Student</item>
-    <item >Mitt Schema</item>
     <item >Kurser och Scheman</item>
     <item >Karta över Campus</item>
     <item >Blekinge Studentkår</item>

@@ -23,15 +23,31 @@
 	        android:ems="10" >
 	        <requestFocus />
 	    </EditText>
-	    
-	   <Button
-        android:id="@+id/exportButton"
-        android:onClick="exportSchedule"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/_container"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:text="@string/export_button_text"/>
+	    <LinearLayout 
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/_container"
+	        android:layout_centerHorizontal="true"
+	        android:orientation="horizontal">
+	        
+	        
+	   		<Button
+        		android:id="@+id/scheduleButton"
+        		android:onClick="startCalendar"
+        		android:layout_weight="0.5"
+        		android:layout_width="150dp"
+        		android:layout_height="wrap_content"
+        		android:text="@string/schedule_button_text"/>
+	   
+	   		<Button
+        		android:id="@+id/exportButton"
+        		android:onClick="exportSchedule"
+        		android:layout_weight="0.5"
+        		android:layout_width="150dp"
+        		android:layout_height="wrap_content"
+       			android:text="@string/export_button_text"/>
+	   
+	   </LinearLayout>
 	   
 	   <fragment
     	android:id="@+id/_container"

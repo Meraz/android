@@ -20,6 +20,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -118,6 +119,13 @@ public class ActivityCourses extends Activity implements InterfaceListSelectionL
 		}
 		else 
 			Toast.makeText(getApplicationContext(), "Missing internet connection", Toast.LENGTH_SHORT).show();
+	}
+	
+	public void startCalendar(View view) {
+    	//Start the calendar app
+    	Uri uri = Uri.parse("content://com.android.calendar/time");
+		Intent intent = new Intent("android.intent.action.VIEW", uri);		//TODO Check if there is a way to force google calendar to start in week view
+		startActivity(intent);
 	}
 	
 	public void readCourses() {
