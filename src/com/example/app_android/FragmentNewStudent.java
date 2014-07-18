@@ -10,7 +10,6 @@ import com.example.app_android.ui.newstudent.ActivityResidence;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +26,9 @@ public class FragmentNewStudent extends ListFragment{
 	
 	private static final String TAG = "FragmentNewStudent";
 	private String[] mMenu;
-	private NewStudentListener mActivity;
+	
+	@SuppressWarnings("unused")
+	private NewStudentListener mActivity; // TODO this shoulde be used in the future. Therefore @SuppressWarnings
 
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
@@ -81,10 +82,6 @@ public class FragmentNewStudent extends ListFragment{
         default:
           break;
       }
-    	
-	//	Intent intent = new Intent(getActivity().getApplicationContext(), ActivityResidence.class);
-	//	intent.putExtra("id", index);
-	//	startActivity(intent);	
 	}
 
 	@Override

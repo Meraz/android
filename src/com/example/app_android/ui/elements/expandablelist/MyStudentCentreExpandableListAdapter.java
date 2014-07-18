@@ -2,14 +2,10 @@ package com.example.app_android.ui.elements.expandablelist;
 
 import java.util.ArrayList;
 
-import com.example.app_android.R;
-
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 
 public class MyStudentCentreExpandableListAdapter extends MyBaseExpandableListAdapter{
 

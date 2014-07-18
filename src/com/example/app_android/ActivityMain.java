@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import com.example.app_android.FragmentMain.InterfaceActivityMain;
 import com.example.app_android.services.TestDatabase;
-import com.example.app_android.services.ServiceHelper;
 
 public class ActivityMain extends Activity implements InterfaceActivityMain{
 	private TextView test;
