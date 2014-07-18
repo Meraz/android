@@ -1,6 +1,7 @@
 package com.example.app_android.services;
 
-import com.example.app_android.Logger;
+import com.example.app_android.util.Logger;
+
 import android.app.IntentService;
 import android.content.Intent;
 

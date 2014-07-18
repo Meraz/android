@@ -1,5 +1,7 @@
 package com.example.app_android;
 
+import com.example.app_android.ui.ActivityMap;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;

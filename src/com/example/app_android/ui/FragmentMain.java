@@ -1,8 +1,16 @@
-package com.example.app_android;
+package com.example.app_android.ui;
 
+import com.example.app_android.Cache;
+import com.example.app_android.DialogChooseCity;
+import com.example.app_android.R;
+import com.example.app_android.R.array;
+import com.example.app_android.R.id;
+import com.example.app_android.R.layout;
 import com.example.app_android.services.TestDatabase;
 import com.example.app_android.services.ServiceHelper;
+import com.example.app_android.util.Logger;
 import com.example.app_android.util.MyBroadCastReceiver;
+import com.example.app_android.util.Utilities;
 
 import android.app.Activity;
 import android.app.FragmentManager;

@@ -1,4 +1,4 @@
-package com.example.app_android;
+package com.example.app_android.ui;
 
 
 import java.io.BufferedReader;
@@ -14,7 +14,12 @@ import java.util.ArrayList;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
 
-import com.example.app_android.InterfaceListSelectionListener;
+import com.example.app_android.AdapterCoursesHelper;
+import com.example.app_android.R;
+import com.example.app_android.R.id;
+import com.example.app_android.R.layout;
+import com.example.app_android.util.Logger;
+import com.example.app_android.util.Utilities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -30,7 +35,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class ActivityCourses extends Activity implements InterfaceListSelectionListener {
+public class ActivityCourses extends Activity {
 
 	private static final String TAG = "ActivityCoursesAndProgram";
 	public static ArrayList<String> coursesAndProgramArray;
@@ -138,10 +143,6 @@ public class ActivityCourses extends Activity implements InterfaceListSelectionL
 		Logger.VerboseLog(TAG, "Checked or Unchecked");
 	}
 
-	@Override
-	public void onListSelection(int index) {
-	}
-	
 	private ArrayList<String[]> getTimeEditData(String stringURL) {
 		String inputLine;
 		ArrayList<String[]> lectures = new ArrayList<String[]>();

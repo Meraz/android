@@ -2,10 +2,10 @@ package com.example.app_android.ui.newstudent;
 
 import java.util.ArrayList;
 
-import com.example.app_android.Logger;
 import com.example.app_android.R;
 import com.example.app_android.ui.elements.expandablelist.BaseExpandableListGroup;
 import com.example.app_android.ui.elements.expandablelist.MyBaseExpandableListAdapter;
+import com.example.app_android.util.Logger;
 
 import android.app.Activity;
 import android.os.Bundle;

@@ -39,6 +39,21 @@ public class AdapterCoursesHelper {
 		return courses;
 	}
 	
+	public boolean empty() {
+		boolean result;
+		SQLiteDatabase db = helper.getReadableDatabase();
+		String[] columns = {MyCoursesHelper.UID, MyCoursesHelper.CCode};		
+		Cursor cursor = db.query(MyCoursesHelper.TABLE_NAME, columns, null, null, null, null, null);
+		
+		if (cursor.getCount() > 0)
+			result = false;
+		else
+			result = true;
+		
+		db.close();
+		return result;
+	}
+	
 	public void removeCourse(String course) {
 		SQLiteDatabase db = helper.getWritableDatabase();
 		db.delete(MyCoursesHelper.TABLE_NAME, MyCoursesHelper.CCode + "=" + course, null);

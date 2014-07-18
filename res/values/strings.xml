@@ -2,31 +2,32 @@
 <resources>
 
   <string name="app_name">app-android</string>
-  <string name="action_settings">Settings</string>
+  <string name="action_settings">Inställningar</string>
   <string name="choose_city_dialog">Choose Campus</string>
 
   <!-- Map  -->
-  <string name="drawer_open">Open Drawer</string>
-  <string name="drawer_close">Close Drawer</string>
-  <string name="search_button_description">Search button</string>
-  <string name="view_label">Map View</string>
+  <string name="drawer_open">Öppna sidomeny</string>
+  <string name="drawer_close">Stäng sidomeny</string>
+  <string name="search_button_description">Sökknapp</string>
+  <string name="view_label">Kartvy</string>
   <string name="view_hybrid">Hybrid</string>
   <string name="view_normal">Normal</string>
-  <string name="view_satellite">Satellite</string>
+  <string name="view_satellite">Satellit</string>
   <string name="campus_label">Campus</string>
   <string name="campus_karlshamn">Karlshamn</string>
   <string name="campus_karlskrona">Karlskrona</string>
-  <string name="search_field_hint_map">Search</string>
+  <string name="search_field_hint_map">Sök</string>
 
   <!-- Courses and Schedule -->
-  <string name="add_button_text">Add</string>
-  <string name="export_button_text">Export</string>
-  <string name="search_field_hint_courses">Search</string>
+  <string name="add_button_text">Lägg till</string>
+  <string name="export_button_text">Exportera</string>
+  <string name="schedule_button_text">Visa schema</string>
+  <string name="search_field_hint_courses">Kurskod</string>
+  <string name="no_courses_added">Inga kurser är tillagda.\n Skriv in kurskoden och tryck på "Lägg till" för att lägga till en kurs.</string>
 
 
   <string-array name="main_page_list" >
     <item >Ny Student</item>
-    <item >Mitt Schema</item>
     <item >Kurser och Scheman</item>
     <item >Karta över Campus</item>
     <item >Blekinge Studentkår</item>
@@ -54,11 +55,11 @@
   </string-array>
 
 
-<color name="Black">#000000</color>
-<color name="ExpandChildText">#686868</color>
-<color name="ExpandChildBackground">#F5F5F5</color>
+  <color name="Black">#000000</color>
+  <color name="ExpandChildText">#686868</color>
+  <color name="ExpandChildBackground">#F5F5F5</color>
 
-<color name="ExpandGroupText">#ffffff</color>
-<color name="ExpandGroupBackground">#82AAD2</color>
+  <color name="ExpandGroupText">#ffffff</color>
+  <color name="ExpandGroupBackground">#82AAD2</color>
 
 </resources>

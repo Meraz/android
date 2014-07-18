@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import com.example.app_android.Logger;
 
 public class MyBroadCastReceiver extends BroadcastReceiver {
 
