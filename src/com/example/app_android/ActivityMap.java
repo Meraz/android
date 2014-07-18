@@ -224,7 +224,7 @@ public class ActivityMap extends Activity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    // Inflate the menu items for use in the action bar
+	    //Inflate the menu items for the action bar
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.layout.activity_map_action, menu);
 	    return super.onCreateOptionsMenu(menu);
