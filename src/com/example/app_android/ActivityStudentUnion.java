@@ -1,22 +1,25 @@
 package com.example.app_android;
 
-import com.example.app_android.FragmentResidence.ResidenceListener;
+import com.example.app_android.Logger;
+import com.example.app_android.R;
 
 import android.app.Activity;
-
 import android.os.Bundle;
+import android.widget.TextView;
 
-public class ActivityResidence extends Activity implements ResidenceListener {
+public class ActivityStudentUnion extends Activity {
 	
-	private static final String TAG = "ActivityNewStudent";
+	private static final String TAG = "ActivityStudentUnion";
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()a");
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.activity_residence);        
-    }    
+        setContentView(R.layout.activity_studentunion); 
+        TextView tv = (TextView) findViewById(R.id.textView1);
+        tv.setText("studentunion");
+    }        
 
     @Override
 	protected void onDestroy() {

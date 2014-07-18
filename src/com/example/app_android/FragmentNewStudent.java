@@ -1,8 +1,16 @@
 package com.example.app_android;
 
+
+import com.example.app_android.ui.newstudent.ActivityCourseMaterial;
+import com.example.app_android.ui.newstudent.ActivityInformationBTH;
+import com.example.app_android.ui.newstudent.ActivityStudentPortal;
+import com.example.app_android.ui.newstudent.ActivityStudentCentre;
+import com.example.app_android.ui.newstudent.ActivityResidence;
+
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +20,7 @@ import android.widget.ListView;
 
 public class FragmentNewStudent extends ListFragment{
 
+	// Interface for communication between fragment and activity
 	public interface NewStudentListener {
 			
 	}
@@ -19,24 +28,68 @@ public class FragmentNewStudent extends ListFragment{
 	private static final String TAG = "FragmentNewStudent";
 	private String[] mMenu;
 	private NewStudentListener mActivity;
-		
+
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		getListView().setItemChecked(pos, true);
+		
 		onListSelection(pos);
 	}
 	
     // Listener to handle interaction on the list 
-    private void onListSelection(int index) {    		
-    	//Create new activity
-		Intent intent = new Intent(getActivity().getApplicationContext(), ActivityResidence.class);
-		//intent.putExtra("id", index);
-		startActivity(intent);	
+    private void onListSelection(int index) {   
+    	Logger.VerboseLog(TAG, "::Tapped on index " + index);
+    	
+    	// Create new activity
+    	Intent intent = null;
+    	switch (index) {
+        case 0:
+			intent = new Intent(getActivity().getApplicationContext(), ActivityResidence.class);
+			startActivity(intent);
+          break;
+          
+        case 1:
+			intent = new Intent(getActivity().getApplicationContext(), ActivityStudentPortal.class);
+			startActivity(intent);
+          break;
+
+        case 2:
+			intent = new Intent(getActivity().getApplicationContext(), ActivityStudentCentre.class);
+			startActivity(intent);
+          break;
+                    
+        case 3:
+			intent = new Intent(getActivity().getApplicationContext(), ActivityStudentUnion.class);
+			startActivity(intent);
+          break;
+          
+        case 4:
+			intent = new Intent(getActivity().getApplicationContext(), ActivityCourseMaterial.class);
+			startActivity(intent);
+            break;
+            
+        case 5:    
+			intent = new Intent(getActivity().getApplicationContext(), ActivityInformationBTH.class);
+			startActivity(intent);
+          break;
+          
+        case 6:    
+			intent = new Intent(getActivity().getApplicationContext(), ActivityMap.class);
+			startActivity(intent);
+          break;
+
+        default:
+          break;
+      }
+    	
+	//	Intent intent = new Intent(getActivity().getApplicationContext(), ActivityResidence.class);
+	//	intent.putExtra("id", index);
+	//	startActivity(intent);	
 	}
 
 	@Override
 	public void onAttach(Activity activity) {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onAttach()");
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onAttach()");   	
 		super.onAttach(activity);
     
 		// Get resources from stored string array
@@ -69,12 +122,11 @@ public class FragmentNewStudent extends ListFragment{
 	public void onActivityCreated(Bundle savedState) {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
-				
-		// Get and set menu
+		
 		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_main, mMenu));
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 	}
-	
+
 	@Override
 	public void onStart() {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");

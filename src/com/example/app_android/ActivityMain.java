@@ -1,6 +1,5 @@
 package com.example.app_android;
 
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -8,9 +7,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
+import com.example.app_android.FragmentMain.InterfaceActivityMain;
+import com.example.app_android.services.TestDatabase;
+import com.example.app_android.services.ServiceHelper;
 
-public class ActivityMain extends Activity {
-
+public class ActivityMain extends Activity implements InterfaceActivityMain{
+	private TextView test;
 	private static final String TAG = "ActivityMain";
 
 	/*
@@ -25,7 +28,7 @@ public class ActivityMain extends Activity {
     	
         // Sets the content specified in the file in res/layout/activity_main.xml
         // This also specifies which fragment to active
-        setContentView(R.layout.activity_main);       
+        setContentView(R.layout.activity_main);     	
     }
 
     @Override
@@ -58,6 +61,9 @@ public class ActivityMain extends Activity {
 	protected void onStart() {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
 		super.onStart();
+		
+    	test = (TextView) findViewById(R.id.textView1);
+    	test.setText(TestDatabase.getSomeData());    
 	}
 
 	@Override
@@ -85,4 +91,9 @@ public class ActivityMain extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+	public void aFunction()
+	{
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered aFunction()");
+	}
 }

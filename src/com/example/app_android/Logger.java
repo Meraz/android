@@ -10,7 +10,9 @@ public final class Logger {
 		
 	}
 	
-	public static void VerboseLog(String tag, String message)
+
+
+	static public void VerboseLog(String tag, String message)
 	{
 		if(verbose)
 			Log.v(tag, message);

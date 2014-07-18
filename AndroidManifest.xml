@@ -43,20 +43,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-         <activity android:name="ActivityNewStudent"></activity>
-         <activity android:name="ActivityNewStudentContent"></activity>
-         <activity android:name="ActivityMap"></activity>
-         <activity android:name="ActivitySchedule"></activity>
-         <activity android:name="ActivityCourses"></activity>
-         <activity android:name="ActivityStudentUnion"></activity>
-         <activity android:name="ActivityResidence"></activity>
+
+         <activity android:name="com.example.app_android.ActivityNewStudent"></activity>
+         <activity android:name="com.example.app_android.ActivityNewStudentContent"></activity>
+         <activity android:name="com.example.app_android.ActivityMap"></activity>
+         <activity android:name="com.example.app_android.ActivitySchedule"></activity>
+         <activity android:name="com.example.app_android.ActivityCourses"></activity>
+         <activity android:name="com.example.app_android.ActivityStudentUnion"></activity>
          
-         <meta-data
+         <!-- NewStudent UI views -->   
+         <activity android:name="com.example.app_android.ui.newstudent.ActivityStudentPortal"></activity>
+         <activity android:name="com.example.app_android.ui.newstudent.ActivityCourseMaterial"></activity>
+         <activity android:name="com.example.app_android.ui.newstudent.ActivityInformationBTH"></activity>
+         <activity android:name="com.example.app_android.ui.newstudent.ActivityStudentCentre"></activity>
+         <activity android:name="com.example.app_android.ui.newstudent.ActivityResidence"></activity>
+         
+         <service android:name="com.example.app_android.ServiceSchemaUpdate" /> 
+         <service android:enabled="true" android:name="com.example.app_android.services.LoginStudentportal" />
+        	 <meta-data
     		android:name="com.google.android.maps.v2.API_KEY"
     		android:value="AIzaSyAW0yYTCoB4QXjtpmXiU_rZKEzu1HvB5x4"/>
          
-         <service android:name="com.example.app_android.ServiceSchemaUpdate" >
-        </service>
          
     </application>
 
