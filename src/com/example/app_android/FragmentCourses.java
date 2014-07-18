@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class FragmentMyCourses extends ListFragment {
+public class FragmentCourses extends ListFragment {
 	
 	private static final String TAG = "FragmentMyCourses";
 	private InterfaceListSelectionListener listener = null;

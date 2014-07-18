@@ -26,14 +26,14 @@
     	android:layout_width="match_parent"
     	android:layout_height="wrap_content"
     	android:orientation="horizontal">
+    	
     	<EditText
         	android:id="@+id/search_field"
        		android:layout_width="match_parent"
         	android:layout_height="40dp"
         	android:layout_weight="0.75"
-        	
         	android:textColor="#000"
-        	android:hint="Search" >
+        	android:hint="@string/search_field_hint_map" >
     	</EditText>
     	
     	<ImageButton 
@@ -42,7 +42,9 @@
     	    android:layout_height="match_parent"
     	    android:layout_weight="0.25"
     	    android:onClick="onSearchButtonClicked"
-			android:src="@drawable/ic_search"/>
+			android:src="@drawable/ic_search"
+			android:contentDescription="@string/search_button_description" />
+
     
     </LinearLayout>
     
@@ -57,7 +59,7 @@
     	android:layout_height="wrap_content"
     	android:background="#FFF"
     	android:textColor="#33B5E5"
-    	android:text="Campus"
+    	android:text="@string/campus_label"
     	android:textSize="15sp" />
     
 	<RadioGroup
@@ -68,12 +70,12 @@
     <RadioButton android:id="@+id/radio_karlskrona"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Karlskrona"
+        android:text="@string/campus_karlskrona"
         android:onClick="onRadioButtonClicked"/>
     <RadioButton android:id="@+id/radio_karlshamn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Karlshamn"
+        android:text="@string/campus_karlshamn"
         android:onClick="onRadioButtonClicked"/>
 	</RadioGroup>
 	
@@ -88,7 +90,7 @@
     	android:layout_height="wrap_content"
     	android:background="#FFF"
     	android:textColor="#33B5E5"
-    	android:text="Map View"
+    	android:text="@string/view_label"
     	android:textSize="15sp" />
 	
 	<RadioGroup
@@ -99,17 +101,17 @@
     <RadioButton android:id="@+id/radio_normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Normal"
+        android:text="@string/view_normal"
         android:onClick="onRadioButtonClicked"/>
     <RadioButton android:id="@+id/radio_satellite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Satellite"
+        android:text="@string/view_satellite"
         android:onClick="onRadioButtonClicked"/>
     <RadioButton android:id="@+id/radio_hybrid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hybrid"
+        android:text="@string/view_hybrid"
         android:onClick="onRadioButtonClicked"/>
 	</RadioGroup>
 	

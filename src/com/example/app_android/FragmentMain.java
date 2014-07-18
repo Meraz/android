@@ -29,7 +29,7 @@ public class FragmentMain extends ListFragment{
     	Logger.VerboseLog(TAG, "::Tapped on index " + index);
     	Intent intent;
     	switch (index) {
-        case 0:
+        case 0: //New student view
           intent = new Intent(getActivity().getApplicationContext(), ActivityNewStudent.class);
           startActivity(intent);
           break;
@@ -41,12 +41,12 @@ public class FragmentMain extends ListFragment{
     		startActivity(intent);
           break;
 
-        case 2:
+        case 2://courses
           intent = new Intent(getActivity().getApplicationContext(), ActivityCourses.class);
           startActivity(intent);
           break;
           
-        case 4:
+        case 3: //map
         	if(Utilities.isNetworkAvailable(getActivity())) {
         		int startLocation = Cache.getDefaultMapLocation();
         		if(startLocation >= 0 && startLocation <= 1) {
@@ -63,7 +63,7 @@ public class FragmentMain extends ListFragment{
         		Toast.makeText(getActivity(), "Missing internet connection", Toast.LENGTH_SHORT).show();
           break;
           
-        case 6:
+        case 4: //student Union
           launchApp(blekingeStudentUnionPackageName);
           break;
 
