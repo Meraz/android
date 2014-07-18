@@ -3,7 +3,7 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/innerRelativeLayout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_alignParentBottom="true">
     		
 	    <Button
@@ -21,15 +21,14 @@
 	        android:layout_toLeftOf="@id/addButton"
 	        android:hint="@string/search_field_hint_courses"
 	        android:ems="10" >
-	        <requestFocus />
 	    </EditText>
+	    
 	    <LinearLayout 
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_below="@+id/_container"
+	        android:layout_alignParentBottom="true"
 	        android:layout_centerHorizontal="true"
 	        android:orientation="horizontal">
-	        
 	        
 	   		<Button
         		android:id="@+id/scheduleButton"
