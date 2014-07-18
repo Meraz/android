@@ -22,7 +22,8 @@
   <string name="add_button_text">Lägg till</string>
   <string name="export_button_text">Exportera</string>
   <string name="schedule_button_text">Visa schema</string>
-  <string name="search_field_hint_courses">Sök</string>
+  <string name="search_field_hint_courses">Kurskod</string>
+  <string name="no_courses_added">Inga kurser är tillagda.\n Skriv in kurskoden och tryck på "Lägg till" för att lägga till en kurs.</string>
 
 
   <string-array name="main_page_list" >

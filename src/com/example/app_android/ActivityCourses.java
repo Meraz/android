@@ -40,11 +40,16 @@ public class ActivityCourses extends Activity implements InterfaceListSelectionL
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_courses);
 		
-		courseCode = (EditText) findViewById(R.id.courseCode);
 		coursesHelper = new AdapterCoursesHelper(this);
 		coursesAndProgramArray = coursesHelper.readAllCourses();
+		
+		if(coursesHelper.empty())
+			setContentView(R.layout.activity_courses_no_courses);
+		else
+			setContentView(R.layout.activity_courses);
+		
+		courseCode = (EditText) findViewById(R.id.courseCode);
 	}
 	
     @Override
@@ -86,14 +91,11 @@ public class ActivityCourses extends Activity implements InterfaceListSelectionL
 	public void addCourse(View view) {
 		String cCode = courseCode.getText().toString();
 		long id = coursesHelper.insertData(cCode);
-		if(id < 0) {
-			Toast.makeText(this, "Unsuccessful", Toast.LENGTH_LONG).show();
-		}
-		else {
-			Toast.makeText(this, "Insert successful", Toast.LENGTH_LONG).show();
+		if(id >= 0) {
+			//Insert was successful. Now restart the activity to display the added element.
 			finish();
-			startActivity(getIntent());			
-		}		
+			startActivity(getIntent());
+		}
 	}
 	
 	@SuppressWarnings("unchecked") //Should be safe to ignore this warning. It complains about not knowing the type of arraylist being sent in exportTask.execute(requests)
