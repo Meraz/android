@@ -32,8 +32,11 @@ public class ActivityCourseMaterial extends Activity {
         
 		mExpandableList = (ExpandableListView) findViewById(R.id.ExpandableList);
 		mExpandableListItems = SetStandardGroups();
-		mExpandableListAdapter = new MyResidenceExpandableListAdapter(this, mExpandableListItems);
+		mExpandableListAdapter = new MyBaseExpandableListAdapter(this, mExpandableListItems);
 		mExpandableListAdapter.setAdapter(mExpandableList);
+		mExpandableListAdapter.openSpecificGroups(new int[]{0}); // Open first
+		mExpandableListAdapter.setOnlyOneOpenBehavior(true);	// only one group can be opened at the time
+		mExpandableListAdapter.setUseHtmlFormattingOnText(true);	// name says it all
     }        
     
     public ArrayList<BaseExpandableListGroup> SetStandardGroups() { // TODO engrish / swedrish

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import com.example.app_android.R;
  
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,10 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
     protected Context mContext;
     protected ArrayList<BaseExpandableListGroup> mGroups;
     protected ExpandableListView mExpandableList;
+    protected boolean mOnlyOneGroupOpenAtTheTime = false;
+    //protected boolean mFirstGroupCanBeClosed = true; // Future functionality
+    protected boolean mUseHtmlTextInTextFields = false;
+    protected int mLastExpandedGroup;
     
     public MyBaseExpandableListAdapter(Context context, ArrayList<BaseExpandableListGroup> groups) {
     	mContext = context;
@@ -24,11 +29,23 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
     
     @Override
 	public void onGroupExpanded(int groupPosition) {
+    	
+    	if(mOnlyOneGroupOpenAtTheTime == true) {		// if only one item can open at any given time
+	    	if(groupPosition != mLastExpandedGroup){	// Check that it was not the last group
+
+				mExpandableList.collapseGroup(mLastExpandedGroup);
+	    		}	    		
+	    	}
+	    		
+    	mLastExpandedGroup = groupPosition;
+    	
+    	
     	// Scroll down to the new item
 		mExpandableList.smoothScrollToPosition(groupPosition);
+		
     	super.onGroupExpanded(groupPosition);
     }
-        
+    
     // setAdpater from adapter to let the adapter have access to the list view
     // Should maybe be called something more in the style of
     // Send list to adapter so list can set the adapter in itself to access it's functions 
@@ -38,6 +55,77 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
     	mExpandableList = expandableList;
     	mExpandableList.setAdapter(this);
     }
+    
+    // Sets the behavior if only one group is supposed opened at one any time. Default is false
+    public void setOnlyOneOpenBehavior(boolean onlyOneOpen) {
+    	mOnlyOneGroupOpenAtTheTime = onlyOneOpen;
+    }
+    
+    // Sets the behavior if text in textfields are html or not. Default is false
+    public void setUseHtmlFormattingOnText(boolean useHtmlFormattingOnText) {
+    	mUseHtmlTextInTextFields = useHtmlFormattingOnText;
+    }
+   
+    /*
+ // Future functionality NOT IMPLEMENTED // TODO
+    public void setFirstGroupCanBeClosed(boolean firstGroupCanBeClosed){
+    	//mFirstGroupCanBeClosed = firstGroupCanBeClosed;
+    }
+    
+    // Future functionality. NOT IMPLEMENTED // TODO
+    public void setAnimateGroupsOnExpand(boolean animateGroups){
+  
+    }
+    */
+    
+    public void openAllGroups()
+    {
+    	int amountOfGroups = getGroupCount();    	
+    	// Open all groups
+		for(int i = 0; i < amountOfGroups; i++)
+
+    	mLastExpandedGroup = amountOfGroups;
+    }
+    
+    public void closeAllGroups()
+    {    	
+    	int amountOfGroups = getGroupCount();
+    	int i = 0;
+    	    		
+    	// Close all groups
+    	for(; i < amountOfGroups; i++)
+    		mExpandableList.collapseGroup(i);
+    }
+    
+    // Set which groups that are to be opened directly
+    public void openSpecificGroups(int[] groupIndexes) {
+    	if(groupIndexes == null)
+    		return;
+    	if(groupIndexes.length == 1) {
+    		mExpandableList.expandGroup(groupIndexes[0]);
+    		return;
+    	}
+    	// Open all 
+    	int totalGroupsToOpen = groupIndexes.length;
+    	for(int i = 0; i < totalGroupsToOpen; i++){
+    		mExpandableList.expandGroup(groupIndexes[i]);
+    	}	
+    }    
+    
+    // Set which groups that are to be closed directly
+    public void closeSpecificGroups(int[] groupIndexes) {
+    	if(groupIndexes == null)
+    		return;
+    	if(groupIndexes.length == 1) {
+    		mExpandableList.collapseGroup(groupIndexes[0]);
+    		return;
+    	}
+    	// Close all 
+    	int totalGroupsToOpen = groupIndexes.length;
+    	for(int i = 0; i < totalGroupsToOpen; i++){
+    		mExpandableList.collapseGroup(groupIndexes[i]);
+    	}    	
+    }   
         
     public void addItem(BaseExpandableListChild item, BaseExpandableListGroup group) {
         if (!mGroups.contains(group)) {
@@ -50,13 +138,13 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
     }
     
     public Object getChild(int groupPosition, int childPosition) {
-        // TODO Auto-generated method stub
+        // TODO ??
         ArrayList<BaseExpandableListChild> chList = mGroups.get(groupPosition).getItems();
         return chList.get(childPosition);
     }
  
     public long getChildId(int groupPosition, int childPosition) {
-        // TODO Auto-generated method stub
+        // TODO ??
         return childPosition;
     }
  
@@ -67,7 +155,13 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
             view = infalInflater.inflate(R.layout.item_expandablelist_child, null);
 	    }	 
         TextView tv = (TextView) view.findViewById(R.id.tvChild);
-        tv.setText(child.getName());
+        
+
+        if(mUseHtmlTextInTextFields == true)
+        	  tv.setText(Html.fromHtml(child.getName()));	// Read the text as html formatted
+        else if(mUseHtmlTextInTextFields == false)
+        	tv.setText(child.getName());					// Read the text as not html formatted
+        
         tv.setTag(child.getTag());
         return view;
     }

@@ -32,8 +32,11 @@ public class ActivityChecklist extends Activity {
         
 		mExpandableList = (ExpandableListView) findViewById(R.id.ExpandableList);
 		mExpandableListItems = SetStandardGroups();
-		mExpandableListAdapter = new MyResidenceExpandableListAdapter(this, mExpandableListItems);
+		mExpandableListAdapter = new MyBaseExpandableListAdapter(this, mExpandableListItems);
 		mExpandableListAdapter.setAdapter(mExpandableList);
+		mExpandableListAdapter.openSpecificGroups(new int[]{0}); 	// Open first
+		mExpandableListAdapter.setOnlyOneOpenBehavior(true);		// only one group can be opened at the time
+		mExpandableListAdapter.setUseHtmlFormattingOnText(true);	// name says it all
     }        
     
     public ArrayList<BaseExpandableListGroup> SetStandardGroups() { // TODO engrish / swedrish
@@ -45,10 +48,25 @@ public class ActivityChecklist extends Activity {
     	BaseExpandableListGroup group;
 
     	// TODO REMOVE HARDCODE
-    	String groupText = "Allmän information Blekinge Tekniska Högskola";	    	
-    	String childText = "Nudlar<br>Ketchup<br>Falukorv<br>ALL YOU NEED";
+    	String groupText = "Vad behöver jag göra som ny student?";	    	
+    	String childText = "Registrera dig på ditt program. www.studentportal.bth.se <br> <br> Ansök om CSN www.csn.se <br> <br> Bli medlem i studentkåren www.bthstudent.se";
     	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
     	finalList.add(group);
+    	
+    	groupText = "Registrera dig";
+    	childText = "Du kan registrera dig på ditt program eller kurs på studentportalen 2* veckor innan studierna börjar. Detta kan du göra efter du loggat in på www.studentportalen.bth.se under Registrering i menyn till vänster. Går även att göra i appen här [LINK].";
+    	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
+    	finalList.add(group);
+    	
+    	groupText = "Sök studiemedel";
+    	childText = "Varje student söker studiemedel individuellt och allt detta sker via CSN www.csn.se";
+    	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
+    	finalList.add(group);
+    	
+    	groupText = "Bli medlem i studentkåren!";
+    	childText = "Här skall finnas en kort förklarande text om varför man bör bli medlem i studentkåren. www.bthstudent.se";
+    	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
+    	finalList.add(group);  	
     	
     	return finalList;
     }

@@ -1,3 +1,14 @@
+/*
+ * This class was first built for the possible future 
+ * where Expandablelists could hold different items and have 
+ * completely  different functionality from eachother. 
+ * If this text still exist in the future this class could probably be removed safely.
+ * 
+ * Rasmus Tilljander - tilljander.rasmus@gmail.com 
+ */
+
+
+
 package com.example.app_android.ui.elements.expandablelist;
 
 import java.util.ArrayList;
@@ -13,23 +24,14 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 public class MyResidenceExpandableListAdapter extends MyBaseExpandableListAdapter{
-
 	
 	public MyResidenceExpandableListAdapter(Context context, ArrayList<BaseExpandableListGroup> groups) {
 		super(context, groups);
 	}    	
 	
-	protected int currentGroup;
 	@Override
     public void setAdapter(ExpandableListView expandableList) {
-    	super.setAdapter(expandableList);  // Must be runned first
-  	
-    	// Open all groups
-    	int amountOfGroups = getGroupCount();
-    	for(int i = 0; i < amountOfGroups; i++)
-    		mExpandableList.expandGroup(i);
-    	// Start at first item 
-    	mExpandableList.smoothScrollToPosition(0);
+    	super.setAdapter(expandableList);
     }
     
     @Override
@@ -42,18 +44,8 @@ public class MyResidenceExpandableListAdapter extends MyBaseExpandableListAdapte
     	return super.getGroupView(groupPosition, isLastChild, view, parent);
     }
     
+    @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View view, ViewGroup parent) {
-    	BaseExpandableListChild child = (BaseExpandableListChild) getChild(groupPosition, childPosition);
-        if (view == null) {
-            LayoutInflater infalInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = infalInflater.inflate(R.layout.item_expandablelist_child, null);
-	    }	 
-        TextView tv = (TextView) view.findViewById(R.id.tvChild);
-      
-        // HTML        
-        tv.setText(Html.fromHtml(child.getName()));
-    	
-        tv.setTag(child.getTag());
-        return view;
+    	return super.getChildView(groupPosition, childPosition, isLastChild, view, parent);
     }
 }
