@@ -8,6 +8,7 @@
   <!-- Map  -->
   <string name="drawer_open">Öppna sidomeny</string>
   <string name="drawer_close">Stäng sidomeny</string>
+  <string name="search_field_hint_map">Sök</string>
   <string name="search_button_description">Sökknapp</string>
   <string name="view_label">Kartvy</string>
   <string name="view_hybrid">Hybrid</string>
@@ -16,7 +17,9 @@
   <string name="campus_label">Campus</string>
   <string name="campus_karlshamn">Karlshamn</string>
   <string name="campus_karlskrona">Karlskrona</string>
-  <string name="search_field_hint_map">Sök</string>
+  <string name="markers_label">Markers</string>
+  <string name="markers_houses">Houses</string>
+  
 
   <!-- Courses and Schedule -->
   <string name="add_button_text">Lägg till</string>

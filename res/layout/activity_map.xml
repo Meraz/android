@@ -95,25 +95,69 @@
 	
 	<RadioGroup
 	    android:id="@+id/radio_group_views"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-    <RadioButton android:id="@+id/radio_normal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/view_normal"
-        android:onClick="onRadioButtonClicked"/>
-    <RadioButton android:id="@+id/radio_satellite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/view_satellite"
-        android:onClick="onRadioButtonClicked"/>
-    <RadioButton android:id="@+id/radio_hybrid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/view_hybrid"
-        android:onClick="onRadioButtonClicked"/>
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal">
+    	<RadioButton android:id="@+id/radio_normal"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="@string/view_normal"
+        	android:onClick="onRadioButtonClicked"/>
+    	<RadioButton android:id="@+id/radio_satellite"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="@string/view_satellite"
+        	android:onClick="onRadioButtonClicked"/>
+    	<RadioButton android:id="@+id/radio_hybrid"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="@string/view_hybrid"
+        	android:onClick="onRadioButtonClicked"/>
 	</RadioGroup>
 	
+	<Space 
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"/>
+
+	<TextView
+    	android:id="@+id/markers_label"
+    	style="?android:attr/listSeparatorTextViewStyle"
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:background="#FFF"
+    	android:textColor="#33B5E5"
+    	android:text="@string/markers_label"
+    	android:textSize="15sp" />
+	
+	<LinearLayout 
+	    android:id="@+id/markers_layout"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical">
+    	
+	    <LinearLayout
+	    	android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		android:orientation="horizontal">
+    		
+	            <ToggleButton
+    				android:id="@+id/marker_toggle_houses"
+				    android:layout_width="wrap_content"
+    				android:layout_height="wrap_content"
+				    android:textOn="Houses"
+					android:textOff="Houses"
+    				android:onClick="onToggleClicked" />
+	            
+	            <ToggleButton
+    				android:id="@+id/marker_toggle_houses"
+				    android:layout_width="wrap_content"
+    				android:layout_height="wrap_content"
+				    android:textOn="Houses"
+					android:textOff="Houses"
+    				android:onClick="onToggleClicked" />
+	            
+	            
+	    </LinearLayout>
+	</LinearLayout>	
 </LinearLayout>
 </android.support.v4.widget.DrawerLayout>
