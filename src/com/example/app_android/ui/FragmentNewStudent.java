@@ -4,8 +4,9 @@ package com.example.app_android.ui;
 import com.example.app_android.R;
 import com.example.app_android.R.array;
 import com.example.app_android.R.layout;
-import com.example.app_android.ui.newstudent.ActivityCourseMaterial;
 import com.example.app_android.ui.newstudent.ActivityChecklist;
+import com.example.app_android.ui.newstudent.ActivityCourseMaterial;
+import com.example.app_android.ui.newstudent.ActivityBTHInfo;
 import com.example.app_android.ui.newstudent.ActivityStudentPortal;
 import com.example.app_android.ui.newstudent.ActivityStudentCentre;
 import com.example.app_android.ui.newstudent.ActivityResidence;
@@ -49,38 +50,43 @@ public class FragmentNewStudent extends ListFragment{
     	Intent intent = null;
     	switch (index) {
         case 0:
-			intent = new Intent(getActivity().getApplicationContext(), ActivityResidence.class);
-			startActivity(intent);
-          break;
-          
-        case 1:
-			intent = new Intent(getActivity().getApplicationContext(), ActivityStudentPortal.class);
-			startActivity(intent);
-          break;
-
-        case 2:
-			intent = new Intent(getActivity().getApplicationContext(), ActivityStudentCentre.class);
-			startActivity(intent);
-          break;
-                    
-        case 3:
-			intent = new Intent(getActivity().getApplicationContext(), ActivityStudentUnion.class);
-			startActivity(intent);
-          break;
-          
-        case 4:
-			intent = new Intent(getActivity().getApplicationContext(), ActivityCourseMaterial.class);
-			startActivity(intent);
-            break;
-            
-        case 5:    
 			intent = new Intent(getActivity().getApplicationContext(), ActivityChecklist.class);
 			startActivity(intent);
           break;
           
+        case 1:
+			intent = new Intent(getActivity().getApplicationContext(), ActivityResidence.class);
+			startActivity(intent);
+          break;
+          
+        case 2:
+			intent = new Intent(getActivity().getApplicationContext(), ActivityStudentPortal.class);
+			startActivity(intent);
+          break;
+
+        case 3:
+			intent = new Intent(getActivity().getApplicationContext(), ActivityStudentCentre.class);
+			startActivity(intent);
+          break;
+                    
+        case 4:
+			intent = new Intent(getActivity().getApplicationContext(), ActivityStudentUnion.class);
+			startActivity(intent);
+          break;
+          
+        case 5:
+			intent = new Intent(getActivity().getApplicationContext(), ActivityCourseMaterial.class);
+			startActivity(intent);
+            break;
+          
         case 6:    
 		//	intent = new Intent(getActivity().getApplicationContext(), ActivityMap.class);
 		//	startActivity(intent);
+          break;
+          
+        case 7:    
+			intent = new Intent(getActivity().getApplicationContext(), ActivityBTHInfo.class);
+			startActivity(intent);
           break;
 
         default:
