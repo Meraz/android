@@ -251,7 +251,7 @@ public class ActivityCourses extends Activity {
 		values.put(CalendarContract.Events.DTEND, endTimeMillis);
 		values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
 		values.put(CalendarContract.Events.TITLE, eventData[4] + eventData[8] + eventData[6] + eventData[7]);
-		values.put(CalendarContract.Events.DESCRIPTION, eventData[9]);
+		values.put(CalendarContract.Events.DESCRIPTION, eventData[9] + " [Added by the BTH App]"); //Tag the description so we can identify our events later.
 		values.put(CalendarContract.Events.CALENDAR_ID, calendarID);
 		
 		//Insert the event
@@ -302,19 +302,21 @@ public class ActivityCourses extends Activity {
 	private ArrayList<String[]> getCalendarEvents(Context context) {
 		ArrayList<String[]> lectures = new ArrayList<String[]>();
 		
-	    Cursor cursor = context.getContentResolver().query( Uri.parse("content://com.android.calendar/events")
+	    Cursor cursor = context.getContentResolver().query( Uri.parse("content://com.android.calendar/events")	//Get a cursor so we can access the calendar events
 	    		, new String[] { "calendar_id", "title", "description" , "dtstart", "dtend" }, null, null, null);
 	    cursor.moveToFirst();
 	        	        
 	    String[] eventInfo = new String[5];
-        for (int i = 0; i < cursor.getCount(); ++i) {
-            eventInfo[0] = cursor.getString(0);
-            eventInfo[1] = cursor.getString(1);
-            eventInfo[2] = cursor.getString(2);
-            eventInfo[3] = cursor.getString(3);
-            eventInfo[4] = cursor.getString(4);
-	            
-            lectures.add(eventInfo);
+        for (int i = 0; i < cursor.getCount(); ++i) {	//Cycle through all the elements and select those which has been added by this app
+        	String eventDescription = cursor.getString(2);
+        if(eventDescription != null && eventDescription.endsWith("[Added by the BTH App]")) {
+        		eventInfo[0] = cursor.getString(0);	//ID
+            	eventInfo[1] = cursor.getString(1);	//Title
+            	eventInfo[2] = cursor.getString(2);	//Description
+            	eventInfo[3] = cursor.getString(3);	//Start Time (ms)
+            	eventInfo[4] = cursor.getString(4);	//End Time (ms)
+                lectures.add(eventInfo);
+        	}
             cursor.moveToNext();
         }
 		return lectures;
