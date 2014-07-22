@@ -8,9 +8,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
 
@@ -173,85 +175,79 @@ public class ActivityCourses extends Activity {
 		return lectures;
 	}
 	
+	@SuppressLint("SimpleDateFormat")
 	private String[] parseTimeEditData(String[] tokens) {
-		String[] stringParts = new String[10];
+		String[] stringParts = new String[8];
 		
-		stringParts[0] = tokens[0]; //Start date
-		stringParts[1] = tokens[1].substring(1); //Start time
-		stringParts[2] = tokens[2].substring(1); //End date
-		stringParts[3] = tokens[3].substring(1); //End time
+		String[]	startDateParts 		= tokens[0].split("-"); //Start date
+		String		startTimeString 	= tokens[1].substring(1); //Start time
+		String[] 	endDateParts 		= tokens[2].substring(1).split("-"); //End date
+		String	 	endTimeString 		= tokens[3].substring(1); //End time
 		
-		int index = 4;
+		//Java calendar uses 0 as January while TimeEdit uses 1 as January. This code fixes this.
+		int startMonth = Integer.parseInt(startDateParts[1]) - 1;
+		int endMonth = Integer.parseInt(endDateParts[1]) - 1;
+		
+		String startDate = startDateParts[0] + " " + startMonth + " " + startDateParts[2];
+		String endDate = endDateParts[0] + " " + endMonth + " " + endDateParts[2];
+		
+		String timeZone = "GMT+01:00";
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy MM dd HH:mm zzz");
+		
+		String startTimeFull 	=	startDate + " " + startTimeString + " " + timeZone;
+		String endTimeFull		=	endDate + " " + endTimeString + " " + timeZone;
+		try {
+			stringParts[0] 	= 	Long.toString(dateFormat.parse(startTimeFull).getTime());
+			stringParts[1]  = 	Long.toString(dateFormat.parse(endTimeFull).getTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		int index = 4; //Skip past the time tokens
 		
 		if(tokens[index].indexOf('"') == 1) { 	//Course
+			stringParts[2] = tokens[index++] + tokens[index++];
+		} else {
+			stringParts[2] = tokens[index++];
+		}
+		if(tokens[index].indexOf('"') == 1) {	//Group
+			stringParts[3] = tokens[index++] + tokens[index++];
+		} else {
+			stringParts[3] = tokens[index++];
+		}
+		if(tokens[index].indexOf('"') == 1) { 	//Room
 			stringParts[4] = tokens[index++] + tokens[index++];
 		} else {
 			stringParts[4] = tokens[index++];
 		}
-		if(tokens[index].indexOf('"') == 1) {	//Group
+		if(tokens[index].indexOf('"') == 1) { 	//Booking person
 			stringParts[5] = tokens[index++] + tokens[index++];
 		} else {
 			stringParts[5] = tokens[index++];
 		}
-		if(tokens[index].indexOf('"') == 1) { 	//Room
+		if(tokens[index].indexOf('"') == 1) {	//Purpose
 			stringParts[6] = tokens[index++] + tokens[index++];
 		} else {
 			stringParts[6] = tokens[index++];
 		}
-		if(tokens[index].indexOf('"') == 1) { 	//Booking person
+		if(tokens[index].indexOf('"') == 1) {	//Extra info
 			stringParts[7] = tokens[index++] + tokens[index++];
 		} else {
 			stringParts[7] = tokens[index++];
 		}
-		if(tokens[index].indexOf('"') == 1) {	//Purpose
-			stringParts[8] = tokens[index++] + tokens[index++];
-		} else {
-			stringParts[8] = tokens[index++];
-		}
-		if(tokens[index].indexOf('"') == 1) {	//Extra info
-			stringParts[9] = tokens[index++] + tokens[index++];
-		} else {
-			stringParts[9] = tokens[index++];
-		}
 		return stringParts;
 	}
 	
-	private void exportScheduleEvent(String[] eventData, int calendarID) {
-		long startTimeMillis = 0;
-		long endTimeMillis = 0;
-		
-		
-		//Prepare the time strings for conversion
-		String[] startDateParts = eventData[0].split("-");
-		String[] startTimeParts = eventData[1].split(":");
-		String[] endDateParts 	= eventData[2].split("-");
-		String[] endTimeParts 	= eventData[3].split(":");
-		
-		//Java.Util.Calendar uses 0 as January while TimeEdit uses 1 as January. This code fixes this.
-		int startMonth = Integer.parseInt(startDateParts[1]) - 1;
-		int endMonth = Integer.parseInt(endDateParts[1]) - 1;
-		
-		//Get start and end time in milliseconds
-		Calendar beginTime = Calendar.getInstance();
-		beginTime.set(Integer.parseInt(startDateParts[0]), startMonth, Integer.parseInt(startDateParts[2]),
-				Integer.parseInt(startTimeParts[0]), Integer.parseInt(startTimeParts[1]));
-		startTimeMillis = beginTime.getTimeInMillis();
-		
-		Calendar endTime = Calendar.getInstance();
-		endTime.set(Integer.parseInt(endDateParts[0]), endMonth, Integer.parseInt(endDateParts[2]),
-				Integer.parseInt(endTimeParts[0]), Integer.parseInt(endTimeParts[1]));
-		endTimeMillis  = endTime.getTimeInMillis();
-		
-	
-		
+	private void exportScheduleEvent(String[] eventData, int calendarID) throws ParseException {
+
 		//Prepare the event for insertion
 		ContentValues values = new ContentValues();
 		TimeZone timeZone = TimeZone.getDefault();
-		values.put(CalendarContract.Events.DTSTART, startTimeMillis);
-		values.put(CalendarContract.Events.DTEND, endTimeMillis);
+		values.put(CalendarContract.Events.DTSTART, eventData[0]);
+		values.put(CalendarContract.Events.DTEND, eventData[1]);
 		values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
-		values.put(CalendarContract.Events.TITLE, eventData[4] + eventData[8] + eventData[6] + eventData[7]);
-		values.put(CalendarContract.Events.DESCRIPTION, eventData[9] + " [Added by the BTH App]"); //Tag the description so we can identify our events later.
+		values.put(CalendarContract.Events.TITLE, eventData[2] + eventData[6] + eventData[4] + eventData[5]);
+		values.put(CalendarContract.Events.DESCRIPTION, eventData[7] + " [Added by the BTH App]"); //Tag the description so we can identify our events later.
 		values.put(CalendarContract.Events.CALENDAR_ID, calendarID);
 		
 		//Insert the event
@@ -322,6 +318,25 @@ public class ActivityCourses extends Activity {
 		return lectures;
 	}
 	
+	private ArrayList<String[]> getLecturesForCourse(String course, ArrayList<String[]> allLectures) {
+		ArrayList<String[]> relevantLectures = new ArrayList<String[]>();
+		
+		for(int i = 0; i < allLectures.size(); ++i) {
+			if(allLectures.get(i)[1].startsWith(course)) { //Check if the current lectures title begins with the course code we are looking for
+				relevantLectures.add(allLectures.get(i));
+			}
+		}
+		return relevantLectures;
+	}
+	
+	private void removeDuplicateEvents(ArrayList<String[]> newLectures, ArrayList<String[]> oldLectures) {
+		for(int i = 0; i < newLectures.size(); ++i) {
+			for(int j = 0; j < oldLectures.size(); ++j) {
+				
+			}
+		}
+	}
+	
 	 private class ExportToGCalFromTimeEditTask extends AsyncTask<ArrayList<String>, Void, Integer> {
 		 final Context context;
 		 
@@ -336,23 +351,32 @@ public class ActivityCourses extends Activity {
 				int calendarID = findCalendarID();
 				if(calendarID != -1) // -1 indicates that no Google account is linked to this device
 				{
-					ArrayList<String[]> calendarEvents  = getCalendarEvents(context);
+					ArrayList<String[]> oldCalendarEvents  = getCalendarEvents(context);
 					
 					//Export all courses
 					for(int i = 0; i < requests[0].size(); ++i) {
-						ArrayList<String[]> lectureList = getTimeEditData(requests[0].get(i));
-						int courseEventCount = lectureList.size();
-						scheduleEventCount += courseEventCount;
+						ArrayList<String[]> newLectureList = getTimeEditData(requests[0].get(i));
+						if(newLectureList.size() > 0) {
+							ArrayList<String[]> oldLectureList = getLecturesForCourse(newLectureList.get(0)[4], oldCalendarEvents); //The first parameter gets the course name for the relevant course from the first entry in the event list fetched from timeedit
+							removeDuplicateEvents(newLectureList, oldLectureList);
+							
+							int courseEventCount = newLectureList.size();
+							scheduleEventCount += courseEventCount;
 						
-						//Export all events for a given course
-						for(int j = 0; j < courseEventCount; ++j) {
-							exportScheduleEvent(lectureList.get(j), calendarID); 
+							//Export all events for a given course
+							try {
+								for(int j = 0; j < courseEventCount; ++j) {
+									exportScheduleEvent(newLectureList.get(j), calendarID);									
+								}
+							} catch (ParseException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 					}
 				}
-				else {
+				else
 					return -1;
-				}
 				
 				return scheduleEventCount;
 	     }
