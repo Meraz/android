@@ -25,6 +25,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -121,7 +122,7 @@ public class ActivityCourses extends Activity {
 				requests.add("https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=" + courseCodes.get(i) +
 						"&type=root&startdate=" + startDate + "&enddate=" + endDate + "&p=0.m%2C2.w");
 			}
-				ExportToGCalFromTimeEditTask exportTask = new ExportToGCalFromTimeEditTask();
+				ExportToGCalFromTimeEditTask exportTask = new ExportToGCalFromTimeEditTask(getApplicationContext());
 				exportTask.execute(requests);
 		}
 		else 
@@ -131,7 +132,7 @@ public class ActivityCourses extends Activity {
 	public void startCalendar(View view) {
     	//Start the calendar app
     	Uri uri = Uri.parse("content://com.android.calendar/time");
-		Intent intent = new Intent("android.intent.action.VIEW", uri);		//TODO Check if there is a way to force google calendar to start in week view
+		Intent intent = new Intent("android.intent.action.VIEW", uri);
 		startActivity(intent);
 	}
 	
@@ -231,7 +232,7 @@ public class ActivityCourses extends Activity {
 		int endMonth = Integer.parseInt(endDateParts[1]) - 1;
 		
 		//Get start and end time in milliseconds
-		Calendar beginTime = Calendar.getInstance();  //TODO Something is wrong with the epoch time. It pushes the events 1 months worth of milliseconds forward in time.
+		Calendar beginTime = Calendar.getInstance();
 		beginTime.set(Integer.parseInt(startDateParts[0]), startMonth, Integer.parseInt(startDateParts[2]),
 				Integer.parseInt(startTimeParts[0]), Integer.parseInt(startTimeParts[1]));
 		startTimeMillis = beginTime.getTimeInMillis();
@@ -298,7 +299,34 @@ public class ActivityCourses extends Activity {
 			return returnCalendarID;
 	}
 	
+	private ArrayList<String[]> getCalendarEvents(Context context) {
+		ArrayList<String[]> lectures = new ArrayList<String[]>();
+		
+	    Cursor cursor = context.getContentResolver().query( Uri.parse("content://com.android.calendar/events")
+	    		, new String[] { "calendar_id", "title", "description" , "dtstart", "dtend" }, null, null, null);
+	    cursor.moveToFirst();
+	        	        
+	    String[] eventInfo = new String[5];
+        for (int i = 0; i < cursor.getCount(); ++i) {
+            eventInfo[0] = cursor.getString(0);
+            eventInfo[1] = cursor.getString(1);
+            eventInfo[2] = cursor.getString(2);
+            eventInfo[3] = cursor.getString(3);
+            eventInfo[4] = cursor.getString(4);
+	            
+            lectures.add(eventInfo);
+            cursor.moveToNext();
+        }
+		return lectures;
+	}
+	
 	 private class ExportToGCalFromTimeEditTask extends AsyncTask<ArrayList<String>, Void, Integer> {
+		 final Context context;
+		 
+		 public ExportToGCalFromTimeEditTask(Context context) {
+			 this.context = context;
+		 }
+		 
 		 
 		 @Override
 	     protected Integer doInBackground(ArrayList<String>... requests) {
@@ -306,6 +334,8 @@ public class ActivityCourses extends Activity {
 				int calendarID = findCalendarID();
 				if(calendarID != -1) // -1 indicates that no Google account is linked to this device
 				{
+					ArrayList<String[]> calendarEvents  = getCalendarEvents(context);
+					
 					//Export all courses
 					for(int i = 0; i < requests[0].size(); ++i) {
 						ArrayList<String[]> lectureList = getTimeEditData(requests[0].get(i));

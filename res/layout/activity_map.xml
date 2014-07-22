@@ -147,16 +147,6 @@
 				    android:textOn="Houses"
 					android:textOff="Houses"
     				android:onClick="onToggleClicked" />
-	            
-	            <ToggleButton
-    				android:id="@+id/marker_toggle_houses"
-				    android:layout_width="wrap_content"
-    				android:layout_height="wrap_content"
-				    android:textOn="Houses"
-					android:textOff="Houses"
-    				android:onClick="onToggleClicked" />
-	            
-	            
 	    </LinearLayout>
 	</LinearLayout>	
 </LinearLayout>
