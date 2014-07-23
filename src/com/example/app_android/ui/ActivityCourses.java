@@ -26,6 +26,7 @@ import com.example.app_android.util.Utilities;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -34,6 +35,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.CalendarContract;
+import android.provider.CalendarContract.Events;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -187,7 +189,7 @@ public class ActivityCourses extends Activity {
 		String startDate = startDateParts[0] + " " + startDateParts[1] + " " + startDateParts[2];
 		String endDate = endDateParts[0] + " " + endDateParts[1] + " " + endDateParts[2];
 		
-		String timeZone = "GMT";
+		String timeZone = "GMT+02:00"; //TODO - Check why this value has to be set to +2. The exporter code specifies a timezone but it seems to be wrong even though it is set to Europe/Stockholm
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy MM dd HH:mm zzz");
 		
 		String startTimeFull 	=	startDate + " " + startTimeString + " " + timeZone;
@@ -243,15 +245,14 @@ public class ActivityCourses extends Activity {
 		values.put(CalendarContract.Events.DTEND, eventData[1]);
 		values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
 		values.put(CalendarContract.Events.TITLE, eventData[2] + " " + eventData[6] + " " + eventData[4] + " " + eventData[5]);
-		values.put(CalendarContract.Events.DESCRIPTION, eventData[7] + " [Added by the BTH App]"); //Tag the description so we can identify our events later.
+		values.put(CalendarContract.Events.DESCRIPTION, eventData[7] + " \n\n[This event was added by the BTH App]"); //Tag the description so we can identify our events later.
 		values.put(CalendarContract.Events.CALENDAR_ID, calendarID);
 		
 		//Insert the event
 		ContentResolver contentResolver = getContentResolver();
-		contentResolver.insert(CalendarContract.Events.CONTENT_URI, values);
+		Uri uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values);
 		
-		//In case we want to save this somewhere we can get an uri from ContentResolver.insert and run this row to get an eventID
-		//String eventID = uri.getLastPathSegment();
+		String eventID = uri.getLastPathSegment();
 	}
 	
 	private int findCalendarID() {
@@ -301,7 +302,7 @@ public class ActivityCourses extends Activity {
 	    
         for (int i = 0; i < cursor.getCount(); ++i) {	//Cycle through all the elements and select those which has been added by this app
         	String eventDescription = cursor.getString(2);
-        	  if(eventDescription != null && eventDescription.contains("[Added by the BTH App]")) {
+        	  if(eventDescription != null && eventDescription.contains("[This event was added by the BTH App]")) {
         		  	String[] eventInfo = new String[5];
               		eventInfo[0] = cursor.getString(3);	//Start Time (ms)
               		eventInfo[1] = cursor.getString(4);	//End Time (ms)
@@ -327,13 +328,14 @@ public class ActivityCourses extends Activity {
 		return relevantLectures;
 	}
 	
+	//TODO - Remove events that are present in oldLEcturews but not in newLectures (Needs saved IDs)
 	private void removeDuplicateEvents(ArrayList<String[]> newLectures, ArrayList<String[]> oldLectures) {
 		for(int i = 0; i < newLectures.size(); ++i) {
 			for(int j = 0; j < oldLectures.size(); ++j) {
 				if(newLectures.get(i)[0].equals(oldLectures.get(j)[0])
 				&& newLectures.get(i)[1].equals(oldLectures.get(j)[1])
 				&& (newLectures.get(i)[2] + " " + newLectures.get(i)[6] + " " + newLectures.get(i)[4] + " " + newLectures.get(i)[5]).equals(oldLectures.get(j)[2])
-				&& (newLectures.get(i)[7] + " [Added by the BTH App]").equals(oldLectures.get(j)[3])) { //"Gr. Turkos [Added by the BTH App]" == "Gr. Turkos [Added by the BTH App]"
+				&& (newLectures.get(i)[7] + " \n\n[This event was added by the BTH App]").equals(oldLectures.get(j)[3])) { //"Gr. Turkos [Added by the BTH App]" == "Gr. Turkos [Added by the BTH App]"
 						newLectures.remove(i--); //Do -- after so we don't mess up the indices
 						oldLectures.remove(j--);
 						break;
@@ -342,13 +344,19 @@ public class ActivityCourses extends Activity {
 		}
 	}
 	
+	//Returns true if the event was deleted successfully
+	private boolean deleteEvent(long eventId) {
+		Uri deleteUri = ContentUris.withAppendedId(Events.CONTENT_URI, eventId);
+		int rows = getContentResolver().delete(deleteUri, null, null);
+		return rows > 0;
+	}
+	
 	 private class ExportToGCalFromTimeEditTask extends AsyncTask<ArrayList<String>, Void, Integer> {
 		 final Context context;
 		 
 		 public ExportToGCalFromTimeEditTask(Context context) {
 			 this.context = context;
 		 }
-		 
 		 
 		 @Override
 	     protected Integer doInBackground(ArrayList<String>... requests) {
