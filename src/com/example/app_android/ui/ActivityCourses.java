@@ -184,14 +184,10 @@ public class ActivityCourses extends Activity {
 		String[] 	endDateParts 		= tokens[2].substring(1).split("-"); //End date
 		String	 	endTimeString 		= tokens[3].substring(1); //End time
 		
-		//Java calendar uses 0 as January while TimeEdit uses 1 as January. This code fixes this.
-		int startMonth = Integer.parseInt(startDateParts[1]) - 1;
-		int endMonth = Integer.parseInt(endDateParts[1]) - 1;
+		String startDate = startDateParts[0] + " " + startDateParts[1] + " " + startDateParts[2];
+		String endDate = endDateParts[0] + " " + endDateParts[1] + " " + endDateParts[2];
 		
-		String startDate = startDateParts[0] + " " + startMonth + " " + startDateParts[2];
-		String endDate = endDateParts[0] + " " + endMonth + " " + endDateParts[2];
-		
-		String timeZone = "GMT+01:00";
+		String timeZone = "GMT";
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy MM dd HH:mm zzz");
 		
 		String startTimeFull 	=	startDate + " " + startTimeString + " " + timeZone;
@@ -206,34 +202,34 @@ public class ActivityCourses extends Activity {
 		int index = 4; //Skip past the time tokens
 		
 		if(tokens[index].indexOf('"') == 1) { 	//Course
-			stringParts[2] = tokens[index++] + tokens[index++];
+			stringParts[2] = tokens[index++].substring(1) + tokens[index++];
 		} else {
-			stringParts[2] = tokens[index++];
+			stringParts[2] = tokens[index++].substring(1);
 		}
 		if(tokens[index].indexOf('"') == 1) {	//Group
-			stringParts[3] = tokens[index++] + tokens[index++];
+			stringParts[3] = tokens[index++].substring(1) + tokens[index++];
 		} else {
-			stringParts[3] = tokens[index++];
+			stringParts[3] = tokens[index++].substring(1);
 		}
 		if(tokens[index].indexOf('"') == 1) { 	//Room
-			stringParts[4] = tokens[index++] + tokens[index++];
+			stringParts[4] = tokens[index++].substring(1) + tokens[index++];
 		} else {
-			stringParts[4] = tokens[index++];
+			stringParts[4] = tokens[index++].substring(1);
 		}
 		if(tokens[index].indexOf('"') == 1) { 	//Booking person
-			stringParts[5] = tokens[index++] + tokens[index++];
+			stringParts[5] = tokens[index++].substring(1) + tokens[index++];
 		} else {
-			stringParts[5] = tokens[index++];
+			stringParts[5] = tokens[index++].substring(1);
 		}
 		if(tokens[index].indexOf('"') == 1) {	//Purpose
-			stringParts[6] = tokens[index++] + tokens[index++];
+			stringParts[6] = tokens[index++].substring(1) + tokens[index++];
 		} else {
-			stringParts[6] = tokens[index++];
+			stringParts[6] = tokens[index++].substring(1);
 		}
 		if(tokens[index].indexOf('"') == 1) {	//Extra info
-			stringParts[7] = tokens[index++] + tokens[index++];
+			stringParts[7] = tokens[index++].substring(1) + tokens[index++];
 		} else {
-			stringParts[7] = tokens[index++];
+			stringParts[7] = tokens[index++].substring(1);
 		}
 		return stringParts;
 	}
@@ -246,7 +242,7 @@ public class ActivityCourses extends Activity {
 		values.put(CalendarContract.Events.DTSTART, eventData[0]);
 		values.put(CalendarContract.Events.DTEND, eventData[1]);
 		values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
-		values.put(CalendarContract.Events.TITLE, eventData[2] + eventData[6] + eventData[4] + eventData[5]);
+		values.put(CalendarContract.Events.TITLE, eventData[2] + " " + eventData[6] + " " + eventData[4] + " " + eventData[5]);
 		values.put(CalendarContract.Events.DESCRIPTION, eventData[7] + " [Added by the BTH App]"); //Tag the description so we can identify our events later.
 		values.put(CalendarContract.Events.CALENDAR_ID, calendarID);
 		
@@ -302,17 +298,19 @@ public class ActivityCourses extends Activity {
 	    		, new String[] { "calendar_id", "title", "description" , "dtstart", "dtend" }, null, null, null);
 	    cursor.moveToFirst();
 	        	        
-	    String[] eventInfo = new String[5];
+	    
         for (int i = 0; i < cursor.getCount(); ++i) {	//Cycle through all the elements and select those which has been added by this app
         	String eventDescription = cursor.getString(2);
-        if(eventDescription != null && eventDescription.endsWith("[Added by the BTH App]")) {
-        		eventInfo[0] = cursor.getString(0);	//ID
-            	eventInfo[1] = cursor.getString(1);	//Title
-            	eventInfo[2] = cursor.getString(2);	//Description
-            	eventInfo[3] = cursor.getString(3);	//Start Time (ms)
-            	eventInfo[4] = cursor.getString(4);	//End Time (ms)
-                lectures.add(eventInfo);
-        	}
+        	  if(eventDescription != null && eventDescription.contains("[Added by the BTH App]")) {
+        		  	String[] eventInfo = new String[5];
+              		eventInfo[0] = cursor.getString(3);	//Start Time (ms)
+              		eventInfo[1] = cursor.getString(4);	//End Time (ms)
+              		eventInfo[2] = cursor.getString(1);	//Title
+              		eventInfo[3] = cursor.getString(2);	//Description
+              		eventInfo[4] = cursor.getString(0);	//ID
+                  	
+              		lectures.add(eventInfo);
+              	}
             cursor.moveToNext();
         }
 		return lectures;
@@ -322,7 +320,7 @@ public class ActivityCourses extends Activity {
 		ArrayList<String[]> relevantLectures = new ArrayList<String[]>();
 		
 		for(int i = 0; i < allLectures.size(); ++i) {
-			if(allLectures.get(i)[1].startsWith(course)) { //Check if the current lectures title begins with the course code we are looking for
+			if(allLectures.get(i)[2].startsWith(course)) { //Check if the current lectures title begins with the course code we are looking for
 				relevantLectures.add(allLectures.get(i));
 			}
 		}
@@ -332,7 +330,14 @@ public class ActivityCourses extends Activity {
 	private void removeDuplicateEvents(ArrayList<String[]> newLectures, ArrayList<String[]> oldLectures) {
 		for(int i = 0; i < newLectures.size(); ++i) {
 			for(int j = 0; j < oldLectures.size(); ++j) {
-				
+				if(newLectures.get(i)[0].equals(oldLectures.get(j)[0])
+				&& newLectures.get(i)[1].equals(oldLectures.get(j)[1])
+				&& (newLectures.get(i)[2] + " " + newLectures.get(i)[6] + " " + newLectures.get(i)[4] + " " + newLectures.get(i)[5]).equals(oldLectures.get(j)[2])
+				&& (newLectures.get(i)[7] + " [Added by the BTH App]").equals(oldLectures.get(j)[3])) { //"Gr. Turkos [Added by the BTH App]" == "Gr. Turkos [Added by the BTH App]"
+						newLectures.remove(i--); //Do -- after so we don't mess up the indices
+						oldLectures.remove(j--);
+						break;
+				}
 			}
 		}
 	}
@@ -357,7 +362,7 @@ public class ActivityCourses extends Activity {
 					for(int i = 0; i < requests[0].size(); ++i) {
 						ArrayList<String[]> newLectureList = getTimeEditData(requests[0].get(i));
 						if(newLectureList.size() > 0) {
-							ArrayList<String[]> oldLectureList = getLecturesForCourse(newLectureList.get(0)[4], oldCalendarEvents); //The first parameter gets the course name for the relevant course from the first entry in the event list fetched from timeedit
+							ArrayList<String[]> oldLectureList = getLecturesForCourse(newLectureList.get(0)[2], oldCalendarEvents); //The first parameter gets the course name for the relevant course from the first entry in the event list fetched from timeedit
 							removeDuplicateEvents(newLectureList, oldLectureList);
 							
 							int courseEventCount = newLectureList.size();
@@ -369,7 +374,6 @@ public class ActivityCourses extends Activity {
 									exportScheduleEvent(newLectureList.get(j), calendarID);									
 								}
 							} catch (ParseException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 						}
