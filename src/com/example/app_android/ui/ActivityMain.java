@@ -13,13 +13,14 @@ import com.example.app_android.Cache;
 import com.example.app_android.R;
 import com.example.app_android.R.id;
 import com.example.app_android.R.layout;
+import com.example.app_android.database.AdapterTokenDb;
 import com.example.app_android.services.ServiceHelper;
 import com.example.app_android.services.TestDatabase;
 import com.example.app_android.ui.FragmentMain.InterfaceActivityMain;
 import com.example.app_android.util.Logger;
 
 public class ActivityMain extends Activity implements InterfaceActivityMain{
-	private TextView test;
+	private TextView test; 	// TODO
 	private static final String TAG = "ActivityMain";
 
 	/*
