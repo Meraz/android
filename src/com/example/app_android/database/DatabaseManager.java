@@ -23,7 +23,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
      *  
      *  * Some problems with this method is:
      *  *  * Every single time DatabaseManager is instantiated, all the tables will be instantiated aswell.
-     *  *  * Every class that needs access to the database will need to instantiate this class.
+     *  *  * Every class that needs access to the database will need to instantiate this class.  (These two problems might be solved if allocation is done elsewhere hmmmm)
      *  
      *  * Other worries
      *  *  * There's no concurrency on... well anything using the database for the moment.
