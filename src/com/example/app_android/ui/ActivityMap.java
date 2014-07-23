@@ -24,10 +24,6 @@ import java.util.Locale;
 
 import com.example.app_android.Cache;
 import com.example.app_android.R;
-import com.example.app_android.R.drawable;
-import com.example.app_android.R.id;
-import com.example.app_android.R.layout;
-import com.example.app_android.R.string;
 import com.example.app_android.util.Logger;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

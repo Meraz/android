@@ -12,14 +12,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
 
 import com.example.app_android.AdapterCoursesHelper;
 import com.example.app_android.R;
-import com.example.app_android.R.id;
-import com.example.app_android.R.layout;
 import com.example.app_android.util.Logger;
 import com.example.app_android.util.Utilities;
 
@@ -148,209 +145,6 @@ public class ActivityCourses extends Activity {
 		Logger.VerboseLog(TAG, "Checked or Unchecked");
 	}
 
-	private ArrayList<String[]> getTimeEditData(String stringURL) {
-		String inputLine;
-		ArrayList<String[]> lectures = new ArrayList<String[]>();
-		try {
-			//Connect and fetch data
-			URL url = new URL(stringURL);
-			HttpURLConnection urlCon = (HttpURLConnection)url.openConnection();
-			InputStream inStream = urlCon.getInputStream();
-			BufferedReader readBuff = new BufferedReader(new InputStreamReader(inStream));
-
-			//Save the data we are actually interested in and throw away the rest
-			int count = 0;
-			while((inputLine = readBuff.readLine()) != null) {
-				if(count > 3) {	//The three first rows are not schedule entries
-					String[] tokens = inputLine.split(",");
-					String[] lecture =  parseTimeEditData(tokens);
-					lectures.add(lecture);
-				}
-				count++;
-			}			
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return lectures;
-	}
-	
-	@SuppressLint("SimpleDateFormat")
-	private String[] parseTimeEditData(String[] tokens) {
-		String[] stringParts = new String[8];
-		
-		String[]	startDateParts 		= tokens[0].split("-"); //Start date
-		String		startTimeString 	= tokens[1].substring(1); //Start time
-		String[] 	endDateParts 		= tokens[2].substring(1).split("-"); //End date
-		String	 	endTimeString 		= tokens[3].substring(1); //End time
-		
-		String startDate = startDateParts[0] + " " + startDateParts[1] + " " + startDateParts[2];
-		String endDate = endDateParts[0] + " " + endDateParts[1] + " " + endDateParts[2];
-		
-		String timeZone = "GMT+02:00"; //TODO - Check why this value has to be set to +2. The exporter code specifies a timezone but it seems to be wrong even though it is set to Europe/Stockholm
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy MM dd HH:mm zzz");
-		
-		String startTimeFull 	=	startDate + " " + startTimeString + " " + timeZone;
-		String endTimeFull		=	endDate + " " + endTimeString + " " + timeZone;
-		try {
-			stringParts[0] 	= 	Long.toString(dateFormat.parse(startTimeFull).getTime());
-			stringParts[1]  = 	Long.toString(dateFormat.parse(endTimeFull).getTime());
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		
-		int index = 4; //Skip past the time tokens
-		
-		if(tokens[index].indexOf('"') == 1) { 	//Course
-			stringParts[2] = tokens[index++].substring(1) + tokens[index++];
-		} else {
-			stringParts[2] = tokens[index++].substring(1);
-		}
-		if(tokens[index].indexOf('"') == 1) {	//Group
-			stringParts[3] = tokens[index++].substring(1) + tokens[index++];
-		} else {
-			stringParts[3] = tokens[index++].substring(1);
-		}
-		if(tokens[index].indexOf('"') == 1) { 	//Room
-			stringParts[4] = tokens[index++].substring(1) + tokens[index++];
-		} else {
-			stringParts[4] = tokens[index++].substring(1);
-		}
-		if(tokens[index].indexOf('"') == 1) { 	//Booking person
-			stringParts[5] = tokens[index++].substring(1) + tokens[index++];
-		} else {
-			stringParts[5] = tokens[index++].substring(1);
-		}
-		if(tokens[index].indexOf('"') == 1) {	//Purpose
-			stringParts[6] = tokens[index++].substring(1) + tokens[index++];
-		} else {
-			stringParts[6] = tokens[index++].substring(1);
-		}
-		if(tokens[index].indexOf('"') == 1) {	//Extra info
-			stringParts[7] = tokens[index++].substring(1) + tokens[index++];
-		} else {
-			stringParts[7] = tokens[index++].substring(1);
-		}
-		return stringParts;
-	}
-	
-	private void exportScheduleEvent(String[] eventData, int calendarID) throws ParseException {
-
-		//Prepare the event for insertion
-		ContentValues values = new ContentValues();
-		TimeZone timeZone = TimeZone.getDefault();
-		values.put(CalendarContract.Events.DTSTART, eventData[0]);
-		values.put(CalendarContract.Events.DTEND, eventData[1]);
-		values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
-		values.put(CalendarContract.Events.TITLE, eventData[2] + " " + eventData[6] + " " + eventData[4] + " " + eventData[5]);
-		values.put(CalendarContract.Events.DESCRIPTION, eventData[7] + " \n\n[This event was added by the BTH App]"); //Tag the description so we can identify our events later.
-		values.put(CalendarContract.Events.CALENDAR_ID, calendarID);
-		
-		//Insert the event
-		ContentResolver contentResolver = getContentResolver();
-		Uri uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values);
-		
-		String eventID = uri.getLastPathSegment();
-	}
-	
-	private int findCalendarID() {
-		int returnCalendarID = -1;
-		int[] calendarIDs = null;
-		String[] calendarNames = null;
-		
-		//Get the calendar ID
-		ContentResolver contentResolver = getContentResolver();
-		String[] projection = new String[] {
-		       CalendarContract.Calendars._ID,
-		       CalendarContract.Calendars.ACCOUNT_NAME,
-		       CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
-		       CalendarContract.Calendars.NAME,
-		       CalendarContract.Calendars.CALENDAR_COLOR
-		};
-		Cursor cursor = contentResolver.query(Uri.parse("content://com.android.calendar/calendars"), projection, null, null, null);
-			if (cursor.moveToFirst()) {	//If there are any calendars at all
-				int calendarCount = cursor.getCount();
-				calendarIDs = new int[calendarCount];
-				calendarNames = new String[calendarCount];
-				for (int i = 0; i < calendarIDs.length; i++) {
-					calendarIDs[i] = cursor.getInt(0);
-					calendarNames[i] = cursor.getString(1);
-					cursor.moveToNext();
-				}
-				cursor.close();
-				
-				//See if any of the found calendars is a Google calendar
-				for(int i = 0; i < calendarCount; ++i) {
-					if(calendarNames[i].contains("@gmail.com")) {
-						returnCalendarID = calendarIDs[i];
-						break;
-					}
-				}
-			}
-			return returnCalendarID;
-	}
-	
-	private ArrayList<String[]> getCalendarEvents(Context context) {
-		ArrayList<String[]> lectures = new ArrayList<String[]>();
-		
-	    Cursor cursor = context.getContentResolver().query( Uri.parse("content://com.android.calendar/events")	//Get a cursor so we can access the calendar events
-	    		, new String[] { "calendar_id", "title", "description" , "dtstart", "dtend" }, null, null, null);
-	    cursor.moveToFirst();
-	        	        
-	    
-        for (int i = 0; i < cursor.getCount(); ++i) {	//Cycle through all the elements and select those which has been added by this app
-        	String eventDescription = cursor.getString(2);
-        	  if(eventDescription != null && eventDescription.contains("[This event was added by the BTH App]")) {
-        		  	String[] eventInfo = new String[5];
-              		eventInfo[0] = cursor.getString(3);	//Start Time (ms)
-              		eventInfo[1] = cursor.getString(4);	//End Time (ms)
-              		eventInfo[2] = cursor.getString(1);	//Title
-              		eventInfo[3] = cursor.getString(2);	//Description
-              		eventInfo[4] = cursor.getString(0);	//ID
-                  	
-              		lectures.add(eventInfo);
-              	}
-            cursor.moveToNext();
-        }
-		return lectures;
-	}
-	
-	private ArrayList<String[]> getLecturesForCourse(String course, ArrayList<String[]> allLectures) {
-		ArrayList<String[]> relevantLectures = new ArrayList<String[]>();
-		
-		for(int i = 0; i < allLectures.size(); ++i) {
-			if(allLectures.get(i)[2].startsWith(course)) { //Check if the current lectures title begins with the course code we are looking for
-				relevantLectures.add(allLectures.get(i));
-			}
-		}
-		return relevantLectures;
-	}
-	
-	//TODO - Remove events that are present in oldLEcturews but not in newLectures (Needs saved IDs)
-	private void removeDuplicateEvents(ArrayList<String[]> newLectures, ArrayList<String[]> oldLectures) {
-		for(int i = 0; i < newLectures.size(); ++i) {
-			for(int j = 0; j < oldLectures.size(); ++j) {
-				if(newLectures.get(i)[0].equals(oldLectures.get(j)[0])
-				&& newLectures.get(i)[1].equals(oldLectures.get(j)[1])
-				&& (newLectures.get(i)[2] + " " + newLectures.get(i)[6] + " " + newLectures.get(i)[4] + " " + newLectures.get(i)[5]).equals(oldLectures.get(j)[2])
-				&& (newLectures.get(i)[7] + " \n\n[This event was added by the BTH App]").equals(oldLectures.get(j)[3])) { //"Gr. Turkos [Added by the BTH App]" == "Gr. Turkos [Added by the BTH App]"
-						newLectures.remove(i--); //Do -- after so we don't mess up the indices
-						oldLectures.remove(j--);
-						break;
-				}
-			}
-		}
-	}
-	
-	//Returns true if the event was deleted successfully
-	private boolean deleteEvent(long eventId) {
-		Uri deleteUri = ContentUris.withAppendedId(Events.CONTENT_URI, eventId);
-		int rows = getContentResolver().delete(deleteUri, null, null);
-		return rows > 0;
-	}
-	
 	 private class ExportToGCalFromTimeEditTask extends AsyncTask<ArrayList<String>, Void, Integer> {
 		 final Context context;
 		 
@@ -364,13 +158,15 @@ public class ActivityCourses extends Activity {
 				int calendarID = findCalendarID();
 				if(calendarID != -1) // -1 indicates that no Google account is linked to this device
 				{
+					//Get all events in the users calendar that has been added by this app
 					ArrayList<String[]> oldCalendarEvents  = getCalendarEvents(context);
 					
-					//Export all courses
 					for(int i = 0; i < requests[0].size(); ++i) {
 						ArrayList<String[]> newLectureList = getTimeEditData(requests[0].get(i));
 						if(newLectureList.size() > 0) {
+							//Sort out the lectures from the oldCalendarEvents that are for other courses
 							ArrayList<String[]> oldLectureList = getLecturesForCourse(newLectureList.get(0)[2], oldCalendarEvents); //The first parameter gets the course name for the relevant course from the first entry in the event list fetched from timeedit
+							//Remove the events that has already been put into the calendar. Also remove any event that is present in the old event list but not the new one
 							removeDuplicateEvents(newLectureList, oldLectureList);
 							
 							int courseEventCount = newLectureList.size();
@@ -405,5 +201,210 @@ public class ActivityCourses extends Activity {
 				 Toast.makeText(getApplicationContext(), "Failed to export - No Google calendar found", Toast.LENGTH_SHORT).show();
 			 }
 		 }
+		 //Finds the id of a calendar connected to a gmail account
+		 private int findCalendarID() {
+				int returnCalendarID = -1;
+				int[] calendarIDs = null;
+				String[] calendarNames = null;
+				
+				//Get the calendar ID
+				ContentResolver contentResolver = getContentResolver();
+				String[] projection = new String[] {
+				       CalendarContract.Calendars._ID,
+				       CalendarContract.Calendars.ACCOUNT_NAME,
+				       CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+				       CalendarContract.Calendars.NAME,
+				       CalendarContract.Calendars.CALENDAR_COLOR
+				};
+				Cursor cursor = contentResolver.query(Uri.parse("content://com.android.calendar/calendars"), projection, null, null, null);
+					if (cursor.moveToFirst()) {	//If there are any calendars at all
+						int calendarCount = cursor.getCount();
+						calendarIDs = new int[calendarCount];
+						calendarNames = new String[calendarCount];
+						for (int i = 0; i < calendarIDs.length; i++) {
+							calendarIDs[i] = cursor.getInt(0);
+							calendarNames[i] = cursor.getString(1);
+							cursor.moveToNext();
+						}
+						cursor.close();
+						
+						//See if any of the found calendars is a Google calendar
+						for(int i = 0; i < calendarCount; ++i) {
+							if(calendarNames[i].contains("@gmail.com")) {
+								returnCalendarID = calendarIDs[i];
+								break;
+							}
+						}
+					}
+					return returnCalendarID;
+			}
+		 
+		 //Gets all events from the users calendar and returns the ones that were added by this app
+		 private ArrayList<String[]> getCalendarEvents(Context context) {
+				ArrayList<String[]> lectures = new ArrayList<String[]>();
+				
+			    Cursor cursor = context.getContentResolver().query( Uri.parse("content://com.android.calendar/events")	//Get a cursor so we can access the calendar events
+			    		, new String[] { "calendar_id", "title", "description" , "dtstart", "dtend" }, null, null, null);
+			    cursor.moveToFirst();
+			        	        
+			    
+		        for (int i = 0; i < cursor.getCount(); ++i) {	//Cycle through all the elements and select those which has been added by this app
+		        	String eventDescription = cursor.getString(2);
+		        	  if(eventDescription != null && eventDescription.contains("[This event was added by the BTH App]")) {
+		        		  	String[] eventInfo = new String[5];
+		              		eventInfo[0] = cursor.getString(3);	//Start Time (ms)
+		              		eventInfo[1] = cursor.getString(4);	//End Time (ms)
+		              		eventInfo[2] = cursor.getString(1);	//Title
+		              		eventInfo[3] = cursor.getString(2);	//Description
+		              		eventInfo[4] = cursor.getString(0);	//ID
+		                  	
+		              		lectures.add(eventInfo);
+		              	}
+		            cursor.moveToNext();
+		        }
+				return lectures;
+			}
+		 
+		 //Fetch updated events from timeedit
+		 private ArrayList<String[]> getTimeEditData(String stringURL) {
+				String inputLine;
+				ArrayList<String[]> lectures = new ArrayList<String[]>();
+				try {
+					//Connect and fetch data
+					URL url = new URL(stringURL);
+					HttpURLConnection urlCon = (HttpURLConnection)url.openConnection();
+					InputStream inStream = urlCon.getInputStream();
+					BufferedReader readBuff = new BufferedReader(new InputStreamReader(inStream));
+
+					//Save the data we are actually interested in and throw away the rest
+					int count = 0;
+					while((inputLine = readBuff.readLine()) != null) {
+						if(count > 3) {	//The three first rows are not schedule entries
+							String[] tokens = inputLine.split(",");
+							String[] lecture =  parseTimeEditData(tokens);
+							lectures.add(lecture);
+						}
+						count++;
+					}			
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				return lectures;
+			}
+		
+		 //Sorts out the events that are relevant for the inputed course
+		 private ArrayList<String[]> getLecturesForCourse(String course, ArrayList<String[]> allLectures) {
+				ArrayList<String[]> relevantLectures = new ArrayList<String[]>();
+				
+				for(int i = 0; i < allLectures.size(); ++i) {
+					if(allLectures.get(i)[2].startsWith(course)) { //Check if the current lectures title begins with the course code we are looking for
+						relevantLectures.add(allLectures.get(i));
+					}
+				}
+				return relevantLectures;
+			}
+		 
+		 //TODO - Remove events that are present in oldLEcturews but not in newLectures (Needs saved IDs)
+		 private void removeDuplicateEvents(ArrayList<String[]> newLectures, ArrayList<String[]> oldLectures) {
+				for(int i = 0; i < newLectures.size(); ++i) {
+					for(int j = 0; j < oldLectures.size(); ++j) {
+						if(newLectures.get(i)[0].equals(oldLectures.get(j)[0])
+						&& newLectures.get(i)[1].equals(oldLectures.get(j)[1])
+						&& (newLectures.get(i)[2] + " " + newLectures.get(i)[6] + " " + newLectures.get(i)[4] + " " + newLectures.get(i)[5]).equals(oldLectures.get(j)[2])
+						&& (newLectures.get(i)[7] + " \n\n[This event was added by the BTH App]").equals(oldLectures.get(j)[3])) { //"Gr. Turkos [Added by the BTH App]" == "Gr. Turkos [Added by the BTH App]"
+								newLectures.remove(i--); //Do -- after so we don't mess up the indices
+								oldLectures.remove(j--);
+								break;
+						}
+					}
+				}
+			}
+		 
+		 private boolean deleteEvent(long eventId) {
+				Uri deleteUri = ContentUris.withAppendedId(Events.CONTENT_URI, eventId);
+				int rows = getContentResolver().delete(deleteUri, null, null);
+				return rows > 0; //Returns true if the event was deleted successfully
+			}
+		 
+		 @SuppressLint("SimpleDateFormat")
+		 private String[] parseTimeEditData(String[] tokens) {
+				String[] stringParts = new String[8];
+				
+				String[]	startDateParts 		= tokens[0].split("-"); //Start date
+				String		startTimeString 	= tokens[1].substring(1); //Start time
+				String[] 	endDateParts 		= tokens[2].substring(1).split("-"); //End date
+				String	 	endTimeString 		= tokens[3].substring(1); //End time
+				
+				String startDate = startDateParts[0] + " " + startDateParts[1] + " " + startDateParts[2];
+				String endDate = endDateParts[0] + " " + endDateParts[1] + " " + endDateParts[2];
+				
+				String timeZone = "GMT+02:00"; //TODO - Check why this value has to be set to +2. The exporter code specifies a timezone but it seems to be wrong even though it is set to Europe/Stockholm
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy MM dd HH:mm zzz");
+				
+				String startTimeFull 	=	startDate + " " + startTimeString + " " + timeZone;
+				String endTimeFull		=	endDate + " " + endTimeString + " " + timeZone;
+				try {
+					stringParts[0] 	= 	Long.toString(dateFormat.parse(startTimeFull).getTime());
+					stringParts[1]  = 	Long.toString(dateFormat.parse(endTimeFull).getTime());
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
+				int index = 4; //Skip past the time tokens
+				
+				if(tokens[index].indexOf('"') == 1) { 	//Course
+					stringParts[2] = tokens[index++].substring(1) + tokens[index++];
+				} else {
+					stringParts[2] = tokens[index++].substring(1);
+				}
+				if(tokens[index].indexOf('"') == 1) {	//Group
+					stringParts[3] = tokens[index++].substring(1) + tokens[index++];
+				} else {
+					stringParts[3] = tokens[index++].substring(1);
+				}
+				if(tokens[index].indexOf('"') == 1) { 	//Room
+					stringParts[4] = tokens[index++].substring(1) + tokens[index++];
+				} else {
+					stringParts[4] = tokens[index++].substring(1);
+				}
+				if(tokens[index].indexOf('"') == 1) { 	//Booking person
+					stringParts[5] = tokens[index++].substring(1) + tokens[index++];
+				} else {
+					stringParts[5] = tokens[index++].substring(1);
+				}
+				if(tokens[index].indexOf('"') == 1) {	//Purpose
+					stringParts[6] = tokens[index++].substring(1) + tokens[index++];
+				} else {
+					stringParts[6] = tokens[index++].substring(1);
+				}
+				if(tokens[index].indexOf('"') == 1) {	//Extra info
+					stringParts[7] = tokens[index++].substring(1) + tokens[index++];
+				} else {
+					stringParts[7] = tokens[index++].substring(1);
+				}
+				return stringParts;
+			}
+		 
+		 private void exportScheduleEvent(String[] eventData, int calendarID) throws ParseException {
+
+				//Prepare the event for insertion
+				ContentValues values = new ContentValues();
+				TimeZone timeZone = TimeZone.getDefault();
+				values.put(CalendarContract.Events.DTSTART, eventData[0]);
+				values.put(CalendarContract.Events.DTEND, eventData[1]);
+				values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
+				values.put(CalendarContract.Events.TITLE, eventData[2] + " " + eventData[6] + " " + eventData[4] + " " + eventData[5]);
+				values.put(CalendarContract.Events.DESCRIPTION, eventData[7] + " \n\n[This event was added by the BTH App]"); //Tag the description so we can identify our events later.
+				values.put(CalendarContract.Events.CALENDAR_ID, calendarID);
+				
+				//Insert the event
+				ContentResolver contentResolver = getContentResolver();
+				Uri uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values);
+				
+				String eventID = uri.getLastPathSegment();
+			}
 	 }
 }
