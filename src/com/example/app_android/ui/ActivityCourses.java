@@ -168,17 +168,18 @@ public class ActivityCourses extends Activity {
 							ArrayList<String[]> oldLectureList = getLecturesForCourse(newLectureList.get(0)[2], oldCalendarEvents); //The first parameter gets the course name for the relevant course from the first entry in the event list fetched from timeedit
 							//Remove the events that has already been put into the calendar. Also remove any event that is present in the old event list but not the new one
 							removeDuplicateEvents(newLectureList, oldLectureList);
+							if(!newLectureList.isEmpty()) {
+								int courseEventCount = newLectureList.size();
+								scheduleEventCount += courseEventCount;
 							
-							int courseEventCount = newLectureList.size();
-							scheduleEventCount += courseEventCount;
-						
-							//Export all events for a given course
-							try {
-								for(int j = 0; j < courseEventCount; ++j) {
-									exportScheduleEvent(newLectureList.get(j), calendarID);									
+								//Export all events for a given course
+								try {
+									for(int j = 0; j < courseEventCount; ++j) {
+										exportScheduleEvent(newLectureList.get(j), calendarID);									
+									}
+								} catch (ParseException e) {
+									e.printStackTrace();
 								}
-							} catch (ParseException e) {
-								e.printStackTrace();
 							}
 						}
 					}
@@ -195,7 +196,7 @@ public class ActivityCourses extends Activity {
 				 Toast.makeText(getApplicationContext(), scheduleEventCount + " events added to calendar", Toast.LENGTH_SHORT).show();
 			 }
 			 else if(scheduleEventCount == 0) {
-				 Toast.makeText(getApplicationContext(), "No events found for the next six months", Toast.LENGTH_SHORT).show();
+				 Toast.makeText(getApplicationContext(), "Calendar already up to date", Toast.LENGTH_SHORT).show();
 			 }
 			 else {
 				 Toast.makeText(getApplicationContext(), "Failed to export - No Google calendar found", Toast.LENGTH_SHORT).show();
