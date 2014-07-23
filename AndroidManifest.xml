@@ -54,7 +54,7 @@
          <!-- NewStudent UI views -->   
          <activity android:name="com.example.app_android.ui.newstudent.ActivityStudentPortal"></activity>
          <activity android:name="com.example.app_android.ui.newstudent.ActivityCourseMaterial"></activity>
-         <activity android:name="com.example.app_android.ui.newstudent.ActivityInformationBTH"></activity>
+         <activity android:name="com.example.app_android.ui.newstudent.ActivityChecklist"></activity>
          <activity android:name="com.example.app_android.ui.newstudent.ActivityStudentCentre"></activity>
          <activity android:name="com.example.app_android.ui.newstudent.ActivityResidence"></activity>
          

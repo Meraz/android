@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.example.app_android.R;
 import com.example.app_android.ui.elements.expandablelist.BaseExpandableListGroup;
 import com.example.app_android.ui.elements.expandablelist.MyBaseExpandableListAdapter;
+import com.example.app_android.ui.elements.expandablelist.MyResidenceExpandableListAdapter;
 import com.example.app_android.util.Logger;
 
 import android.app.Activity;
@@ -32,7 +33,7 @@ public class ActivityStudentPortal extends Activity {
         
 		mExpandableList = (ExpandableListView) findViewById(R.id.ExpandableList);
 		mExpandableListItems = SetStandardGroups();
-		mExpandableListAdapter = new MyBaseExpandableListAdapter(this, mExpandableListItems);
+		mExpandableListAdapter = new MyResidenceExpandableListAdapter(this, mExpandableListItems);
 		mExpandableListAdapter.setAdapter(mExpandableList);
     }    
     
@@ -47,19 +48,13 @@ public class ActivityStudentPortal extends Activity {
 
     	// TODO REMOVE HARDCODE
     	String groupText = "Allmän information om studentportalen";	    	
-    	String childText = "Studentportalen samlar all information till studenter på ett ställe." +
-				"Portalen innehåller bland annat möjligheten att anmäla sig till tentamen, " +
-				"registrera sig på kurs eller program  och att se LADOK-intyg.";
+    	String childText = "Genom studentportalen kan man registrera sig till kurser, tentor och göra registerutskrifter från ladok som visar vilka genomförda kruser man har studeras samt vilket betyg man fått i dessa."+
+    	"<br> För mer information besök studenportalens hemsida via länken nedan"+
+    			"<br> www.studentportalen.bth.se" + 
+    			"<br><br>HERE BE BUTTON THAT TAKES YOU TO THE INTERGALACTICAL IN-HOUSE IN-APP VERSION OF THE STUDENTPORTAL";
     	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
     	finalList.add(group);
     	
-    	for(int i = 0; i < 3; i++) {
-    		String text = new String();							
-    		for(int j = 0; j < 200; j++)
-    			text += "TEXT";
-    		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild("Group" + i, text, null);
-    		finalList.add(group);
-    	}
     	return finalList;
     }
 

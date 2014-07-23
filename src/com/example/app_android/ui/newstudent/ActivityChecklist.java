@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import com.example.app_android.R;
 import com.example.app_android.ui.elements.expandablelist.BaseExpandableListGroup;
 import com.example.app_android.ui.elements.expandablelist.MyBaseExpandableListAdapter;
+import com.example.app_android.ui.elements.expandablelist.MyResidenceExpandableListAdapter;
 import com.example.app_android.util.Logger;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ExpandableListView;
 
-public class ActivityInformationBTH extends Activity {
+public class ActivityChecklist extends Activity {
 	
 	private static final String TAG = "ActivityInformationBTH";
 	private MyBaseExpandableListAdapter mExpandableListAdapter;
@@ -31,7 +32,7 @@ public class ActivityInformationBTH extends Activity {
         
 		mExpandableList = (ExpandableListView) findViewById(R.id.ExpandableList);
 		mExpandableListItems = SetStandardGroups();
-		mExpandableListAdapter = new MyBaseExpandableListAdapter(this, mExpandableListItems);
+		mExpandableListAdapter = new MyResidenceExpandableListAdapter(this, mExpandableListItems);
 		mExpandableListAdapter.setAdapter(mExpandableList);
     }        
     
@@ -45,19 +46,10 @@ public class ActivityInformationBTH extends Activity {
 
     	// TODO REMOVE HARDCODE
     	String groupText = "Allmän information Blekinge Tekniska Högskola";	    	
-    	String childText = "Blekinge Tekniska Högskola, förkortat 'BTH', är en statlig teknisk högskola med " +
-    			"en tydlig profil mot tillämpad IT och innovation för hållbar tillväxt. Högskolans utbildning " +
-    			"och forskning bedrivs på två orter: Karlskrona och Karlshamn i Blekinge, tidigare även i Ronneby.";
+    	String childText = "Nudlar<br>Ketchup<br>Falukorv<br>ALL YOU NEED";
     	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
     	finalList.add(group);
     	
-    	for(int i = 0; i < 3; i++) {
-    		String text = new String();							
-    		for(int j = 0; j < 200; j++)
-    			text += "TEXT";
-    		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild("Group" + i, text, null);
-    		finalList.add(group);
-    	}
     	return finalList;
     }
 

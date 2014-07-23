@@ -5,7 +5,7 @@ import com.example.app_android.R;
 import com.example.app_android.R.array;
 import com.example.app_android.R.layout;
 import com.example.app_android.ui.newstudent.ActivityCourseMaterial;
-import com.example.app_android.ui.newstudent.ActivityInformationBTH;
+import com.example.app_android.ui.newstudent.ActivityChecklist;
 import com.example.app_android.ui.newstudent.ActivityStudentPortal;
 import com.example.app_android.ui.newstudent.ActivityStudentCentre;
 import com.example.app_android.ui.newstudent.ActivityResidence;
@@ -74,13 +74,13 @@ public class FragmentNewStudent extends ListFragment{
             break;
             
         case 5:    
-			intent = new Intent(getActivity().getApplicationContext(), ActivityInformationBTH.class);
+			intent = new Intent(getActivity().getApplicationContext(), ActivityChecklist.class);
 			startActivity(intent);
           break;
           
         case 6:    
-			intent = new Intent(getActivity().getApplicationContext(), ActivityMap.class);
-			startActivity(intent);
+		//	intent = new Intent(getActivity().getApplicationContext(), ActivityMap.class);
+		//	startActivity(intent);
           break;
 
         default:
