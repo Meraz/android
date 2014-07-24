@@ -6,6 +6,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 
 public class MyBroadCastReceiver extends BroadcastReceiver {
+	
+	// Callback interface to implement own method on how to handle the result.
+	public interface Receiver {
+		// Callback method wich needs to be implement to handle the sync result.
+		public void onServiceStart();
+		public void onReceiveResult(int resultCode);
+	}
 
 	private static final String TAG = "MyResultReceiver";
 	private String mStartBroadCast = null;
@@ -65,13 +72,6 @@ public class MyBroadCastReceiver extends BroadcastReceiver {
 	public String getStopBroadCast()
 	{
 		return mStopBroadCast;
-	}
-	
-	// Callback interface to implement own method on how to handle the result.
-	public interface Receiver {
-		// Callback method wich needs to be implement to handle the sync result.
-		public void onServiceStart();
-		public void onReceiveResult(int resultCode);
 	}
 
 	@Override

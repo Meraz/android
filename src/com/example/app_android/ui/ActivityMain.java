@@ -11,14 +11,13 @@ import android.widget.TextView;
 
 import com.example.app_android.Cache;
 import com.example.app_android.R;
-import com.example.app_android.R.id;
-import com.example.app_android.R.layout;
+import com.example.app_android.services.ServiceHelper;
 import com.example.app_android.services.TestDatabase;
 import com.example.app_android.ui.FragmentMain.InterfaceActivityMain;
 import com.example.app_android.util.Logger;
 
 public class ActivityMain extends Activity implements InterfaceActivityMain{
-	private TextView test;
+	private TextView test; 	// TODO
 	private static final String TAG = "ActivityMain";
 
 	/*
@@ -30,6 +29,7 @@ public class ActivityMain extends Activity implements InterfaceActivityMain{
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
     	super.onCreate(savedInstanceState);
     	Cache.initialize(getApplicationContext());
+    	ServiceHelper.initialize(getApplicationContext());
     	
         // Sets the content specified in the file in res/layout/activity_main.xml
         // This also specifies which fragment to active
