@@ -11,9 +11,6 @@ import android.widget.TextView;
 
 import com.example.app_android.Cache;
 import com.example.app_android.R;
-import com.example.app_android.R.id;
-import com.example.app_android.R.layout;
-import com.example.app_android.database.AdapterTokenDb;
 import com.example.app_android.services.ServiceHelper;
 import com.example.app_android.services.TestDatabase;
 import com.example.app_android.ui.FragmentMain.InterfaceActivityMain;
