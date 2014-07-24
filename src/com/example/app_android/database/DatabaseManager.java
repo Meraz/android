@@ -21,25 +21,15 @@ public class DatabaseManager extends SQLiteOpenHelper{
      *  * As this would result in public access to create and drop table, which is not very nice.
      *  * Could not come up with a way which would be less tricky than this. Im sorry for the inconvenience.
      *  
-     *  * Some problems with this method is:
-     *  *  * Every single time DatabaseManager is instantiated, all the tables will be instantiated aswell.
-     *  *  * Every class that needs access to the database will need to instantiate this class.  (These two problems might be solved if allocation is done elsewhere hmmmm)
-     *  
-     *  * Other worries
-     *  *  * There's no concurrency on... well anything using the database for the moment.
-     *  *  * 	this however might be solved by making this class a singleton and putting up sync checks, maybe
-     *  
      *  Good fun and have luck
      *  
      *  Rasmus Tilljander - tilljander.rasmus@gmail.com
-     *  
-     *  
-     *  
 	 */
           
     private static String DB_NAME = "bthapp.sqlite";
 	private static final int DB_VERSION = 1;
     private static BaseTable[] TABLES;
+    private static DatabaseManager mDatabaseManager;
     
     public enum TableIndex {
         TOKEN (0), 
@@ -49,10 +39,17 @@ public class DatabaseManager extends SQLiteOpenHelper{
         private TableIndex(int index) {this.index = index;}        
         public int getIndex() {return index;}        
     }
+    
+    // Singleton getinstance
+    public static DatabaseManager getInstance(Context context) {
+    	if(mDatabaseManager == null)
+    		mDatabaseManager = new DatabaseManager(context);
+    	return mDatabaseManager;
+    }
 
     // Constructor
-    public DatabaseManager(Context context) {	     
-	    super(context, DB_NAME, null, 1);
+    private DatabaseManager(Context context) {	     
+	    super(context, DB_NAME, null, DB_VERSION);
 	    
 	    // Allocate array
 	    TABLES = new BaseTable[TableIndex.values().length];
