@@ -32,7 +32,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
     private static DatabaseManager mDatabaseManager;
     
     public enum TableIndex {
-        TOKEN (0), 
+        TOKEN (0),
         COURSES (1);
         
         private final int index;
@@ -56,7 +56,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
 	    
 	    // Create specific table
 	    TABLES[0] = new TokenTable(this);
-	    
+	    TABLES[1] = new CoursesTable(this);
     }
       
     private BaseTable getTable(TableIndex table) {
@@ -71,11 +71,16 @@ public class DatabaseManager extends SQLiteOpenHelper{
     	return (ITokenTable)getTable(TableIndex.TOKEN);
     }
     
+    public ICourseTable getCourseTable() {
+    	return (ICourseTable)getTable(TableIndex.COURSES);
+    }
+    
     /*
      * Overridden functions from  SQLiteOpenHelper
      */     
     @Override
     public void onCreate(SQLiteDatabase db) {
+    	
 	    for(int i = 0; i < TABLES.length; i++) {
 			TABLES[i].createTable(db);
 	    }
