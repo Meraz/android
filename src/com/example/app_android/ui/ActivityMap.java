@@ -13,19 +13,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.HashMap;
 import java.util.Locale;
 
 import com.example.app_android.Cache;
 import com.example.app_android.R;
-import com.example.app_android.R.drawable;
-import com.example.app_android.R.id;
-import com.example.app_android.R.layout;
-import com.example.app_android.R.string;
 import com.example.app_android.util.Logger;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -66,11 +64,13 @@ public class ActivityMap extends Activity {
     			 assert startPositionID >= 0 && startPositionID <= 2;
     			 if(startPositionID == 0) { //Karlskrona Selected
     				 campusRadioGroup.check(R.id.radio_karlskrona);
+    				 viewRadioGroup.check(R.id.radio_normal);
     				 moveToKarlskrona();
     				 
     			 } 
     			 else if (startPositionID == 1) { //Karlshamn Selected
     				 campusRadioGroup.check(R.id.radio_karlshamn);
+    				 viewRadioGroup.check(R.id.radio_satellite);
     				 moveToKarlshamn();
     			 }
     		 }
@@ -113,6 +113,7 @@ public class ActivityMap extends Activity {
 		viewRadioGroup 		= (RadioGroup) findViewById(R.id.radio_group_views);
 		searchField 		= (EditText) findViewById(R.id.search_field);
 		
+		//Initialize the drawer indicator/button
 		drawerToggle		= new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close){
             public void onDrawerClosed(View view) {
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
@@ -125,6 +126,21 @@ public class ActivityMap extends Activity {
 		drawerLayout.setDrawerListener(drawerToggle);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
+        
+        //Look through the map marker layout and initialize the toggleButtons properly
+        LinearLayout markersLayout = (LinearLayout)findViewById(R.id.markers_layout);
+		for(int i = 0; i < markersLayout.getChildCount(); ++i) {
+			View child = markersLayout.getChildAt(i);
+			if(child instanceof LinearLayout) { //Find LinearLayout children
+				LinearLayout childLayout = (LinearLayout) child;
+				for(int j = 0; j < childLayout.getChildCount(); ++j) { // Find the relevant grandChildren
+					ToggleButton grandChild = (ToggleButton) childLayout.getChildAt(j); //The childLayout contains only ToggleButtons
+					if(grandChild.getId() == R.id.marker_toggle_houses) {
+						((ToggleButton)grandChild).setChecked(true);
+					}
+				}
+			}
+		}
 	}
 	
 	private void moveToKarlskrona() {
@@ -137,7 +153,7 @@ public class ActivityMap extends Activity {
 	
 	private void moveToKarlshamn() {
 		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("Karlshamn"), 17.0f));
-		if(map.getMapType() == GoogleMap.MAP_TYPE_NORMAL) {//Only change if the normal map type is set. (Google Maps currently has no good data for the map type for the Karlshamn Campus area)
+		if(map.getMapType() == GoogleMap.MAP_TYPE_NORMAL) { //Only change if the normal map type is set. (Google Maps currently has no good data for the map type for the Karlshamn Campus area)
 			map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 			viewRadioGroup.check(R.id.radio_satellite);
 		}
@@ -166,6 +182,19 @@ public class ActivityMap extends Activity {
 		
 		if(options.getPosition() != null)
 			mapMarkers.put(house, map.addMarker(options));
+	}
+	
+	private void toggleHouseMarkers (boolean on) {
+			mapMarkers.get("HOUSE_A").setVisible(on);
+			mapMarkers.get("HOUSE_B").setVisible(on);
+			mapMarkers.get("HOUSE_C").setVisible(on);
+			mapMarkers.get("HOUSE_D").setVisible(on);
+			mapMarkers.get("HOUSE_G").setVisible(on);
+			mapMarkers.get("HOUSE_H").setVisible(on);
+			mapMarkers.get("HOUSE_J").setVisible(on);
+			mapMarkers.get("HOUSE_K").setVisible(on);
+			mapMarkers.get("KARLSHAMN_HOUSE_A").setVisible(on);
+			mapMarkers.get("KARLSHAMN_HOUSE_B").setVisible(on);
 	}
 	
 	public void onSearchButtonClicked(View view) {
@@ -226,6 +255,15 @@ public class ActivityMap extends Activity {
 				break;
 		}
 		drawerLayout.closeDrawers();
+	}
+	
+	public void onToggleClicked(View view) {
+		boolean on = ((ToggleButton)view).isChecked();
+		switch(view.getId()) {
+		case R.id.marker_toggle_houses:
+				toggleHouseMarkers(on);
+			break;
+		}
 	}
 	
 	@Override
