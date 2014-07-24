@@ -24,14 +24,7 @@ public class ServiceHelper {
 	private Context mContext;
 	private static ServiceHelper mServiceHelper = null;
 	
-	// TODO
-	/* 
-	// Interface that must be implemented when calling this class.
-	public interface ActivityCallback {
-		public void ACallback(int result);
-	}
-	*/
-	
+	// This must be called before using it in the app. And should also be called with applicationContext to avoid contextleaks
 	public static void initialize(Context context) {
 		if(mServiceHelper == null)
 			mServiceHelper = new ServiceHelper(context);	
