@@ -45,15 +45,7 @@
         		android:layout_width="150dp"
         		android:layout_height="wrap_content"
         		android:text="@string/schedule_button_text"/>
-	   
-	   		<Button
-        		android:id="@+id/exportButton"
-        		android:onClick="exportSchedule"
-        		android:layout_weight="0.5"
-        		android:layout_width="150dp"
-        		android:layout_height="wrap_content"
-       			android:text="@string/export_button_text"/>
-	   
+	   		
 	   </LinearLayout>
 	   
     </RelativeLayout>

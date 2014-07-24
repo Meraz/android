@@ -111,13 +111,18 @@ public class ActivityCourses extends Activity {
 	
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.courses_action_info) {
-        	Builder alert = new AlertDialog.Builder(this);
+    	switch (item.getItemId()) {
+    	case R.id.courses_action_info:
+    		Builder alert = new AlertDialog.Builder(this);
         	alert.setTitle("Courses");
         	alert.setMessage("Insert info about this view here");
         	alert.setPositiveButton("OK",null);
         	alert.show();
-        }
+    		break;
+    	case R.id.courses_action_sync:
+    		exportSchedule();
+    		break;
+    	}
         return super.onOptionsItemSelected(item);
     }
 	
@@ -133,7 +138,7 @@ public class ActivityCourses extends Activity {
 	
 	@SuppressWarnings("unchecked") //Should be safe to ignore this warning. It complains about not knowing the type of arraylist being sent in exportTask.execute(requests)
 	@SuppressLint("SimpleDateFormat")
-	public void exportSchedule(View view) throws InterruptedException, ExecutionException {
+	public void exportSchedule() {
 		if(Utilities.isNetworkAvailable(getApplicationContext())) {
 			Logger.VerboseLog(TAG, "Exporting schedule to Google Calendar");
 			ArrayList<String> courseCodes = coursesHelper.readAllCourses();
