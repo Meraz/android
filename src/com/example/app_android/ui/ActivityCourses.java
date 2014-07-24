@@ -17,6 +17,8 @@ import java.util.concurrent.ExecutionException;
 
 import com.example.app_android.AdapterCoursesHelper;
 import com.example.app_android.R;
+import com.example.app_android.database.DatabaseManager;
+import com.example.app_android.database.ICourseTable;
 import com.example.app_android.util.Logger;
 import com.example.app_android.util.Utilities;
 
@@ -48,13 +50,13 @@ public class ActivityCourses extends Activity {
 	private static final String TAG = "ActivityCoursesAndProgram";
 	public static ArrayList<String> coursesAndProgramArray;
 	EditText courseCode;
-	AdapterCoursesHelper coursesHelper;
+	ICourseTable coursesHelper;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		coursesHelper = new AdapterCoursesHelper(this);
+		coursesHelper = DatabaseManager.getInstance(getApplicationContext()).getCourseTable();
 		coursesAndProgramArray = coursesHelper.readAllCourses();
 		
 		if(coursesHelper.empty())
