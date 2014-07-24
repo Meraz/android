@@ -13,18 +13,15 @@ public class BaseTable {
 		mHelper = SQLiteOpenHelper;
 	}
 	
-	public void createTable() {
-		SQLiteDatabase db = mHelper.getWritableDatabase();
+	public void createTable(SQLiteDatabase db) {
 		db.execSQL(SQL_CREATE_TABLE);
 	}
 
-	public void deleteTable() {
-		SQLiteDatabase db = mHelper.getWritableDatabase();
+	public void dropTable(SQLiteDatabase db) {
         db.execSQL(SQL_DROP_TABLE);		
 	}
 	
-	public void fillTableWithDefaultData() {
-		SQLiteDatabase db = mHelper.getWritableDatabase();
-        db.execSQL(SQL_DEFAULT_VALUES);				
+	public void fillTableWithDefaultData(SQLiteDatabase db) {
+       db.execSQL(SQL_DEFAULT_VALUES);		
 	}
 }

@@ -80,8 +80,12 @@ public class DatabaseManager extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
 	    for(int i = 0; i < TABLES.length; i++) {
-			TABLES[i].createTable();
+			TABLES[i].createTable(db);
 	    }
+	    
+	    for(int i = 0; i < TABLES.length; i++) {
+			TABLES[i].fillTableWithDefaultData(db);
+	    }	    
     }
     
     @Override
@@ -89,7 +93,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
 	    for(int i = 0; i < TABLES.length; i++) {
-			TABLES[i].deleteTable();
+			TABLES[i].dropTable(db);
 	    }
         onCreate(db);
     }
