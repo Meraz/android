@@ -5,20 +5,26 @@ import com.example.app_android.util.Logger;
 
 import android.app.Activity;
 import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class FragmentCourses extends ListFragment {
 	
-	private static final String TAG = "FragmentMyCourses";
+	private static final String TAG = "FragmentCourses";
 
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
-		getListView().setItemChecked(pos, true);
+		Intent intent = new Intent(getActivity().getApplicationContext(), ActivityDetailedCourse.class);
+		intent.putExtra("courseCode", ((TextView)((RelativeLayout)getListView().getChildAt(0)).getChildAt(pos)).getText());
+		startActivity(intent);
 	}
 
 	@Override
@@ -44,7 +50,7 @@ public class FragmentCourses extends ListFragment {
 	public void onActivityCreated(Bundle savedState) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
-		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_course, R.id.label, ActivityCourses.coursesAndProgramArray));
+		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_course, R.id.course_button, ActivityCourses.coursesArray));
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 	}
 

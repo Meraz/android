@@ -45,8 +45,8 @@ import android.widget.Toast;
 
 public class ActivityCourses extends Activity {
 
-	private static final String TAG = "ActivityCoursesAndProgram";
-	public static ArrayList<String> coursesAndProgramArray;
+	private static final String TAG = "ActivityCourses";
+	public static ArrayList<String> coursesArray;
 	EditText courseCode;
 	ICourseTable coursesHelper;
 	MenuItem syncActionItem;
@@ -55,7 +55,7 @@ public class ActivityCourses extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		coursesHelper = DatabaseManager.getInstance(getApplicationContext()).getCourseTable();
-		coursesAndProgramArray = coursesHelper.readAllCourses();
+		coursesArray = coursesHelper.readAllCourses();
 		
 		if(coursesHelper.empty())
 			setContentView(R.layout.activity_courses_no_courses);
@@ -176,7 +176,7 @@ public class ActivityCourses extends Activity {
 	}
 	
 	public void readCourses() {
-		coursesAndProgramArray = coursesHelper.readAllCourses();
+		coursesArray = coursesHelper.readAllCourses();
 	}
 	
 	public void courseChecked(View v) {
