@@ -129,11 +129,16 @@ public class ActivityCourses extends Activity {
 	
 	public void addCourse(View view) {
 		String cCode = courseCode.getText().toString();
-		long id = coursesHelper.insertData(cCode);
-		if(id >= 0) {
-			//Insert was successful. Now restart the activity to display the added element.
-			finish();
-			startActivity(getIntent());
+		if(!cCode.isEmpty()) {
+			long id = coursesHelper.insertData(cCode);
+			if(id >= 0) {
+				//Insert was successful. Now restart the activity to display the added element.
+				finish();
+				startActivity(getIntent());
+			}
+		}
+		else {
+			Toast.makeText(getApplicationContext(), "The input field cannot be empty!", Toast.LENGTH_SHORT).show();
 		}
 	}
 	
