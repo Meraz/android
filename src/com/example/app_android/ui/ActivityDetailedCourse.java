@@ -73,7 +73,7 @@ public class ActivityDetailedCourse extends Activity {
 	    	case R.id.detailed_course_action_info:
 	    		Builder alert = new AlertDialog.Builder(this);
 	        	alert.setTitle("Course " + courseCode);
-	        	alert.setMessage("Insert info about this view here"); //TODO
+	        	alert.setMessage("Insert info about this view here\n\n\nHELP! I'm trapped in an Android App factory! :'("); //TODO
 	        	alert.setPositiveButton("OK",null);
 	        	alert.show();
 	    		break;
