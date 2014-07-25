@@ -13,9 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.TimeZone;
-import java.util.concurrent.ExecutionException;
 
-import com.example.app_android.AdapterCoursesHelper;
 import com.example.app_android.R;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.ICourseTable;
@@ -51,11 +49,11 @@ public class ActivityCourses extends Activity {
 	public static ArrayList<String> coursesAndProgramArray;
 	EditText courseCode;
 	ICourseTable coursesHelper;
+	MenuItem syncActionItem;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		coursesHelper = DatabaseManager.getInstance(getApplicationContext()).getCourseTable();
 		coursesAndProgramArray = coursesHelper.readAllCourses();
 		
@@ -108,6 +106,7 @@ public class ActivityCourses extends Activity {
 	    // Inflate the menu items for use in the action bar
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.layout.activity_courses_action, menu);
+	    syncActionItem = menu.findItem(R.id.courses_action_sync);
 	    return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -158,6 +157,7 @@ public class ActivityCourses extends Activity {
 			}
 				ExportToGCalFromTimeEditTask exportTask = new ExportToGCalFromTimeEditTask(getApplicationContext());
 				exportTask.execute(requests);
+				syncActionItem.setActionView(R.layout.item_action_sync_indicator);
 		}
 		else 
 			Toast.makeText(getApplicationContext(), "Missing internet connection", Toast.LENGTH_SHORT).show();
@@ -246,7 +246,7 @@ public class ActivityCourses extends Activity {
 			 		break;
 			 		
 			 	case 2: // No data recieved from timeedit
-			 		Toast.makeText(getApplicationContext(), "Sync failed - No data recieved from TimeEdit", Toast.LENGTH_SHORT).show();
+			 		Toast.makeText(getApplicationContext(), "TimeEdit failed to return data for some or all courses\n" + exportResult.exportedCount + " Events added\n" + exportResult.deletedCount +" Events deleted\n" + exportResult.upToDateCount + " Events already synced", Toast.LENGTH_LONG).show();
 			 		break;
 			 		
 			 	case 3: // Event export failed
@@ -257,6 +257,7 @@ public class ActivityCourses extends Activity {
 			 		Toast.makeText(getApplicationContext(), "Sync failed - No Google calendar found", Toast.LENGTH_SHORT).show();
 			 		break;
 			 }
+			 syncActionItem.setActionView(null);
 		 }
 		 //Finds the id of a calendar connected to a gmail account
 		 private int findCalendarID() {
