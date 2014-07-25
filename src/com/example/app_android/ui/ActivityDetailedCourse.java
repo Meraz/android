@@ -13,12 +13,14 @@ import android.view.MenuItem;
 
 public class ActivityDetailedCourse extends Activity {
 	private static final String TAG = "ActivityDetailedCourse";
-	
+	String courseCode;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		Bundle bundle = getIntent().getExtras();
+		courseCode = bundle.getString("courseCode");
+		getActionBar().setTitle(courseCode); //TODO - add course name here too
 	}
 	
 	@Override
@@ -70,7 +72,7 @@ public class ActivityDetailedCourse extends Activity {
 	    	switch (item.getItemId()) {
 	    	case R.id.detailed_course_action_info:
 	    		Builder alert = new AlertDialog.Builder(this);
-	        	alert.setTitle("Course <CourseCode>"); //TODO - add course code here
+	        	alert.setTitle("Course " + courseCode);
 	        	alert.setMessage("Insert info about this view here"); //TODO
 	        	alert.setPositiveButton("OK",null);
 	        	alert.show();
