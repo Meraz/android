@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:layout_width="match_parent"
+  	android:layout_height="match_parent">
+
+	<RelativeLayout
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content" >
+
+    	<TextView
+        	android:id="@+id/course_responsible_label"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_alignParentLeft="true"
+        	android:layout_alignParentTop="true"
+        	android:layout_marginLeft="15dp"
+        	android:layout_marginTop="30dp"
+        	android:text="@string/course_responsible"
+        	android:textStyle="bold"
+        	android:textColor="#287AA9"
+        	android:textAppearance="?android:attr/textAppearanceMedium" />
+
+   		<TextView
+        	android:id="@+id/course_responsible_text"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_alignLeft="@+id/course_responsible_label"
+        	android:layout_below="@+id/course_responsible_label"
+        	android:text="TextView" />
+
+    	<TextView
+	        android:id="@+id/course_start_label"
+    	    android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+    	    android:layout_alignLeft="@+id/course_responsible_label"
+	        android:layout_below="@+id/course_responsible_text"
+    	    android:layout_marginTop="20dp"
+	        android:text="@string/course_start"
+	        android:textStyle="bold"
+        	android:textColor="#287AA9"
+    		android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    	<TextView
+        	android:id="@+id/course_start_text"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_alignLeft="@+id/course_start_label"
+        	android:layout_below="@+id/course_start_label"
+        	android:text="TextView" />
+
+    	<TextView
+        	android:id="@+id/course_end_label"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_alignLeft="@+id/course_start_label"
+        	android:layout_below="@+id/course_start_text"
+    	    android:layout_marginTop="20dp"
+	        android:text="@string/course_end"
+	        android:textStyle="bold"
+        	android:textColor="#287AA9"
+        	android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    	<TextView
+        	android:id="@+id/course_end_text"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_alignLeft="@+id/course_end_label"
+        	android:layout_below="@+id/course_end_label"
+        	android:text="TextView" />
+
+    	<TextView
+        	android:id="@+id/course_litterature_label"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_alignLeft="@+id/course_end_label"
+        	android:layout_below="@+id/course_end_text"
+        	android:layout_marginTop="20dp"
+    	    android:text="@string/course_litterature"
+    	    android:textStyle="bold"
+        	android:textColor="#287AA9"
+        	android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    	<TextView
+        	android:id="@+id/course_litterature_text"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_alignLeft="@+id/course_litterature_label"
+    	    android:layout_below="@+id/course_litterature_label"
+	        android:text="TextView" />
+
+    	<TextView
+        	android:id="@+id/course_exam_label"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_alignLeft="@+id/course_litterature_text"
+        	android:layout_below="@+id/course_litterature_text"
+        	android:layout_marginTop="20dp"
+        	android:text="@string/course_exam"
+        	android:textStyle="bold"
+        	android:textColor="#287AA9"
+        	android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    	<TextView
+        	android:id="@+id/course_exam_text"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_alignLeft="@+id/course_exam_label"
+        	android:layout_below="@+id/course_exam_label"
+	        android:text="TextView" />
+
+    	<Button
+        	android:id="@+id/course_exam_register_button"
+        	style="?android:attr/buttonStyleSmall"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_alignParentRight="true"
+       	 	android:layout_alignTop="@+id/course_exam_label"
+        	android:layout_marginRight="14dp"
+    	    android:text="@string/course_exam_register" />
+    	
+    	<TextView android:id="@+id/course_description_label"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:layout_alignLeft="@+id/course_exam_label"
+    	    android:layout_below="@+id/course_exam_text"
+    	    android:layout_marginTop="20dp"
+    	    android:text="@string/course_description"
+    	    android:textStyle="bold"
+        	android:textColor="#287AA9"
+    	    android:textAppearance="?android:attr/textAppearanceMedium" />
+    	
+    	<TextView
+        	android:id="@+id/course_description_text"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_alignLeft="@+id/course_description_label"
+        	android:layout_below="@+id/course_description_label"
+	        android:text="THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!" />
+
+	</RelativeLayout>
+</ScrollView>

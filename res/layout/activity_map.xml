@@ -45,7 +45,6 @@
 			android:src="@drawable/ic_search"
 			android:contentDescription="@string/search_button_description" />
 
-    
     </LinearLayout>
     
     <Space 

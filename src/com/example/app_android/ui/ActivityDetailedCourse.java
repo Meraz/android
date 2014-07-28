@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class ActivityDetailedCourse extends Activity {
 	private static final String TAG = "ActivityDetailedCourse";
@@ -18,15 +19,24 @@ public class ActivityDetailedCourse extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_detailed_course);
+		
 		Bundle bundle = getIntent().getExtras();
 		courseCode = bundle.getString("courseCode");
 		getActionBar().setTitle(courseCode); //TODO - add course name here too
+		
+		((TextView)findViewById(R.id.course_responsible_text)).setText("[Hardcode]Betty Bergqvist");
+		((TextView)findViewById(R.id.course_start_text)).setText("[Hardcode]2014-09-01");
+		((TextView)findViewById(R.id.course_end_text)).setText("[Hardcode]2015-04-01");
+		((TextView)findViewById(R.id.course_exam_text)).setText("[Hardcode]2014-11-01");
+		((TextView)findViewById(R.id.course_litterature_text)).setText("[Hardcode]C++101");
+		((TextView)findViewById(R.id.course_description_text)).setText("[Hardcode]THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!HELPI'MTRAPPEDINANANDROIDAPPFACTORY!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!");
 	}
 	
 	@Override
 	protected void onDestroy() {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
-		super.onDestroy();
+		super.onDestroy(); 
 	}
 
 	@Override
