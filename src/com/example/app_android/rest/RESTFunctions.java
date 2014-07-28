@@ -1,4 +1,4 @@
-package com.example.app_android;
+package com.example.app_android.rest;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -27,6 +27,7 @@ public final class RESTFunctions {
 	// Do a "Get request" according to the REST functionality.
 	// returns "MalformedURLException" for the application to handle
 	public static String doGetRequest(final String url, final String[] parameterNames, final String[] parameterValues) {
+		
 		
 		
 		/* REST TOKEN
