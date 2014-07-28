@@ -1,7 +1,6 @@
 package com.example.app_android.ui;
 
 import com.example.app_android.Cache;
-import com.example.app_android.DialogChooseCity;
 import com.example.app_android.R;
 import com.example.app_android.services.TestDatabase;
 import com.example.app_android.services.ServiceManager;
