@@ -15,6 +15,8 @@ import android.widget.TextView;
 public class ActivityDetailedCourse extends Activity {
 	private static final String TAG = "ActivityDetailedCourse";
 	String courseCode;
+	MenuItem addOrRemoveButton;
+	boolean isFavourite = true; //TODO - recieve this from bundle
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,20 +76,37 @@ public class ActivityDetailedCourse extends Activity {
 	    // Inflate the menu items for use in the action bar
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.layout.activity_detailed_course_action, menu);
+	    addOrRemoveButton = menu.findItem(R.id.detailed_course_action_add_or_remove);
+	    if(isFavourite)
+	    	addOrRemoveButton.setIcon(R.drawable.ic_action_important);
+	    else
+	    	addOrRemoveButton.setIcon(R.drawable.ic_action_not_important);
 	    return super.onCreateOptionsMenu(menu);
 	}
 	
-	 @Override
-	    public boolean onOptionsItemSelected(MenuItem item) {
-	    	switch (item.getItemId()) {
-	    	case R.id.detailed_course_action_info:
-	    		Builder alert = new AlertDialog.Builder(this);
-	        	alert.setTitle("Course " + courseCode);
-	        	alert.setMessage("Insert info about this view here\n\n\nHELP! I'm trapped in an Android App factory! :'("); //TODO
-	        	alert.setPositiveButton("OK",null);
-	        	alert.show();
-	    		break;
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+	    case R.id.detailed_course_action_info:
+	   		Builder alert = new AlertDialog.Builder(this);
+	   		alert.setTitle("Course " + courseCode);
+	   		alert.setMessage("Insert info about this view here~'("); //TODO
+	   		alert.setPositiveButton("OK",null);
+    		alert.show();
+    		break;
+	    case R.id.detailed_course_action_add_or_remove:
+	    	if(isFavourite) {
+	    		isFavourite = false;
+	    		//TODO - remove from database
+	    		addOrRemoveButton.setIcon(R.drawable.ic_action_not_important);
 	    	}
+	    	else {
+	    		isFavourite = true;
+	    		//TODO - add to database
+	    		addOrRemoveButton.setIcon(R.drawable.ic_action_important);
+	    	}
+	    	break;
+	    }
 	        return super.onOptionsItemSelected(item);
 	    }
 }
