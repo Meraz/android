@@ -31,52 +31,20 @@ public final class RESTFunctions {
 	 * 4. Save appropriate data in database. Token and expire date
 	 * 4.1 Calculate expire data by doing. expires_in += current_time  
 	 */
-	public static int requestToken(final String url, final String[] parameterNames, final String[] parameterValues) {
-		
-		String uri = "http://194.47.131.73/database-files-and-server-script/Script/serverResponse.php";
-		HttpPost httpPost = new HttpPost(uri);
-		
-		String grant_type = new String("password");
-		String username = new String("npr");
-		String password = new String("secret_password");
-		String client_id = new String("21EC2020-3AEA-1069-A2DD-08002B30309D");
-		
-		httpPost.addHeader("grant_type", grant_type);
-		httpPost.addHeader("username", username);
-		httpPost.addHeader("password", password);
-		httpPost.addHeader("client_id", client_id);
-		
-		ITokenTable tokenTable = DatabaseManager.getInstance().getTokenTable();
-		tokenTable.updateTransactionFlag(1); // Update to pending transaction flag.  TODO, use enumerations
+	
+	
+	public static HttpResponse requestToken(HttpPost httpPost ) throws RestCommunicationException {
 		
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpResponse response;
 		try {
-			response = httpClient.execute(httpPost);	// Execute 
-			
+			response = httpClient.execute(httpPost);
 		} catch (ClientProtocolException e) {
-			tokenTable.updateTransactionFlag(-1); // Update to fail transaction flag. TODO, use enumerations
-			e.printStackTrace();
-			return -1;
+			throw new RestCommunicationException(e.getMessage());
 		} catch (IOException e) {
-			tokenTable.updateTransactionFlag(-1); // Update to fail transaction flag. TODO, use enumerations
-			e.printStackTrace();
-			return -1;
+			throw new RestCommunicationException(e.getMessage());
 		}
-		StatusLine statusLine = response.getStatusLine();		// Get status line
-		int statusCode = statusLine.getStatusCode();			// Get http statuscode, 200 OK
-		
-		if(statusCode == 200) {
-			String access_token = response.getFirstHeader("access_token").getValue();				// Get token value from header
-			int expires_in = Integer.parseInt(response.getFirstHeader("expires_in").getValue());	// Get expireDate from header // TODO, convert from whatever to whatever; Needs to decide how this should work.
-			expires_in += getCurrentTime();															// Add currentTime for expire_time
-			tokenTable.updateToken(access_token, expires_in, 0);									// updateExistingToken // TODO use enumerations for transaction flag
-		}
-		else {
-			tokenTable.updateTransactionFlag(-1); // Update to fail transaction flag. TODO, use enumerations
-		}
-		
-		return 1; // TODO, create success/fail system
+		return response;
 	}
 	
 	private static int getCurrentTime() { 
