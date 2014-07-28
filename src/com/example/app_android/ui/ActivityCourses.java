@@ -58,21 +58,21 @@ public class ActivityCourses extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		coursesHelper = DatabaseManager.getInstance(getApplicationContext()).getCourseTable();
+
+		coursesHelper = DatabaseManager.getInstance().getCourseTable();
 		coursesArray = coursesHelper.readAllCourses();
 		setContentView(R.layout.activity_courses);
-		
+
 		courseCode = (EditText) findViewById(R.id.courseCode);
 		courseList = findViewById(R.id._container);
-		noCoursesText = (TextView) findViewById(R.id.noCoursesDescription); 
-		
+		noCoursesText = (TextView) findViewById(R.id.noCoursesDescription);
+
 		if(coursesHelper.empty())
 			courseList.setVisibility(View.GONE);
 		else
 			noCoursesText.setVisibility(View.GONE);
 	}
-	
+
     @Override
 	protected void onDestroy() {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
@@ -103,7 +103,7 @@ public class ActivityCourses extends Activity {
 	@Override
 	protected void onStart() {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
-		super.onStart();		
+		super.onStart();
 	}
 
 	@Override
@@ -111,7 +111,7 @@ public class ActivityCourses extends Activity {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    // Inflate the menu items for use in the action bar
@@ -120,7 +120,7 @@ public class ActivityCourses extends Activity {
 	    syncActionItem = menu.findItem(R.id.courses_action_sync);
 	    return super.onCreateOptionsMenu(menu);
 	}
-	
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch (item.getItemId()) {
@@ -137,7 +137,7 @@ public class ActivityCourses extends Activity {
     	}
         return super.onOptionsItemSelected(item);
     }
-	
+
 	public void addCourse(View view) {
 		String cCode = courseCode.getText().toString();
 		if(!cCode.isEmpty()) {
@@ -152,7 +152,7 @@ public class ActivityCourses extends Activity {
 			Toast.makeText(getApplicationContext(), "The input field cannot be empty!", Toast.LENGTH_SHORT).show();
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked") //Should be safe to ignore this warning. It complains about not knowing the type of arraylist being sent in exportTask.execute(requests)
 	@SuppressLint("SimpleDateFormat")
 	public void exportSchedule() {
@@ -160,13 +160,13 @@ public class ActivityCourses extends Activity {
 			Logger.VerboseLog(TAG, "Exporting schedule to Google Calendar");
 			ArrayList<String> courseCodes = coursesHelper.readAllCourses();
 			ArrayList<String> requests = new ArrayList<String>();
-		
+
 			Calendar calendar = Calendar.getInstance();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 			String startDate = dateFormat.format(calendar.getTime());
 			calendar.add(Calendar.MONTH, 6);
 			String endDate = dateFormat.format(calendar.getTime());
-		
+
 			for(int i = 0; i < courseCodes.size(); ++i) {
 				requests.add("https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=" + courseCodes.get(i) +
 						"&type=root&startdate=" + startDate + "&enddate=" + endDate + "&p=0.m%2C2.w");
@@ -175,25 +175,25 @@ public class ActivityCourses extends Activity {
 				exportTask.execute(requests);
 				syncActionItem.setActionView(R.layout.item_action_sync_indicator);
 		}
-		else 
+		else
 			Toast.makeText(getApplicationContext(), "Missing internet connection", Toast.LENGTH_SHORT).show();
 	}
-	
+
 	public void startCalendar(View view) {
     	//Start the calendar app
     	Uri uri = Uri.parse("content://com.android.calendar/time");
 		Intent intent = new Intent("android.intent.action.VIEW", uri);
 		startActivity(intent);
 	}
-	
+
 	public void readCourses() {
 		coursesArray = coursesHelper.readAllCourses();
 	}
-	
+
 	public void courseChecked(View v) {
 		Logger.VerboseLog(TAG, "Checked or Unchecked");
 	}
-	
+
 	 private class ExportResult {
 		 int resultFlag		= 0; // 0 = Normal, 1 = All events up to date, 2 = No data recieved from timeedit, 3 = Event export failed, 4 = No calendar found
 		 int exportedCount 	= 0;
@@ -203,21 +203,21 @@ public class ActivityCourses extends Activity {
 
 	 private class ExportToGCalFromTimeEditTask extends AsyncTask<ArrayList<String>, Void, ExportResult> {
 		 final Context context;
-		  
+
 		 public ExportToGCalFromTimeEditTask(Context context) {
 			 this.context = context;
 		 }
-		 
+
 		 @Override
 	     protected ExportResult doInBackground(ArrayList<String>... requests) {
 	    	 ExportResult exportResult = new ExportResult();
 	    	 int calendarID = findCalendarID();
-	    	 
+
 	    	 if(calendarID != -1) // -1 indicates that no Google account is linked to this device
 	    	 {
 				//Get all events in the users calendar that has been added by this app
 				ArrayList<String[]> oldCalendarEvents  = getCalendarEvents(context);
-					
+
 				for(int i = 0; i < requests[0].size(); ++i) {
 					ArrayList<String[]> newLectureList = getTimeEditData(requests[0].get(i));
 					if(newLectureList.size() > 0) {
@@ -229,7 +229,7 @@ public class ActivityCourses extends Activity {
 							//Export all events for a given course
 							try {
 								for(int j = 0; j < newLectureList.size(); ++j) {
-									exportScheduleEvent(newLectureList.get(j), calendarID);			
+									exportScheduleEvent(newLectureList.get(j), calendarID);
 									++exportResult.exportedCount;
 								}
 							} catch (ParseException e) {
@@ -243,32 +243,32 @@ public class ActivityCourses extends Activity {
 						exportResult.resultFlag = 2; // No data recieved from timeedit
 					}
 				}
-			} else { 
+			} else {
 				exportResult.resultFlag = 4; // No calendar found
 			}
 			return exportResult; //The result flag defaults to 0 so if nothing goes wrong it will return the result flag "Normal"
 		 }
-		 
+
 		 @Override
 		 protected void onPostExecute(ExportResult exportResult) {
-			 
+
 			 switch (exportResult.resultFlag) {
 			 	case 0: // Normal
 			 		Toast.makeText(getApplicationContext(), exportResult.exportedCount + " Events added\n" + exportResult.deletedCount +" Events deleted\n" + exportResult.upToDateCount + " Events already synced", Toast.LENGTH_LONG).show();
 			 		break;
-				 
+
 			 	case 1: // All events up to date
 			 		Toast.makeText(getApplicationContext(), "All " + exportResult.upToDateCount + " events are up to date", Toast.LENGTH_SHORT).show();
 			 		break;
-			 		
+
 			 	case 2: // No data recieved from timeedit
 			 		Toast.makeText(getApplicationContext(), "TimeEdit failed to return data for some or all courses\n" + exportResult.exportedCount + " Events added\n" + exportResult.deletedCount +" Events deleted\n" + exportResult.upToDateCount + " Events already synced", Toast.LENGTH_LONG).show();
 			 		break;
-			 		
+
 			 	case 3: // Event export failed
 			 		Toast.makeText(getApplicationContext(),"Some or all events failed to sync\n" + exportResult.exportedCount + " Events added\n" + exportResult.deletedCount +" Events deleted\n" + exportResult.upToDateCount + " Events already synced", Toast.LENGTH_LONG).show();
 			 		break;
-			 		
+
 			 	case 4: // No calendar found
 			 		Toast.makeText(getApplicationContext(), "Sync failed - No Google calendar found", Toast.LENGTH_SHORT).show();
 			 		break;
@@ -280,7 +280,7 @@ public class ActivityCourses extends Activity {
 				int returnCalendarID = -1;
 				int[] calendarIDs = null;
 				String[] calendarNames = null;
-				
+
 				//Get the calendar ID
 				ContentResolver contentResolver = getContentResolver();
 				String[] projection = new String[] {
@@ -296,13 +296,13 @@ public class ActivityCourses extends Activity {
 						calendarIDs = new int[calendarCount];
 						calendarNames = new String[calendarCount];
 						for (int i = 0; i < calendarIDs.length; i++) {
-	
+
 							calendarIDs[i] = cursor.getInt(0);
 							calendarNames[i] = cursor.getString(1);
 							cursor.moveToNext();
 						}
 						cursor.close();
-						
+
 						//See if any of the found calendars is a Google calendar
 						for(int i = 0; i < calendarCount; ++i) {
 							if(calendarNames[i].contains("@gmail.com")) {
@@ -313,16 +313,16 @@ public class ActivityCourses extends Activity {
 					}
 					return returnCalendarID;
 			}
-		 
+
 		 //Gets all events from the users calendar and returns the ones that were added by this app
 		 private ArrayList<String[]> getCalendarEvents(Context context) {
 				ArrayList<String[]> lectures = new ArrayList<String[]>();
-				
+
 			    Cursor cursor = context.getContentResolver().query( Uri.parse("content://com.android.calendar/events")	//Get a cursor so we can access the calendar events
 			    		, new String[] { "calendar_id", "title", "description" , "dtstart", "dtend" }, null, null, null);
 			    cursor.moveToFirst();
-			        	        
-			    
+
+
 		        for (int i = 0; i < cursor.getCount(); ++i) {	//Cycle through all the elements and select those which has been added by this app
 		        	String eventDescription = cursor.getString(2);
 		        	  if(eventDescription != null && eventDescription.contains("[This event was added by the BTH App]")) {
@@ -332,14 +332,14 @@ public class ActivityCourses extends Activity {
 		              		eventInfo[2] = cursor.getString(1);	//Title
 		              		eventInfo[3] = cursor.getString(2);	//Description
 		              		eventInfo[4] = cursor.getString(0);	//ID
-		                  	
+
 		              		lectures.add(eventInfo);
 		              	}
 		            cursor.moveToNext();
 		        }
 				return lectures;
 			}
-		 
+
 		 //Fetch updated events from timeedit
 		 private ArrayList<String[]> getTimeEditData(String stringURL) {
 				String inputLine;
@@ -360,20 +360,20 @@ public class ActivityCourses extends Activity {
 							lectures.add(lecture);
 						}
 						count++;
-					}			
+					}
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				
+
 				return lectures;
 			}
-		
+
 		 //Sorts out the events that are relevant for the inputed course
 		 private ArrayList<String[]> getLecturesForCourse(String course, ArrayList<String[]> allLectures) {
 				ArrayList<String[]> relevantLectures = new ArrayList<String[]>();
-				
+
 				for(int i = 0; i < allLectures.size(); ++i) {
 					if(allLectures.get(i)[2].startsWith(course)) { //Check if the current lectures title begins with the course code we are looking for
 						relevantLectures.add(allLectures.get(i));
@@ -381,10 +381,10 @@ public class ActivityCourses extends Activity {
 				}
 				return relevantLectures;
 			}
-		 
+
 		 //TODO - Remove events that are present in oldLEcturews but not in newLectures (Needs saved IDs)
 		 private int removeDuplicateEvents(ArrayList<String[]> newLectures, ArrayList<String[]> oldLectures) {
-			 int duplicateCount = 0; 
+			 int duplicateCount = 0;
 				for(int i = 0; i < newLectures.size(); ++i) {
 					for(int j = 0; j < oldLectures.size(); ++j) {
 						if(newLectures.get(i)[0].equals(oldLectures.get(j)[0])
@@ -400,28 +400,28 @@ public class ActivityCourses extends Activity {
 				}
 				return duplicateCount;
 			}
-		 
+
 		 private boolean deleteEvent(long eventId) {
 				Uri deleteUri = ContentUris.withAppendedId(Events.CONTENT_URI, eventId);
 				int rows = getContentResolver().delete(deleteUri, null, null);
 				return rows > 0; //Returns true if the event was deleted successfully
 			}
-		 
+
 		 @SuppressLint("SimpleDateFormat")
 		 private String[] parseTimeEditData(String[] tokens) {
 			String[] stringParts = new String[8];
-				
+
 			String[]	startDateParts 		= tokens[0].split("-"); //Start date
 			String		startTimeString 	= tokens[1].substring(1); //Start time
 			String[] 	endDateParts 		= tokens[2].substring(1).split("-"); //End date
 			String	 	endTimeString 		= tokens[3].substring(1); //End time
-				
+
 			String startDate = startDateParts[0] + " " + startDateParts[1] + " " + startDateParts[2];
 			String endDate = endDateParts[0] + " " + endDateParts[1] + " " + endDateParts[2];
-			
+
 			String timeZone = "GMT+02:00"; //TODO - Check why this value has to be set to +2. The exporter code specifies a timezone but it seems to be wrong even though it is set to Europe/Stockholm
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy MM dd HH:mm zzz");
-				
+
 			String startTimeFull 	=	startDate + " " + startTimeString + " " + timeZone;
 			String endTimeFull		=	endDate + " " + endTimeString + " " + timeZone;
 			try {
@@ -430,9 +430,9 @@ public class ActivityCourses extends Activity {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-				
+
 			int index = 4; //Skip past the time tokens
-			
+
 			if(tokens[index].indexOf('"') == 1) { 	//Course
 				stringParts[2] = tokens[index++].substring(1) + tokens[index++];
 			} else {
@@ -462,10 +462,10 @@ public class ActivityCourses extends Activity {
 				stringParts[7] = tokens[index++].substring(1) + tokens[index++];
 			} else {
 				stringParts[7] = tokens[index++].substring(1);
-			} 
+			}
 			return stringParts;
 		}
-		 
+
 	 	private void exportScheduleEvent(String[] eventData, int calendarID) throws ParseException {
 	 		//Prepare the event for insertion
 	 		ContentValues values = new ContentValues();
@@ -476,11 +476,11 @@ public class ActivityCourses extends Activity {
 			values.put(CalendarContract.Events.TITLE, eventData[2] + " " + eventData[6] + " " + eventData[4] + " " + eventData[5]);
 			values.put(CalendarContract.Events.DESCRIPTION, eventData[7] + " \n\n[This event was added by the BTH App]"); //Tag the description so we can identify our events later.
 			values.put(CalendarContract.Events.CALENDAR_ID, calendarID);
-			
+
 			//Insert the event
 			ContentResolver contentResolver = getContentResolver();
 			Uri uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values);
-			
+
 			String eventID = uri.getLastPathSegment();
 	 	}
 	}

@@ -1,6 +1,9 @@
-package com.example.app_android;
+package com.example.app_android.ui;
 
-import com.example.app_android.ui.ActivityMap;
+import com.example.app_android.Cache;
+import com.example.app_android.R;
+import com.example.app_android.R.array;
+import com.example.app_android.R.string;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
