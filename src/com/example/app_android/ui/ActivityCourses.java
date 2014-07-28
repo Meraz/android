@@ -24,6 +24,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -31,6 +32,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.CalendarContract;
@@ -40,6 +42,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -50,19 +53,24 @@ public class ActivityCourses extends Activity {
 	EditText courseCode;
 	ICourseTable coursesHelper;
 	MenuItem syncActionItem;
-	
+	View courseList;
+	TextView noCoursesText;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		coursesHelper = DatabaseManager.getInstance(getApplicationContext()).getCourseTable();
 		coursesArray = coursesHelper.readAllCourses();
-		
-		if(coursesHelper.empty())
-			setContentView(R.layout.activity_courses_no_courses);
-		else
-			setContentView(R.layout.activity_courses);
+		setContentView(R.layout.activity_courses);
 		
 		courseCode = (EditText) findViewById(R.id.courseCode);
+		courseList = findViewById(R.id._container);
+		noCoursesText = (TextView) findViewById(R.id.noCoursesDescription); 
+		
+		if(coursesHelper.empty())
+			courseList.setVisibility(View.GONE);
+		else
+			noCoursesText.setVisibility(View.GONE);
 	}
 	
     @Override
@@ -80,6 +88,9 @@ public class ActivityCourses extends Activity {
 	@Override
 	protected void onRestart() {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
+		//Restart this view to display the correct information
+		finish();
+		startActivity(getIntent());
 		super.onRestart();
 	}
 

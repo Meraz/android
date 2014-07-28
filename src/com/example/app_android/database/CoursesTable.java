@@ -68,23 +68,19 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 	}
 	
 	public boolean empty() {
-		boolean result;
 		SQLiteDatabase db = mHelper.getReadableDatabase();
 		String[] columns = {COULMN_UID, COULUMN_COURSE_CODE};		
 		Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null);
-		
-		if (cursor.getCount() > 0)
-			result = false;
-		else
-			result = true;
-		
+		int count = cursor.getCount();
 		db.close();
-		return result;
+		return count <= 0;
 	}
 	
-	public void removeCourse(String course) {
+	public boolean removeCourse(String course) {
 		SQLiteDatabase db = mHelper.getWritableDatabase();
-		db.delete(TABLE_NAME, COULUMN_COURSE_CODE + "=" + course, null);
+		int result = db.delete(TABLE_NAME, COULUMN_COURSE_CODE + "=" +"'" + course + "'", null); //returns the number of affected rows
 		db.close();
+		
+		return result > 0;
 	}	
 }

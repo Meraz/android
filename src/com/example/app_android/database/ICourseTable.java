@@ -10,5 +10,5 @@ public interface ICourseTable {
 	
 	public boolean empty();
 	
-	public void removeCourse(String course);
+	public boolean removeCourse(String course);
 }

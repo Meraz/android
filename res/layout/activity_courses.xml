@@ -30,6 +30,14 @@
         	android:layout_marginTop="?android:attr/actionBarSize"
         	class="com.example.app_android.ui.FragmentCourses" >
 	   	</fragment>
+	   	
+	  	<TextView 
+	   	    android:id="@+id/noCoursesDescription"
+	   	    android:layout_width="wrap_content"
+	   	    android:layout_height="wrap_content"
+	   	    android:layout_centerInParent="true"
+	   	    android:gravity="center"
+	   	    android:text="@string/no_courses_added"/>
 	        
 	   	<Button
        		android:id="@+id/scheduleButton"

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.app_android.Cache;
@@ -33,7 +34,7 @@ public class ActivityMain extends Activity implements InterfaceActivityMain{
     	
         // Sets the content specified in the file in res/layout/activity_main.xml
         // This also specifies which fragment to active
-        setContentView(R.layout.activity_main);     	
+        setContentView(R.layout.activity_main);
     }
 
     @Override

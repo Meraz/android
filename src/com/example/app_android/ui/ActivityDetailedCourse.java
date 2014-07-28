@@ -1,6 +1,8 @@
 package com.example.app_android.ui;
 
 import com.example.app_android.R;
+import com.example.app_android.database.DatabaseManager;
+import com.example.app_android.database.ICourseTable;
 import com.example.app_android.util.Logger;
 
 import android.app.Activity;
@@ -11,12 +13,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ActivityDetailedCourse extends Activity {
 	private static final String TAG = "ActivityDetailedCourse";
 	String courseCode;
 	MenuItem addOrRemoveButton;
-	boolean isFavourite = true; //TODO - recieve this from bundle
+	boolean isFavourite;
+	ICourseTable coursesHelper;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,10 @@ public class ActivityDetailedCourse extends Activity {
 		((TextView)findViewById(R.id.course_exam_text)).setText("[Hardcode]2014-11-01");
 		((TextView)findViewById(R.id.course_litterature_text)).setText("[Hardcode]C++101");
 		((TextView)findViewById(R.id.course_description_text)).setText("[Hardcode]THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!HELPI'MTRAPPEDINANANDROIDAPPFACTORY!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!");
+		
+		coursesHelper = DatabaseManager.getInstance(getApplicationContext()).getCourseTable();
+		
+		isFavourite = coursesHelper.readAllCourses().contains(courseCode);
 	}
 	
 	@Override
@@ -97,13 +105,17 @@ public class ActivityDetailedCourse extends Activity {
 	    case R.id.detailed_course_action_add_or_remove:
 	    	if(isFavourite) {
 	    		isFavourite = false;
-	    		//TODO - remove from database
-	    		addOrRemoveButton.setIcon(R.drawable.ic_action_not_important);
+	    		if(coursesHelper.removeCourse(courseCode))
+	    			addOrRemoveButton.setIcon(R.drawable.ic_action_not_important);
+	    		else
+	    			Toast.makeText(getApplicationContext(), "Failed to remove course :(", Toast.LENGTH_SHORT).show();
 	    	}
 	    	else {
 	    		isFavourite = true;
-	    		//TODO - add to database
-	    		addOrRemoveButton.setIcon(R.drawable.ic_action_important);
+	    		if(coursesHelper.insertData(courseCode) >= 0)	//id >= 0 = success
+	    			addOrRemoveButton.setIcon(R.drawable.ic_action_important);
+	    		else
+	    			Toast.makeText(getApplicationContext(), "Failed to add course :(", Toast.LENGTH_SHORT).show();
 	    	}
 	    	break;
 	    }

@@ -22,7 +22,7 @@ public class FragmentCourses extends ListFragment {
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		Intent intent = new Intent(getActivity().getApplicationContext(), ActivityDetailedCourse.class);
-		intent.putExtra("courseCode", ((TextView)((RelativeLayout)getListView().getChildAt(0)).getChildAt(pos)).getText());
+		intent.putExtra("courseCode", ((TextView)((RelativeLayout)getListView().getChildAt(pos)).getChildAt(0)).getText());	//Find the right courseCode in the course list and input it
 		startActivity(intent);
 	}
 
@@ -56,6 +56,7 @@ public class FragmentCourses extends ListFragment {
 	@Override
 	public void onStart() {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
+		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_course, R.id.course_button, ActivityCourses.coursesArray));
 		super.onStart();
 	}
 
