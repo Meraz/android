@@ -39,7 +39,7 @@ public class LocalService extends Service {
 			
 			sendBroadcast(new Intent(stopBroadCast));
 			
-			ServiceHelper.getServiceHelper().CallBack(id);
+			//ServiceHelper.getInstance().CallBack(id);
 	    }
 	}
 	

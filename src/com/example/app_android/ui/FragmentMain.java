@@ -4,7 +4,7 @@ import com.example.app_android.Cache;
 import com.example.app_android.DialogChooseCity;
 import com.example.app_android.R;
 import com.example.app_android.services.TestDatabase;
-import com.example.app_android.services.ServiceHelper;
+import com.example.app_android.services.ServiceManager;
 import com.example.app_android.util.Logger;
 import com.example.app_android.util.MyBroadCastReceiver;
 import com.example.app_android.util.Utilities;
@@ -159,11 +159,11 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
 		if(b == null)
 		{
-			b = new MyBroadCastReceiver("FRAGMENTMAINUPDATESTART", "FRAGMENTMAINUPDATESDONE");
+			b = new MyBroadCastReceiver("FRAGMENT_MAIN_1_START", "FRAGMENT_MAIN_1_UPDATE", "FRAGMENT_MAIN_1_STOP");
 			b.registerCallback(this);
 		}
     	b.registerBroadCastReceiver(getActivity());
-    	ServiceHelper.getServiceHelper().loginStudentportala(getActivity(), 5, "http://194.47.131.73/database-files-and-server-script/Script/serverResponse.php", b);
+    	ServiceManager.getInstance().loginStudentportala(getActivity().getApplicationContext(), 5, "http://194.47.131.73/database-files-and-server-script/Script/serverResponse.php", b);
     	
 		super.onResume();
 	}
@@ -200,15 +200,20 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	}
 
 	@Override
-	public void onReceiveResult(int resultCode) {
+	public void onServiceStart(int id) {
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStart()");
+    	Toast.makeText(getActivity(), "[TESTCODE] Attempting to update content", Toast.LENGTH_SHORT).show(); // TODO Engrish/swenglish
+		
+	}
+	@Override
+	public void onServiceUpdate(int id, int statusCode, String message) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onServiceStop(int id, int statusCode, String message) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onReceiveResult()");
 		Toast.makeText(getActivity(), "[TESTCODE] Update successful", Toast.LENGTH_SHORT).show(); // TODO Engrish/swenglish
     	test.setText(TestDatabase.getSomeData());
-	}
-	
-	@Override
-	public void onServiceStart() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStart()");
-    	Toast.makeText(getActivity(), "[TESTCODE] Attempting to update content", Toast.LENGTH_SHORT).show(); // TODO Engrish/swenglish
 	}	
 }
