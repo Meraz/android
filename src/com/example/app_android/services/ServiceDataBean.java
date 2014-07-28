@@ -9,12 +9,10 @@ public class ServiceDataBean {
 
 	private int mKey;
 	private String mParameter;
-//	private ActivityCallback mCallback;// TODO
 	private MyBroadCastReceiver mBroadCastReceiver;
-	private Intent mIntent;
+	private Intent mIntent; 
 		
 	public ServiceDataBean() {
-		// TODO 
 	}
 	
 	public int getKey() {
@@ -32,17 +30,7 @@ public class ServiceDataBean {
 	public void setParameter(String parameter) {
 		mParameter = parameter;
 	}
-	// TODO
-	/* 
-	public ActivityCallback getCallback()
-	{
-		return mCallback;
-	}
-	
-	public void setCallback(ActivityCallback callback) {
-		mCallback = callback;
-	}	*/
-	
+
 	public MyBroadCastReceiver getBroadCastReceiver()
 	{
 		return mBroadCastReceiver;
