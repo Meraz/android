@@ -54,7 +54,7 @@ public class ActivityCourses extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		coursesHelper = DatabaseManager.getInstance(getApplicationContext()).getCourseTable();
+		coursesHelper = DatabaseManager.getInstance().getCourseTable();
 		coursesArray = coursesHelper.readAllCourses();
 		
 		if(coursesHelper.empty())

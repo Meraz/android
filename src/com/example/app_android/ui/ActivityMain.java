@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.app_android.Cache;
 import com.example.app_android.R;
+import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.services.ServiceHelper;
 import com.example.app_android.services.TestDatabase;
 import com.example.app_android.ui.FragmentMain.InterfaceActivityMain;
@@ -30,6 +31,7 @@ public class ActivityMain extends Activity implements InterfaceActivityMain{
     	super.onCreate(savedInstanceState);
     	Cache.initialize(getApplicationContext());
     	ServiceHelper.initialize(getApplicationContext());
+    	DatabaseManager.initialize(getApplicationContext());
     	
         // Sets the content specified in the file in res/layout/activity_main.xml
         // This also specifies which fragment to active

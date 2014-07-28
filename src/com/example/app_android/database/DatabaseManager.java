@@ -40,10 +40,14 @@ public class DatabaseManager extends SQLiteOpenHelper{
         public int getIndex() {return index;}        
     }
     
-    // Singleton getinstance
-    public static DatabaseManager getInstance(Context context) {
+    // Singleton initialize instance
+    public static void initialize (Context context) {
     	if(mDatabaseManager == null)
     		mDatabaseManager = new DatabaseManager(context);
+    }
+    
+    // Singleton getinstance
+    public static DatabaseManager getInstance() {
     	return mDatabaseManager;
     }
 
