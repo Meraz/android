@@ -162,7 +162,7 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 			b.registerCallback(this);
 		}
     	b.registerBroadCastReceiver(getActivity());
-    	ServiceManager.getInstance().loginStudentportala(getActivity().getApplicationContext(), 5, "http://194.47.131.73/database-files-and-server-script/Script/serverResponse.php", b);
+    	ServiceManager.getInstance().requestToken(getActivity().getApplicationContext(), "http://194.47.131.73/database-files-and-server-script/Script/serverResponse.php", b);
     	
 		super.onResume();
 	}

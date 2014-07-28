@@ -1,7 +1,5 @@
 package com.example.app_android.util;
 
-import com.example.app_android.services.IServiceManager;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

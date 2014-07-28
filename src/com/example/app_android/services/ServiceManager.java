@@ -1,26 +1,27 @@
 package com.example.app_android.services;
 
+/* If an service is already started when calling startservice, the service will not be created, however,
+	the function onCommand will be called for that service. 
+	And in this we create a new instance of a thread in which is unique.Thus one unique service can have several instances of a single thread in it.
 
-/*
- * All functions takes 'myBroadCastReceiver' in case broadcast is useful aswell
- * 
- * 
- */
+	This is why the functions that add and remove services is synchronized.
+	So if I try to stop a service there wont start one at the same time.
+	
+	Also, if I try to use one when it's open and delete at the same time. Not good
+*/
 
 import java.util.HashMap;
 
 import com.example.app_android.util.Logger;
 import com.example.app_android.util.MyBroadCastReceiver;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcel;
-import android.os.Parcelable;
 
-public class ServiceManager implements IServiceManager {
-	
-	private static final String TAG = "ServiceHelper";
+
+public class ServiceManager {
+
+	private static final String TAG = "ServiceManager";
 	private Context mContext;
 	private static ServiceManager mServiceHelper = null;
 	
@@ -35,23 +36,20 @@ public class ServiceManager implements IServiceManager {
 	}
 	
 	// TODO SPARSEARRAY
-	private static HashMap<Integer, ServiceDataBean> mServices = new HashMap<Integer, ServiceDataBean>();
+	private HashMap<Integer, ServiceDataBean> mServices = new HashMap<Integer, ServiceDataBean>();
 	
 	// Private constructor to stop instantiating this class.
 	private ServiceManager(Context context) {
 		mContext = context;
 	}
 	
-	public int requestToken(Context context, int token, String parameters, MyBroadCastReceiver myBroadCastReceiver) {
+	public synchronized int requestData(Context context, MyBroadCastReceiver myBroadCastReceiver) {
 		
-		final int key = parameters.hashCode();
+		final int key = myBroadCastReceiver.getAllBroadcasts().hashCode();
 				
 		// Not sure which kind of intent it has to be
 		//final Intent intent = new Intent(context, LoginStudentportal.class);
 		final Intent intent = new Intent(context, ServiceRequestToken.class);
-		//intent.putExtra("api_url", parameters);
-		//intent.putExtra("token", token);
-		//intent.putExtra("access_type", "POST");
 		if(myBroadCastReceiver != null) {
 			intent.putExtra("startBroadCast", myBroadCastReceiver.getStartBroadCast());
 			intent.putExtra("stopBroadCast", myBroadCastReceiver.getStopBroadCast());
@@ -62,17 +60,15 @@ public class ServiceManager implements IServiceManager {
 		return key;
 	}
 	
-	public int loginStudentportala(Context context, int token, String parameters, MyBroadCastReceiver myBroadCastReceiver) {
+	public synchronized int requestToken(Context context, String parameters, MyBroadCastReceiver myBroadCastReceiver) {
 		
 		final int key = parameters.hashCode();
 		if(mServices.containsKey(key))
 			return key; 					// This service is already ongoing. Return key for it.
 		
-		myBroadCastReceiver.setServiceManager(this);	// Set servicemanager for the broadcast receiver, so it can call this on broadcast if needed. 
-		
 		ServiceDataBean bean = createServiceDataBean(key, parameters, myBroadCastReceiver);	// Create databean with information
 		
-		Intent intent = new Intent(context, LocalService.class); 	// Create intent for specific class
+		Intent intent = new Intent(context, ServiceRequestToken.class); 	// Create intent for specific class
 		intent = prepareDefaultIntent(intent, bean);				// Prepare intent with data needed for all services
 		bean.setIntent(intent);										// Save intent as it's needed if I want to abort service 	
 		
@@ -85,6 +81,16 @@ public class ServiceManager implements IServiceManager {
 		if(mServices.containsKey(key))
 			return true; // Already exists
 		return false;
+	}
+	
+	// Called by a broadcastReciever when receiving a broadcast 
+	public synchronized void onServiceStop2(int id) {
+		Logger.VerboseLog(TAG, TAG + ":entered CallBack()");
+		if(id > 0 ) {
+			Intent intent = mServices.get(id).getIntent();
+			mContext.stopService(intent);
+			mServices.remove(id);
+		}
 	}
 	
 	private static Intent prepareDefaultIntent(Intent intent, ServiceDataBean databean) {	
@@ -101,18 +107,5 @@ public class ServiceManager implements IServiceManager {
 		databean.setParameter(parameters);
 		databean.settBroadCastReceiver(myBroadCastReceiver);
 		return databean;
-	}
-	
-	// Called by a broadcastReciever when receiving a broadcast 
-	@Override
-	public void onServiceStop(int id) {
-		Logger.VerboseLog(TAG, ":entered CallBack()");
-		if(id > 0) {
-			if(mServices.containsKey(id) == true) {
-				Intent intent = mServices.get(id).getIntent();
-				mContext.stopService(intent);
-				mServices.remove(id);
-			}
-		}
 	}
 }
