@@ -105,15 +105,19 @@ public class ActivityDetailedCourse extends Activity {
 	    case R.id.detailed_course_action_add_or_remove:
 	    	if(isFavourite) {
 	    		isFavourite = false;
-	    		if(coursesHelper.removeCourse(courseCode))
-	    			addOrRemoveButton.setIcon(R.drawable.ic_action_not_important);
+	    		if(coursesHelper.removeCourse(courseCode)) {
+	    			addOrRemoveButton.setIcon(R.drawable.ic_action_important);
+	    			Toast.makeText(getApplicationContext(), courseCode + " was added to favourite courses", Toast.LENGTH_SHORT).show();
+	    		}
 	    		else
 	    			Toast.makeText(getApplicationContext(), "Failed to remove course :(", Toast.LENGTH_SHORT).show();
 	    	}
 	    	else {
 	    		isFavourite = true;
-	    		if(coursesHelper.insertData(courseCode) >= 0)	//id >= 0 = success
-	    			addOrRemoveButton.setIcon(R.drawable.ic_action_important);
+	    		if(coursesHelper.insertData(courseCode) >= 0) {	//id >= 0 = success
+	    			addOrRemoveButton.setIcon(R.drawable.ic_action_not_important);
+	    			Toast.makeText(getApplicationContext(), courseCode + " was removed from favourite courses", Toast.LENGTH_SHORT).show();
+	    		}
 	    		else
 	    			Toast.makeText(getApplicationContext(), "Failed to add course :(", Toast.LENGTH_SHORT).show();
 	    	}
