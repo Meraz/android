@@ -25,7 +25,6 @@ public class MyBroadCastReceiver extends BroadcastReceiver {
 	private String mStopBroadCast = null;
 	private String mUpdateBroadCast = null;
 	private Receiver mReceiver = null;
-	private IServiceManager mServiceManager  = null;
 	
 	public MyBroadCastReceiver(String startBroadCast, String updateBroadCast, String stopBroadCast)
 	{
@@ -73,10 +72,10 @@ public class MyBroadCastReceiver extends BroadcastReceiver {
 		return mStopBroadCast;
 	}
 	
-	public void setServiceManager(IServiceManager serviceManager) {
-		mServiceManager = serviceManager;
+	public String getAllBroadcasts() {
+		return mStartBroadCast+mStopBroadCast+mUpdateBroadCast;
 	}
-
+	
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onReceive()");
@@ -85,8 +84,6 @@ public class MyBroadCastReceiver extends BroadcastReceiver {
 			int id = intent.getIntExtra("id", -1);
 			
 			if(intent.getAction() == mStopBroadCast) {
-				if(mServiceManager != null)
-					mServiceManager.onServiceStop(id);	// Tell a servicemanager that this service has stopped.
 				int statusCode = intent.getIntExtra("statusCode", 1);
 				String statusMessage = intent.getStringExtra("statusMessage");	
 				mReceiver.onServiceStop(id, statusCode, statusMessage);
