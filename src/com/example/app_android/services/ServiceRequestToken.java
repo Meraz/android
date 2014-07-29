@@ -84,9 +84,7 @@ public class ServiceRequestToken extends MyService {
 				mService.mySendBroadcast(intent);
 				return;
 			}
-			
-			TestDatabase.changeSomeData("Second data"+broad_cast_id);
-			
+					
 			// Send stop broadcast
 			intent = new Intent(stopBroadcast);
 			intent.putExtra("id", broad_cast_id);

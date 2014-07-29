@@ -13,7 +13,6 @@ import com.example.app_android.Cache;
 import com.example.app_android.R;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.services.ServiceManager;
-import com.example.app_android.services.TestDatabase;
 import com.example.app_android.ui.FragmentMain.InterfaceActivityMain;
 import com.example.app_android.util.Logger;
 
@@ -68,9 +67,7 @@ public class ActivityMain extends Activity implements InterfaceActivityMain{
 	protected void onStart() {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
 		super.onStart();
-		TestDatabase.resetSomeData();
     	test = (TextView) findViewById(R.id.textView1);
-    	test.setText(TestDatabase.getSomeData());    
 	}
 
 	@Override

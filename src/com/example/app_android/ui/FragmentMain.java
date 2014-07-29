@@ -2,7 +2,6 @@ package com.example.app_android.ui;
 
 import com.example.app_android.Cache;
 import com.example.app_android.R;
-import com.example.app_android.services.TestDatabase;
 import com.example.app_android.services.ServiceManager;
 import com.example.app_android.util.Logger;
 import com.example.app_android.util.MyBroadCastReceiver;
@@ -148,8 +147,7 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_main, mMainMenu));
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		
-    	test = (TextView) getActivity().findViewById(R.id.textView1);
-    	test.setText(TestDatabase.getSomeData());   
+    	test = (TextView) getActivity().findViewById(R.id.textView1);  
 	}
 
 	@Override
