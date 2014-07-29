@@ -235,12 +235,9 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 		if(id == idForLoginService) {
 			boolean loginRequired = intent.getBooleanExtra("loginRequired", true);
 			if(loginRequired) {		
-				LoginPrompt test = new LoginPrompt(getActivity(), mLoginReceiver);
-				test.startThis();
-				
+				LoginPrompt loginPrompt = new LoginPrompt(getActivity(), mLoginReceiver);
+				loginPrompt.attempLogin();				
 			}
-			
-
 			// Check with server
 			// Get server 
 		}

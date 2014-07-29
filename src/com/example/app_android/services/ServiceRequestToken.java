@@ -59,9 +59,10 @@ public class ServiceRequestToken extends MyService {
 			intent.putExtra("id", broad_cast_id);
 			mService.mySendBroadcast(intent);
 
-			
+			String username = mIntent.getStringExtra("username");
+			String password = mIntent.getStringExtra("password"); // TODO is this safe?
 			try {
-				Processes.requestToken();
+				Processes.requestToken(username, password);
 			} catch (RestCommunicationException e) {
 				// Send stop broadcast
 				intent = new Intent(stopBroadcast);

@@ -25,7 +25,7 @@ public class LoginPrompt {
 		mBroadCastReceiver = broadCastReceiver;
 	}
 	
-	public void startThis() {
+	public void attempLogin() {
 		
 		
 		LayoutInflater layoutInflater = LayoutInflater.from(mContext);				

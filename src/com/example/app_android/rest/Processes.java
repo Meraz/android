@@ -24,7 +24,7 @@ public class Processes {
 		return true;
 	}
 	
-	public static void requestToken() throws RestCommunicationException { //TODO RETURN ENUM?!
+	public static void requestToken(String username, String password) throws RestCommunicationException { //TODO RETURN ENUM?!
 	
 		ITokenTable tokenTable = DatabaseManager.getInstance().getTokenTable();
 		
@@ -39,11 +39,12 @@ public class Processes {
 		parameterName[3] = "client_id";
 
 		String[] parameterValues = new String[4];
-		parameterValues[0] = "password";								// TODO hardcoded
-		parameterValues[1] = "npr";										// TODO hardcoded
-		parameterValues[2] = "secret_password";							// TODO hardcoded
+		parameterValues[0] = "password";
+		parameterValues[1] = username;									
+		parameterValues[2] = password;								
 		parameterValues[3] = "21EC2020-3AEA-1069-A2DD-08002B30309D";	// TODO hardcoded
 
+		// TODO hardcoded v
 		httpPost = preparePostCall("http://194.47.131.73/database-files-and-server-script/Script/serverResponse.php", parameterName, parameterValues);
 		
 		HttpResponse httpResponse = null;

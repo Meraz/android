@@ -72,7 +72,7 @@ public class ServiceManager {
 		Intent intent = new Intent(context, ServiceRequestToken.class); 	// Create intent for specific class
 		intent = prepareDefaultIntent(intent, bean);				// Prepare intent with data needed for all services
 		intent.putExtra("username", username);
-		intent.putExtra("password", password);
+		intent.putExtra("password", password);	// TODO is this safe?
 		bean.setIntent(intent);										// Save intent as it's needed if I want to abort service 	
 		
 		mServices.put(key, bean); 							// Save service in map.
