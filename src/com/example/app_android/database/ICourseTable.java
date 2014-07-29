@@ -1,14 +1,8 @@
 package com.example.app_android.database;
 
-import java.util.ArrayList;
+import com.example.app_android.CourseBean;
 
 public interface ICourseTable {
 	
-	public long insertData(String courseCode);
-	
-	public ArrayList<String> readAllCourses();
-	
-	public boolean empty();
-	
-	public boolean removeCourse(String course);
+	public CourseBean getCourse(String CourseCode);
 }

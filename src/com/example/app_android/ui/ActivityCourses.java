@@ -16,7 +16,7 @@ import java.util.TimeZone;
 
 import com.example.app_android.R;
 import com.example.app_android.database.DatabaseManager;
-import com.example.app_android.database.ICourseTable;
+import com.example.app_android.database.IFavouriteCourseTable;
 import com.example.app_android.util.Logger;
 import com.example.app_android.util.Utilities;
 
@@ -24,7 +24,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -32,7 +31,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.CalendarContract;
@@ -51,7 +49,7 @@ public class ActivityCourses extends Activity {
 	private static final String TAG = "ActivityCourses";
 	public static ArrayList<String> coursesArray;
 	EditText courseCode;
-	ICourseTable coursesHelper;
+	IFavouriteCourseTable favouriteCoursesHelper;
 	MenuItem syncActionItem;
 	View courseList;
 	TextView noCoursesText;
@@ -59,15 +57,16 @@ public class ActivityCourses extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		coursesHelper = DatabaseManager.getInstance().getCourseTable();
-		coursesArray = coursesHelper.readAllCourses();
+		favouriteCoursesHelper = DatabaseManager.getInstance().getFavouriteCourseTable();
+		coursesArray = favouriteCoursesHelper.getAll();
+		
 		setContentView(R.layout.activity_courses);
 
 		courseCode = (EditText) findViewById(R.id.courseCode);
 		courseList = findViewById(R.id._container);
 		noCoursesText = (TextView) findViewById(R.id.noCoursesDescription);
 
-		if(coursesHelper.empty())
+		if(favouriteCoursesHelper.isEmpty())
 			courseList.setVisibility(View.GONE);
 		else
 			noCoursesText.setVisibility(View.GONE);
@@ -141,8 +140,7 @@ public class ActivityCourses extends Activity {
 	public void addCourse(View view) {
 		String cCode = courseCode.getText().toString();
 		if(!cCode.isEmpty()) {
-			long id = coursesHelper.insertData(cCode);
-			if(id >= 0) {
+			if(favouriteCoursesHelper.add(cCode)) {
 				//Insert was successful. Now restart the activity to display the added element.
 				finish();
 				startActivity(getIntent());
@@ -158,7 +156,7 @@ public class ActivityCourses extends Activity {
 	public void exportSchedule() {
 		if(Utilities.isNetworkAvailable(getApplicationContext())) {
 			Logger.VerboseLog(TAG, "Exporting schedule to Google Calendar");
-			ArrayList<String> courseCodes = coursesHelper.readAllCourses();
+			ArrayList<String> courseCodes = favouriteCoursesHelper.getAll();
 			ArrayList<String> requests = new ArrayList<String>();
 
 			Calendar calendar = Calendar.getInstance();
@@ -187,7 +185,7 @@ public class ActivityCourses extends Activity {
 	}
 
 	public void readCourses() {
-		coursesArray = coursesHelper.readAllCourses();
+		coursesArray = favouriteCoursesHelper.getAll();
 	}
 
 	public void courseChecked(View v) {

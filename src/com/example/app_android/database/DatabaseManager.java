@@ -33,7 +33,8 @@ public class DatabaseManager extends SQLiteOpenHelper{
     
     public enum TableIndex {
         TOKEN (0),
-        COURSES (1);
+        COURSES (1),
+        FAVOURITE_COURSES (2);
         
         private final int index;
         private TableIndex(int index) {this.index = index;}        
@@ -61,6 +62,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
 	    // Create specific table
 	    TABLES[0] = new TokenTable(this);
 	    TABLES[1] = new CoursesTable(this);
+	    TABLES[2] = new FavouriteCourseTable(this);
     }
       
     private BaseTable getTable(TableIndex table) {
@@ -77,6 +79,10 @@ public class DatabaseManager extends SQLiteOpenHelper{
     
     public ICourseTable getCourseTable() {
     	return (ICourseTable)getTable(TableIndex.COURSES);
+    }
+    
+    public IFavouriteCourseTable getFavouriteCourseTable() {
+    	return (IFavouriteCourseTable)getTable(TableIndex.FAVOURITE_COURSES);
     }
     
     /*

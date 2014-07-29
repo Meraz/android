@@ -1,8 +1,10 @@
 package com.example.app_android.ui;
 
+import com.example.app_android.CourseBean;
 import com.example.app_android.R;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.ICourseTable;
+import com.example.app_android.database.IFavouriteCourseTable;
 import com.example.app_android.util.Logger;
 
 import android.app.Activity;
@@ -18,29 +20,40 @@ import android.widget.Toast;
 public class ActivityDetailedCourse extends Activity {
 	private static final String TAG = "ActivityDetailedCourse";
 	String courseCode;
-	MenuItem addOrRemoveButton;
 	boolean isFavourite;
-	ICourseTable coursesHelper;
+	MenuItem addOrRemoveButton;
+	IFavouriteCourseTable favouriteCourseHelper;
+	ICourseTable courseHelper;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detailed_course);
 		
+		//Get the intent bundle and the databases we need 
 		Bundle bundle = getIntent().getExtras();
 		courseCode = bundle.getString("courseCode");
-		getActionBar().setTitle(courseCode); //TODO - add course name here too
+		courseHelper = DatabaseManager.getInstance().getCourseTable();
+		favouriteCourseHelper = DatabaseManager.getInstance().getFavouriteCourseTable();
 		
-		((TextView)findViewById(R.id.course_responsible_text)).setText("[Hardcode]Betty Bergqvist");
-		((TextView)findViewById(R.id.course_start_text)).setText("[Hardcode]2014-09-01");
-		((TextView)findViewById(R.id.course_end_text)).setText("[Hardcode]2015-04-01");
-		((TextView)findViewById(R.id.course_exam_text)).setText("[Hardcode]2014-11-01");
-		((TextView)findViewById(R.id.course_litterature_text)).setText("[Hardcode]C++101");
-		((TextView)findViewById(R.id.course_description_text)).setText("[Hardcode]THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!HELPI'MTRAPPEDINANANDROIDAPPFACTORY!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!THISISLOTSOFTEXTSOIHAZTOSCROLL!");
+		//Fetch course info
+		CourseBean courseInfo = courseHelper.getCourse(courseCode);
+		if(courseInfo == null) {
+			Toast.makeText(getApplicationContext(), "Failed to retrieve info about this course,  sorry :<", Toast.LENGTH_SHORT).show();
+			getActionBar().setTitle(courseCode);
+		} else {
+			getActionBar().setTitle(courseCode + " - " + courseInfo.getCourseName()); //TODO - add course name here too
 		
-		coursesHelper = DatabaseManager.getInstance().getCourseTable();
+			((TextView)findViewById(R.id.course_responsible_text)).setText(courseInfo.getCourseResponsible());
+			((TextView)findViewById(R.id.course_start_text)).setText(courseInfo.getStartDate());
+			((TextView)findViewById(R.id.course_end_text)).setText(courseInfo.getEndDate());
+			((TextView)findViewById(R.id.course_exam_text)).setText(courseInfo.getNextExamDate());
+			((TextView)findViewById(R.id.course_litterature_text)).setText(courseInfo.getCourseLiterature());
+			((TextView)findViewById(R.id.course_description_text)).setText(courseInfo.getCourseDescription());
+		}
 		
-		isFavourite = coursesHelper.readAllCourses().contains(courseCode);
+		//If the course code is present in the favouriteCourseDatabase, well, then it's one of the users favourites and we can mark it as a favourite
+		isFavourite = favouriteCourseHelper.getAll().contains(courseCode);
 	}
 	
 	@Override
@@ -105,7 +118,7 @@ public class ActivityDetailedCourse extends Activity {
 	    case R.id.detailed_course_action_add_or_remove:
 	    	if(isFavourite) {
 	    		isFavourite = false;
-	    		if(coursesHelper.removeCourse(courseCode)) {
+	    		if(favouriteCourseHelper.remove(courseCode)) {
 	    			addOrRemoveButton.setIcon(R.drawable.ic_action_not_important);
 	    			Toast.makeText(getApplicationContext(), courseCode + " was removed from favourite courses", Toast.LENGTH_SHORT).show();
 	    		}
@@ -114,7 +127,7 @@ public class ActivityDetailedCourse extends Activity {
 	    	}
 	    	else {
 	    		isFavourite = true;
-	    		if(coursesHelper.insertData(courseCode) >= 0) {	//id >= 0 = success
+	    		if(favouriteCourseHelper.add(courseCode)) {
 	    			addOrRemoveButton.setIcon(R.drawable.ic_action_important);
 	    			Toast.makeText(getApplicationContext(), courseCode + " was added to favourite courses", Toast.LENGTH_SHORT).show();
 	    		}

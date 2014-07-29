@@ -36,7 +36,7 @@
   <string name="course_exam">Tentamen</string>
   <string name="course_exam_register">Anmäl</string>
   <string name="course_description">Kursbeskrivning</string>
-
+  <string name="course_info_missing">Data saknas</string>
 
   <string-array name="main_page_list" >
     <item >Ny Student</item>

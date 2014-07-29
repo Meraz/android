@@ -1,7 +1,6 @@
 package com.example.app_android.database;
 
-
-import java.util.ArrayList;
+import com.example.app_android.CourseBean;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -12,23 +11,38 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 
 	private static final String TABLE_NAME = "courses";
 	
-	private static final String COULMN_UID = "id";
-	private static final String COULUMN_COURSE_CODE = "courseCode";
+	private static final String COLUMN_COURSE_CODE = "courseCode";
+	private static final String COLUMN_COURSE_NAME = "courseName";
+	private static final String COLUMN_COURSE_RESPONSIBLE = "courseResponsible";
+	private static final String COLUMN_COURSE_START_DATE = "startDate";
+	private static final String COLUMN_COURSE_END_DATE = "endDate";
+	private static final String COLUMN_COURSE_LITERATURE = "courseLiterature";
+	private static final String COLUMN_COURSE_NEXT_EXAM_DATE = "nextExamDate";
+	private static final String COLUMN_COURSE_DESCRIPTION = "courseDescription";
     
-    private static final String COULMN_UID_TYPE = "INTEGER PRIMARY KEY AUTOINCREMENT";
-    private static final String COULUMN_COURSE_CODE_TYPE = "VARCHAR(8)";
+    private static final String COULUMN_COURSE_CODE_TYPE = "VARCHAR(8) PRIMARY KEY";
+    private static final String COLUMN_COURSE_NAME_TYPE = "VARCHAR(255)";
+    private static final String COLUMN_COURSE_RESPONSIBLE_TYPE = "VARCHAR(50)";
+    private static final String COLUMN_COURSE_START_DATE_TYPE = "VARCHAR(10)";
+    private static final String COLUMN_COURSE_END_DATE_TYPE = "VARCHAR(10)";
+    private static final String COLUMN_COURSE_LITERATURE_TYPE = "VARCHAR(255)";
+    private static final String COLUMN_COURSE_NEXT_EXAM_DATE_TYPE = "VARCHAR(10)";
+    private static final String COLUMN_COURSE_DESCRIPTION_TYPE = "TEXT";
     
-
-
 	private static final String LOCAL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " " +
 			"("+
-				COULMN_UID 			+ " " + COULMN_UID_TYPE + ", " +
-				COULUMN_COURSE_CODE + " " + COULUMN_COURSE_CODE_TYPE + 
+				COLUMN_COURSE_CODE	 			+ " " + 	COULUMN_COURSE_CODE_TYPE 		+", " 	+
+				COLUMN_COURSE_NAME 				+ " " + 	COLUMN_COURSE_NAME_TYPE  		+", " 	+
+				COLUMN_COURSE_RESPONSIBLE		+ " " + 	COLUMN_COURSE_RESPONSIBLE_TYPE 	+", " 	+
+				COLUMN_COURSE_START_DATE 		+ " " + 	COLUMN_COURSE_START_DATE_TYPE 	+", " 	+
+				COLUMN_COURSE_END_DATE 			+ " " + 	COLUMN_COURSE_END_DATE_TYPE 	+", " 	+
+				COLUMN_COURSE_LITERATURE 		+ " " + 	COLUMN_COURSE_LITERATURE_TYPE 	+", " 	+
+				COLUMN_COURSE_NEXT_EXAM_DATE 	+ " " + 	COLUMN_COURSE_NEXT_EXAM_DATE_TYPE +", " +
+				COLUMN_COURSE_DESCRIPTION 		+ " " + 	COLUMN_COURSE_DESCRIPTION_TYPE 	+
 			")";
 	
- 
-
-	// CONSTRUCTOR
+	private static final String RETRIEVE_COURSE = "select * from " + TABLE_NAME + " where courseCode = ?";
+	
 	public CoursesTable(SQLiteOpenHelper SQLiteOpenHelper) {
 		super(SQLiteOpenHelper);
 		System.out.println(LOCAL_CREATE_TABLE);
@@ -37,58 +51,37 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 		SQL_DEFAULT_VALUES = "";
 	}
 	
-	// Overrides this function as I'm using another method when inserting
 	@Override
 	public void fillTableWithDefaultData(SQLiteDatabase db) {
 		db.beginTransaction();
 		
-		//	TODO - remove debug data
+		//	TODO - remove test data
 		ContentValues values = new ContentValues();
-		values.put(COULUMN_COURSE_CODE, "test");
+		values.put(COLUMN_COURSE_CODE, "testCode");
+		values.put(COLUMN_COURSE_NAME, "testName");
+		values.put(COLUMN_COURSE_RESPONSIBLE, "testPerson");
+		values.put(COLUMN_COURSE_START_DATE, "2014-07-01");
+		values.put(COLUMN_COURSE_END_DATE, "2015-03-30");
+		values.put(COLUMN_COURSE_LITERATURE, "testBook");
+		values.put(COLUMN_COURSE_NEXT_EXAM_DATE, "2014-07-01");
+		values.put(COLUMN_COURSE_DESCRIPTION, "THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!");
 		/*long result = */db.insert(TABLE_NAME, null, values);
 
 		db.setTransactionSuccessful();
 		db.endTransaction();
 	}
-	
-	public long insertData(String courseCode) {
-		SQLiteDatabase db = mHelper.getWritableDatabase();
-		ContentValues contentValues = new ContentValues();
-		contentValues.put(COULUMN_COURSE_CODE, courseCode);
-		long id = db.insert(TABLE_NAME, null, contentValues);
-		db.close();
-		return id;
-	}
-	
-	public ArrayList<String> readAllCourses() {
+	@Override
+	public CourseBean getCourse(String courseCode) {
 		SQLiteDatabase db = mHelper.getReadableDatabase();
-		String[] columns = {COULMN_UID, COULUMN_COURSE_CODE};		
-		Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null);
-		ArrayList<String> courses = new ArrayList<String>();
+		CourseBean fetchedCourse = null;
 		
-		while (cursor.moveToNext()) {
-			int index = cursor.getColumnIndex(COULUMN_COURSE_CODE);
-			String courseCode = cursor.getString(index);
-			courses.add(courseCode);
+		Cursor cursor = db.rawQuery(RETRIEVE_COURSE, new String[] { courseCode });
+		if (cursor.moveToFirst()) {
+			fetchedCourse = new CourseBean(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3),
+					cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
 		}
-		db.close();
-		return courses;
-	}
-	
-	public boolean empty() {
-		SQLiteDatabase db = mHelper.getReadableDatabase();
-		String[] columns = {COULMN_UID, COULUMN_COURSE_CODE};		
-		Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null);
-		int count = cursor.getCount();
-		db.close();
-		return count <= 0;
-	}
-	
-	public boolean removeCourse(String course) {
-		SQLiteDatabase db = mHelper.getWritableDatabase();
-		int result = db.delete(TABLE_NAME, COULUMN_COURSE_CODE + "=" +"'" + course + "'", null); //returns the number of affected rows
-		db.close();
 		
-		return result > 0;
-	}	
+		db.close();
+		return fetchedCourse;
+	}
 }
