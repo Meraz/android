@@ -79,24 +79,24 @@ public class TokenTable extends BaseTable implements ITokenTable{
 	
 	// Inherited from ITokenTable
 	// Returns the expiredate for this current token in int. 
-	public int getExpireDate(){
+	public long getExpireDate(){
 		SQLiteDatabase db = mHelper.getReadableDatabase();
 		
 	    Cursor cursor = db.rawQuery(RETRIEVE_EXPIREDATE, null);
-	    int transactionFlag = -1;
+	    long expiredate = -1;
 	    
 	    if (cursor.moveToFirst()) {
-	    	transactionFlag = cursor.getInt(0); // Database SHOULD only hold one. If there's ever more than one entry, somethings wrong. Should add check for this...
+	    	expiredate = cursor.getLong(0); // Database SHOULD only hold one. If there's ever more than one entry, somethings wrong. Should add check for this...
 	    }
 	    db.close();
-	    return transactionFlag;
+	    return expiredate;
 	}
 		
 	// Inherited from ITokenTable
 	// Updates token with new tokenvalue, expiredate and sets the new transaction_flag.
 	// returns the row ID of the last row inserted, if this insert is successful. -1 otherwise.
 	@Override
-	public int updateToken(String tokenValue, int expireDate, int transaction_flag) {
+	public int updateToken(String tokenValue, long expireDate, int transaction_flag) {
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
 

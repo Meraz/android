@@ -7,11 +7,11 @@ public interface ITokenTable {
 	public String getTokenValue();
 	
 	// Returns expiredate of the token
-	public int getExpireDate();
+	public long getExpireDate();
 	
 	// Update the entire token structure with n
 	// Returns the row ID of the last row inserted, if this insert is successful. -1 otherwise.
-	public int updateToken(String tokenValue, int expireDate, int transaction_flag);
+	public int updateToken(String tokenValue, long expireDate, int transaction_flag);
 	// TODO Should return fail/success
 	
 	// Update transaction_flag
