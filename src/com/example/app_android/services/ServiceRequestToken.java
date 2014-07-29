@@ -59,15 +59,6 @@ public class ServiceRequestToken extends MyService {
 			intent.putExtra("id", broad_cast_id);
 			mService.mySendBroadcast(intent);
 
-					
-			/*
-			// Simulate workload // TODO bult remove
-			try {
-				Thread.sleep(4000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	*/		
 			
 			try {
 				Processes.requestToken();
