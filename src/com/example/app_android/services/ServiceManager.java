@@ -59,20 +59,20 @@ public class ServiceManager {
 	}
 	
 	// Returns unique hashcode
-	public synchronized int requestToken(Context context, MyBroadCastReceiver myBroadCastReceiver) {
+	public synchronized int requestToken(Context context, MyBroadCastReceiver myBroadCastReceiver, String username, String password) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered requestToken()");
 
 		
 		final int key = myBroadCastReceiver.getAllBroadcasts().hashCode();
 		if(mServices.containsKey(key))
 			return key; 					// This service is already ongoing. Return key for it.
-		
-		Logger.ErrorLog("key: " + key);
-		
+				
 		ServiceDataBean bean = createServiceDataBean(key, "", myBroadCastReceiver);	// Create databean with information
 		
 		Intent intent = new Intent(context, ServiceRequestToken.class); 	// Create intent for specific class
 		intent = prepareDefaultIntent(intent, bean);				// Prepare intent with data needed for all services
+		intent.putExtra("username", username);
+		intent.putExtra("password", password);
 		bean.setIntent(intent);										// Save intent as it's needed if I want to abort service 	
 		
 		mServices.put(key, bean); 							// Save service in map.

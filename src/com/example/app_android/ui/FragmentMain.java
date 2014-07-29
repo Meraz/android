@@ -33,7 +33,7 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	private TextView test;
 	private MyBroadCastReceiver[] myBroadCastReceiver = new MyBroadCastReceiver[1];
 	int idForLoginService;
-	private MyBroadCastReceiver mLoginReceiver;
+	private MyBroadCastReceiver mLoginReceiver = null;
 	
 	// Interface for communication between fragment and activity
 	public interface InterfaceActivityMain {
@@ -160,7 +160,7 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	@Override
 	public void onResume() {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
-		if(mLoginReceiver != null) {
+		if(mLoginReceiver == null) {
 			mLoginReceiver = new MyBroadCastReceiver(TAG + "_LOGIN_START", TAG + "_LOGIN_UPDATE", TAG + "_LOGIN_STOP");
 			mLoginReceiver.registerCallback(this);
 		}
@@ -228,44 +228,16 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	
 	@Override
 	public void onServiceStop(Intent intent) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStop(a)");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStop()");
 		
 		int id = intent.getIntExtra("id", -1);
 		
 		if(id == idForLoginService) {
 			boolean loginRequired = intent.getBooleanExtra("loginRequired", true);
-			if(loginRequired) {				
-				LayoutInflater layoutInflater = LayoutInflater.from(getActivity());				
-
-				View view = layoutInflater.inflate(R.layout.item_loginprompt, null);
+			if(loginRequired) {		
+				LoginPrompt test = new LoginPrompt(getActivity(), mLoginReceiver);
+				test.startThis();
 				
-				final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-
-				alert.setView(view);
-				
-                final EditText userInput = (EditText) view.findViewById(R.id.username);
-                final EditText password = (EditText) view.findViewById(R.id.password);
-
-				alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					
-					 String user_text = (userInput.getText()).toString();
-					 String user_password = (password.getText()).toString();
-					 Logger.VerboseLog(TAG, user_text);
-					 Logger.VerboseLog(TAG, user_password);
-					 
-				  // Do something with value!
-				  }
-				});
-
-				alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-				  public void onClick(DialogInterface dialog, int whichButton) {
-				    // Canceled.
-				  }
-				});
-				
-				alert.show();
-				// Prompt user
 			}
 			
 
@@ -273,18 +245,8 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 			// Get server 
 		}
 		else {		
-			boolean success = intent.getBooleanExtra("success", false);
 			String errorMessageShort = intent.getStringExtra("errorMessageShort");
-			
-			
-			if(success)
-			{
-				Toast.makeText(getActivity(), "[TESTCODE] Update successful; key: " + intent.getIntExtra("id", -1), Toast.LENGTH_SHORT).show(); // TODO Engrish/swenglish
-			}
-			else
-				Toast.makeText(getActivity(), "[TESTCODE] Update failed. " + errorMessageShort, Toast.LENGTH_LONG).show();
-			
-			test.setText(TestDatabase.getSomeData());
+			Toast.makeText(getActivity(), "[TESTCODE] Update failed. " + errorMessageShort, Toast.LENGTH_LONG).show();
 		}
 	}	
 }
