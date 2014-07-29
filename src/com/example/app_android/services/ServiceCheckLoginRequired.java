@@ -64,7 +64,7 @@ public class ServiceCheckLoginRequired extends MyService {
 			// Send stop broadcast
 			intent = new Intent(stopBroadcast);
 			intent.putExtra("id", broad_cast_id);
-			intent.putExtra("login_required", loginRequired);
+			intent.putExtra("loginRequired", loginRequired);
 			mService.mySendBroadcast(intent);				
 			
 			// Remove thread from service

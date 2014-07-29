@@ -80,6 +80,10 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
         case 3: //student Union
           launchApp(blekingeStudentUnionPackageName);
           break;
+          
+        case 4: // login
+        	attemptLogin();
+            break;
 
         default:
           break;
@@ -159,24 +163,25 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	@Override
 	public void onResume() {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
+		
+		// Working testcode. Should only need to be moved to another file later on
 		if(mLoginReceiver == null) {
 			mLoginReceiver = new MyBroadCastReceiver(TAG + "_LOGIN_START", TAG + "_LOGIN_UPDATE", TAG + "_LOGIN_STOP");
 			mLoginReceiver.registerCallback(this);
 		}
 		mLoginReceiver.registerBroadCastReceiver(getActivity());
 		
-		for(int i = 0; i < myBroadCastReceiver.length; i++) {
-			if(myBroadCastReceiver[i] == null)
-			{
-				myBroadCastReceiver[i] = new MyBroadCastReceiver("FRAGMENT_MAIN_1_START"+i, "FRAGMENT_MAIN_1_UPDATE"+i, "FRAGMENT_MAIN_1_STOP"+i);
-				myBroadCastReceiver[i].registerCallback(this);
-			}
-			myBroadCastReceiver[i].registerBroadCastReceiver(getActivity());
-	    	//ServiceManager.getInstance().requestToken(getActivity().getApplicationContext(), myBroadCastReceiver[i]);
-			idForLoginService =	ServiceManager.getInstance().checkIfLoginIsRequired(getActivity().getApplicationContext(), myBroadCastReceiver[i]);
+		if(mCheckLoginReceiver == null) {
+			mCheckLoginReceiver = new MyBroadCastReceiver(TAG + "_CHECK_LOGIN_START", TAG + "_CHECK_LOGIN_UPDATE", TAG + "_CHECK_LOGIN_STOP");
+			mCheckLoginReceiver.registerCallback(this);
 		}
-
+		mCheckLoginReceiver.registerBroadCastReceiver(getActivity());
 		super.onResume();
+	}
+	
+	private void attemptLogin() {
+		// Check if login is required. This is only test code. Should be moved
+		mIDCheckLoginService =	ServiceManager.getInstance().checkIfLoginIsRequired(getActivity().getApplicationContext(), mCheckLoginReceiver);
 	}
 
 	@Override
@@ -188,9 +193,10 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	@Override
 	public void onStop() {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
-		for(int i = 0; i < myBroadCastReceiver.length; i++) {
-			myBroadCastReceiver[i].unregisterBroadCastReceiver(getActivity());
-		}
+		
+		mLoginReceiver.unregisterBroadCastReceiver(getActivity());
+		mCheckLoginReceiver.unregisterBroadCastReceiver(getActivity());
+
 		super.onStop();
 	}
 
@@ -215,8 +221,12 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	@Override
 	public void onServiceStart(Intent intent) {		
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStart()");
-    	Toast.makeText(getActivity(), "[TESTCODE] Attempting to update content; key: " + intent.getIntExtra("id", -1), Toast.LENGTH_SHORT).show(); // TODO Engrish/swenglish
 		
+		int id = intent.getIntExtra("id", -1);
+		
+		if(id == mIDCheckLoginService) {
+			Toast.makeText(getActivity(), "[TESTCODE] This should be replaced by a loading bar." , Toast.LENGTH_SHORT).show(); 
+		}    	
 	}
 	
 	@Override
@@ -231,7 +241,7 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 		
 		int id = intent.getIntExtra("id", -1);
 		
-		if(id == idForLoginService) {
+		if(id == mIDCheckLoginService) {
 			boolean loginRequired = intent.getBooleanExtra("loginRequired", true);
 			if(loginRequired) {		
 				LoginPrompt loginPrompt = new LoginPrompt(getActivity(), mLoginReceiver);
@@ -239,10 +249,6 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 			}
 			// Check with server
 			// Get server 
-		}
-		else {		
-			String errorMessageShort = intent.getStringExtra("errorMessageShort");
-			Toast.makeText(getActivity(), "[TESTCODE] Update failed. " + errorMessageShort, Toast.LENGTH_LONG).show();
-		}
+		}		
 	}	
 }
