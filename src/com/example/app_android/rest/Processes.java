@@ -12,6 +12,18 @@ public class Processes {
 	private Processes() {
 	}
 	
+	public static boolean checkIfLoginIsNeeded() {
+		ITokenTable tokenTable = DatabaseManager.getInstance().getTokenTable();
+		long experationdate = tokenTable.getExpireDate();
+		
+		long currentTime = (System.currentTimeMillis()/1000);
+		if(experationdate < currentTime) {
+			return false;				// No need to login
+		}
+		
+		return true;
+	}
+	
 	public static void requestToken() throws RestCommunicationException { //TODO RETURN ENUM?!
 	
 		ITokenTable tokenTable = DatabaseManager.getInstance().getTokenTable();
