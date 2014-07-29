@@ -40,7 +40,15 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 	// Overrides this function as I'm using another method when inserting
 	@Override
 	public void fillTableWithDefaultData(SQLiteDatabase db) {
+		db.beginTransaction();
 		
+		//	TODO - remove debug data
+		ContentValues values = new ContentValues();
+		values.put(COULUMN_COURSE_CODE, "test");
+		/*long result = */db.insert(TABLE_NAME, null, values);
+
+		db.setTransactionSuccessful();
+		db.endTransaction();
 	}
 	
 	public long insertData(String courseCode) {
