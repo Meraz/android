@@ -52,11 +52,10 @@ public class ServiceRequestToken extends MyService {
 			String stopBroadcast = mIntent.getStringExtra("stopBroadcast");
 			
 			int broad_cast_id = mIntent.getIntExtra("id", -1); // Set it to -1 as default if it does not exist. id must be 0+. id should always exist..
-			Logger.ErrorLog("broad_cast_id" + broad_cast_id);
 
 			// Send start broadcast
 			Intent intent = new Intent(startBroadcast);
-			intent.putExtra("id", broad_cast_id);
+			intent.putExtra("id", 42);// TODO hardcoded
 			mService.mySendBroadcast(intent);
 
 			String username = mIntent.getStringExtra("username");
@@ -66,7 +65,7 @@ public class ServiceRequestToken extends MyService {
 			} catch (RestCommunicationException e) {
 				// Send stop broadcast
 				intent = new Intent(stopBroadcast);
-				intent.putExtra("id", broad_cast_id);
+				intent.putExtra("id", 42);	// TODO hardcoded because this is done on a overidden function in a button so the activity cannot access. Might redesign this
 				intent.putExtra("errorMessageShort", e.getMessage());
 				mService.mySendBroadcast(intent);				
 				
@@ -79,7 +78,7 @@ public class ServiceRequestToken extends MyService {
 					
 			// Send stop broadcast
 			intent = new Intent(stopBroadcast);
-			intent.putExtra("id", broad_cast_id);
+			intent.putExtra("id", 42);// TODO hardcoded
 			intent.putExtra("success", true);
 			mService.mySendBroadcast(intent);
 			

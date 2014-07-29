@@ -26,9 +26,9 @@ public class ServiceCheckLoginRequired extends MyService {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStartCommand()");
 		
-		checkLogin genericRunnableToken = new checkLogin(this, intent);
+		checkLogin checkLogin = new checkLogin(this, intent);
 
-		startThread(genericRunnableToken);
+		startThread(checkLogin);
 				
 		return super.onStartCommand(intent, flags, startId);
 	}
@@ -52,7 +52,6 @@ public class ServiceCheckLoginRequired extends MyService {
 			String stopBroadcast = mIntent.getStringExtra("stopBroadcast");
 			
 			int broad_cast_id = mIntent.getIntExtra("id", -1); // Set it to -1 as default if it does not exist. id must be 0+. id should always exist..
-			Logger.ErrorLog("broad_cast_id" + broad_cast_id);
 
 			// Send start broadcast
 			Intent intent = new Intent(startBroadcast);

@@ -17,16 +17,16 @@ public class LoginPrompt {
 	
 	private static final String TAG = "LoginPrompt";
 	
-	Context mContext;
-	MyBroadCastReceiver mBroadCastReceiver;
+	private int serviceId;
+	private Context mContext;
+	private MyBroadCastReceiver mBroadCastReceiver;
 
 	public LoginPrompt(Context context, MyBroadCastReceiver broadCastReceiver) {
 		mContext = context;
 		mBroadCastReceiver = broadCastReceiver;
 	}
 	
-	public void attempLogin() {
-		
+	public int attempLogin() {
 		
 		LayoutInflater layoutInflater = LayoutInflater.from(mContext);				
 
@@ -47,11 +47,12 @@ public class LoginPrompt {
 			 Logger.VerboseLog(TAG, user_text);
 			 Logger.VerboseLog(TAG, user_password);
 			 
-			 ServiceManager.getInstance().requestToken(mContext.getApplicationContext(), mBroadCastReceiver, user_text, user_password);
+			 serviceId = ServiceManager.getInstance().requestToken(mContext.getApplicationContext(), mBroadCastReceiver, user_text, user_password);
 		  }
 		});
 		
 		alert.show();
+		return serviceId;
 	}
 
 }

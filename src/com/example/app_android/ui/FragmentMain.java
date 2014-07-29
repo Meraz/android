@@ -224,7 +224,7 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 		
 		int id = intent.getIntExtra("id", -1);
 		
-		if(id == mIDCheckLoginService) {
+		if(id == 42) {	// TODO hardcoded
 			Toast.makeText(getActivity(), "[TESTCODE] This should be replaced by a loading bar." , Toast.LENGTH_SHORT).show(); 
 		}    	
 	}
@@ -245,10 +245,17 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 			boolean loginRequired = intent.getBooleanExtra("loginRequired", true);
 			if(loginRequired) {		
 				LoginPrompt loginPrompt = new LoginPrompt(getActivity(), mLoginReceiver);
-				loginPrompt.attempLogin();				
+				mIDLoginService = loginPrompt.attempLogin();				
 			}
+			else{
+				Toast.makeText(getActivity(), "[TESTCODE] Du är redan inloggad!." , Toast.LENGTH_SHORT).show(); 
+			}
+				
 			// Check with server
 			// Get server 
+		}		
+		else if(id == 42) { // TODO hardcoded
+			Toast.makeText(getActivity(), "[TESTCODE] Du är nu inloggad.." , Toast.LENGTH_SHORT).show(); 
 		}		
 	}	
 }

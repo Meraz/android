@@ -62,7 +62,7 @@
          
          <service android:name="com.example.app_android.ServiceSchemaUpdate" /> 
          <service android:enabled="true" android:name="com.example.app_android.services.ServiceRequestToken" />
-         <service android:enabled="true" android:name="com.example.app_android.services.LocalService" />
+         <service android:enabled="true" android:name="com.example.app_android.services.ServiceCheckLoginRequired" />
         	 <meta-data
     		android:name="com.google.android.maps.v2.API_KEY"
     		android:value="AIzaSyAW0yYTCoB4QXjtpmXiU_rZKEzu1HvB5x4"/>

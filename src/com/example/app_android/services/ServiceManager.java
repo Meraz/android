@@ -90,7 +90,7 @@ public class ServiceManager {
 				
 		ServiceDataBean bean = createServiceDataBean(key, "", myBroadCastReceiver);	// Create databean with information
 		
-		Intent intent = new Intent(context, ServiceRequestToken.class); 	// Create intent for specific class
+		Intent intent = new Intent(context, ServiceCheckLoginRequired.class); 	// Create intent for specific class
 		intent = prepareDefaultIntent(intent, bean);				// Prepare intent with data needed for all services
 		bean.setIntent(intent);										// Save intent as it's needed if I want to abort service 	
 		
