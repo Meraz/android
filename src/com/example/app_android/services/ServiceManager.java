@@ -21,7 +21,7 @@ import android.content.Intent;
 
 public class ServiceManager {
 
-	private static final String TAG = "ServiceManager";
+	private static final String TAG = "Services";
 	private Context mContext;
 	private static ServiceManager mServiceHelper = null;
 	
@@ -44,29 +44,32 @@ public class ServiceManager {
 	}
 	
 	public synchronized int requestData(Context context, MyBroadCastReceiver myBroadCastReceiver) {
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered requestData()");
 		
 		final int key = myBroadCastReceiver.getAllBroadcasts().hashCode();
 				
 		// Not sure which kind of intent it has to be
 		//final Intent intent = new Intent(context, LoginStudentportal.class);
 		final Intent intent = new Intent(context, ServiceRequestToken.class);
-		if(myBroadCastReceiver != null) {
-			intent.putExtra("startBroadCast", myBroadCastReceiver.getStartBroadCast());
-			intent.putExtra("stopBroadCast", myBroadCastReceiver.getStopBroadCast());
-		}
+
 
 		context.startService(intent);	
 		
 		return key;
 	}
 	
-	public synchronized int requestToken(Context context, String parameters, MyBroadCastReceiver myBroadCastReceiver) {
+	// Returns unique hashcode
+	public synchronized int requestToken(Context context, MyBroadCastReceiver myBroadCastReceiver) {
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered requestToken()");
+
 		
-		final int key = parameters.hashCode();
+		final int key = myBroadCastReceiver.getAllBroadcasts().hashCode();
 		if(mServices.containsKey(key))
 			return key; 					// This service is already ongoing. Return key for it.
 		
-		ServiceDataBean bean = createServiceDataBean(key, parameters, myBroadCastReceiver);	// Create databean with information
+		Logger.ErrorLog("key: " + key);
+		
+		ServiceDataBean bean = createServiceDataBean(key, "", myBroadCastReceiver);	// Create databean with information
 		
 		Intent intent = new Intent(context, ServiceRequestToken.class); 	// Create intent for specific class
 		intent = prepareDefaultIntent(intent, bean);				// Prepare intent with data needed for all services
@@ -77,26 +80,52 @@ public class ServiceManager {
 		return key;
 	}
 	
+	// Returns unique hashcode
+	public synchronized int checkIfLoginIsRequired(Context context, MyBroadCastReceiver myBroadCastReceiver) {
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered checkIfLoginIsRequired()");
+		
+		final int key = myBroadCastReceiver.getAllBroadcasts().hashCode();
+		if(mServices.containsKey(key))
+			return key; 					// This service is already ongoing. Return key for it.
+				
+		ServiceDataBean bean = createServiceDataBean(key, "", myBroadCastReceiver);	// Create databean with information
+		
+		Intent intent = new Intent(context, ServiceRequestToken.class); 	// Create intent for specific class
+		intent = prepareDefaultIntent(intent, bean);				// Prepare intent with data needed for all services
+		bean.setIntent(intent);										// Save intent as it's needed if I want to abort service 	
+		
+		mServices.put(key, bean); 							// Save service in map.
+		context.startService(intent); 						// Start service
+		return key;
+	}
+	
+	// TODO. Test this function
 	public boolean checkOngoing(int key) {
 		if(mServices.containsKey(key))
-			return true; // Already exists
+			return true;
 		return false;
 	}
 	
 	// Called by a broadcastReciever when receiving a broadcast 
-	public synchronized void onServiceStop2(int id) {
-		Logger.VerboseLog(TAG, TAG + ":entered CallBack()");
-		if(id > 0 ) {
-			Intent intent = mServices.get(id).getIntent();
-			mContext.stopService(intent);
-			mServices.remove(id);
-		}
+	public synchronized void onServiceStop(int id) {
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStop()");
+
+		Intent intent = mServices.get(id).getIntent();
+		mContext.stopService(intent);
+		mServices.remove(id);
+	}
+	
+	// Called by a broadcastReciever when receiving a broadcast 
+	public synchronized void onThreadStop(int id) {
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onThreadStop()");
+		mServices.remove(id);
 	}
 	
 	private static Intent prepareDefaultIntent(Intent intent, ServiceDataBean databean) {	
 		intent.putExtra("id", databean.getKey());
-		intent.putExtra("startBroadCast", databean.getBroadCastReceiver().getStartBroadCast());
-		intent.putExtra("stopBroadCast",  databean.getBroadCastReceiver().getStopBroadCast());
+		intent.putExtra("startBroadcast", databean.getBroadCastReceiver().getStartBroadCast());
+		intent.putExtra("updateBroadcast", databean.getBroadCastReceiver().getUpdateBroadCast());
+		intent.putExtra("stopBroadcast",  databean.getBroadCastReceiver().getStopBroadCast());
 		
 		return intent;
 	}
