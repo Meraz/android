@@ -9,26 +9,32 @@ import com.example.app_android.util.MyBroadCastReceiver;
 import com.example.app_android.util.Utilities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.ListFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.CursorJoiner.Result;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Receiver{
 
-	private static final String TAG = "MainPagesFragment";
+	private static final String TAG = "Mainmenu";
 	private static final String blekingeStudentUnionPackageName = "se.bthstudent.android.bsk";
 	private static String[] mMainMenu;
 	private TextView test;
-	private MyBroadCastReceiver b = null;
+	private MyBroadCastReceiver[] myBroadCastReceiver = new MyBroadCastReceiver[1];
+	int idForLoginService;
+	private MyBroadCastReceiver mLoginReceiver;
 	
 	// Interface for communication between fragment and activity
 	public interface InterfaceActivityMain {
@@ -156,14 +162,23 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	@Override
 	public void onResume() {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
-		if(b == null)
-		{
-			b = new MyBroadCastReceiver("FRAGMENT_MAIN_1_START", "FRAGMENT_MAIN_1_UPDATE", "FRAGMENT_MAIN_1_STOP");
-			b.registerCallback(this);
+		if(mLoginReceiver != null) {
+			mLoginReceiver = new MyBroadCastReceiver(TAG + "_LOGIN_START", TAG + "_LOGIN_UPDATE", TAG + "_LOGIN_STOP");
+			mLoginReceiver.registerCallback(this);
 		}
-    	b.registerBroadCastReceiver(getActivity());
-    	ServiceManager.getInstance().requestToken(getActivity().getApplicationContext(), "http://194.47.131.73/database-files-and-server-script/Script/serverResponse.php", b);
-    	
+		mLoginReceiver.registerBroadCastReceiver(getActivity());
+		
+		for(int i = 0; i < myBroadCastReceiver.length; i++) {
+			if(myBroadCastReceiver[i] == null)
+			{
+				myBroadCastReceiver[i] = new MyBroadCastReceiver("FRAGMENT_MAIN_1_START"+i, "FRAGMENT_MAIN_1_UPDATE"+i, "FRAGMENT_MAIN_1_STOP"+i);
+				myBroadCastReceiver[i].registerCallback(this);
+			}
+			myBroadCastReceiver[i].registerBroadCastReceiver(getActivity());
+	    	//ServiceManager.getInstance().requestToken(getActivity().getApplicationContext(), myBroadCastReceiver[i]);
+			idForLoginService =	ServiceManager.getInstance().checkIfLoginIsRequired(getActivity().getApplicationContext(), myBroadCastReceiver[i]);
+		}
+
 		super.onResume();
 	}
 
@@ -176,7 +191,9 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	@Override
 	public void onStop() {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
-    	b.unregisterBroadCastReceiver(getActivity());
+		for(int i = 0; i < myBroadCastReceiver.length; i++) {
+			myBroadCastReceiver[i].unregisterBroadCastReceiver(getActivity());
+		}
 		super.onStop();
 	}
 
@@ -199,20 +216,77 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	}
 
 	@Override
-	public void onServiceStart(int id) {
+	public void onServiceStart(Intent intent) {		
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStart()");
-    	Toast.makeText(getActivity(), "[TESTCODE] Attempting to update content", Toast.LENGTH_SHORT).show(); // TODO Engrish/swenglish
+    	Toast.makeText(getActivity(), "[TESTCODE] Attempting to update content; key: " + intent.getIntExtra("id", -1), Toast.LENGTH_SHORT).show(); // TODO Engrish/swenglish
 		
 	}
+	
 	@Override
-	public void onServiceUpdate(int id, int statusCode, String message) {
+	public void onServiceUpdate(Intent intent) {
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceUpdate()");
 		// TODO Auto-generated method stub
-		
 	}
+	
 	@Override
-	public void onServiceStop(int id, int statusCode, String message) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onReceiveResult()");
-		Toast.makeText(getActivity(), "[TESTCODE] Update successful", Toast.LENGTH_SHORT).show(); // TODO Engrish/swenglish
-    	test.setText(TestDatabase.getSomeData());
+	public void onServiceStop(Intent intent) {
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStop(a)");
+		
+		int id = intent.getIntExtra("id", -1);
+		
+		if(id == idForLoginService) {
+			boolean loginRequired = intent.getBooleanExtra("loginRequired", true);
+			if(loginRequired) {				
+				LayoutInflater layoutInflater = LayoutInflater.from(getActivity());				
+
+				View view = layoutInflater.inflate(R.layout.item_loginprompt, null);
+				
+				final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+
+				alert.setView(view);
+				
+                final EditText userInput = (EditText) view.findViewById(R.id.username);
+                final EditText password = (EditText) view.findViewById(R.id.password);
+
+				alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					
+					 String user_text = (userInput.getText()).toString();
+					 String user_password = (password.getText()).toString();
+					 Logger.VerboseLog(TAG, user_text);
+					 Logger.VerboseLog(TAG, user_password);
+					 
+				  // Do something with value!
+				  }
+				});
+
+				alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				  public void onClick(DialogInterface dialog, int whichButton) {
+				    // Canceled.
+				  }
+				});
+				
+				alert.show();
+				// Prompt user
+			}
+			
+
+			// Check with server
+			// Get server 
+		}
+		else {		
+			boolean success = intent.getBooleanExtra("success", false);
+			String errorMessageShort = intent.getStringExtra("errorMessageShort");
+			
+			
+			if(success)
+			{
+				Toast.makeText(getActivity(), "[TESTCODE] Update successful; key: " + intent.getIntExtra("id", -1), Toast.LENGTH_SHORT).show(); // TODO Engrish/swenglish
+			}
+			else
+				Toast.makeText(getActivity(), "[TESTCODE] Update failed. " + errorMessageShort, Toast.LENGTH_LONG).show();
+			
+			test.setText(TestDatabase.getSomeData());
+		}
 	}	
 }
