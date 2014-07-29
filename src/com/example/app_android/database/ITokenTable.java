@@ -20,4 +20,6 @@ public interface ITokenTable {
 	
 	// Returns current transactionFlag on the token. There can only be one
 	public int getTransactionFlag();	
+	
+	public void PrintEntireToken();
 }

@@ -142,4 +142,16 @@ public class TokenTable extends BaseTable implements ITokenTable{
 	    db.close();
 	    return transactionFlag;
 	}
+
+	@Override
+	public void PrintEntireToken() {
+		String token_value = getTokenValue();
+		long expiredate = getExpireDate();
+		int transactionFlag = getTransactionFlag();
+		
+		System.out.println("token_value: "+token_value);
+		System.out.println("expiredate: "+expiredate);
+		System.out.println("transactionFlag: "+transactionFlag);
+		
+	}
 }
