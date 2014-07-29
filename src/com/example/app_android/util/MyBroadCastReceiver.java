@@ -11,13 +11,13 @@ public class MyBroadCastReceiver extends BroadcastReceiver {
 	public interface Receiver {
 
 		// Returns the same id as ServiceHelper
-		public void onServiceStart(int id);	
+		public void onServiceStart(Intent intent);	
 		
 		// 
-		public void onServiceUpdate(int id, int statusCode, String message);
+		public void onServiceUpdate(Intent intent);
 		
 		// 
-		public void onServiceStop(int id, int statusCode, String message);
+		public void onServiceStop(Intent intent);
 	}
 
 	private static final String TAG = "MyResultReceiver";
@@ -81,22 +81,16 @@ public class MyBroadCastReceiver extends BroadcastReceiver {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onReceive()");
 
 		if(mReceiver != null) {
-			int id = intent.getIntExtra("id", -1);
+			String action = intent.getAction();
 			
-			if(intent.getAction() == mStopBroadCast) {
-				int statusCode = intent.getIntExtra("statusCode", 1);
-				String statusMessage = intent.getStringExtra("statusMessage");	
-				mReceiver.onServiceStop(id, statusCode, statusMessage);
-			}
-			
-			else if(intent.getAction() == mUpdateBroadCast) {
-				int statusCode = intent.getIntExtra("statusCode", 1);
-				String statusMessage = intent.getStringExtra("statusMessage");
-				mReceiver.onServiceUpdate(id, statusCode, statusMessage);
-			}
-			
-			else if(intent.getAction() == mStartBroadCast) {
-				mReceiver.onServiceStart(id);
+			if(action.equalsIgnoreCase(mStopBroadCast)) {
+				mReceiver.onServiceStop(intent);
+			}			
+			else if(action.equalsIgnoreCase(mUpdateBroadCast)) {
+				mReceiver.onServiceUpdate(intent);
+			}			
+			else if(action.equalsIgnoreCase(mStartBroadCast)) {
+				mReceiver.onServiceStart(intent);
 			}
 		}
 	}
