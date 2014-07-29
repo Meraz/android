@@ -30,10 +30,11 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	private static final String TAG = "Mainmenu";
 	private static final String blekingeStudentUnionPackageName = "se.bthstudent.android.bsk";
 	private static String[] mMainMenu;
-	private TextView test;
-	private MyBroadCastReceiver[] myBroadCastReceiver = new MyBroadCastReceiver[1];
-	int idForLoginService;
-	private MyBroadCastReceiver mLoginReceiver = null;
+
+	private MyBroadCastReceiver mCheckLoginReceiver;
+	int mIDCheckLoginService;
+	private MyBroadCastReceiver mLoginReceiver;
+	int mIDLoginService;
 	
 	// Interface for communication between fragment and activity
 	public interface InterfaceActivityMain {
@@ -146,8 +147,6 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 		
 		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_main, mMainMenu));
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		
-    	test = (TextView) getActivity().findViewById(R.id.textView1);  
 	}
 
 	@Override
