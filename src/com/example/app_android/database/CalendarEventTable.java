@@ -87,6 +87,8 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 			id = cursor.getInt(0);
 		}
 		
+		db.setTransactionSuccessful();
+		db.endTransaction();
 		db.close();
 		return id;
 	}

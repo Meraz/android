@@ -36,7 +36,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
         TOKEN,
         COURSES,
         FAVOURITE_COURSES,
-        CALENDAREVENTS;
+       // CALENDAREVENTS;
     }
     
     // Singleton initialize instance
@@ -61,7 +61,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
 	    TABLES[0] = new TokenTable(this);
 	    TABLES[1] = new CoursesTable(this);
 	    TABLES[2] = new FavouriteCourseTable(this);
-	    TABLES[3] = new CalendarEventTable(this);
+	    //TABLES[3] = new CalendarEventTable(this);
     }
       
     private BaseTable getTable(TableIndex table) {
@@ -84,9 +84,9 @@ public class DatabaseManager extends SQLiteOpenHelper{
     	return (IFavouriteCourseTable)getTable(TableIndex.FAVOURITE_COURSES);
     }
     
-    public ICalendarEventTable getCalendarEventTable() {
-    	return (ICalendarEventTable)getTable(TableIndex.CALENDAREVENTS);
-    }
+    //public ICalendarEventTable getCalendarEventTable() {
+    //	return (ICalendarEventTable)getTable(TableIndex.CALENDAREVENTS);
+    //}
     
     /*
      * Overridden functions from  SQLiteOpenHelper
