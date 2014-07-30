@@ -60,12 +60,12 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
 		
-		int result = db.delete(TABLE_NAME, COLUMN_COURSE_CODE + "=" +"'" + courseCode + "'", null); //returns the number of affected rows
+		int deletedRowCount = db.delete(TABLE_NAME, COLUMN_COURSE_CODE + "=" +"'" + courseCode + "'", null);
 		
 		db.setTransactionSuccessful();
 		db.endTransaction();
 		db.close();
-		return result > 0;
+		return deletedRowCount > 0;
 	}
 
 	@Override

@@ -39,6 +39,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,10 +54,13 @@ public class ActivityCourses extends Activity {
 	MenuItem syncActionItem;
 	View courseList;
 	TextView noCoursesText;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+		
 		favouriteCoursesHelper = DatabaseManager.getInstance().getFavouriteCourseTable();
 		coursesArray = favouriteCoursesHelper.getAll();
 		

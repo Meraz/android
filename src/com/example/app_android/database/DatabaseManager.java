@@ -34,7 +34,9 @@ public class DatabaseManager extends SQLiteOpenHelper{
     public enum TableIndex {
         TOKEN (0),
         COURSES (1),
-        FAVOURITE_COURSES (2);
+        FAVOURITE_COURSES (2),
+        CALENDAREVENTS (3);
+        
         
         private final int index;
         private TableIndex(int index) {this.index = index;}        
@@ -63,6 +65,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
 	    TABLES[0] = new TokenTable(this);
 	    TABLES[1] = new CoursesTable(this);
 	    TABLES[2] = new FavouriteCourseTable(this);
+	    TABLES[3] = new CalendarEventTable(this);
     }
       
     private BaseTable getTable(TableIndex table) {
@@ -83,6 +86,10 @@ public class DatabaseManager extends SQLiteOpenHelper{
     
     public IFavouriteCourseTable getFavouriteCourseTable() {
     	return (IFavouriteCourseTable)getTable(TableIndex.FAVOURITE_COURSES);
+    }
+    
+    public ICalendarEventTable getCalendarEventTable() {
+    	return (ICalendarEventTable)getTable(TableIndex.CALENDAREVENTS);
     }
     
     /*
