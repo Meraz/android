@@ -19,7 +19,7 @@
   <string name="campus_karlskrona">Karlskrona</string>
   <string name="markers_label">Markers</string>
   <string name="markers_houses">Houses</string>
-  
+
 
   <!-- Courses and Schedule -->
   <string name="add_button_text">Lägg till</string>
@@ -43,6 +43,7 @@
     <item >Kurser och Scheman</item>
     <item >Karta över Campus</item>
     <item >Blekinge Studentkår</item>
+    <item >[TESTCODE] Logga in!</item>
   </string-array>
 
   <string-array name="new_student_menu" >

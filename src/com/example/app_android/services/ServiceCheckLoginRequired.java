@@ -7,7 +7,7 @@ import com.example.app_android.util.Logger;
 
 import android.content.Intent;
 
-public class ServiceRequestToken extends MyService {
+public class ServiceCheckLoginRequired extends MyService {
 	
 	private static final String TAG = "Services";
 
@@ -26,14 +26,14 @@ public class ServiceRequestToken extends MyService {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStartCommand()");
 		
-		GenericRunnableToken genericRunnableToken = new GenericRunnableToken(this, intent);
+		checkLogin checkLogin = new checkLogin(this, intent);
 
-		startThread(genericRunnableToken);
+		startThread(checkLogin);
 				
 		return super.onStartCommand(intent, flags, startId);
 	}
 	
-	private class GenericRunnableToken implements Runnable {
+	private class checkLogin implements Runnable {
 		
 		private Intent mIntent;
 		private MyService mService;
@@ -41,7 +41,7 @@ public class ServiceRequestToken extends MyService {
 		@SuppressWarnings("unused") // TODO
 		private static final String TAG = "Services";
 		
-		public GenericRunnableToken(MyService service, Intent intent) {
+		public checkLogin(MyService service, Intent intent) {
 	    	mIntent = intent;	 
 	    	mService = service;
 	    }	
@@ -55,33 +55,16 @@ public class ServiceRequestToken extends MyService {
 
 			// Send start broadcast
 			Intent intent = new Intent(startBroadcast);
-			intent.putExtra("id", 42);// TODO hardcoded
+			intent.putExtra("id", broad_cast_id);
 			mService.mySendBroadcast(intent);
 
-			String username = mIntent.getStringExtra("username");
-			String password = mIntent.getStringExtra("password"); // TODO is this safe?
-			try {
-				Processes.requestToken(username, password);
-			} catch (RestCommunicationException e) {
-				// Send stop broadcast
-				intent = new Intent(stopBroadcast);
-				intent.putExtra("id", 42);	// TODO hardcoded because this is done on a overidden function in a button so the activity cannot access. Might redesign this
-				intent.putExtra("errorMessageShort", e.getMessage());
-				mService.mySendBroadcast(intent);				
-				
-				// Remove thread from service
-				intent = new Intent(MyService.mStopBroadCast);
-				intent.putExtra("id", broad_cast_id);
-				mService.mySendBroadcast(intent);
-				return;
-			}
-					
+			boolean loginRequired = Processes.checkIfLoginIsNeeded();
+		
 			// Send stop broadcast
 			intent = new Intent(stopBroadcast);
-			intent.putExtra("id", 42);// TODO hardcoded
-			intent.putExtra("success", true);
-			mService.mySendBroadcast(intent);
-			
+			intent.putExtra("id", broad_cast_id);
+			intent.putExtra("loginRequired", loginRequired);
+			mService.mySendBroadcast(intent);				
 			
 			// Remove thread from service
 			intent = new Intent(MyService.mStopBroadCast);

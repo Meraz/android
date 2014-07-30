@@ -2,33 +2,39 @@ package com.example.app_android.ui;
 
 import com.example.app_android.Cache;
 import com.example.app_android.R;
-import com.example.app_android.services.TestDatabase;
 import com.example.app_android.services.ServiceManager;
 import com.example.app_android.util.Logger;
 import com.example.app_android.util.MyBroadCastReceiver;
 import com.example.app_android.util.Utilities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.ListFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.CursorJoiner.Result;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Receiver{
 
-	private static final String TAG = "MainPagesFragment";
+	private static final String TAG = "Mainmenu";
 	private static final String blekingeStudentUnionPackageName = "se.bthstudent.android.bsk";
 	private static String[] mMainMenu;
-	private TextView test;
-	private MyBroadCastReceiver b = null;
+
+	private MyBroadCastReceiver mCheckLoginReceiver;
+	int mIDCheckLoginService;
+	private MyBroadCastReceiver mLoginReceiver;
+	int mIDLoginService;
 	
 	// Interface for communication between fragment and activity
 	public interface InterfaceActivityMain {
@@ -74,6 +80,10 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
         case 3: //student Union
           launchApp(blekingeStudentUnionPackageName);
           break;
+          
+        case 4: // login
+        	attemptLogin();
+            break;
 
         default:
           break;
@@ -141,9 +151,6 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 		
 		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_main, mMainMenu));
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		
-    	test = (TextView) getActivity().findViewById(R.id.textView1);
-    	test.setText(TestDatabase.getSomeData());   
 	}
 
 	@Override
@@ -156,15 +163,25 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	@Override
 	public void onResume() {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
-		if(b == null)
-		{
-			b = new MyBroadCastReceiver("FRAGMENT_MAIN_1_START", "FRAGMENT_MAIN_1_UPDATE", "FRAGMENT_MAIN_1_STOP");
-			b.registerCallback(this);
+		
+		// Working testcode. Should only need to be moved to another file later on
+		if(mLoginReceiver == null) {
+			mLoginReceiver = new MyBroadCastReceiver(TAG + "_LOGIN_START", TAG + "_LOGIN_UPDATE", TAG + "_LOGIN_STOP");
+			mLoginReceiver.registerCallback(this);
 		}
-    	b.registerBroadCastReceiver(getActivity());
-    	ServiceManager.getInstance().requestToken(getActivity().getApplicationContext(), "http://194.47.131.73/database-files-and-server-script/Script/serverResponse.php", b);
-    	
+		mLoginReceiver.registerBroadCastReceiver(getActivity());
+		
+		if(mCheckLoginReceiver == null) {
+			mCheckLoginReceiver = new MyBroadCastReceiver(TAG + "_CHECK_LOGIN_START", TAG + "_CHECK_LOGIN_UPDATE", TAG + "_CHECK_LOGIN_STOP");
+			mCheckLoginReceiver.registerCallback(this);
+		}
+		mCheckLoginReceiver.registerBroadCastReceiver(getActivity());
 		super.onResume();
+	}
+	
+	private void attemptLogin() {
+		// Check if login is required. This is only test code. Should be moved
+		mIDCheckLoginService =	ServiceManager.getInstance().checkIfLoginIsRequired(getActivity().getApplicationContext(), mCheckLoginReceiver);
 	}
 
 	@Override
@@ -176,7 +193,10 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	@Override
 	public void onStop() {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
-    	b.unregisterBroadCastReceiver(getActivity());
+		
+		mLoginReceiver.unregisterBroadCastReceiver(getActivity());
+		mCheckLoginReceiver.unregisterBroadCastReceiver(getActivity());
+
 		super.onStop();
 	}
 
@@ -199,20 +219,43 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	}
 
 	@Override
-	public void onServiceStart(int id) {
+	public void onServiceStart(Intent intent) {		
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStart()");
-    	Toast.makeText(getActivity(), "[TESTCODE] Attempting to update content", Toast.LENGTH_SHORT).show(); // TODO Engrish/swenglish
 		
+		int id = intent.getIntExtra("id", -1);
+		
+		if(id == 42) {	// TODO hardcoded
+			Toast.makeText(getActivity(), "[TESTCODE] This should be replaced by a loading bar." , Toast.LENGTH_SHORT).show(); 
+		}    	
 	}
+	
 	@Override
-	public void onServiceUpdate(int id, int statusCode, String message) {
+	public void onServiceUpdate(Intent intent) {
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceUpdate()");
 		// TODO Auto-generated method stub
-		
 	}
+	
 	@Override
-	public void onServiceStop(int id, int statusCode, String message) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onReceiveResult()");
-		Toast.makeText(getActivity(), "[TESTCODE] Update successful", Toast.LENGTH_SHORT).show(); // TODO Engrish/swenglish
-    	test.setText(TestDatabase.getSomeData());
+	public void onServiceStop(Intent intent) {
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStop()");
+		
+		int id = intent.getIntExtra("id", -1);
+		
+		if(id == mIDCheckLoginService) {
+			boolean loginRequired = intent.getBooleanExtra("loginRequired", true);
+			if(loginRequired) {		
+				LoginPrompt loginPrompt = new LoginPrompt(getActivity(), mLoginReceiver);
+				mIDLoginService = loginPrompt.attempLogin();				
+			}
+			else{
+				Toast.makeText(getActivity(), "[TESTCODE] Du är redan inloggad!." , Toast.LENGTH_SHORT).show(); 
+			}
+				
+			// Check with server
+			// Get server 
+		}		
+		else if(id == 42) { // TODO hardcoded
+			Toast.makeText(getActivity(), "[TESTCODE] Du är nu inloggad.." , Toast.LENGTH_SHORT).show(); 
+		}		
 	}	
 }
