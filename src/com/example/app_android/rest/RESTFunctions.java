@@ -12,6 +12,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.entity.*;
 
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.ITokenTable;
@@ -45,10 +46,6 @@ public final class RESTFunctions {
 			throw new RestCommunicationException(e.getMessage());
 		}
 		return response;
-	}
-	
-	private static int getCurrentTime() { 
-		return 0;	// TODO, return something of interest
 	}
 
 	public String readRequest(String request) {

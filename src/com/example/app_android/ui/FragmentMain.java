@@ -219,7 +219,7 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	}
 
 	@Override
-	public void onServiceStart(Intent intent) {		
+	public void onWorkerStart(Intent intent) {		
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStart()");
 		
 		int id = intent.getIntExtra("id", -1);
@@ -230,13 +230,13 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	}
 	
 	@Override
-	public void onServiceUpdate(Intent intent) {
+	public void onWorkerUpdate(Intent intent) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceUpdate()");
 		// TODO Auto-generated method stub
 	}
 	
 	@Override
-	public void onServiceStop(Intent intent) {
+	public void onWorkerStop(Intent intent) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStop()");
 		
 		int id = intent.getIntExtra("id", -1);
@@ -255,7 +255,13 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 			// Get server 
 		}		
 		else if(id == 42) { // TODO hardcoded
-			Toast.makeText(getActivity(), "[TESTCODE] Du är nu inloggad.." , Toast.LENGTH_SHORT).show(); 
+			boolean success = intent.getBooleanExtra("success", true); // Always works if nothing else is said
+			if(success)
+				Toast.makeText(getActivity(), "[TESTCODE] Du är nu inloggad.." , Toast.LENGTH_SHORT).show(); 
+			else {
+				String errorMessageShort = intent.getStringExtra("errorMessageShort");
+				Toast.makeText(getActivity(), "[TESTCODE] Failed inlog. " + errorMessageShort, Toast.LENGTH_SHORT).show(); 
+			}
 		}		
 	}	
 }
