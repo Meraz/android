@@ -33,29 +33,16 @@ public class ServiceRequestToken extends MyService {
 		return super.onStartCommand(intent, flags, startId);
 	}
 	
-	private class GenericRunnableToken implements Runnable {
-		
-		private Intent mIntent;
-		private MyService mService;
-		
-		@SuppressWarnings("unused") // TODO
-		private static final String TAG = "Services";
-		
+	private class GenericRunnableToken extends BaseRunnable {
+			
 		public GenericRunnableToken(MyService service, Intent intent) {
-	    	mIntent = intent;	 
-	    	mService = service;
+				super(service, intent);
 	    }	
 		
 	    public void run() {
-	    	String startBroadcast = mIntent.getStringExtra("startBroadcast");
-			String updateBroadcast = mIntent.getStringExtra("updateBroadcast");
-			String stopBroadcast = mIntent.getStringExtra("stopBroadcast");
-			
-			int broad_cast_id = mIntent.getIntExtra("id", -1); // Set it to -1 as default if it does not exist. id must be 0+. id should always exist..
-
 			// Send start broadcast
-			Intent intent = new Intent(startBroadcast);
-			intent.putExtra("id", 42);// TODO hardcoded
+			Intent intent = prepareDefaultIntent(mStartBroadCast);
+			intent.putExtra("id", 42);	// TODO hardcoded
 			mService.mySendBroadcast(intent);
 
 			String username = mIntent.getStringExtra("username");
@@ -64,29 +51,23 @@ public class ServiceRequestToken extends MyService {
 				Processes.requestToken(username, password);
 			} catch (RestCommunicationException e) {
 				// Send stop broadcast
-				intent = new Intent(stopBroadcast);
+				intent = prepareDefaultIntent(mStopBroadcast);
 				intent.putExtra("id", 42);	// TODO hardcoded because this is done on a overidden function in a button so the activity cannot access. Might redesign this
 				intent.putExtra("errorMessageShort", e.getMessage());
+				intent.putExtra("success", false);
 				mService.mySendBroadcast(intent);				
 				
-				// Remove thread from service
-				intent = new Intent(MyService.mStopBroadCast);
-				intent.putExtra("id", broad_cast_id);
-				mService.mySendBroadcast(intent);
+				informServiceAboutThreadShutdown();
 				return;
 			}
 					
 			// Send stop broadcast
-			intent = new Intent(stopBroadcast);
+			intent = prepareDefaultIntent(mStopBroadcast);
 			intent.putExtra("id", 42);// TODO hardcoded
 			intent.putExtra("success", true);
-			mService.mySendBroadcast(intent);
+			mService.mySendBroadcast(intent);			
 			
-			
-			// Remove thread from service
-			intent = new Intent(MyService.mStopBroadCast);
-			intent.putExtra("id", broad_cast_id);
-			mService.mySendBroadcast(intent);
+			informServiceAboutThreadShutdown();
 	    }
 	}
 }

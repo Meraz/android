@@ -17,10 +17,11 @@ public class MyService extends Service implements MyBroadCastReceiver.Receiver {
 	
 	protected int mThreadCount;	
 	protected MyBroadCastReceiver mBroadCastReceiver;
+	protected ExecutorService mThread;
+	
 	protected String mStartBroadCast;
 	protected String mUpdateBroadCast;
-	public static String mStopBroadCast;		// TODO test with public
-	protected ExecutorService mThread;
+	protected String mStopBroadCast;
 	
 	@Override 
 	public void onCreate() {		
@@ -60,23 +61,25 @@ public class MyService extends Service implements MyBroadCastReceiver.Receiver {
 
 	// Gets called from broadcastreceiver a thread broadcasts start 
 	@Override
-	public void onServiceStart(Intent intentS) {
+	public void onWorkerStart(Intent intentS) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStart()");
+		IncreaseThreadCount();
 	}
 
 	// Gets called from broadcastreceiver a thread broadcasts update
 	@Override
-	public void onServiceUpdate(Intent intent) {
+	public void onWorkerUpdate(Intent intent) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceUpdate()");
 	}
 
 	// Gets called from broadcastreceiver a thread broadcasts stop 
 	@Override
-	public void onServiceStop(Intent intent) {
+	public void onWorkerStop(Intent intent) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStop()");
 		int id = intent.getIntExtra("id", -1);
-		if(id != -1)
-			DecreaseThreadCount(id);
+		if(id != -1) {
+			DecreaseThreadCount(id); // TODO might crash here?
+		}
 	}		
 	
 	private void setBroadcastReceiever() {
@@ -86,8 +89,9 @@ public class MyService extends Service implements MyBroadCastReceiver.Receiver {
 		mBroadCastReceiver.registerBroadCastReceiver(getApplicationContext());
 	}
 	
-	public void startThread(Runnable runnable) {
-		
+	public void startThread(Runnable runnable) {	
 		mThread.execute(runnable);
 	}
+	
+	
 }

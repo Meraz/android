@@ -26,50 +26,35 @@ public class ServiceCheckLoginRequired extends MyService {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStartCommand()");
 		
-		checkLogin checkLogin = new checkLogin(this, intent);
+		CheckLogin checkLogin = new CheckLogin(this, intent);
 
 		startThread(checkLogin);
 				
 		return super.onStartCommand(intent, flags, startId);
 	}
 	
-	private class checkLogin implements Runnable {
+	private class CheckLogin extends BaseRunnable{
 		
-		private Intent mIntent;
-		private MyService mService;
+		public CheckLogin(MyService service, Intent intent) {
+	    	super(service, intent);
+	    }
 		
-		@SuppressWarnings("unused") // TODO
-		private static final String TAG = "Services";
-		
-		public checkLogin(MyService service, Intent intent) {
-	    	mIntent = intent;	 
-	    	mService = service;
-	    }	
-		
-	    public void run() {
-	    	String startBroadcast = mIntent.getStringExtra("startBroadcast");
-			String updateBroadcast = mIntent.getStringExtra("updateBroadcast");
-			String stopBroadcast = mIntent.getStringExtra("stopBroadcast");
+		@Override
+	    public void run() {			
+			informServiceAboutThreadStart();
 			
-			int broad_cast_id = mIntent.getIntExtra("id", -1); // Set it to -1 as default if it does not exist. id must be 0+. id should always exist..
-
 			// Send start broadcast
-			Intent intent = new Intent(startBroadcast);
-			intent.putExtra("id", broad_cast_id);
+			Intent intent = prepareDefaultIntent(mStartBroadcast);
 			mService.mySendBroadcast(intent);
 
 			boolean loginRequired = Processes.checkIfLoginIsNeeded();
 		
 			// Send stop broadcast
-			intent = new Intent(stopBroadcast);
-			intent.putExtra("id", broad_cast_id);
+			intent = prepareDefaultIntent(mStopBroadcast);
 			intent.putExtra("loginRequired", loginRequired);
 			mService.mySendBroadcast(intent);				
 			
-			// Remove thread from service
-			intent = new Intent(MyService.mStopBroadCast);
-			intent.putExtra("id", broad_cast_id);
-			mService.mySendBroadcast(intent);
+			informServiceAboutThreadShutdown();
 	    }
 	}
 }
