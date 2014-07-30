@@ -28,7 +28,7 @@ public class Processes {
 	
 		ITokenTable tokenTable = DatabaseManager.getInstance().getTokenTable();
 		
-		tokenTable.updateTransactionFlag(1); // Update to pending transaction flag.  TODO, use enumerations
+		tokenTable.updateTransactionFlag(ITokenTable.TransactionFlag.Pending); // Update to pending transaction flag.  TODO, use enumerations
 		
 		HttpPost httpPost = null;		
 		
