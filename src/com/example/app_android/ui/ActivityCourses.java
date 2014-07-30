@@ -405,20 +405,20 @@ public class ActivityCourses extends Activity {
 			}
 		 
 		 private int removeOutdatedEvents(ArrayList<String[]> outdatedEvents) {
-			// ICalendarEventTable eventTable = DatabaseManager.getInstance().getCalendarEventTable();
+			 ICalendarEventTable eventTable = DatabaseManager.getInstance().getCalendarEventTable();
 			 
 			 int deletedEvents = 0;
 			 for(int i = 0; i < outdatedEvents.size(); ++i) {
 				 String[] eventData = outdatedEvents.get(i);
-				// int eventId = eventTable.getEventId(eventData[0], eventData[1], eventData[2], eventData[3]);
-				 //if(eventTable.remove(eventId)) {
-					// if(deleteEvent(eventId)) {
-						//{
-							//++deletedEvents;
-					 	//}
+				 int eventId = eventTable.getEventId(eventData[0], eventData[1], eventData[2], eventData[3]);
+				 if(eventTable.remove(eventId)) {
+					 if(deleteEvent(eventId)) {
+						{
+							++deletedEvents;
+					 	}
 					 }
-				 //}
-			 //}
+				 }
+			 }
 			 
 			 return deletedEvents;
 		 }
@@ -509,8 +509,8 @@ public class ActivityCourses extends Activity {
 
 			String eventId = uri.getLastPathSegment();
 			
-		//	ICalendarEventTable eventTable = DatabaseManager.getInstance().getCalendarEventTable();
-			//eventTable.add(Integer.parseInt(eventId), title, description, eventData[0], eventData[1]);
+			ICalendarEventTable eventTable = DatabaseManager.getInstance().getCalendarEventTable();
+			eventTable.add(Integer.parseInt(eventId), title, description, eventData[0], eventData[1]);
 	 	}
 	}
 }
