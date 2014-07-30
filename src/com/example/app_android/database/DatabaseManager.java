@@ -19,26 +19,23 @@ public class DatabaseManager extends SQLiteOpenHelper{
 	 * 
 	 *  * Decided to NOT return BaseTable or derived class.
      *  * As this would result in public access to create and drop table, which is not very nice.
-     *  * Could not come up with a way which would be less tricky than this. Im sorry for the inconvenience.
+     *  * Could not come up with a way which would be less tricky than this.
      *  
      *  Good fun and have luck
      *  
      *  Rasmus Tilljander - tilljander.rasmus@gmail.com
 	 */
           
-    private static String DB_NAME = "bthapp.sqlite";
+    private static final String DB_NAME = "bthapp.sqlite";
 	private static final int DB_VERSION = 1;
     private static BaseTable[] TABLES;
     private static DatabaseManager mDatabaseManager;
+    private int openedConnections = 0;
     
     public enum TableIndex {
-        TOKEN (0),
-        COURSES (1),
-        FAVOURITE_COURSES (2);
-        
-        private final int index;
-        private TableIndex(int index) {this.index = index;}        
-        public int getIndex() {return index;}        
+        TOKEN,
+        COURSES,
+        FAVOURITE_COURSES      
     }
     
     // Singleton initialize instance
@@ -66,7 +63,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
     }
       
     private BaseTable getTable(TableIndex table) {
-    	return TABLES[table.getIndex()];
+    	return TABLES[table.ordinal()];
     }
     
     /* 
@@ -114,4 +111,17 @@ public class DatabaseManager extends SQLiteOpenHelper{
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
     }   
+    
+  //...
+  public synchronized SQLiteDatabase getReadableDatabase() {
+      openedConnections++;
+      return super.getReadableDatabase();
+  }
+
+  public synchronized void close() {
+      openedConnections--;
+      if (openedConnections == 0) {
+          super.close();
+      }
+  }
 }
