@@ -30,6 +30,7 @@ public class ActivityMain extends Activity implements InterfaceActivityMain{
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
     	super.onCreate(savedInstanceState);
     	this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); //This sneaky row stops the darn soft keyboard from popping up like some retarded wack-a-mole every time an activity with an editText is opened.
+    	//getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     	Cache.initialize(getApplicationContext());
     	ServiceManager.initialize(getApplicationContext());
     	DatabaseManager.initialize(getApplicationContext());
