@@ -20,6 +20,8 @@ import com.example.app_android.database.ITokenTable;
 import com.example.app_android.util.Logger;
 
 public class Processes {
+	
+	private static final String TAG = "Login";
 
 	private Processes() {
 	}
