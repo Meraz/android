@@ -1,7 +1,6 @@
 package com.example.app_android.services;
 
 import com.example.app_android.rest.Processes;
-import com.example.app_android.rest.RESTFunctions;
 import com.example.app_android.rest.RestCommunicationException;
 import com.example.app_android.util.Logger;
 
@@ -9,22 +8,15 @@ import android.content.Intent;
 
 public class ServiceRequestToken extends MyService {
 	
-	private static final String TAG = "Services";
-
 	@Override 
 	public void onCreate() {	
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
-		String className = getClass().getSimpleName() ;
-		mStartBroadCast 	= className + "_START";
-		mUpdateBroadCast 	= className + "_UPDATE";
-		mStopBroadCast 		= className + "_STOP";
-		
+		// Do NOT put loggers here. This is done by superclass		
 		super.onCreate();
 	}
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStartCommand()");
+		Logger.VerboseLog(TAG, mClassName + ":entered onStartCommand()");
 		
 		GenericRunnableToken genericRunnableToken = new GenericRunnableToken(this, intent);
 
@@ -40,8 +32,9 @@ public class ServiceRequestToken extends MyService {
 	    }	
 		
 	    public void run() {
+			informStart();
 			// Send start broadcast
-			Intent intent = prepareDefaultIntent(mStartBroadCast);
+			Intent intent = prepareDefaultIntent(mStartBroadcast);
 			intent.putExtra("id", 42);	// TODO hardcoded
 			mService.mySendBroadcast(intent);
 
@@ -57,7 +50,7 @@ public class ServiceRequestToken extends MyService {
 				intent.putExtra("success", false);
 				mService.mySendBroadcast(intent);				
 				
-				informServiceAboutThreadShutdown();
+				informStop();
 				return;
 			}
 					
@@ -67,7 +60,7 @@ public class ServiceRequestToken extends MyService {
 			intent.putExtra("success", true);
 			mService.mySendBroadcast(intent);			
 			
-			informServiceAboutThreadShutdown();
+			informStop();
 	    }
 	}
 }

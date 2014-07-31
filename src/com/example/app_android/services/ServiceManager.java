@@ -2,12 +2,24 @@ package com.example.app_android.services;
 
 /* If an service is already started when calling startservice, the service will not be created, however,
 	the function onCommand will be called for that service. 
-	And in this we create a new instance of a thread in which is unique.Thus one unique service can have several instances of a single thread in it.
+	And in this we create a new instance of a thread in which is unique. Thus one unique service can have several instances of a single thread in it.
 
 	This is why the functions that add and remove services is synchronized.
 	So if I try to stop a service there wont start one at the same time.
 	
 	Also, if I try to use one when it's open and delete at the same time. Not good
+	
+	POTENTIAL PROBLEM
+	Explaination
+	This, however, means that if there's several calls wanting to create a workingtask and/or remove such from the metadata table
+	AND the mainthread executes and says it wants to execute new working task. 
+	
+	Result
+	The main thread is blocked on synchronized methods
+	
+	Solution
+	Mainthread starts thread that does everything, including queuing itself and starting a new thread.
+	
 */
 
 import java.util.HashMap;
@@ -105,18 +117,9 @@ public class ServiceManager {
 			return true;
 		return false;
 	}
-	
-	// Called by a broadcastReciever when receiving a broadcast 
-	public synchronized void onServiceStop(int id) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStop()");
 
-		Intent intent = mServices.get(id).getIntent();
-		mContext.stopService(intent);
-		mServices.remove(id);
-	}
-	
-	// Called by a broadcastReciever when receiving a broadcast 
-	public synchronized void onThreadStop(int id) {
+	// Called by a thread when it wants to remove itself from the metatable
+	public synchronized void informWorkerStop(int id) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onThreadStop()");
 		mServices.remove(id);
 	}

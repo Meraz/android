@@ -5,11 +5,11 @@ import com.example.app_android.util.Logger;
 
 import android.content.Intent;
 
-public class ServiceCheckLoginRequired extends MyService {
+public class ServiceUpdateData extends MyService {
 	
 	@Override 
 	public void onCreate() {	
-		
+		// Do NOT put loggers here. This is done by superclass		
 		super.onCreate();
 	}
 	

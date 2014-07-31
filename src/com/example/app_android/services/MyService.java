@@ -1,6 +1,5 @@
 package com.example.app_android.services;
 
-import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -11,87 +10,69 @@ import android.os.IBinder;
 import com.example.app_android.util.Logger;
 import com.example.app_android.util.MyBroadCastReceiver;
 
-public class MyService extends Service implements MyBroadCastReceiver.Receiver {	
+public class MyService extends Service  {	
 	
-	private static final String TAG = "Services";
+	protected static final String TAG = "Services";
+	protected String mClassName;
 	
 	protected int mThreadCount;	
 	protected MyBroadCastReceiver mBroadCastReceiver;
 	protected ExecutorService mThread;
 	
-	protected String mStartBroadCast;
-	protected String mUpdateBroadCast;
-	protected String mStopBroadCast;
-	
 	@Override 
-	public void onCreate() {		
+	public void onCreate() {	
+		Logger.VerboseLog(TAG, mClassName + "::entered onCreate()");
+		mClassName = getClass().getSimpleName();
 		mThread = Executors.newCachedThreadPool();		
-		setBroadcastReceiever();
 		super.onCreate();
 	}
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
+		Logger.VerboseLog(TAG, mClassName + "::entered onBind()");
 		return null;
 	}	
 	
 	@Override 
 	public void onDestroy () {
-		mBroadCastReceiver.unregisterBroadCastReceiver(getApplicationContext());
+		Logger.VerboseLog(TAG, mClassName + "::entered onDestroy()");
+		mThread.shutdownNow();
 	}	
 	
-	private final synchronized void IncreaseThreadCount() {
+	private final synchronized void increaseThreadCount() {
+		Logger.VerboseLog(TAG, mClassName + "::entered IncreaseThreadCount()");
 		mThreadCount++;
 	}
 	
-	private final synchronized void DecreaseThreadCount(int id) {
+	private final synchronized void decreaseThreadCount(int id) {
+		Logger.VerboseLog(TAG, mClassName + "::entered DecreaseThreadCount()");
 		mThreadCount--;
-		
+		ServiceManager.getInstance().informWorkerStop(id);
 		if(mThreadCount == 0)
-			ServiceManager.getInstance().onServiceStop(id); // Stop entire service, means there's no more threads to run
-		else
-			ServiceManager.getInstance().onThreadStop(id);	 // Only removes thread metadata from manager, means there's more threads in this service to run
-	}
+			this.stopSelf();
+		}
 	
-	public final void mySendBroadcast(Intent intent) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered mySendBroadcast()");
+	protected final void mySendBroadcast(Intent intent) {
+		Logger.VerboseLog(TAG, mClassName + "::entered mySendBroadcast()");
 		sendBroadcast(intent);
 	}
-
-	// Gets called from broadcastreceiver a thread broadcasts start 
-	@Override
-	public void onWorkerStart(Intent intentS) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStart()");
-		IncreaseThreadCount();
-	}
-
-	// Gets called from broadcastreceiver a thread broadcasts update
-	@Override
-	public void onWorkerUpdate(Intent intent) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceUpdate()");
+	
+	protected void informWorkerStart() {
+		Logger.VerboseLog(TAG, mClassName + "::entered informWorkerStart()");
+		increaseThreadCount();
 	}
 
 	// Gets called from broadcastreceiver a thread broadcasts stop 
-	@Override
-	public void onWorkerStop(Intent intent) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStop()");
-		int id = intent.getIntExtra("id", -1);
+	protected void informWorkerStop(int id) {
+		Logger.VerboseLog(TAG, mClassName + "::entered informWorkerStop()");
+
 		if(id != -1) {
-			DecreaseThreadCount(id); // TODO might crash here?
+			decreaseThreadCount(id); // TODO might crash here?
 		}
-	}		
+	}	
 	
-	private void setBroadcastReceiever() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered setBroadcastReceiever()");
-		mBroadCastReceiver = new MyBroadCastReceiver(mStartBroadCast, mUpdateBroadCast, mStopBroadCast);
-		mBroadCastReceiver.registerCallback(this);
-		mBroadCastReceiver.registerBroadCastReceiver(getApplicationContext());
-	}
-	
-	public void startThread(Runnable runnable) {	
+	protected void startThread(Runnable runnable) {	
+		Logger.VerboseLog(TAG, mClassName + "::entered startThread()");
 		mThread.execute(runnable);
-	}
-	
-	
+	}	
 }
