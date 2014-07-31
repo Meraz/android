@@ -28,6 +28,9 @@
   <string name="search_field_hint_courses">Kurskod</string>
   <string name="no_courses_added">Inga kurser är tillagda.\n Skriv in kurskoden och tryck på "Lägg till" för att lägga till en kurs.</string>
 
+  <string name="empty_schedule">Töm schema</string>
+
+
   <!--  Detailed Course View -->
   <string name="course_responsible">Kursansvarig</string>
   <string name="course_start">Start</string>

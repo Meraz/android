@@ -9,25 +9,25 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 
 	private static final String TABLE_NAME = "calendarEvents";
 	
-	private static final String COLUMN_ID = "id";
-	private static final String COLUMN_TITLE = "title";
-	private static final String COLUMN_DESCRIPTION = "description";
-	private static final String COLUMN_STARTTIME = "startTime";
-	private static final String COLUMN_ENDTIME = "endTime";
+	private static final String COLUMN_ID 			= "id";
+	private static final String COLUMN_TITLE 		= "title";
+	private static final String COLUMN_DESCRIPTION 	= "description";
+	private static final String COLUMN_STARTTIME 	= "startTime";
+	private static final String COLUMN_ENDTIME 		= "endTime";
 	
-	private static final String COLUMN_ID_TYPE = "INTEGER PRIMARY KEY";
-	private static final String COLUMN_TITLE_TYPE = "VARCHAR(255)";
+	private static final String COLUMN_ID_TYPE 			= "INTEGER PRIMARY KEY";
+	private static final String COLUMN_TITLE_TYPE 		= "VARCHAR(255)";
 	private static final String COLUMN_DESCRIPTION_TYPE = "TEXT";
-	private static final String COLUMN_STARTTIME_TYPE = "VARCHAR(15)";
-	private static final String COLUMN_ENDTIME_TYPE = "VARCHAR(15)";
+	private static final String COLUMN_STARTTIME_TYPE 	= "VARCHAR(15)";
+	private static final String COLUMN_ENDTIME_TYPE 	= "VARCHAR(15)";
 	
 	private static final String LOCAL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " " +
 			"("+
-				COLUMN_ID + " " + COLUMN_ID_TYPE + ", " +
-				COLUMN_TITLE + " " + COLUMN_TITLE_TYPE + ", " +
-				COLUMN_DESCRIPTION + " " + COLUMN_DESCRIPTION_TYPE + ", " +
-				COLUMN_STARTTIME + " " + COLUMN_STARTTIME_TYPE + ", " +
-				COLUMN_ENDTIME + " " + COLUMN_ENDTIME_TYPE +
+				COLUMN_ID 			+ " " + COLUMN_ID_TYPE 			+ ", " +
+				COLUMN_TITLE 		+ " " + COLUMN_TITLE_TYPE 		+ ", " +
+				COLUMN_DESCRIPTION 	+ " " + COLUMN_DESCRIPTION_TYPE + ", " +
+				COLUMN_STARTTIME 	+ " " + COLUMN_STARTTIME_TYPE 	+ ", " +
+				COLUMN_ENDTIME 		+ " " + COLUMN_ENDTIME_TYPE 	+
 			")";
 	
 	private static final String RETRIEVE_EVENT  = "select * from " + TABLE_NAME + " where " + COLUMN_TITLE +"= ? and "+
@@ -87,7 +87,10 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 			id = cursor.getInt(0);
 		}
 		
+		db.setTransactionSuccessful();
+		db.endTransaction();
 		db.close();
+		 
 		return id;
 	}
 }

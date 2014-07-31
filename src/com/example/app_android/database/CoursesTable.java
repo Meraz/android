@@ -11,23 +11,23 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 
 	private static final String TABLE_NAME = "courses";
 	
-	private static final String COLUMN_COURSE_CODE = "courseCode";
-	private static final String COLUMN_COURSE_NAME = "courseName";
-	private static final String COLUMN_COURSE_RESPONSIBLE = "courseResponsible";
-	private static final String COLUMN_COURSE_START_DATE = "startDate";
-	private static final String COLUMN_COURSE_END_DATE = "endDate";
-	private static final String COLUMN_COURSE_LITERATURE = "courseLiterature";
+	private static final String COLUMN_COURSE_CODE 			= "courseCode";
+	private static final String COLUMN_COURSE_NAME 			= "courseName";
+	private static final String COLUMN_COURSE_RESPONSIBLE 	= "courseResponsible";
+	private static final String COLUMN_COURSE_START_DATE 	= "startDate";
+	private static final String COLUMN_COURSE_END_DATE 		= "endDate";
+	private static final String COLUMN_COURSE_LITERATURE 	= "courseLiterature";
 	private static final String COLUMN_COURSE_NEXT_EXAM_DATE = "nextExamDate";
-	private static final String COLUMN_COURSE_DESCRIPTION = "courseDescription";
+	private static final String COLUMN_COURSE_DESCRIPTION 	= "courseDescription";
     
-    private static final String COULUMN_COURSE_CODE_TYPE = "VARCHAR(8) PRIMARY KEY";
-    private static final String COLUMN_COURSE_NAME_TYPE = "VARCHAR(255)";
-    private static final String COLUMN_COURSE_RESPONSIBLE_TYPE = "VARCHAR(50)";
-    private static final String COLUMN_COURSE_START_DATE_TYPE = "VARCHAR(10)";
-    private static final String COLUMN_COURSE_END_DATE_TYPE = "VARCHAR(10)";
-    private static final String COLUMN_COURSE_LITERATURE_TYPE = "VARCHAR(255)";
+    private static final String COULUMN_COURSE_CODE_TYPE 		= "VARCHAR(8) PRIMARY KEY";
+    private static final String COLUMN_COURSE_NAME_TYPE 		= "VARCHAR(255)";
+    private static final String COLUMN_COURSE_RESPONSIBLE_TYPE 	= "VARCHAR(50)";
+    private static final String COLUMN_COURSE_START_DATE_TYPE 	= "VARCHAR(10)";
+    private static final String COLUMN_COURSE_END_DATE_TYPE 	= "VARCHAR(10)";
+    private static final String COLUMN_COURSE_LITERATURE_TYPE 	= "VARCHAR(255)";
     private static final String COLUMN_COURSE_NEXT_EXAM_DATE_TYPE = "VARCHAR(10)";
-    private static final String COLUMN_COURSE_DESCRIPTION_TYPE = "TEXT";
+    private static final String COLUMN_COURSE_DESCRIPTION_TYPE 	= "TEXT";
     
 	private static final String LOCAL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " " +
 			"("+

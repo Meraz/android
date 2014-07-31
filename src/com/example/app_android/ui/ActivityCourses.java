@@ -1,10 +1,10 @@
 package com.example.app_android.ui;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,6 +16,7 @@ import java.util.TimeZone;
 
 import com.example.app_android.R;
 import com.example.app_android.database.DatabaseManager;
+import com.example.app_android.database.ICalendarEventTable;
 import com.example.app_android.database.IFavouriteCourseTable;
 import com.example.app_android.util.Logger;
 import com.example.app_android.util.Utilities;
@@ -35,15 +36,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 public class ActivityCourses extends Activity {
 
@@ -52,8 +54,11 @@ public class ActivityCourses extends Activity {
 	EditText courseCode;
 	IFavouriteCourseTable favouriteCoursesHelper;
 	MenuItem syncActionItem;
+	MenuItem emptyScheduleItem;
 	View courseList;
 	TextView noCoursesText;
+	
+	private static final String CALENDAR_EVENT_TAG = "[This event was added by the BTH App]";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +127,7 @@ public class ActivityCourses extends Activity {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.layout.activity_courses_action, menu);
 	    syncActionItem = menu.findItem(R.id.courses_action_sync);
+	    emptyScheduleItem = menu.findItem(R.id.courses_menu_empty_schedule);
 	    return super.onCreateOptionsMenu(menu);
 	}
 
@@ -138,8 +144,34 @@ public class ActivityCourses extends Activity {
     	case R.id.courses_action_sync:
     		exportSchedule();
     		break;
+    	case R.id.courses_menu_empty_schedule:
+    		int deletedRowsCount = deleteAllScheduleEvents();
+    		Toast.makeText(getApplicationContext(), "Removed " + deletedRowsCount + " events from calendar"  , Toast.LENGTH_SHORT).show();
+    		break;
     	}
         return super.onOptionsItemSelected(item);
+    }
+    
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu)
+    {
+        if((featureId == Window.FEATURE_OPTIONS_PANEL || featureId == Window.FEATURE_ACTION_BAR ) && menu != null){
+            if(menu.getClass().getSimpleName().equals("MenuBuilder")){
+                try{
+                    Method m = menu.getClass().getDeclaredMethod(
+                        "setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                }
+                catch(NoSuchMethodException e){
+                    Log.e(TAG, "onMenuOpened", e);
+                }
+                catch(Exception e){
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return super.onMenuOpened(featureId, menu);
     }
 
 	public void addCourse(View view) {
@@ -156,9 +188,31 @@ public class ActivityCourses extends Activity {
 		}
 	}
 
+	public void startCalendar(View view) {
+    	//Start the calendar app
+    	Uri uri = Uri.parse("content://com.android.calendar/time");
+		Intent intent = new Intent("android.intent.action.VIEW", uri);
+		startActivity(intent);
+	}
+
+	public void readCourses() {
+		coursesArray = favouriteCoursesHelper.getAll();
+	}
+
+	public void courseChecked(View v) {
+		Logger.VerboseLog(TAG, "Checked or Unchecked");
+	}
+	
+	private int deleteAllScheduleEvents() {
+ 		int rowsDeletedCount = getContentResolver().delete(CalendarContract.Events.CONTENT_URI,
+ 				Events.DESCRIPTION + " LIKE ? ", new String[] {"%" + CALENDAR_EVENT_TAG +"%"});
+ 		
+ 		return rowsDeletedCount;
+	}
+	
 	@SuppressWarnings("unchecked") //Should be safe to ignore this warning. It complains about not knowing the type of arraylist being sent in exportTask.execute(requests)
 	@SuppressLint("SimpleDateFormat")
-	public void exportSchedule() {
+	private void exportSchedule() {
 		if(Utilities.isNetworkAvailable(getApplicationContext())) {
 			Logger.VerboseLog(TAG, "Exporting schedule to Google Calendar");
 			ArrayList<String> courseCodes = favouriteCoursesHelper.getAll();
@@ -180,21 +234,6 @@ public class ActivityCourses extends Activity {
 		}
 		else
 			Toast.makeText(getApplicationContext(), "Missing internet connection", Toast.LENGTH_SHORT).show();
-	}
-
-	public void startCalendar(View view) {
-    	//Start the calendar app
-    	Uri uri = Uri.parse("content://com.android.calendar/time");
-		Intent intent = new Intent("android.intent.action.VIEW", uri);
-		startActivity(intent);
-	}
-
-	public void readCourses() {
-		coursesArray = favouriteCoursesHelper.getAll();
-	}
-
-	public void courseChecked(View v) {
-		Logger.VerboseLog(TAG, "Checked or Unchecked");
 	}
 
 	 private class ExportResult {
@@ -228,6 +267,7 @@ public class ActivityCourses extends Activity {
 						ArrayList<String[]> oldLectureList = getLecturesForCourse(newLectureList.get(0)[2], oldCalendarEvents); //The first parameter gets the course name for the relevant course from the first entry in the event list fetched from timeedit
 						//Remove the events that has already been put into the calendar. Also remove any event that is present in the old event list but not the new one
 						exportResult.upToDateCount += removeDuplicateEvents(newLectureList, oldLectureList);
+						exportResult.deletedCount += removeOutdatedEvents(oldLectureList);
 						if(!newLectureList.isEmpty()) {
 							//Export all events for a given course
 							try {
@@ -385,15 +425,15 @@ public class ActivityCourses extends Activity {
 				return relevantLectures;
 			}
 
-		 //TODO - Remove events that are present in oldLEcturews but not in newLectures (Needs saved IDs)
 		 private int removeDuplicateEvents(ArrayList<String[]> newLectures, ArrayList<String[]> oldLectures) {
 			 int duplicateCount = 0;
+			 
 				for(int i = 0; i < newLectures.size(); ++i) {
 					for(int j = 0; j < oldLectures.size(); ++j) {
 						if(newLectures.get(i)[0].equals(oldLectures.get(j)[0])
 						&& newLectures.get(i)[1].equals(oldLectures.get(j)[1])
 						&& (newLectures.get(i)[2] + " " + newLectures.get(i)[6] + " " + newLectures.get(i)[4] + " " + newLectures.get(i)[5]).equals(oldLectures.get(j)[2])
-						&& (newLectures.get(i)[7] + " \n\n[This event was added by the BTH App]").equals(oldLectures.get(j)[3])) { //"Gr. Turkos [Added by the BTH App]" == "Gr. Turkos [Added by the BTH App]"
+						&& (newLectures.get(i)[7] + " \n\n[This event was added by the BTH App]").equals(oldLectures.get(j)[3])) {
 								newLectures.remove(i--); //Do -- after so we don't mess up the indices
 								oldLectures.remove(j--);
 								++duplicateCount;
@@ -403,7 +443,26 @@ public class ActivityCourses extends Activity {
 				}
 				return duplicateCount;
 			}
-
+		 
+		 private int removeOutdatedEvents(ArrayList<String[]> outdatedEvents) {
+			 ICalendarEventTable eventTable = DatabaseManager.getInstance().getCalendarEventTable();
+			 
+			 int deletedEvents = 0;
+			 for(int i = 0; i < outdatedEvents.size(); ++i) {
+				 String[] eventData = outdatedEvents.get(i);
+				 int eventId = eventTable.getEventId(eventData[0], eventData[1], eventData[2], eventData[3]);
+				 if(eventTable.remove(eventId)) {
+					 if(deleteEvent(eventId)) {
+						{
+							++deletedEvents;
+					 	}
+					 }
+				 }
+			 }
+			 
+			 return deletedEvents;
+		 }
+		 
 		 private boolean deleteEvent(long eventId) {
 				Uri deleteUri = ContentUris.withAppendedId(Events.CONTENT_URI, eventId);
 				int rows = getContentResolver().delete(deleteUri, null, null);
@@ -471,20 +530,27 @@ public class ActivityCourses extends Activity {
 
 	 	private void exportScheduleEvent(String[] eventData, int calendarID) throws ParseException {
 	 		//Prepare the event for insertion
+	 		
+	 		String title = eventData[2] + " " + eventData[6] + " " + eventData[4] + " " + eventData[5];
+	 		String description  = eventData[7] + " \n\n" + CALENDAR_EVENT_TAG; //Add a tag to the description to let the user know that we are responsible for adding this event
+	 		
+	 		TimeZone timeZone = TimeZone.getDefault();
 	 		ContentValues values = new ContentValues();
-			TimeZone timeZone = TimeZone.getDefault();
 			values.put(CalendarContract.Events.DTSTART, eventData[0]);
 			values.put(CalendarContract.Events.DTEND, eventData[1]);
 			values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
-			values.put(CalendarContract.Events.TITLE, eventData[2] + " " + eventData[6] + " " + eventData[4] + " " + eventData[5]);
-			values.put(CalendarContract.Events.DESCRIPTION, eventData[7] + " \n\n[This event was added by the BTH App]"); //Tag the description so we can identify our events later.
+			values.put(CalendarContract.Events.TITLE, title);
+			values.put(CalendarContract.Events.DESCRIPTION, description);
 			values.put(CalendarContract.Events.CALENDAR_ID, calendarID);
 
 			//Insert the event
 			ContentResolver contentResolver = getContentResolver();
 			Uri uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values);
 
-			String eventID = uri.getLastPathSegment();
+			String eventId = uri.getLastPathSegment();
+			
+			ICalendarEventTable eventTable = DatabaseManager.getInstance().getCalendarEventTable();
+			eventTable.add(Integer.parseInt(eventId), title, description, eventData[0], eventData[1]);
 	 	}
 	}
 }
