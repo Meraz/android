@@ -134,7 +134,7 @@ public class TokenTable extends BaseTable implements ITokenTable{
 		SQLiteDatabase db = mHelper.getReadableDatabase();
 		
 	    Cursor cursor = db.rawQuery(RETRIEVE_TRANSACTION_FLAG, null);
-	    int transactionFlag = -1;
+	    TransactionFlag transactionFlag = TransactionFlag.Unknown;
 	    
 	    if (cursor.moveToFirst()) {
 	    	transactionFlag = cursor.getInt(0); // Database SHOULD only hold one. If there's ever more than one entry, somethings wrong. Should add check for this...

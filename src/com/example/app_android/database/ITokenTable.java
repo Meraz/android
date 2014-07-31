@@ -5,7 +5,8 @@ public interface ITokenTable {
 	enum TransactionFlag {
 		Success,
 		Pending,
-		Failed
+		Failed,
+		Unknown
 	}
 	
 	// There should only be possible to have one entry of a token at any given time.
