@@ -4,16 +4,21 @@ import java.util.ArrayList;
 import com.example.app_android.R;
  
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ExpandableListView;
  
 public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
- 
+	 
     protected Context mContext;
     protected ArrayList<BaseExpandableListGroup> mGroups;
     protected ExpandableListView mExpandableList;
@@ -21,10 +26,15 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
     //protected boolean mFirstGroupCanBeClosed = true; // Future functionality
     protected boolean mUseHtmlTextInTextFields = false;
     protected int mLastExpandedGroup;
+    ButtonCallback mButtonCallback;
     
     public MyBaseExpandableListAdapter(Context context, ArrayList<BaseExpandableListGroup> groups) {
     	mContext = context;
     	mGroups = groups;
+    }
+    
+    public void setButtonCallBack(ButtonCallback buttonCallback) {
+    	mButtonCallback = buttonCallback;
     }
     
     @Override
@@ -37,8 +47,7 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
 	    		}	    		
 	    	}
 	    		
-    	mLastExpandedGroup = groupPosition;
-    	
+    	mLastExpandedGroup = groupPosition;    	
     	
     	// Scroll down to the new item
 		mExpandableList.smoothScrollToPosition(groupPosition);
@@ -158,11 +167,21 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
         
 
         if(mUseHtmlTextInTextFields == true)
-        	  tv.setText(Html.fromHtml(child.getName()));	// Read the text as html formatted
+        	tv.setText(Html.fromHtml(child.getName()));	// Read the text as html formatted
         else if(mUseHtmlTextInTextFields == false)
         	tv.setText(child.getName());					// Read the text as not html formatted
-        
         tv.setTag(child.getTag());
+    
+    	Button button = (Button) view.findViewById(R.id.tvButton1);
+        if(child.hasButton() == true) {	       	
+			MyOnClickListener listener = new MyOnClickListener(mButtonCallback, child.getButtonID());
+			button.setOnClickListener(listener);
+			button.setVisibility(Button.VISIBLE);        	
+        }
+        else {
+        	button.setVisibility(Button.INVISIBLE);
+        }
+
         return view;
     }
  
@@ -201,5 +220,4 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int arg0, int arg1) {
         return true; // TODO ??
     }
- 
 }
