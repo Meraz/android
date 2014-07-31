@@ -10,7 +10,7 @@ public abstract class BaseRunnable implements Runnable  {
 	protected String mClassName;
 
 	protected Intent mIntent;
-	protected MyService mService;
+	protected BaseService mService;
 
 	protected int mBroadcastID;
 	
@@ -18,7 +18,7 @@ public abstract class BaseRunnable implements Runnable  {
 	protected String mUpdateBroadcast;
 	protected String mStopBroadcast;
 	
-	public BaseRunnable(MyService service, Intent intent) {
+	public BaseRunnable(BaseService service, Intent intent) {
     	mIntent = intent;	 
     	mService = service;
     	mClassName = getClass().getSimpleName();

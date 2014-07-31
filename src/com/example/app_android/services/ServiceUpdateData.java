@@ -5,7 +5,7 @@ import com.example.app_android.util.Logger;
 
 import android.content.Intent;
 
-public class ServiceUpdateData extends MyService {
+public class ServiceUpdateData extends BaseService {
 	
 	@Override 
 	public void onCreate() {	
@@ -26,7 +26,7 @@ public class ServiceUpdateData extends MyService {
 	
 	private class CheckLogin extends BaseRunnable{
 		
-		public CheckLogin(MyService service, Intent intent) {
+		public CheckLogin(BaseService service, Intent intent) {
 	    	super(service, intent);
 	    }
 		

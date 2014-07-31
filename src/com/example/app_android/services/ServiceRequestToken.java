@@ -6,7 +6,7 @@ import com.example.app_android.util.Logger;
 
 import android.content.Intent;
 
-public class ServiceRequestToken extends MyService {
+public class ServiceRequestToken extends BaseService {
 	
 	@Override 
 	public void onCreate() {	
@@ -27,7 +27,7 @@ public class ServiceRequestToken extends MyService {
 	
 	private class GenericRunnableToken extends BaseRunnable {
 			
-		public GenericRunnableToken(MyService service, Intent intent) {
+		public GenericRunnableToken(BaseService service, Intent intent) {
 				super(service, intent);
 	    }	
 		

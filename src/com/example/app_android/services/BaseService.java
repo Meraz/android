@@ -10,7 +10,7 @@ import android.os.IBinder;
 import com.example.app_android.util.Logger;
 import com.example.app_android.util.MyBroadCastReceiver;
 
-public class MyService extends Service  {	
+public class BaseService extends Service  {	
 	
 	protected static final String TAG = "Services";
 	protected String mClassName;
@@ -47,7 +47,12 @@ public class MyService extends Service  {
 	private final synchronized void decreaseThreadCount(int id) {
 		Logger.VerboseLog(TAG, mClassName + "::entered DecreaseThreadCount()");
 		mThreadCount--;
-		ServiceManager.getInstance().informWorkerStop(id);
+		
+		try {
+			ServiceManager.getInstance().informWorkerStop(id);
+		}catch(NullPointerException e) {			
+		}
+		
 		if(mThreadCount == 0)
 			this.stopSelf();
 		}
