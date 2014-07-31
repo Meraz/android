@@ -19,7 +19,7 @@ public class LoginPrompt {
 		public void onLoginButtonPressed(int workerID);
 	}
 	
-	private static final String TAG = "LoginPrompt";
+	private static final String TAG = "Login";
 
 	private Context mContext;
 	private MyBroadCastReceiver mBroadCastReceiver;

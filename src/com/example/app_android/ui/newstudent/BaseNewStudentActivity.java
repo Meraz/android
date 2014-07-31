@@ -12,12 +12,13 @@ import android.view.MenuItem;
 import android.widget.ExpandableListView;
 
 import com.example.app_android.R;
+import com.example.app_android.ui.BaseActivity;
 import com.example.app_android.ui.elements.expandablelist.BaseExpandableListGroup;
 import com.example.app_android.ui.elements.expandablelist.IButtonCallback;
 import com.example.app_android.ui.elements.expandablelist.MyBaseExpandableListAdapter;
 import com.example.app_android.util.Logger;
 
-abstract public class BaseNewStudentActivity extends Activity implements IButtonCallback{
+abstract public class BaseNewStudentActivity extends BaseActivity implements IButtonCallback{
 	
 	protected static final String TAG = "NewstudentMenu";
 	protected MyBaseExpandableListAdapter mExpandableListAdapter;
@@ -59,6 +60,9 @@ abstract public class BaseNewStudentActivity extends Activity implements IButton
 	protected void onResume() {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
 		super.onResume();
+		
+		mTitle = "About";
+		mMessage = "Add text here";
 	}
 
 	@Override
@@ -75,24 +79,4 @@ abstract public class BaseNewStudentActivity extends Activity implements IButton
 
 	@Override
 	abstract public void onButtonClick(int id);
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    // Inflate the menu items for use in the action bar
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.layout.activity_main_action, menu);
-	    return super.onCreateOptionsMenu(menu);
-	}
-	
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.main_action_info) {
-        	Builder alert = new AlertDialog.Builder(this);
-        	alert.setTitle("About");
-        	alert.setMessage("This dialog will show general information about the app. TODO - Add bragging rights");
-        	alert.setPositiveButton("OK",null);
-        	alert.show();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

@@ -29,7 +29,7 @@ public class FragmentNewStudent extends ListFragment{
 			
 	}
 	
-	private static final String TAG = "FragmentNewStudent";
+	private static final String TAG = "MainMenu";
 	private String[] mMenu;
 	
 	@SuppressWarnings("unused")

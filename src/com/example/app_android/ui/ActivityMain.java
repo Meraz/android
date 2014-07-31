@@ -17,7 +17,7 @@ import com.example.app_android.services.ServiceManager;
 import com.example.app_android.ui.FragmentMain.InterfaceActivityMain;
 import com.example.app_android.util.Logger;
 
-public class ActivityMain extends Activity implements InterfaceActivityMain{
+public class ActivityMain extends BaseActivity implements InterfaceActivityMain{
 	private TextView test; 	// TODO
 	private static final String TAG = "ActivityMain";
 
@@ -76,26 +76,6 @@ public class ActivityMain extends Activity implements InterfaceActivityMain{
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    // Inflate the menu items for use in the action bar
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.layout.activity_main_action, menu);
-	    return super.onCreateOptionsMenu(menu);
-	}
-	
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.main_action_info) {
-        	Builder alert = new AlertDialog.Builder(this);
-        	alert.setTitle("About");
-        	alert.setMessage("This dialog will show general information about the app. TODO - Add bragging rights");
-        	alert.setPositiveButton("OK",null);
-        	alert.show();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 	public void aFunction()
 	{
