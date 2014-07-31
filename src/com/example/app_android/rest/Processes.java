@@ -17,6 +17,7 @@ import android.text.GetChars;
 
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.ITokenTable;
+import com.example.app_android.database.ITokenTable.TransactionFlag;
 import com.example.app_android.util.Logger;
 
 public class Processes {
@@ -26,17 +27,33 @@ public class Processes {
 	private Processes() {
 	}
 	
-	public static boolean checkIfLoginIsNeeded() {
+	public enum LoginStatus {
+		Waiting,
+		LoginRequired,
+		AlreadyLoggedIn
+	}
+	
+	public static LoginStatus checkIfLoginIsNeeded() {
 		Logger.VerboseLog(TAG, "Processes::entered checkIfLoginIsNeeded()");
+		
 		ITokenTable tokenTable = DatabaseManager.getInstance().getTokenTable();
+		
+		// Get current transaction flag for the token
+		TransactionFlag transactionFlag = tokenTable.getTransactionFlag();
+		
+		// Already in the proccess of logging in.
+		if(transactionFlag == TransactionFlag.Pending) {
+			return LoginStatus.Waiting;
+		}
+		
 		long experationdate = tokenTable.getExpireDate();
 		
 		long currentTime = (System.currentTimeMillis()/1000);
 		if(experationdate < currentTime) {
-			return true;					// LoginRequired!
+			return LoginStatus.LoginRequired;					// LoginRequired!
 		}		
-		return true; // It's always needed to login. Debug mode
-		//return false; // No need to login
+		return LoginStatus.LoginRequired; // It's always needed to login. Debug mode
+		//return LoginStatus.AlreadyLoggedIn; // No need to login
 	}
 	
 	public static void requestToken(String username, String password) throws RestCommunicationException { //TODO RETURN ENUM?!

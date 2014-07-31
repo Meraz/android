@@ -38,11 +38,11 @@ public class ServiceUpdateData extends MyService {
 			Intent intent = prepareDefaultIntent(mStartBroadcast);
 			mService.mySendBroadcast(intent);
 
-			boolean loginRequired = Processes.checkIfLoginIsNeeded();
+			//boolean loginRequired = Processes.checkIfLoginIsNeeded();
 		
 			// Send stop broadcast
 			intent = prepareDefaultIntent(mStopBroadcast);
-			intent.putExtra("loginRequired", loginRequired);
+	//		intent.putExtra("loginRequired", loginRequired);
 			mService.mySendBroadcast(intent);				
 			
 			informStop();

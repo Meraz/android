@@ -35,7 +35,6 @@ public class ServiceRequestToken extends MyService {
 			informStart();
 			// Send start broadcast
 			Intent intent = prepareDefaultIntent(mStartBroadcast);
-			intent.putExtra("id", 42);	// TODO hardcoded
 			mService.mySendBroadcast(intent);
 
 			String username = mIntent.getStringExtra("username");
@@ -45,7 +44,6 @@ public class ServiceRequestToken extends MyService {
 			} catch (RestCommunicationException e) {
 				// Send stop broadcast
 				intent = prepareDefaultIntent(mStopBroadcast);
-				intent.putExtra("id", 42);	// TODO hardcoded because this is done on a overidden function in a button so the activity cannot access. Might redesign this
 				intent.putExtra("errorMessageShort", e.getMessage());
 				intent.putExtra("success", false);
 				mService.mySendBroadcast(intent);				
@@ -56,7 +54,6 @@ public class ServiceRequestToken extends MyService {
 					
 			// Send stop broadcast
 			intent = prepareDefaultIntent(mStopBroadcast);
-			intent.putExtra("id", 42);// TODO hardcoded
 			intent.putExtra("success", true);
 			mService.mySendBroadcast(intent);			
 			
