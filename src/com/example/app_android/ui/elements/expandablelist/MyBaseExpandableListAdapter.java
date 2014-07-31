@@ -26,14 +26,14 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
     //protected boolean mFirstGroupCanBeClosed = true; // Future functionality
     protected boolean mUseHtmlTextInTextFields = false;
     protected int mLastExpandedGroup;
-    ButtonCallback mButtonCallback;
+    IButtonCallback mButtonCallback;
     
     public MyBaseExpandableListAdapter(Context context, ArrayList<BaseExpandableListGroup> groups) {
     	mContext = context;
     	mGroups = groups;
     }
     
-    public void setButtonCallBack(ButtonCallback buttonCallback) {
+    public void setButtonCallBack(IButtonCallback buttonCallback) {
     	mButtonCallback = buttonCallback;
     }
     

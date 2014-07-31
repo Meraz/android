@@ -2,36 +2,22 @@ package com.example.app_android.ui.newstudent;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.widget.ExpandableListView;
+
 
 import com.example.app_android.R;
 import com.example.app_android.ui.elements.expandablelist.BaseExpandableListGroup;
-import com.example.app_android.ui.elements.expandablelist.ButtonCallback;
+import com.example.app_android.ui.elements.expandablelist.IButtonCallback;
 import com.example.app_android.ui.elements.expandablelist.MyBaseExpandableListAdapter;
 import com.example.app_android.util.Logger;
 
-public class ActivityResidence extends Activity implements ButtonCallback {
-	
-	private static final String TAG = "Newstudent menu";
+public class ActivityResidence extends BaseNewStudentActivity implements IButtonCallback {
 
-	private MyBaseExpandableListAdapter mExpandableListAdapter;
-	private ArrayList<BaseExpandableListGroup> mExpandableListItems;
-	private ExpandableListView mExpandableList;
-	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()a");
     	super.onCreate(savedInstanceState);
-        
-    	// Sets the content specified in the file in res/layout
-        // This also specifies which fragment to active
-        setContentView(R.layout.activity_studentportal);  
-        
-		mExpandableList = (ExpandableListView) findViewById(R.id.ExpandableList);
-		mExpandableListItems = SetStandardGroups();
+
 		mExpandableListAdapter = new MyBaseExpandableListAdapter(this, mExpandableListItems);
 		mExpandableListAdapter.setAdapter(mExpandableList);
 		mExpandableListAdapter.openSpecificGroups(new int[]{0}); 	// Open first
@@ -55,47 +41,9 @@ public class ActivityResidence extends Activity implements ButtonCallback {
     	for(int i = 0; i < header.length; i++) {
     		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(header[i], text[i], null);
     		finalList.add(group);
-    	}
-    	
+    	}    	
     	return finalList;
     }
-
-    @Override
-	protected void onDestroy() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
-    	
-		super.onDestroy();
-	}
-
-	@Override
-	protected void onPause() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
-		super.onPause();
-	}
-
-	@Override
-	protected void onRestart() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
-		super.onRestart();
-	}
-
-	@Override
-	protected void onResume() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
-		super.onResume();
-	}
-
-	@Override
-	protected void onStart() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
-		super.onStart();
-	}
-
-	@Override
-	protected void onStop() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
-		super.onStop();
-	}
 
 	@Override
 	public void onButtonClick(int id) {

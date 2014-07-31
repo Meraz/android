@@ -4,43 +4,18 @@ import java.util.ArrayList;
 
 import com.example.app_android.R;
 import com.example.app_android.ui.elements.expandablelist.BaseExpandableListGroup;
-import com.example.app_android.ui.elements.expandablelist.ButtonCallback;
+import com.example.app_android.ui.elements.expandablelist.IButtonCallback;
 import com.example.app_android.ui.elements.expandablelist.MyBaseExpandableListAdapter;
 import com.example.app_android.util.Logger;
-
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.ExpandableListView;
-import android.widget.LinearLayout;
 
-public class ActivityChecklist extends Activity implements ButtonCallback{
+public class ActivityChecklist extends BaseNewStudentActivity implements IButtonCallback{
 	
-	private static final String TAG = "Newstudent menu";
-	private MyBaseExpandableListAdapter mExpandableListAdapter;
-	private ArrayList<BaseExpandableListGroup> mExpandableListItems;
-	private ExpandableListView mExpandableList;
-	
-	public interface ExpandableListCallBack{
-		public void onChildClick();
-	}
-	
-    @Override
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()a");
         super.onCreate(savedInstanceState);
-        
-        setContentView(R.layout.activity_studentportal); 
-        
-		mExpandableList = (ExpandableListView) findViewById(R.id.ExpandableList);
-		mExpandableListItems = SetStandardGroups();
+             
 		mExpandableListAdapter = new MyBaseExpandableListAdapter(this, mExpandableListItems);
 		mExpandableListAdapter.setAdapter(mExpandableList);
 		mExpandableListAdapter.openSpecificGroups(new int[]{0}); 	// Open first
@@ -68,44 +43,7 @@ public class ActivityChecklist extends Activity implements ButtonCallback{
     	
     	return finalList;
     }
-
-
-    @Override
-	protected void onDestroy() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
-		super.onDestroy();
-	}
-
-	@Override
-	protected void onPause() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
-		super.onPause();
-	}
-
-	@Override
-	protected void onRestart() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
-		super.onRestart();
-	}
-
-	@Override
-	protected void onResume() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
-		super.onResume();
-	}
-
-	@Override
-	protected void onStart() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
-		super.onStart();
-	}
-
-	@Override
-	protected void onStop() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
-		super.onStop();
-	}
-
+    
 	@Override
 	public void onButtonClick(int id) {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onButtonClick()");
