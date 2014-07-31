@@ -146,7 +146,7 @@ public class ActivityCourses extends Activity {
     		break;
     	case R.id.courses_menu_empty_schedule:
     		int deletedRowsCount = deleteAllScheduleEvents();
-    		Toast.makeText(getApplicationContext(), "Removed " + deletedRowsCount + " from calendar"  , Toast.LENGTH_SHORT).show();
+    		Toast.makeText(getApplicationContext(), "Removed " + deletedRowsCount + " events from calendar"  , Toast.LENGTH_SHORT).show();
     		break;
     	}
         return super.onOptionsItemSelected(item);
