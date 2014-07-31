@@ -130,14 +130,15 @@ public class TokenTable extends BaseTable implements ITokenTable{
 	// Inherited from ITokenTable
 	// Returns current transactionFlag on the token. There can only be one
 	@Override
-	public int getTransactionFlag(){
+	public TransactionFlag getTransactionFlag(){
 		SQLiteDatabase db = mHelper.getReadableDatabase();
 		
 	    Cursor cursor = db.rawQuery(RETRIEVE_TRANSACTION_FLAG, null);
 	    TransactionFlag transactionFlag = TransactionFlag.Unknown;
 	    
 	    if (cursor.moveToFirst()) {
-	    	transactionFlag = cursor.getInt(0); // Database SHOULD only hold one. If there's ever more than one entry, somethings wrong. Should add check for this...
+	    	// Database SHOULD only hold one. If there's ever more than one entry, somethings wrong. Should add check for this...
+	    	transactionFlag = TransactionFlag.values()[cursor.getInt(0)]; 
 	    }
 	    db.close();
 	    return transactionFlag;
@@ -147,11 +148,11 @@ public class TokenTable extends BaseTable implements ITokenTable{
 	public void PrintEntireToken() {
 		String token_value = getTokenValue();
 		long expiredate = getExpireDate();
-		int transactionFlag = getTransactionFlag();
+		TransactionFlag transactionFlag = getTransactionFlag();
 		
 		System.out.println("token_value: "+token_value);
 		System.out.println("expiredate: "+expiredate);
-		System.out.println("transactionFlag: "+transactionFlag);
+		System.out.println("transactionFlag: "+transactionFlag.toString());
 		
 	}
 }

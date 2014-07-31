@@ -26,7 +26,7 @@ public interface ITokenTable {
 	// TODO Should return fail/success
 	
 	// Returns current transactionFlag on the token. There can only be one
-	public int getTransactionFlag();	
+	public TransactionFlag getTransactionFlag();	
 	
 	public void PrintEntireToken();
 }
