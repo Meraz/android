@@ -9,6 +9,7 @@ import com.example.app_android.ui.newstudent.ActivityCourseMaterial;
 import com.example.app_android.ui.newstudent.ActivityStudentPortal;
 import com.example.app_android.ui.newstudent.ActivityStudentCentre;
 import com.example.app_android.ui.newstudent.ActivityResidence;
+import com.example.app_android.ui.newstudent.ActivityStudentUnion;
 import com.example.app_android.util.Logger;
 
 import android.app.Activity;
