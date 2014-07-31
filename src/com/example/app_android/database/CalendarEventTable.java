@@ -35,10 +35,6 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 	
 	public CalendarEventTable(SQLiteOpenHelper SQLiteOpenHelper) {
 		super(SQLiteOpenHelper);
-		System.out.println(LOCAL_CREATE_TABLE);
-		SQL_CREATE_TABLE = LOCAL_CREATE_TABLE;
-		SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
-		SQL_DEFAULT_VALUES = "";
 	}
 
 	@Override
