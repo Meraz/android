@@ -11,13 +11,13 @@ public class MyBroadCastReceiver extends BroadcastReceiver {
 	public interface Receiver {
 
 		// Returns the same id as ServiceHelper
-		public void onServiceStart(Intent intent);	
+		public void onWorkerStart(Intent intent);	
 		
 		// 
-		public void onServiceUpdate(Intent intent);
+		public void onWorkerUpdate(Intent intent);
 		
 		// 
-		public void onServiceStop(Intent intent);
+		public void onWorkerStop(Intent intent);
 	}
 
 	private static final String TAG = "MyResultReceiver";
@@ -84,13 +84,13 @@ public class MyBroadCastReceiver extends BroadcastReceiver {
 			String action = intent.getAction();
 			
 			if(action.equalsIgnoreCase(mStopBroadCast)) {
-				mReceiver.onServiceStop(intent);
+				mReceiver.onWorkerStop(intent);
 			}			
 			else if(action.equalsIgnoreCase(mUpdateBroadCast)) {
-				mReceiver.onServiceUpdate(intent);
+				mReceiver.onWorkerUpdate(intent);
 			}			
 			else if(action.equalsIgnoreCase(mStartBroadCast)) {
-				mReceiver.onServiceStart(intent);
+				mReceiver.onWorkerStart(intent);
 			}
 		}
 	}

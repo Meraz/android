@@ -96,14 +96,14 @@ public class TokenTable extends BaseTable implements ITokenTable{
 	// Updates token with new tokenvalue, expiredate and sets the new transaction_flag.
 	// returns the row ID of the last row inserted, if this insert is successful. -1 otherwise.
 	@Override
-	public int updateToken(String tokenValue, long expireDate, int transaction_flag) {
+	public int updateToken(String tokenValue, long expireDate, TransactionFlag transaction_flag) {
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
 
 		ContentValues values = new ContentValues();
 		values.put(COLUMN_TOKEN, tokenValue);
 		values.put(COLUMN_EXPIREDATE, expireDate);
-		values.put(COLUMN_TRANSACTION_FLAG, transaction_flag);
+		values.put(COLUMN_TRANSACTION_FLAG, transaction_flag.ordinal());
 		int result = db.update(TABLE_NAME, values, null, null);
 
 		db.setTransactionSuccessful();
@@ -114,12 +114,12 @@ public class TokenTable extends BaseTable implements ITokenTable{
 	
 	// Inherited from ITokenTable
 	@Override
-	public void updateTransactionFlag(int transaction_flag) {
+	public void updateTransactionFlag(TransactionFlag transaction_flag) {
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
 
 		ContentValues values = new ContentValues();
-		values.put(COLUMN_TRANSACTION_FLAG, transaction_flag);
+		values.put(COLUMN_TRANSACTION_FLAG, transaction_flag.ordinal());
 	    db.update(TABLE_NAME, values, null, null);
 
 		db.setTransactionSuccessful();
