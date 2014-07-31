@@ -31,7 +31,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -42,7 +41,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -205,6 +203,13 @@ public class ActivityCourses extends Activity {
 		Logger.VerboseLog(TAG, "Checked or Unchecked");
 	}
 	
+	private int deleteAllScheduleEvents() {
+ 		int rowsDeletedCount = getContentResolver().delete(CalendarContract.Events.CONTENT_URI,
+ 				Events.DESCRIPTION + " LIKE ? ", new String[] {"%" + CALENDAR_EVENT_TAG +"%"});
+ 		
+ 		return rowsDeletedCount;
+	}
+	
 	@SuppressWarnings("unchecked") //Should be safe to ignore this warning. It complains about not knowing the type of arraylist being sent in exportTask.execute(requests)
 	@SuppressLint("SimpleDateFormat")
 	private void exportSchedule() {
@@ -229,13 +234,6 @@ public class ActivityCourses extends Activity {
 		}
 		else
 			Toast.makeText(getApplicationContext(), "Missing internet connection", Toast.LENGTH_SHORT).show();
-	}
-	
-	private int deleteAllScheduleEvents() {
- 		int rowsDeletedCount = getContentResolver().delete(CalendarContract.Events.CONTENT_URI,
- 				Events.DESCRIPTION + " LIKE ? ", new String[] {"%" + CALENDAR_EVENT_TAG +"%"});
- 		
- 		return rowsDeletedCount;
 	}
 
 	 private class ExportResult {
@@ -268,8 +266,8 @@ public class ActivityCourses extends Activity {
 						//Sort out the lectures from the oldCalendarEvents that are for other courses
 						ArrayList<String[]> oldLectureList = getLecturesForCourse(newLectureList.get(0)[2], oldCalendarEvents); //The first parameter gets the course name for the relevant course from the first entry in the event list fetched from timeedit
 						//Remove the events that has already been put into the calendar. Also remove any event that is present in the old event list but not the new one
-						//exportResult.upToDateCount += removeDuplicateEvents(newLectureList, oldLectureList);
-						//exportResult.deletedCount += removeOutdatedEvents(oldLectureList);
+						exportResult.upToDateCount += removeDuplicateEvents(newLectureList, oldLectureList);
+						exportResult.deletedCount += removeOutdatedEvents(oldLectureList);
 						if(!newLectureList.isEmpty()) {
 							//Export all events for a given course
 							try {
