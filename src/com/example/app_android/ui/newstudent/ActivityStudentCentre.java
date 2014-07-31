@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.example.app_android.R;
 import com.example.app_android.ui.elements.expandablelist.BaseExpandableListGroup;
+import com.example.app_android.ui.elements.expandablelist.ButtonCallback;
 import com.example.app_android.ui.elements.expandablelist.MyBaseExpandableListAdapter;
 import com.example.app_android.util.Logger;
 
@@ -11,9 +12,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ExpandableListView;
 
-public class ActivityStudentCentre extends Activity {
+public class ActivityStudentCentre extends Activity implements ButtonCallback {
 	
-	private static final String TAG = "ActivityStudentPortal";
+	private static final String TAG = "Newstudent menu";
 	private MyBaseExpandableListAdapter mExpandableListAdapter;
 	private ArrayList<BaseExpandableListGroup> mExpandableListItems;
 	private ExpandableListView mExpandableList;
@@ -33,10 +34,10 @@ public class ActivityStudentCentre extends Activity {
 		mExpandableListItems = SetStandardGroups();
 		mExpandableListAdapter = new MyBaseExpandableListAdapter(this, mExpandableListItems);
 		mExpandableListAdapter.setAdapter(mExpandableList);
-		mExpandableListAdapter.openAllGroups();
-		mExpandableListAdapter.openSpecificGroups(new int[]{0}); // Open first
-		mExpandableListAdapter.setOnlyOneOpenBehavior(true);	// only one group can be opened at the time
+		mExpandableListAdapter.openSpecificGroups(new int[]{0}); 	// Open first
+		mExpandableListAdapter.setOnlyOneOpenBehavior(true);		// only one group can be opened at the time
 		mExpandableListAdapter.setUseHtmlFormattingOnText(true);	// name says it all
+		mExpandableListAdapter.setButtonCallBack(this);
     }        
         
     public ArrayList<BaseExpandableListGroup> SetStandardGroups() { // TODO engrish / swedrish
@@ -60,37 +61,7 @@ public class ActivityStudentCentre extends Activity {
     	"<br><br> https://studentportal.bth.se/web/studentportal.nsf/web.xsp/studentcentrum";
     	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
     	finalList.add(group);
-    	
-    	groupText = "Frågor om registreringar på kurs eller program";	    	
-    	childText = "TEXT";
-		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
-		finalList.add(group);
-		
-    	groupText = "BTH-kortet";	    	
-    	childText = "TEXT";
-		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
-		finalList.add(group);
-		
-    	groupText = "BTH-kortet";	    	
-    	childText = "TEXT";
-		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
-		finalList.add(group);
-		
-    	groupText = "Studentkonto";	    	
-    	childText = "TEXT";
-		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
-		finalList.add(group);
-		
-    	groupText = "Parkeringstillstånd";	    	
-    	childText = "TEXT";
-		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
-		finalList.add(group);
-		
-    	groupText = "Utlämning av skriftlig och digital tentamen";	    	
-    	childText = "TEXT";
-		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
-		finalList.add(group);
-	
+  	
 		return finalList;
     }
 
@@ -128,5 +99,10 @@ public class ActivityStudentCentre extends Activity {
 	protected void onStop() {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
 		super.onStop();
-	}     
+	}    
+	
+	@Override
+	public void onButtonClick(int id) {
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onButtonClick()");		
+	} 	
 }

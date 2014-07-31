@@ -52,13 +52,15 @@
          <activity android:name="com.example.app_android.ui.ActivityDetailedCourse"></activity>
          <activity android:name="com.example.app_android.ui.ActivityStudentUnion"></activity>
          
-         <!-- NewStudent UI views -->   
-         <activity android:name="com.example.app_android.ui.newstudent.ActivityStudentPortal"></activity>
-         <activity android:name="com.example.app_android.ui.newstudent.ActivityCourseMaterial"></activity>
-         <activity android:name="com.example.app_android.ui.newstudent.ActivityBTHInfo"></activity>
-         <activity android:name="com.example.app_android.ui.newstudent.ActivityStudentCentre"></activity>
-         <activity android:name="com.example.app_android.ui.newstudent.ActivityResidence"></activity>
-       	 <activity android:name="com.example.app_android.ui.newstudent.ActivityChecklist"></activity>
+		<!-- NewStudent UI views -->   
+		<activity android:name="com.example.app_android.ui.newstudent.ActivityChecklist"></activity>
+		<activity android:name="com.example.app_android.ui.newstudent.ActivityResidence"></activity>
+		<activity android:name="com.example.app_android.ui.newstudent.ActivityStudentPortal"></activity>
+		<activity android:name="com.example.app_android.ui.newstudent.ActivityStudentCentre"></activity>
+		<activity android:name="com.example.app_android.ui.newstudent.ActivityCourseMaterial"></activity>
+
+
+       	 ActivityCourseMaterial
          
          <service android:name="com.example.app_android.ServiceSchemaUpdate" /> 
          <service android:enabled="true" android:name="com.example.app_android.services.ServiceRequestToken" />

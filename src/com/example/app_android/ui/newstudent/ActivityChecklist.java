@@ -11,6 +11,7 @@ import com.example.app_android.util.Logger;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,7 +23,7 @@ import android.widget.LinearLayout;
 
 public class ActivityChecklist extends Activity implements ButtonCallback{
 	
-	private static final String TAG = "ActivityInformationBTH";
+	private static final String TAG = "Newstudent menu";
 	private MyBaseExpandableListAdapter mExpandableListAdapter;
 	private ArrayList<BaseExpandableListGroup> mExpandableListItems;
 	private ExpandableListView mExpandableList;
@@ -53,31 +54,17 @@ public class ActivityChecklist extends Activity implements ButtonCallback{
     	// Return list of groups
     	ArrayList<BaseExpandableListGroup> finalList = new ArrayList<BaseExpandableListGroup>();
     	
-    	// Temporary list of groups
+    	// Temporary group
     	BaseExpandableListGroup group;
 
-    	// TODO REMOVE HARDCODE
-    	String groupText = "Vad behöver jag göra som ny student?";	    	
-    	String childText = "Registrera dig på ditt program. www.studentportal.bth.se <br> <br> Ansök om CSN www.csn.se <br> <br> Bli medlem i studentkåren www.bthstudent.se";
-    	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
-    	finalList.add(group);
+    	Resources res = getResources();
+    	String[] header = res.getStringArray(R.array.new_student_menu_checklist_header);
+    	String[] text = res.getStringArray(R.array.new_student_menu_checklist_text);
     	
-    	groupText = "Registrera dig";
-    	childText = "Du kan registrera dig på ditt program eller kurs på studentportalen 2* veckor innan studierna börjar. Detta kan du göra efter du loggat in på www.studentportalen.bth.se under Registrering i menyn till vänster. Går även att göra i appen här [LINK].";
-    	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
-    	finalList.add(group);
-    	
-    	groupText = "Sök studiemedel";
-    	childText = "Varje student söker studiemedel individuellt och allt detta sker via CSN www.csn.se";
-    	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
-    	finalList.add(group);
-    	
-    	groupText = "Bli medlem i studentkåren!";
-    	childText = "Här skall finnas en kort förklarande text om varför man bör bli medlem i studentkåren.";
-    
-    	
-    	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null, 1);
-    	finalList.add(group);  	
+    	for(int i = 0; i < header.length; i++) {
+    		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(header[i], text[i], null);
+    		finalList.add(group);
+    	}
     	
     	return finalList;
     }
@@ -121,7 +108,6 @@ public class ActivityChecklist extends Activity implements ButtonCallback{
 
 	@Override
 	public void onButtonClick(int id) {
-
-		System.out.println("This is button ya id=" + id);
+    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onButtonClick()");
 	}     
 }

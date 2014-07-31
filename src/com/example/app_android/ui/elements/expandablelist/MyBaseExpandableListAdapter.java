@@ -179,7 +179,7 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
 			button.setVisibility(Button.VISIBLE);        	
         }
         else {
-        	button.setVisibility(Button.INVISIBLE);
+        	button.setVisibility(Button.GONE);
         }
 
         return view;

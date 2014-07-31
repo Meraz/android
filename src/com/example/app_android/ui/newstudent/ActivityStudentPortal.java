@@ -4,17 +4,19 @@ import java.util.ArrayList;
 
 import com.example.app_android.R;
 import com.example.app_android.ui.elements.expandablelist.BaseExpandableListGroup;
+import com.example.app_android.ui.elements.expandablelist.ButtonCallback;
 import com.example.app_android.ui.elements.expandablelist.MyBaseExpandableListAdapter;
 import com.example.app_android.util.Logger;
 
 import android.app.Activity;
+import android.content.res.Resources;
 
 import android.os.Bundle;
 import android.widget.ExpandableListView;
 
-public class ActivityStudentPortal extends Activity {
+public class ActivityStudentPortal extends Activity implements ButtonCallback {
 	
-	private static final String TAG = "ActivityStudentPortal";
+	private static final String TAG = "Newstudent menu";
 	private MyBaseExpandableListAdapter mExpandableListAdapter;
 	private ArrayList<BaseExpandableListGroup> mExpandableListItems;
 	private ExpandableListView mExpandableList;
@@ -34,29 +36,29 @@ public class ActivityStudentPortal extends Activity {
 		mExpandableListItems = SetStandardGroups();
 		mExpandableListAdapter = new MyBaseExpandableListAdapter(this, mExpandableListItems);
 		mExpandableListAdapter.setAdapter(mExpandableList);
-		mExpandableListAdapter.openAllGroups();
-		mExpandableListAdapter.openSpecificGroups(new int[]{0}); // Open first
-		mExpandableListAdapter.setOnlyOneOpenBehavior(true);	// only one group can be opened at the time
+		mExpandableListAdapter.openSpecificGroups(new int[]{0}); 	// Open first
+		mExpandableListAdapter.setOnlyOneOpenBehavior(true);		// only one group can be opened at the time
 		mExpandableListAdapter.setUseHtmlFormattingOnText(true);	// name says it all
+		mExpandableListAdapter.setButtonCallBack(this);
     }    
     
     
     public ArrayList<BaseExpandableListGroup> SetStandardGroups() { // TODO engrish / swedrish
-    	
+
     	// Return list of groups
     	ArrayList<BaseExpandableListGroup> finalList = new ArrayList<BaseExpandableListGroup>();
     	
-    	// Temporary list of groups
+    	// Temporary group
     	BaseExpandableListGroup group;
 
-    	// TODO REMOVE HARDCODE
-    	String groupText = "Allmän information om studentportalen";	    	
-    	String childText = "Genom studentportalen kan man registrera sig till kurser, tentor och göra registerutskrifter från ladok som visar vilka genomförda kruser man har studeras samt vilket betyg man fått i dessa."+
-    	"<br> För mer information besök studenportalens hemsida via länken nedan"+
-    			"<br> www.studentportalen.bth.se" + 
-    			"<br><br>HERE BE BUTTON THAT TAKES YOU TO THE INTERGALACTICAL IN-HOUSE IN-APP VERSION OF THE STUDENTPORTAL";
-    	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
-    	finalList.add(group);
+    	Resources res = getResources();
+    	String[] header = res.getStringArray(R.array.new_student_menu_studentportal_header);
+    	String[] text = res.getStringArray(R.array.new_student_menu_studentportal_text);
+    	
+    	for(int i = 0; i < header.length; i++) {
+    		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(header[i], text[i], null);
+    		finalList.add(group);
+    	}
     	
     	return finalList;
     }
@@ -96,4 +98,9 @@ public class ActivityStudentPortal extends Activity {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
 		super.onStop();
 	}     
+	
+	@Override
+	public void onButtonClick(int id) {
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onButtonClick()");		
+	} 	
 }

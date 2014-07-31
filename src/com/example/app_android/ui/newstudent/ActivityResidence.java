@@ -3,17 +3,19 @@ package com.example.app_android.ui.newstudent;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.ExpandableListView;
 
 import com.example.app_android.R;
 import com.example.app_android.ui.elements.expandablelist.BaseExpandableListGroup;
+import com.example.app_android.ui.elements.expandablelist.ButtonCallback;
 import com.example.app_android.ui.elements.expandablelist.MyBaseExpandableListAdapter;
 import com.example.app_android.util.Logger;
 
-public class ActivityResidence extends Activity {
+public class ActivityResidence extends Activity implements ButtonCallback {
 	
-	private static final String TAG = "ActivityResidence";
+	private static final String TAG = "Newstudent menu";
 
 	private MyBaseExpandableListAdapter mExpandableListAdapter;
 	private ArrayList<BaseExpandableListGroup> mExpandableListItems;
@@ -26,15 +28,16 @@ public class ActivityResidence extends Activity {
         
     	// Sets the content specified in the file in res/layout
         // This also specifies which fragment to active
-        setContentView(R.layout.activity_residence);  
+        setContentView(R.layout.activity_studentportal);  
         
 		mExpandableList = (ExpandableListView) findViewById(R.id.ExpandableList);
 		mExpandableListItems = SetStandardGroups();
 		mExpandableListAdapter = new MyBaseExpandableListAdapter(this, mExpandableListItems);
 		mExpandableListAdapter.setAdapter(mExpandableList);
-		mExpandableListAdapter.openSpecificGroups(new int[]{0}); // Open first
-		mExpandableListAdapter.setOnlyOneOpenBehavior(true);	// only one group can be opened at the time
+		mExpandableListAdapter.openSpecificGroups(new int[]{0}); 	// Open first
+		mExpandableListAdapter.setOnlyOneOpenBehavior(true);		// only one group can be opened at the time
 		mExpandableListAdapter.setUseHtmlFormattingOnText(true);	// name says it all
+		mExpandableListAdapter.setButtonCallBack(this);
     }
     
     public ArrayList<BaseExpandableListGroup> SetStandardGroups() { // TODO engrish / swedrish
@@ -42,35 +45,18 @@ public class ActivityResidence extends Activity {
     	// Return list of groups
     	ArrayList<BaseExpandableListGroup> finalList = new ArrayList<BaseExpandableListGroup>();
     	
-    	// Temporary list of groups
+    	// Temporary group
     	BaseExpandableListGroup group;
 
-	
-    	String groupText = "Allmänt";	    	
-    	String childText = "[Hardcoded] De flesta studenterna bor i närheten av skolan i områdena Galgamarken och Annebo. Skolan ligger enbart några hundra meter från områdena och med god tillgång till kollektivtrafiken.";
-    	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
-    	finalList.add(group);
+    	Resources res = getResources();
+    	String[] header = res.getStringArray(R.array.new_student_menu_residence_header);
+    	String[] text = res.getStringArray(R.array.new_student_menu_residence_text);
     	
+    	for(int i = 0; i < header.length; i++) {
+    		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(header[i], text[i], null);
+    		finalList.add(group);
+    	}
     	
-    	groupText = "Karlskronahem AB";	    	
-    	childText = "[Hardcoded] Karlskromahem är Karlskronas största bostadsbolag och hyr ut både vanliga lägenheter och studentlägenheter."
-    			+"<br> http://www.karlskronahem.se/";
-    	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
-    	finalList.add(group);
-    	
-    	
-    	groupText = "Heimstaden/Gallionen";	    	
-    	childText = "[Hardcoded] Karlskrona är  uppbyggt på öar i den vackra blekingska skärgården, det är  alltid nära till hav" +
-				" och avkoppling, och det är lätt att hitta Dig ett alldeles eget 'smultronställe'" +
-				" längs havskanten. Här äger vi bl a vackra, äldre lägenheter med högt i tak och stuckaturer" +
-				" men även mer moderna områden. Vår stolthet har Karlskronas bästa bostadsläge på sjötomt där " +
-				"Du även kan hyra båtplats av oss!" +
-    			"<br> http://www.heimstaden.com/";
-    	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
-    	finalList.add(group);
-    	
-    	// Done
-    	// Return final list
     	return finalList;
     }
 
@@ -111,8 +97,8 @@ public class ActivityResidence extends Activity {
 		super.onStop();
 	}
 
-	public void aFunction()
-	{
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered aFunction()");
-	}
+	@Override
+	public void onButtonClick(int id) {
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onButtonClick()");		
+	} 	
 }
