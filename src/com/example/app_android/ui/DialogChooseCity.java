@@ -1,6 +1,5 @@
 package com.example.app_android.ui;
 
-import com.example.app_android.Cache;
 import com.example.app_android.R;
 
 import android.app.AlertDialog;
@@ -21,7 +20,6 @@ public class DialogChooseCity extends DialogFragment {
 					@Override
 					public void onClick(DialogInterface dialog, int option) {
 						assert option <= 0 && option >= 2;
-						Cache.setDefaultMapLocation(option); //Cache it so we don't have to ask again
 						
 						//Start the map activity
 						Intent intent = new Intent(getActivity().getApplicationContext(), ActivityMap.class);
@@ -33,5 +31,5 @@ public class DialogChooseCity extends DialogFragment {
 				});
 		Dialog dialog = builder.create();
 		return dialog;
-	}	
+	}
 }

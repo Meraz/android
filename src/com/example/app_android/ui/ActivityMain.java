@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.example.app_android.Cache;
 import com.example.app_android.R;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.services.ServiceManager;
@@ -29,7 +28,6 @@ public class ActivityMain extends BaseActivity implements InterfaceActivityMain{
     protected void onCreate(Bundle savedInstanceState) {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
     	super.onCreate(savedInstanceState);
-    	Cache.initialize(getApplicationContext());
     	ServiceManager.initialize(getApplicationContext());
     	DatabaseManager.initialize(getApplicationContext());
     	
@@ -41,7 +39,6 @@ public class ActivityMain extends BaseActivity implements InterfaceActivityMain{
     @Override
 	protected void onDestroy() {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
-    	Cache.serializeToFile();
     	
 		super.onDestroy();
 	}
