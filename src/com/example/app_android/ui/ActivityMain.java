@@ -17,7 +17,6 @@ import com.example.app_android.ui.FragmentMain.InterfaceActivityMain;
 import com.example.app_android.util.Logger;
 
 public class ActivityMain extends BaseActivity implements InterfaceActivityMain{
-	private TextView test; 	// TODO
 	private static final String TAG = "Main";
 
 	/*
@@ -65,7 +64,6 @@ public class ActivityMain extends BaseActivity implements InterfaceActivityMain{
 	protected void onStart() {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
 		super.onStart();
-    	test = (TextView) findViewById(R.id.textView1);
 	}
 
 	@Override
