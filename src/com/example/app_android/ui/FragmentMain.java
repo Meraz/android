@@ -105,7 +105,7 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 		
     	// Get resources from stored string array
     	// This can be found in /res/values/strings.xml
-        mMainMenu = getResources().getStringArray(R.array.main_page_list);
+       // mMainMenu = getResources().getStringArray(R.array.main_page_list);
 
 		try {
 			//mListener = (InterfaceListSelectionListener) activity; // TODO

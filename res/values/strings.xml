@@ -45,7 +45,7 @@
   <string name="main_new_student_button">Ny Student</string>
   <string name="main_courses_and_schedule_button">Kurser och Scheman</string>
   <string name="main_map_button">Karta över Campus</string>
-  <string name="main_student_union">Blekinge Studentkår</string>
+  <string name="main_student_union_button">Blekinge Studentkår</string>
 
   <string-array name="new_student_menu" >
     <item >Att göra som ny student</item>

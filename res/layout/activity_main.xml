@@ -65,5 +65,55 @@
         android:layout_marginTop="50dp"
         android:src="@drawable/ic_launcher"
         android:onClick="onButtonClicked" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/coursesButton"
+        android:layout_alignRight="@+id/newStudentButton"
+        android:text="@string/main_new_student_button" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/studentUnionButton"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="29dp"
+        android:text="@string/main_map_button" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/coursesButton"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="18dp"
+        android:text="@string/main_courses_and_schedule_button" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/studentUnionButton"
+        android:layout_alignLeft="@+id/studentUnionButton"
+        android:text="@string/main_student_union_button" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imageButton5"
+        android:layout_alignLeft="@+id/textView1"
+        android:text="Logga in" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imageButton5"
+        android:layout_alignLeft="@+id/imageButton6"
+        android:text="Logga ut" />
     
 </RelativeLayout>
