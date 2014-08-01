@@ -27,8 +27,10 @@
   <string name="schedule_button_text">Visa schema</string>
   <string name="search_field_hint_courses">Kurskod</string>
   <string name="no_courses_added">Inga kurser är tillagda.\n Skriv in kurskoden och tryck på "Lägg till" för att lägga till en kurs.</string>
+
   <string name="empty_schedule">Töm schema</string>
-  
+
+
   <!--  Detailed Course View -->
   <string name="course_responsible">Kursansvarig</string>
   <string name="course_start">Start</string>
@@ -48,15 +50,85 @@
   </string-array>
 
   <string-array name="new_student_menu" >
-    <item >Checklista</item>
+    <item >Att göra som ny student</item>
     <item >Boende</item>
-    <item >Studenportalen</item>
+    <item >Studentportalen</item>
     <item >StudentCentrum</item>
-    <item >Studentkauren</item>
+    <item >Studentkåren</item>
     <item >Kursmaterial</item>
     <item >Kartor over campus</item>
-    <item >Information BTH</item>
   </string-array>
+
+  <string-array name="new_student_menu_checklist_header" >
+    <item >Fixa boende</item>
+    <item >Registrera dig på kurser och program</item>
+    <item >Registrera dig på CSN</item>
+    <item >Skaffa BTH-kort</item>
+    <item >Skaffa din kurslitteratur</item>
+    <item >Registrera dig hos studentkåren</item>
+  </string-array>
+  <string-array name="new_student_menu_checklist_text" >
+    <item >För att kunna genomföra dina studier på ett bra sätt behöver du ett boende med god tillgång till skolan. Se till att vara ute i god tid då de bästa lägenheterna försvinner snabbast.</item>
+    <item >Som student behöver du registrera dig till programmet du läser. Detta för att få full tillgång till scheman och uppgifter som publiceras men även för att kunna söka CSN.</item>
+    <item >För att få studiebidrag och lån behöver man söka studiemedel och lämna en studieförsäkran hos CSN som görs via deras hemsida.</item>
+    <item >behövs för att kunna komma in i vissa låsta salar, ex datorsalar, samt på skolan efter stängning. Kan även användas som studentlegitimation och kopplas till skrivarna för lättare inloggning vid utskrift. Då det används som legitimation kommer ni till att bli fotograferade vid framtagning av kortet. [KNAPP]</item>
+    <item >För att tidigt kunna hänga med i dina studier behöver man införskaffa den litteratur som krävs enligt kursplanen. Gör man detta i god tid så finns det många kronor att spara och mycket kunnande att läsa in. [KNAPP]</item>
+    <item >För att kunna vara med och kvalitetssäkra utbildningen och som student få hjälp vid tvister med högskolan behöver man vara medlem i studentkåren. Man har även genom organisationen en möjlighet att påverka beslutsfattare lokalt och nationellt, andra arbetsområden är studiesociala frågor från miljön på campus till aktiviteter utanför skolan. Besök BTHstudent.se för att läsa mer om det viktiga och roliga arbete som görs. [Knapp]</item>
+  </string-array>
+
+  <string-array name="new_student_menu_residence_header" >
+    <item >Boende</item>
+    <item >Karlskrona Hem</item>
+    <item >Krebo</item>
+    <item >HSB Sydost</item>
+    <item >Studentlya</item>
+  </string-array>
+  <string-array name="new_student_menu_residence_text" >
+    <item >De flesta studenterna bor i närheten av skolan i området Galgamarken och Annebo. Skolan ligger enbart några hundra meter från dessa områden och med god tillgång till kollektivtrafiken.</item>
+    <item >AB Karlskronahem är Karlskronas största bostadsbolag med fastigheter på ett flertal orter i kommunen. </item>
+    <item >Krebo har till största del riktat in sig på studentlägenheter där bostadsområdena ska ge trygghet, en känsla av tillhörighet och underlätta för god gemenskap.</item>
+    <item >Sveriges största bostadskooperation där medlemmarna äger och driver organisationen med principen ”en medlem – en röst”.</item>
+    <item >En förmedlingssajt åt studenter som söker bostad. Studentlya äger inte själv några bostäder utan är en mellanhand åt bostadsägare som vill hyra ut sin bostad till studenter. [KNAPP]</item>
+  </string-array>
+
+
+  <string-array name="new_student_menu_studentportal_header" >
+    <item >Studentportalen</item>
+  </string-array>
+  <string-array name="new_student_menu_studentportal_text" >
+    <item >Genom studentportalen kan man registrera sig till kurser, tentor och göra registerutskrifter från ladok som visar vilka genomförda kruser man har studeras samt vilket betyg man fått i dessa. För mer information besök studenportalens hemsida via länken nedan. www.studentportalen.bth.se </item>
+  </string-array>
+
+  <string-array name="new_student_menu_coursematerial_header" >
+    <item >Kurslitteratur</item>
+    <item >Bibliotek</item>
+    <item >Bokfynd</item>
+    <item >Adlibris</item>
+    <item >Bokus</item>
+    <item >CDON</item>
+  </string-array>
+  <string-array name="new_student_menu_coursematerial_text" >
+    <item >För studenten är kurslitteraturen något av det viktigaste, inte bara att ha rätt kurslitteratur men även att man ska ha kvar pengar att leva för när denna är inhandlad. Nedan hittar du några nyttiga länkar.</item>
+    <item >Bibliotek, om du är ute i god tid finns det stora möjligheter att låna sin kurslitteratur kostnadsfritt via biblioteket på skolan.</item>
+    <item >Bokfynd är en jämförelsesida som samlar kostnaden för hela ditt köp och meddelar var du får den billigast. www.bokfynd.nu</item>
+    <item >Adlibris.com vill leverera böcker från hela världen till Sverige, Finland och Norge. Sveriges största nätbokhandel.</item>
+    <item >Bokus.com bokhandeln som enligt sig själva alltid är vaken och har nyheterna samtidigt som de släpps.</item>
+    <item >CDON.se nordens största nätvaruhus med ständigt nya kampanjer och säkra snabba leveranser.</item>
+  </string-array>
+
+  <string-array name="new_student_menu_studentunion_header" >
+    <item >Studentkåren</item>
+    <item >BOSS</item>
+    <item >Mårfin(t)</item>
+    <item >BITS</item>
+  </string-array>
+  <string-array name="new_student_menu_studentunion_text" >
+    <item >Studentkårens huvudsyfte är att kvalitetssäkra utbildningen och hjälpa dig som är student vid tvister med högskolan. De arbetar även för att förbättra BTH-studenternas situation i samhället genom att påverka viktiga beslutsfattare, både lokalt och nationellt. Studentkåren är på det viset lite som en fackförening fast för studenter under studietiden. De arbetar dessutom med studiesociala frågor vilket innefattar allt från studiemiljön på campus till att det ska finnas något roligt att göra vid sidan av studierna. Ditt medlemskap gör det möjligt att driva dessa viktiga frågor och ser till att studenter som hamnar i kläm har någon stans att vända sig när de känner sig orättvist behandlade. Besök bthstudent.se för att läsa mer om Blekinge Studentkårs viktiga arbete. Medlemskap köper du snabbt och enkelt i vår webshop på shop.bthstudent.se </item>
+    <item >BOSS (Blekinge Organiserade SpelStudenter) är en utbildningsförening för spelstudenter i Karlskrona. Vi representerar alla studenter på programmen Technical Artist, Spelprogrammering och Civilingenjör i Spel- och Programvaruteknik. Som student kan du se oss lite som din fackförening. Vi har förutom en styrelse utvalda representanter i varje klass som du kan vända dig till om du vill föra fram något viktigt eller har förslag på hur saker och ting borde förändras.</item>
+    <item >Mårfin(t) grundades 1999 i samband med att dåvarande Blekinge Internationella Hälsohögskola gick ihop med den statliga Högskolan Karlskrona/Ronneby som sedan döptes om till Blekinge Tekniska Högskola. Studentkåren vid BIH bildade då Mårfin(t) för att försäkra sig om att SSK-studenterna skulle ha någonstans att vända sig till. Efter ett par års aktivitet så minskade engagemanget och aktiviteten i Mårfin(t) dog tyvärr ut. Något som inte gynnade studenterna vid HAL (Sektionen för Hälsa). Tidigt 2011 så började ett intresse för att återuppliva Mårfin(t) dyka upp. Sagt och gjort så började arbetet med att få liv i föreningen. En ny styrelse sattes i maj 2011 och sedan dess pågår ett kontinuerligt arbete med att förbätta förutsättningarna för en bra studietid på BTH. Mårfin(t)s huvudsakliga mål är att bedriva utbildningsbevakning och kunna vara ett stöd för de studenter som upplever att de har problem med vissa delar av sin utbildning. Vi bedriver även till viss del studiesociala evenemang främst riktade mot studenter från HAL.</item>
+    <item >Blekinge Ingenjörs Tekniska Studenter</item>
+  </string-array>
+
 
   <string-array name="cities_dialog" >
     <item >Campus Karlskrona</item>

@@ -2,42 +2,25 @@ package com.example.app_android.ui.newstudent;
 
 import java.util.ArrayList;
 
-import com.example.app_android.R;
 import com.example.app_android.ui.elements.expandablelist.BaseExpandableListGroup;
+import com.example.app_android.ui.elements.expandablelist.IButtonCallback;
 import com.example.app_android.ui.elements.expandablelist.MyBaseExpandableListAdapter;
-import com.example.app_android.ui.elements.expandablelist.MyResidenceExpandableListAdapter;
 import com.example.app_android.util.Logger;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.widget.ExpandableListView;
 
-public class ActivityStudentCentre extends Activity {
-	
-	private static final String TAG = "ActivityStudentPortal";
-	private MyBaseExpandableListAdapter mExpandableListAdapter;
-	private ArrayList<BaseExpandableListGroup> mExpandableListItems;
-	private ExpandableListView mExpandableList;
-	
-	public interface ExpandableListCallBack{
-		public void onChildClick();
-	}
-	
+public class ActivityStudentCentre extends BaseNewStudentActivity implements IButtonCallback {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()a");
         super.onCreate(savedInstanceState);
-        
-        setContentView(R.layout.activity_studentportal); 
-        
-		mExpandableList = (ExpandableListView) findViewById(R.id.ExpandableList);
-		mExpandableListItems = SetStandardGroups();
+
 		mExpandableListAdapter = new MyBaseExpandableListAdapter(this, mExpandableListItems);
 		mExpandableListAdapter.setAdapter(mExpandableList);
-		mExpandableListAdapter.openAllGroups();
-		mExpandableListAdapter.openSpecificGroups(new int[]{0}); // Open first
-		mExpandableListAdapter.setOnlyOneOpenBehavior(true);	// only one group can be opened at the time
+		mExpandableListAdapter.openSpecificGroups(new int[]{0}); 	// Open first
+		mExpandableListAdapter.setOnlyOneOpenBehavior(true);		// only one group can be opened at the time
 		mExpandableListAdapter.setUseHtmlFormattingOnText(true);	// name says it all
+		mExpandableListAdapter.setButtonCallBack(this);
     }        
         
     public ArrayList<BaseExpandableListGroup> SetStandardGroups() { // TODO engrish / swedrish
@@ -61,73 +44,11 @@ public class ActivityStudentCentre extends Activity {
     	"<br><br> https://studentportal.bth.se/web/studentportal.nsf/web.xsp/studentcentrum";
     	group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
     	finalList.add(group);
-    	
-    	groupText = "Frågor om registreringar på kurs eller program";	    	
-    	childText = "TEXT";
-		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
-		finalList.add(group);
-		
-    	groupText = "BTH-kortet";	    	
-    	childText = "TEXT";
-		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
-		finalList.add(group);
-		
-    	groupText = "BTH-kortet";	    	
-    	childText = "TEXT";
-		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
-		finalList.add(group);
-		
-    	groupText = "Studentkonto";	    	
-    	childText = "TEXT";
-		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
-		finalList.add(group);
-		
-    	groupText = "Parkeringstillstånd";	    	
-    	childText = "TEXT";
-		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
-		finalList.add(group);
-		
-    	groupText = "Utlämning av skriftlig och digital tentamen";	    	
-    	childText = "TEXT";
-		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null);
-		finalList.add(group);
-	
+  	
 		return finalList;
     }
-
-    @Override
-	protected void onDestroy() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
-		super.onDestroy();
-	}
-
 	@Override
-	protected void onPause() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
-		super.onPause();
-	}
-
-	@Override
-	protected void onRestart() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
-		super.onRestart();
-	}
-
-	@Override
-	protected void onResume() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
-		super.onResume();
-	}
-
-	@Override
-	protected void onStart() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
-		super.onStart();
-	}
-
-	@Override
-	protected void onStop() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
-		super.onStop();
-	}     
+	public void onButtonClick(int id) {
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onButtonClick()");		
+	} 	
 }

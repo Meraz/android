@@ -15,18 +15,24 @@ import com.example.app_android.util.MyBroadCastReceiver;
 
 public class LoginPrompt {
 	
-	private static final String TAG = "LoginPrompt";
-	
-	private int serviceId;
-	private Context mContext;
-	private MyBroadCastReceiver mBroadCastReceiver;
-
-	public LoginPrompt(Context context, MyBroadCastReceiver broadCastReceiver) {
-		mContext = context;
-		mBroadCastReceiver = broadCastReceiver;
+	public interface LoginPromptCallback {
+		public void onLoginButtonPressed(int workerID);
 	}
 	
-	public int attempLogin() {
+	private static final String TAG = "Login";
+
+	private Context mContext;
+	private MyBroadCastReceiver mBroadCastReceiver;
+	private LoginPromptCallback mCallback;
+	
+
+	public LoginPrompt(Context context, MyBroadCastReceiver broadCastReceiver, LoginPromptCallback callback) {
+		mContext = context;
+		mBroadCastReceiver = broadCastReceiver;
+		mCallback = callback;
+	}
+	
+	public void attempLogin() {
 		
 		LayoutInflater layoutInflater = LayoutInflater.from(mContext);				
 
@@ -47,12 +53,10 @@ public class LoginPrompt {
 			 Logger.VerboseLog(TAG, user_text);
 			 Logger.VerboseLog(TAG, user_password);
 			 
-			 serviceId = ServiceManager.getInstance().requestToken(mContext.getApplicationContext(), mBroadCastReceiver, user_text, user_password);
+			 int id = ServiceManager.getInstance().requestToken(mContext.getApplicationContext(), mBroadCastReceiver, user_text, user_password);
+			 mCallback.onLoginButtonPressed(id);
 		  }
-		});
-		
+		});		
 		alert.show();
-		return serviceId;
 	}
-
 }

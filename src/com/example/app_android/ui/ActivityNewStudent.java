@@ -1,17 +1,14 @@
 package com.example.app_android.ui;
 
 import com.example.app_android.R;
-import com.example.app_android.R.layout;
 import com.example.app_android.ui.FragmentNewStudent.NewStudentListener;
 import com.example.app_android.util.Logger;
 
-import android.app.Activity;
-
 import android.os.Bundle;
 
-public class ActivityNewStudent extends Activity implements NewStudentListener {
+public class ActivityNewStudent extends BaseActivity implements NewStudentListener {
 	
-	private static final String TAG = "ActivityNewStudent";
+	private static final String TAG = "MainMenu";
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {

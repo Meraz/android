@@ -1,6 +1,8 @@
 package com.example.app_android.ui.elements.expandablelist;
 	 
 import java.util.ArrayList;
+
+import android.widget.Button;
  
 public class BaseExpandableListGroup {
   
@@ -44,4 +46,15 @@ public class BaseExpandableListGroup {
 		group.appendItem(child);  										// Add child to the list
 		return group;
     }    
+    
+    public static BaseExpandableListGroup ConstructOneGroupWithOneChild(String groupName, String childText, String childtag, int buttonID){
+    	BaseExpandableListGroup group = new BaseExpandableListGroup();	// Create new group
+		group.setName(groupName);										// Set name on group
+		BaseExpandableListChild child = new BaseExpandableListChild();	// Create new child					
+		child.setName(childText);										// Set name on child
+		child.setTag(childtag);											// Set tag on the child
+		child.setButtonID(buttonID);									// Set button
+		group.appendItem(child);  										// Add child to the list		
+		return group;
+    }   
 }

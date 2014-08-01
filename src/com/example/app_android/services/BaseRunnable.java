@@ -1,21 +1,24 @@
 package com.example.app_android.services;
 
+import com.example.app_android.util.Logger;
+
 import android.content.Intent;
 
 public abstract class BaseRunnable implements Runnable  {
 	
 	protected static final String TAG = "Services";
+	protected String mClassName;
 
 	protected Intent mIntent;
-	protected MyService mService;
-	protected String mClassName;
+	protected BaseService mService;
+
 	protected int mBroadcastID;
 	
 	protected String mStartBroadcast;
 	protected String mUpdateBroadcast;
 	protected String mStopBroadcast;
 	
-	public BaseRunnable(MyService service, Intent intent) {
+	public BaseRunnable(BaseService service, Intent intent) {
     	mIntent = intent;	 
     	mService = service;
     	mClassName = getClass().getSimpleName();
@@ -27,21 +30,20 @@ public abstract class BaseRunnable implements Runnable  {
     }	
 	
 	// Add threadcount
-    protected void informServiceAboutThreadStart() {
-
-		Intent intent = new Intent(mService.mStartBroadCast);
-		intent.putExtra("id", mBroadcastID);
-		mService.mySendBroadcast(intent);
+    protected void informStart() {
+		Logger.VerboseLog(TAG, mClassName + "::entered informStart()");
+    	mService.informWorkerStart();
     }
 	
 	// Remove thread from service
-    protected void informServiceAboutThreadShutdown() {
-		Intent intent = new Intent(mService.mStopBroadCast);
-		intent.putExtra("id", mBroadcastID);
-		mService.mySendBroadcast(intent);
+    protected void informStop() {
+		Logger.VerboseLog(TAG, mClassName + "::entered informStop()");
+    	mService.informWorkerStop(mBroadcastID);
+
     }
     
     protected Intent prepareDefaultIntent(String broadCastString) {
+		Logger.VerboseLog(TAG, mClassName + "::entered prepareDefaultIntent()");
 		Intent intent = new Intent(broadCastString);
 		intent.putExtra("id", mBroadcastID);
 		return intent;

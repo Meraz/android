@@ -1,16 +1,15 @@
 package com.example.app_android.services;
 
 import com.example.app_android.rest.Processes;
-import com.example.app_android.rest.Processes.LoginStatus;
 import com.example.app_android.util.Logger;
 
 import android.content.Intent;
 
-public class ServiceCheckLoginRequired extends BaseService {
+public class ServiceUpdateData extends BaseService {
 	
 	@Override 
 	public void onCreate() {	
-		
+		// Do NOT put loggers here. This is done by superclass		
 		super.onCreate();
 	}
 	
@@ -39,26 +38,11 @@ public class ServiceCheckLoginRequired extends BaseService {
 			Intent intent = prepareDefaultIntent(mStartBroadcast);
 			mService.mySendBroadcast(intent);
 
-			LoginStatus loginStatus = Processes.checkIfLoginIsNeeded();
-			
-			boolean loginRequired = true;
-			String message = "";
-			if(loginStatus == LoginStatus.AlreadyLoggedIn) {
-				loginRequired = false;
-				message = "Already logged in";
-			}
-			else if(loginStatus == LoginStatus.Waiting) {
-				loginRequired = false;
-				message = "Already waiting on login notice";
-			}
-			else if(loginStatus == LoginStatus.LoginRequired) {
-				message = "You are clear to login!";
-			}
+			//boolean loginRequired = Processes.checkIfLoginIsNeeded();
 		
 			// Send stop broadcast
 			intent = prepareDefaultIntent(mStopBroadcast);
-			intent.putExtra("loginRequired", loginRequired);
-			intent.putExtra("message", message);
+	//		intent.putExtra("loginRequired", loginRequired);
 			mService.mySendBroadcast(intent);				
 			
 			informStop();

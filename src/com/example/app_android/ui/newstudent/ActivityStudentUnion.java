@@ -2,21 +2,21 @@ package com.example.app_android.ui.newstudent;
 
 import java.util.ArrayList;
 
-import android.content.res.Resources;
-import android.os.Bundle;
-
-
 import com.example.app_android.R;
 import com.example.app_android.ui.elements.expandablelist.BaseExpandableListGroup;
 import com.example.app_android.ui.elements.expandablelist.IButtonCallback;
 import com.example.app_android.ui.elements.expandablelist.MyBaseExpandableListAdapter;
 import com.example.app_android.util.Logger;
 
-public class ActivityResidence extends BaseNewStudentActivity implements IButtonCallback {
+import android.content.res.Resources;
+import android.os.Bundle;
 
+
+public class ActivityStudentUnion extends BaseNewStudentActivity implements IButtonCallback{
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
 
 		mExpandableListAdapter = new MyBaseExpandableListAdapter(this, mExpandableListItems);
 		mExpandableListAdapter.setAdapter(mExpandableList);
@@ -24,7 +24,7 @@ public class ActivityResidence extends BaseNewStudentActivity implements IButton
 		mExpandableListAdapter.setOnlyOneOpenBehavior(true);		// only one group can be opened at the time
 		mExpandableListAdapter.setUseHtmlFormattingOnText(true);	// name says it all
 		mExpandableListAdapter.setButtonCallBack(this);
-    }
+    }        
     
     public ArrayList<BaseExpandableListGroup> SetStandardGroups() { // TODO engrish / swedrish
     	
@@ -35,18 +35,20 @@ public class ActivityResidence extends BaseNewStudentActivity implements IButton
     	BaseExpandableListGroup group;
 
     	Resources res = getResources();
-    	String[] header = res.getStringArray(R.array.new_student_menu_residence_header);
-    	String[] text = res.getStringArray(R.array.new_student_menu_residence_text);
+    	String[] header = res.getStringArray(R.array.new_student_menu_studentunion_header);
+    	String[] text = res.getStringArray(R.array.new_student_menu_studentunion_text);
     	
     	for(int i = 0; i < header.length; i++) {
     		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(header[i], text[i], null);
     		finalList.add(group);
-    	}    	
+    	}
+    	
     	return finalList;
     }
 
 	@Override
 	public void onButtonClick(int id) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onButtonClick()");		
-	} 	
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onButtonClick()");
+		
+	}     
 }

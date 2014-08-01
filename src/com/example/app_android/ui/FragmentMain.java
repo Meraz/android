@@ -2,6 +2,7 @@ package com.example.app_android.ui;
 
 import com.example.app_android.R;
 import com.example.app_android.services.ServiceManager;
+import com.example.app_android.ui.LoginPrompt.LoginPromptCallback;
 import com.example.app_android.util.Logger;
 import com.example.app_android.util.MyBroadCastReceiver;
 import com.example.app_android.util.Utilities;
@@ -24,7 +25,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Receiver{
+public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Receiver, LoginPromptCallback{
 
 	private static final String TAG = "Mainmenu";
 	private static final String blekingeStudentUnionPackageName = "se.bthstudent.android.bsk";
@@ -223,7 +224,7 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 		
 		int id = intent.getIntExtra("id", -1);
 		
-		if(id == 42) {	// TODO hardcoded
+		if(id == mIDLoginService) {	// TODO hardcoded
 			Toast.makeText(getActivity(), "[TESTCODE] This should be replaced by a loading bar." , Toast.LENGTH_SHORT).show(); 
 		}    	
 	}
@@ -243,17 +244,18 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 		if(id == mIDCheckLoginService) {
 			boolean loginRequired = intent.getBooleanExtra("loginRequired", true);
 			if(loginRequired) {		
-				LoginPrompt loginPrompt = new LoginPrompt(getActivity(), mLoginReceiver);
-				mIDLoginService = loginPrompt.attempLogin();				
+				LoginPrompt loginPrompt = new LoginPrompt(getActivity(), mLoginReceiver, this);
+				loginPrompt.attempLogin();				
 			}
 			else{
-				Toast.makeText(getActivity(), "[TESTCODE] Du är redan inloggad!." , Toast.LENGTH_SHORT).show(); 
+				String message = intent.getStringExtra("message");
+				Toast.makeText(getActivity(), "[TESTCODE] " + message , Toast.LENGTH_SHORT).show(); 
 			}
 				
 			// Check with server
 			// Get server 
 		}		
-		else if(id == 42) { // TODO hardcoded
+		else if(id == mIDLoginService) { // TODO hardcoded
 			boolean success = intent.getBooleanExtra("success", true); // Always works if nothing else is said
 			if(success)
 				Toast.makeText(getActivity(), "[TESTCODE] Du är nu inloggad.." , Toast.LENGTH_SHORT).show(); 
@@ -262,5 +264,10 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 				Toast.makeText(getActivity(), "[TESTCODE] Failed inlog. " + errorMessageShort, Toast.LENGTH_SHORT).show(); 
 			}
 		}		
+	}
+	
+	@Override
+	public void onLoginButtonPressed(int workerID) {
+		mIDLoginService = workerID;
 	}	
 }

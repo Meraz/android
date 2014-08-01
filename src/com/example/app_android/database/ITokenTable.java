@@ -5,7 +5,8 @@ public interface ITokenTable {
 	enum TransactionFlag {
 		Success,
 		Pending,
-		Failed
+		Failed,
+		Unknown
 	}
 	
 	// There should only be possible to have one entry of a token at any given time.
@@ -25,7 +26,7 @@ public interface ITokenTable {
 	// TODO Should return fail/success
 	
 	// Returns current transactionFlag on the token. There can only be one
-	public int getTransactionFlag();	
+	public TransactionFlag getTransactionFlag();	
 	
 	public void PrintEntireToken();
 }
