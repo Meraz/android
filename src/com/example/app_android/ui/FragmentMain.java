@@ -1,6 +1,8 @@
 package com.example.app_android.ui;
 
 import com.example.app_android.R;
+import com.example.app_android.database.DatabaseManager;
+import com.example.app_android.database.ITokenTable;
 import com.example.app_android.services.ServiceManager;
 import com.example.app_android.ui.LoginPrompt.LoginPromptCallback;
 import com.example.app_android.util.Logger;
@@ -207,7 +209,7 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 		
 		int id = intent.getIntExtra("id", -1);
 		
-		if(id == mIDLoginService) {	// TODO hardcoded
+		if(id == mIDLoginService) {
 			Toast.makeText(getActivity(), "[TESTCODE] This should be replaced by a loading bar." , Toast.LENGTH_SHORT).show(); 
 		}    	
 	}
@@ -215,7 +217,6 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	@Override
 	public void onWorkerUpdate(Intent intent) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceUpdate()");
-		// TODO Auto-generated method stub
 	}
 	
 	@Override
@@ -238,10 +239,10 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 			// Check with server
 			// Get server 
 		}		
-		else if(id == mIDLoginService) { // TODO hardcoded
+		else if(id == mIDLoginService) {
 			boolean success = intent.getBooleanExtra("success", true); // Always works if nothing else is said
 			if(success)
-				Toast.makeText(getActivity(), "[TESTCODE] Du är nu inloggad.." , Toast.LENGTH_SHORT).show(); 
+				Toast.makeText(getActivity(), "[TESTCODE] Du är nu inloggad!!" , Toast.LENGTH_SHORT).show(); 
 			else {
 				String errorMessageShort = intent.getStringExtra("errorMessageShort");
 				Toast.makeText(getActivity(), "[TESTCODE] Failed inlog. " + errorMessageShort, Toast.LENGTH_SHORT).show(); 
