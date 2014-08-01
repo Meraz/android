@@ -56,7 +56,18 @@ public class Processes {
 		return LoginStatus.AlreadyLoggedIn; // No need to login
 	}
 	
-	public static void requestToken(String username, String password) throws RestCommunicationException { //TODO RETURN ENUM?!
+	public static void requestToken(String username, String password) throws RestCommunicationException {
+		try {
+			requestTokenFromServer(username, password);
+		}
+		catch(RestCommunicationException e) {
+			ITokenTable tokenTable = DatabaseManager.getInstance().getTokenTable();
+			tokenTable.updateTransactionFlag(ITokenTable.TransactionFlag.Failed);
+			throw e;
+		}
+	}
+	
+	private static void requestTokenFromServer(String username, String password) throws RestCommunicationException {
 		Logger.VerboseLog(TAG, "Processes::entered requestToken()");
 		
 		ITokenTable tokenTable = DatabaseManager.getInstance().getTokenTable();
@@ -85,7 +96,6 @@ public class Processes {
 		
 		int statusCode = httpResponse.getStatusLine().getStatusCode();	// Get statuscode
 		if(statusCode != 200) {			
-			tokenTable.updateTransactionFlag(ITokenTable.TransactionFlag.Failed); 
 			throw new RestCommunicationException("Somewhere in the wast void between your click and the server respsone we found an error. HTTPCODE: " + statusCode);
 		}				
 		
