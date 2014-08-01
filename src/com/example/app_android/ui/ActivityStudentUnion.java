@@ -68,7 +68,7 @@ public class ActivityStudentUnion extends BaseActivity {
 	
     // Temporary step to have original function untouched and still have the functionality set in xml 	// TODO 
     @SuppressWarnings("unused")
-	private void launchApp(View view) {
+	public void launchApp(View view) {
     	launchApp(blekingeStudentUnionPackageName);
     }
 	

@@ -3,23 +3,33 @@ package com.example.app_android.ui;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
 import android.view.View;
 import android.widget.Toast;
 
+
 import com.example.app_android.R;
 import com.example.app_android.database.DatabaseManager;
+import com.example.app_android.database.ITokenTable;
 import com.example.app_android.services.ServiceManager;
-import com.example.app_android.ui.FragmentMain.InterfaceActivityMain;
+import com.example.app_android.ui.LoginPrompt.LoginPromptCallback;
 import com.example.app_android.util.Logger;
+import com.example.app_android.util.MyBroadCastReceiver;
+import com.example.app_android.util.MyBroadCastReceiver.Receiver;
 import com.example.app_android.util.Utilities;
 
-public class ActivityMain extends BaseActivity implements InterfaceActivityMain {
+public class ActivityMain extends BaseActivity implements Receiver, LoginPromptCallback  {
+
+	MenuItem syncActionItem;	
 
 	private static final String TAG = "Main";
-	
+	private MyBroadCastReceiver mCheckLoginReceiver;
 	int mIDCheckLoginService;
+	private MyBroadCastReceiver mLoginReceiver;
 	int mIDLoginService;
-	
 	/*
 	 * This is the first function that is executed for this application.
 	 * Specified in the file 'AndroidManifest.xml"
@@ -63,19 +73,54 @@ public class ActivityMain extends BaseActivity implements InterfaceActivityMain 
 
 	@Override
 	protected void onStart() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
+		
+		// Working testcode. Should only need to be moved to another file later on
+		if(mLoginReceiver == null) {
+			mLoginReceiver = new MyBroadCastReceiver(TAG + "_LOGIN_START", TAG + "_LOGIN_UPDATE", TAG + "_LOGIN_STOP");
+			mLoginReceiver.registerCallback(this);
+		}
+		mLoginReceiver.registerBroadCastReceiver(this);
+		
+		if(mCheckLoginReceiver == null) {
+			mCheckLoginReceiver = new MyBroadCastReceiver(TAG + "_CHECK_LOGIN_START", TAG + "_CHECK_LOGIN_UPDATE", TAG + "_CHECK_LOGIN_STOP");
+			mCheckLoginReceiver.registerCallback(this);
+		} 
+		
+		mCheckLoginReceiver.registerBroadCastReceiver(this);
+		super.onResume();
 		super.onStart();
 	}
 
 	@Override
 	protected void onStop() {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
+		
+		mLoginReceiver.unregisterBroadCastReceiver(this);
+		mCheckLoginReceiver.unregisterBroadCastReceiver(this);
+		
 		super.onStop();
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		
+	    // Inflate the menu items for use in the action bar
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.layout.menu_sync, menu);
+	    syncActionItem = menu.findItem(R.id.courses_action_sync);
+	    syncActionItem.setVisible(false);
+	    return super.onCreateOptionsMenu(menu);
+	}
 
-	public void aFunction()
-	{
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered aFunction()");
+
+	public void startSyncIcon() {
+		syncActionItem.setVisible(true);
+		syncActionItem.setActionView(R.layout.item_action_sync_indicator);
+	}
+
+	public void stopSyncIcon() {
+		 syncActionItem.setActionView(null); // stop
 	}
 	
 	public void onButtonClicked(View view) {
@@ -116,11 +161,11 @@ public class ActivityMain extends BaseActivity implements InterfaceActivityMain 
 			break;
 			
 		case R.id.imageButton5:
-			//TODO - add call to the mock login thingamabob here
+			attemptLogin();
 			break;
 			
 		case R.id.imageButton6:
-
+			attemptLogout();
 			break;
 		}
 	}
@@ -130,4 +175,71 @@ public class ActivityMain extends BaseActivity implements InterfaceActivityMain 
 		DialogChooseCity dialog = new DialogChooseCity();
 		dialog.show(manager, "chooseCityDialog");
 	}
+	
+	@Override
+	public void onWorkerStart(Intent intent) {		
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStart()");
+		
+		int id = intent.getIntExtra("id", -1);
+		
+		if(id == mIDLoginService) {
+			//Toast.makeText(getActivity(), "[TESTCODE] This should be replaced by a loading bar." , Toast.LENGTH_SHORT).show(); 
+		}    	
+	}	
+	@Override
+	public void onWorkerUpdate(Intent intent) {
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceUpdate()");
+		// TODO Auto-generated method stub
+	}
+	
+	@Override
+	public void onWorkerStop(Intent intent) {
+		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStop()");
+		
+		int id = intent.getIntExtra("id", -1);
+		
+		if(id == mIDCheckLoginService) {
+			boolean loginRequired = intent.getBooleanExtra("loginRequired", true);
+			if(loginRequired) {		
+				LoginPrompt loginPrompt = new LoginPrompt(this, mLoginReceiver, this);
+				loginPrompt.attempLogin();				
+			}
+			else{
+				String message = intent.getStringExtra("message");
+				Toast.makeText(this, "[TESTCODE] " + message , Toast.LENGTH_SHORT).show(); 
+				stopSyncIcon();
+			}
+			
+			// Check with server
+			// Get server 
+		}		
+		else if(id == mIDLoginService) { // TODO hardcoded
+			boolean success = intent.getBooleanExtra("success", true); // Always works if nothing else is said
+			if(success)
+				Toast.makeText(this, "[TESTCODE] Du är nu inloggad!!" , Toast.LENGTH_SHORT).show(); 
+			else {
+				String errorMessageShort = intent.getStringExtra("errorMessageShort");
+				Toast.makeText(this, "[TESTCODE] Failed inlog. " + errorMessageShort, Toast.LENGTH_SHORT).show(); 
+			}
+			stopSyncIcon();
+		}		
+	}
+	
+	@Override
+	public void onLoginButtonPressed(int workerID) {
+		mIDLoginService = workerID;
+	}	
+	
+	// TODO remove debug code
+	private void attemptLogin() {
+		// Check if login is required. This is only test code. Should be moved to correct place in future
+		mIDCheckLoginService =	ServiceManager.getInstance().checkIfLoginIsRequired(this.getApplicationContext(), mCheckLoginReceiver);
+		startSyncIcon();
+	}
+	
+	// TODO remove debug code
+	public void attemptLogout() {
+		ITokenTable a = DatabaseManager.getInstance().getTokenTable();
+		a.updateToken("test", 0, ITokenTable.TransactionFlag.Success);
+	}	
 }
