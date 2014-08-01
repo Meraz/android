@@ -1,6 +1,5 @@
 package com.example.app_android.ui;
 
-import com.example.app_android.Cache;
 import com.example.app_android.R;
 import com.example.app_android.services.ServiceManager;
 import com.example.app_android.util.Logger;
@@ -62,7 +61,7 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
           
         case 2: //map
         	if(Utilities.isNetworkAvailable(getActivity())) {
-        		int startLocation = Cache.getDefaultMapLocation();
+        		int startLocation = -1; //TODO - Get saved startlocation and use it instead of bringing up the dialog every time
         		if(startLocation >= 0 && startLocation <= 1) {
 					intent = new Intent(getActivity().getApplicationContext(), ActivityMap.class);
 					intent.putExtra("entryID", 0);

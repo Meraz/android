@@ -12,21 +12,21 @@ public class MapCoordinateTable extends BaseTable implements IMapCoordinateTable
 
 	private static final String TABLE_NAME = "coordinateTable";
 	
-	private static final String COLUMN_NAME = "name";
-	private static final String COLUMN_DESCRIPTION = "description";
-	private static final String COLUMN_COORDINATE_LATITUDE = "latitude";
+	private static final String COLUMN_NAME 				= "name";
+	private static final String COLUMN_DESCRIPTION 			= "description";
+	private static final String COLUMN_COORDINATE_LATITUDE 	= "latitude";
 	private static final String COLUMN_COORDINATE_LONGITUDE = "longitude";
 	
-	private static final String COLUMN_NAME_TYPE = "VARCHAR(50) PRIMARY KEY";
-	private static final String COLUMN_DESCRIPTION_TYPE = "TEXT";
+	private static final String COLUMN_NAME_TYPE 				= "VARCHAR(50) PRIMARY KEY";
+	private static final String COLUMN_DESCRIPTION_TYPE 		= "TEXT";
 	private static final String COLUMN_COORDINATE_LATITUDE_TYPE = "REAL";
 	private static final String COLUMN_COORDINATE_LONGITUDE_TYPE = "REAL";
 	
 	private static final String LOCAL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " " +
 	"("+
-		COLUMN_NAME	+ " " + COLUMN_NAME_TYPE + ", " +
-		COLUMN_DESCRIPTION + " " + COLUMN_DESCRIPTION_TYPE + ", " +
-		COLUMN_COORDINATE_LATITUDE + " " + COLUMN_COORDINATE_LATITUDE_TYPE + ", " +
+		COLUMN_NAME					+ " " + COLUMN_NAME_TYPE 				+ ", " +
+		COLUMN_DESCRIPTION 			+ " " + COLUMN_DESCRIPTION_TYPE 		+ ", " +
+		COLUMN_COORDINATE_LATITUDE 	+ " " + COLUMN_COORDINATE_LATITUDE_TYPE + ", " +
 		COLUMN_COORDINATE_LONGITUDE + " " + COLUMN_COORDINATE_LONGITUDE_TYPE +
 	")";
 	
@@ -38,9 +38,9 @@ public class MapCoordinateTable extends BaseTable implements IMapCoordinateTable
 		SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 	}
 	
-	public void fillTableWithDefaultData(SQLiteDatabase db) { //TODO saves the names in an enum to avoid inline string comparisons
+	public void fillTableWithDefaultData(SQLiteDatabase db) { //TODO save the names in an enum to avoid inline string comparisons
 		
-		final int defaultValueCount = 10;
+		final int defaultValueCount = 12;
 		
 		ContentValues values[] = new ContentValues[defaultValueCount];
 		values[0] = new ContentValues();
@@ -100,8 +100,20 @@ public class MapCoordinateTable extends BaseTable implements IMapCoordinateTable
 		values[9] = new ContentValues();
 		values[9].put(COLUMN_NAME, "KARLSHAMN_HOUSE_B");
 		values[9].put(COLUMN_DESCRIPTION, "Description missing");
-		values[9].put(COLUMN_COORDINATE_LATITUDE, 56.163626);
+		values[9].put(COLUMN_COORDINATE_LATITUDE, 56.164464);
 		values[9].put(COLUMN_COORDINATE_LONGITUDE, 14.866012);
+		
+		values[10] = new ContentValues();
+		values[10].put(COLUMN_NAME, "CAMPUS_KARLSKRONA");
+		values[10].put(COLUMN_DESCRIPTION, "Description missing");
+		values[10].put(COLUMN_COORDINATE_LATITUDE, 56.182242);
+		values[10].put(COLUMN_COORDINATE_LONGITUDE, 15.590712);
+		
+		values[11] = new ContentValues();
+		values[11].put(COLUMN_NAME, "CAMPUS_KARLSHAMN");
+		values[11].put(COLUMN_DESCRIPTION, "Description missing");
+		values[11].put(COLUMN_COORDINATE_LATITUDE, 56.164384);
+		values[11].put(COLUMN_COORDINATE_LONGITUDE, 14.866024);
 		
 		db.beginTransaction();
 		
@@ -112,15 +124,30 @@ public class MapCoordinateTable extends BaseTable implements IMapCoordinateTable
 		db.setTransactionSuccessful();
 		db.endTransaction();
 	}
-
+	
 	@Override
-	public MarkerOptions getMapMarkerOptions(String name) {
-		MarkerOptions options = new MarkerOptions();
+	public LatLng getMapCoordinate(String name) {
+		LatLng coordinates = null;
 		
 		SQLiteDatabase db = mHelper.getReadableDatabase();
 		Cursor cursor = db.rawQuery(RETRIEVE_MARKER_INFO, new String[] { name });
 		
 		if(cursor.moveToFirst()) {
+			coordinates = new LatLng(cursor.getFloat(2), cursor.getFloat(3));
+		}
+		
+		return coordinates;
+	}
+	
+	@Override
+	public MarkerOptions getMapMarkerOptions(String name) {
+		MarkerOptions options = null;
+		
+		SQLiteDatabase db = mHelper.getReadableDatabase();
+		Cursor cursor = db.rawQuery(RETRIEVE_MARKER_INFO, new String[] { name });
+		
+		if(cursor.moveToFirst()) {
+			options = new MarkerOptions();
 			options.title("");	//The title is expected to be incluided in the snippet since the snippet is being formatted as HMTL
 			options.snippet(cursor.getString(1));
 			options.position(new LatLng(cursor.getFloat(2), cursor.getFloat(3)));

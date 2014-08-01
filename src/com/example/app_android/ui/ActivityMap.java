@@ -22,7 +22,6 @@ import android.widget.ToggleButton;
 import java.util.HashMap;
 import java.util.Locale;
 
-import com.example.app_android.Cache;
 import com.example.app_android.R;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.IMapCoordinateTable;
@@ -80,19 +79,27 @@ public class ActivityMap extends Activity {
     			 }
     		 }
     		 else if(entryID == 1) { //Entered trough an entrypoint that specified a room
-    			place = (LatLng)Cache.getMapCoordinate(room);
-         		map.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));
-         		if(!mapMarkers.containsKey("SearchMarker")) {
-					MarkerOptions markerOptions = new MarkerOptions();
-					markerOptions.position(place);
-					markerOptions.snippet(room);
-					mapMarkers.put("SearchMarker", map.addMarker(markerOptions));
-				}
-				else {
-					Marker marker = mapMarkers.get("SearchMarker");
-					marker.setPosition(place);
-					marker.setSnippet(room);
-				}
+    			place = coordinateTable.getMapCoordinate(room);
+    			if(place != null) {
+    				map.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));
+         			if(!mapMarkers.containsKey("SearchMarker")) {
+         				MarkerOptions markerOptions = new MarkerOptions();
+						markerOptions.position(place);
+						markerOptions.snippet(room);
+						mapMarkers.put("SearchMarker", map.addMarker(markerOptions));
+         			}
+         			else {
+						Marker marker = mapMarkers.get("SearchMarker");
+						marker.setPosition(place);
+						marker.setSnippet(room);
+					}
+    			}
+    			else {	//If the lookup fails toast the user about it and move to Karlskrona
+    				Toast.makeText(getApplicationContext(), "Unable to find room :(", Toast.LENGTH_SHORT).show();
+    				campusRadioGroup.check(R.id.radio_karlskrona);
+    				viewRadioGroup.check(R.id.radio_normal);
+    				moveToKarlskrona();
+    			}
     		 }
     	 }
     }
@@ -148,7 +155,7 @@ public class ActivityMap extends Activity {
 	}
 	
 	private void moveToKarlskrona() {
-		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("Karlskrona"), 17.0f));
+		map.moveCamera( CameraUpdateFactory.newLatLngZoom(coordinateTable.getMapCoordinate("CAMPUS_KARLSKRONA"), 17.0f));
 		if(map.getMapType() != GoogleMap.MAP_TYPE_NORMAL)  { //Only change if the normal map type is set. (The satellite and hybrid view of campus Karlskrona is outdated)
 			map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 			viewRadioGroup.check(R.id.radio_normal);
@@ -156,7 +163,7 @@ public class ActivityMap extends Activity {
 	}
 	
 	private void moveToKarlshamn() {
-		map.moveCamera( CameraUpdateFactory.newLatLngZoom(Cache.getMapCoordinate("Karlshamn"), 17.0f));
+		map.moveCamera( CameraUpdateFactory.newLatLngZoom(coordinateTable.getMapCoordinate("CAMPUS_KARLSHAMN"), 17.0f));
 		if(map.getMapType() == GoogleMap.MAP_TYPE_NORMAL) { //Only change if the normal map type is set. (Google Maps currently has no good data for the map type for the Karlshamn Campus area)
 			map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 			viewRadioGroup.check(R.id.radio_satellite);
@@ -173,7 +180,7 @@ public class ActivityMap extends Activity {
 		addMarker("HOUSE_K");
 		addMarker("KARLSHAMN_HOUSE_A");
 		addMarker("KARLSHAMN_HOUSE_B");
-	}
+ 	}
 	
 	private void addMarker(String name) {
 		MarkerOptions options = coordinateTable.getMapMarkerOptions(name);
@@ -204,23 +211,20 @@ public class ActivityMap extends Activity {
 		String searchString = searchField.getText().toString();
 		if(!searchString.isEmpty()) {
 			searchString = searchString.toUpperCase(new Locale("sv_SE"));
-			LatLng markerCoordinates = Cache.getMapCoordinate(searchString);
-			if(markerCoordinates != null) {
-				if(!mapMarkers.containsKey("SearchMarker")) {
-					MarkerOptions markerOptions = new MarkerOptions();
-					markerOptions.position(markerCoordinates);
-					markerOptions.snippet(searchString);
-					mapMarkers.put("SearchMarker", map.addMarker(markerOptions));
+			MarkerOptions markerOptions = coordinateTable.getMapMarkerOptions(searchString);
+			if(markerOptions != null) {
+				if(mapMarkers.containsKey("SearchMarker")) {
+					Marker marker = mapMarkers.get("SearchMarker");
+					marker.setPosition(markerOptions.getPosition());
+					marker.setSnippet(markerOptions.getSnippet());
 				}
 				else {
-					Marker marker = mapMarkers.get("SearchMarker");
-					marker.setPosition(markerCoordinates);
-					marker.setSnippet(searchString);
+					mapMarkers.put("SearchMarker", map.addMarker(markerOptions));
 				}
 				
 				//TODO - Add data to database regarding if the searched element is on campus Karlskrona och Karlshamn and switch map view accordingly
 				//TODO - Add a special search icon to this marker to make it easier to differentiate from the other markers
-				map.moveCamera( CameraUpdateFactory.newLatLngZoom(markerCoordinates, 17.0f));
+				map.moveCamera( CameraUpdateFactory.newLatLngZoom(markerOptions.getPosition(), 17.0f));
 				drawerLayout.closeDrawers();
 				
 				Toast.makeText(getApplicationContext(), "Found it! :D", Toast.LENGTH_SHORT).show();
