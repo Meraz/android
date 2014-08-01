@@ -84,6 +84,10 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
         case 4: // login
         	attemptLogin();
             break;
+            
+        case 5: // debug. logout
+        	attemptLogout();
+            break;
 
         default:
           break;
@@ -161,11 +165,6 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 		}
 		mCheckLoginReceiver.registerBroadCastReceiver(getActivity());
 		super.onResume();
-	}
-	
-	private void attemptLogin() {
-		// Check if login is required. This is only test code. Should be moved
-		mIDCheckLoginService =	ServiceManager.getInstance().checkIfLoginIsRequired(getActivity().getApplicationContext(), mCheckLoginReceiver);
 	}
 
 	@Override
@@ -253,5 +252,19 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	@Override
 	public void onLoginButtonPressed(int workerID) {
 		mIDLoginService = workerID;
+	}	
+	
+	
+	// TODO remove debug code
+	private void attemptLogin() {
+		// Check if login is required. This is only test code. Should be moved to correct place in future
+		mIDCheckLoginService =	ServiceManager.getInstance().checkIfLoginIsRequired(getActivity().getApplicationContext(), mCheckLoginReceiver);
+	}
+	
+	// TODO remove debug code
+	public void attemptLogout() {
+		
+		ITokenTable a = DatabaseManager.getInstance().getTokenTable();
+		a.updateToken("test", 0, ITokenTable.TransactionFlag.Success);
 	}	
 }

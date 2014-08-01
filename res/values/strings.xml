@@ -47,6 +47,7 @@
     <item >Karta över Campus</item>
     <item >Blekinge Studentkår</item>
     <item >[TESTCODE] Logga in!</item>
+    <item >[TESTCODE] Logga ut!</item>
   </string-array>
 
   <string-array name="new_student_menu" >
