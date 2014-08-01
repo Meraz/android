@@ -20,7 +20,7 @@ import android.widget.ExpandableListView;
 public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
 	 
     protected Context mContext;
-    protected ArrayList<BaseExpandableListGroup> mGroups;
+    protected ArrayList<ExpandableListGroup> mGroups;
     protected ExpandableListView mExpandableList;
     protected boolean mOnlyOneGroupOpenAtTheTime = false;
     //protected boolean mFirstGroupCanBeClosed = true; // Future functionality
@@ -28,7 +28,7 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
     protected int mLastExpandedGroup;
     IButtonCallback mButtonCallback;
     
-    public MyBaseExpandableListAdapter(Context context, ArrayList<BaseExpandableListGroup> groups) {
+    public MyBaseExpandableListAdapter(Context context, ArrayList<ExpandableListGroup> groups) {
     	mContext = context;
     	mGroups = groups;
     }
@@ -136,19 +136,19 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
     	}    	
     }   
         
-    public void addItem(BaseExpandableListChild item, BaseExpandableListGroup group) {
+    public void addItem(ExpandableListChild item, ExpandableListGroup group) {
         if (!mGroups.contains(group)) {
         	mGroups.add(group);
         }
         int index = mGroups.indexOf(group);
-        ArrayList<BaseExpandableListChild> ch = mGroups.get(index).getItems();
+        ArrayList<ExpandableListChild> ch = mGroups.get(index).getItems();
         ch.add(item);
         mGroups.get(index).appendItems(ch);
     }
     
     public Object getChild(int groupPosition, int childPosition) {
         // TODO ??
-        ArrayList<BaseExpandableListChild> chList = mGroups.get(groupPosition).getItems();
+        ArrayList<ExpandableListChild> chList = mGroups.get(groupPosition).getItems();
         return chList.get(childPosition);
     }
  
@@ -158,25 +158,27 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
     }
  
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View view, ViewGroup parent) {
-    	BaseExpandableListChild child = (BaseExpandableListChild) getChild(groupPosition, childPosition);
+    	ExpandableListChild child = (ExpandableListChild) getChild(groupPosition, childPosition);
         if (view == null) {
             LayoutInflater infalInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = infalInflater.inflate(R.layout.item_expandablelist_child, null);
 	    }	 
         TextView tv = (TextView) view.findViewById(R.id.tvChild);
         
-
-        if(mUseHtmlTextInTextFields == true)
-        	tv.setText(Html.fromHtml(child.getName()));	// Read the text as html formatted
-        else if(mUseHtmlTextInTextFields == false)
-        	tv.setText(child.getName());					// Read the text as not html formatted
-        tv.setTag(child.getTag());
+        if(child.getText() != null) {
+	        if(mUseHtmlTextInTextFields == true)
+	        	tv.setText(Html.fromHtml(child.getText()));	// Read the text as html formatted
+	        else if(mUseHtmlTextInTextFields == false)
+	        	tv.setText(child.getText());					// Read the text as not html formatted
+	        tv.setTag(child.getTag());
+        }
     
     	Button button = (Button) view.findViewById(R.id.tvButton1);
-        if(child.hasButton() == true) {	       	
-			MyOnClickListener listener = new MyOnClickListener(mButtonCallback, child.getButtonID());
+    	ExpandableListMetaButton metaButton = child.getButton();
+        if(metaButton != null) {	       	
+			MyOnClickListener listener = new MyOnClickListener(mButtonCallback, metaButton);
 			button.setOnClickListener(listener);
-			button.setVisibility(Button.VISIBLE);        	
+			button = child.getButton().fillRealButtonWithMeta(button);			
         }
         else {
         	button.setVisibility(Button.GONE);
@@ -186,7 +188,7 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
     }
  
     public int getChildrenCount(int groupPosition) {
-        ArrayList<BaseExpandableListChild> chList = mGroups.get(groupPosition).getItems();
+        ArrayList<ExpandableListChild> chList = mGroups.get(groupPosition).getItems();
         return chList.size();
     }
  
@@ -198,12 +200,13 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
         return mGroups.size();
     }
  
+    // This method, does it do anything?? // TODO
     public long getGroupId(int groupPosition) {
         return groupPosition;
     }
  
     public View getGroupView(int groupPosition, boolean isLastChild, View view, ViewGroup parent) {
-    	BaseExpandableListGroup group = (BaseExpandableListGroup) getGroup(groupPosition);
+    	ExpandableListGroup group = (ExpandableListGroup) getGroup(groupPosition);
         if (view == null) {
             LayoutInflater inf = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inf.inflate(R.layout.item_expandablelist_group, null);

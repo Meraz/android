@@ -5,17 +5,17 @@ import android.view.View.OnClickListener;
 
 public class MyOnClickListener implements OnClickListener {
 
-	private int mID;
+	private ExpandableListMetaButton mMetaButton;
 	private IButtonCallback mButtonCallback;
 	
-	public MyOnClickListener(IButtonCallback buttonCallback, int id) {
-		mID = id;
+	public MyOnClickListener(IButtonCallback buttonCallback, ExpandableListMetaButton metaButton) {
+		mMetaButton = metaButton;
 		mButtonCallback = buttonCallback;
 	}
 
 	@Override
 	public void onClick(View v) {	
 		if(mButtonCallback != null)
-			mButtonCallback.onButtonClick(mID);
+			mButtonCallback.onButtonClick(mMetaButton);
 	}
 }

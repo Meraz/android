@@ -13,7 +13,8 @@ import android.widget.ExpandableListView;
 
 import com.example.app_android.R;
 import com.example.app_android.ui.BaseActivity;
-import com.example.app_android.ui.elements.expandablelist.BaseExpandableListGroup;
+import com.example.app_android.ui.elements.expandablelist.ExpandableListGroup;
+import com.example.app_android.ui.elements.expandablelist.ExpandableListMetaButton;
 import com.example.app_android.ui.elements.expandablelist.IButtonCallback;
 import com.example.app_android.ui.elements.expandablelist.MyBaseExpandableListAdapter;
 import com.example.app_android.util.Logger;
@@ -22,7 +23,7 @@ abstract public class BaseNewStudentActivity extends BaseActivity implements IBu
 	
 	protected static final String TAG = "NewstudentMenu";
 	protected MyBaseExpandableListAdapter mExpandableListAdapter;
-	protected ArrayList<BaseExpandableListGroup> mExpandableListItems;
+	protected ArrayList<ExpandableListGroup> mExpandableListItems;
 	protected ExpandableListView mExpandableList;
 	
 	@Override
@@ -36,7 +37,7 @@ abstract public class BaseNewStudentActivity extends BaseActivity implements IBu
 		mExpandableListItems = SetStandardGroups();
     }        
     
-	abstract protected ArrayList<BaseExpandableListGroup> SetStandardGroups();
+	abstract protected ArrayList<ExpandableListGroup> SetStandardGroups();
 
     @Override
 	protected void onDestroy() {
@@ -78,5 +79,5 @@ abstract public class BaseNewStudentActivity extends BaseActivity implements IBu
 	}
 
 	@Override
-	abstract public void onButtonClick(int id);
+	abstract public void onButtonClick(ExpandableListMetaButton metabutton);
 }

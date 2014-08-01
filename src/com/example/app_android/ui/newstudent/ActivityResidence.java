@@ -7,7 +7,8 @@ import android.os.Bundle;
 
 
 import com.example.app_android.R;
-import com.example.app_android.ui.elements.expandablelist.BaseExpandableListGroup;
+import com.example.app_android.ui.elements.expandablelist.ExpandableListGroup;
+import com.example.app_android.ui.elements.expandablelist.ExpandableListMetaButton;
 import com.example.app_android.ui.elements.expandablelist.IButtonCallback;
 import com.example.app_android.ui.elements.expandablelist.MyBaseExpandableListAdapter;
 import com.example.app_android.util.Logger;
@@ -26,27 +27,27 @@ public class ActivityResidence extends BaseNewStudentActivity implements IButton
 		mExpandableListAdapter.setButtonCallBack(this);
     }
     
-    public ArrayList<BaseExpandableListGroup> SetStandardGroups() { // TODO engrish / swedrish
+    public ArrayList<ExpandableListGroup> SetStandardGroups() { // TODO engrish / swedrish
     	
     	// Return list of groups
-    	ArrayList<BaseExpandableListGroup> finalList = new ArrayList<BaseExpandableListGroup>();
+    	ArrayList<ExpandableListGroup> finalList = new ArrayList<ExpandableListGroup>();
     	
     	// Temporary group
-    	BaseExpandableListGroup group;
+    	ExpandableListGroup group;
 
     	Resources res = getResources();
     	String[] header = res.getStringArray(R.array.new_student_menu_residence_header);
     	String[] text = res.getStringArray(R.array.new_student_menu_residence_text);
     	
     	for(int i = 0; i < header.length; i++) {
-    		group = BaseExpandableListGroup.ConstructOneGroupWithOneChild(header[i], text[i], null);
+    		group = ExpandableListGroup.ConstructOneGroupWithOneChild(header[i], text[i], null);
     		finalList.add(group);
     	}    	
     	return finalList;
     }
 
 	@Override
-	public void onButtonClick(int id) {
+	public void onButtonClick(ExpandableListMetaButton metabutton) {
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onButtonClick()");		
 	} 	
 }
