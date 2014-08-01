@@ -27,6 +27,7 @@ import java.util.HashMap;
 import com.example.app_android.util.Logger;
 import com.example.app_android.util.MyBroadCastReceiver;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 

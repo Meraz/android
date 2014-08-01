@@ -1,6 +1,5 @@
 package com.example.app_android.services;
 
-import com.example.app_android.rest.Processes;
 import com.example.app_android.util.Logger;
 
 import android.content.Intent;

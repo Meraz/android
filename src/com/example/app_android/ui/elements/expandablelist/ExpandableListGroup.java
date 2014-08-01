@@ -1,8 +1,6 @@
 package com.example.app_android.ui.elements.expandablelist;
 	 
 import java.util.ArrayList;
-
-import android.widget.Button;
  
 public class ExpandableListGroup {
   

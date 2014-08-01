@@ -13,8 +13,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 
-import android.text.GetChars;
-
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.ITokenTable;
 import com.example.app_android.database.ITokenTable.TransactionFlag;
