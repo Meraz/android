@@ -29,7 +29,6 @@ import android.widget.Toast;
 public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Receiver, LoginPromptCallback{
 
 	private static final String TAG = "Mainmenu";
-	private static final String blekingeStudentUnionPackageName = "se.bthstudent.android.bsk";
 	private static String[] mMainMenu;
 
 	private MyBroadCastReceiver mCheckLoginReceiver;
@@ -79,7 +78,8 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
           break;
           
         case 3: //student Union
-          launchApp(blekingeStudentUnionPackageName);
+            intent = new Intent(getActivity().getApplicationContext(), ActivityStudentUnion.class);
+            startActivity(intent);
           break;
           
         case 4: // login
@@ -96,23 +96,7 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
     	DialogChooseCity dialog = new DialogChooseCity();
     	dialog.show(manager, "chooseCityDialog");
     }
-    
-    // Attempts to start to app with the inputed packageName. If it doesn't exist it opens the apps market page
-    private void launchApp(String packageName) {
-    	
-    	Intent intent = getActivity().getPackageManager().getLaunchIntentForPackage(packageName);
-    	if (intent != null) {
-    		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-   		    startActivity(intent);
-   		}
-   		else  { // If the app isn't installed, send the user to the apps store page
-   		    intent = new Intent(Intent.ACTION_VIEW);
-  		    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-   		    intent.setData(Uri.parse("market://details?id=" + packageName));
-    	    startActivity(intent);
-    	}
-    }
-    	
+
 	// Called when a fragment is first attached to its activity. 
 	// onCreate() will be called after this
 	@Override
