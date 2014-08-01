@@ -52,9 +52,9 @@ public class TokenTable extends BaseTable implements ITokenTable{
 		db.beginTransaction();
 
 		ContentValues values = new ContentValues();
-		values.put(COLUMN_TOKEN, "FIRSTTOKEN");
-		values.put(COLUMN_EXPIREDATE, (int)0);
-		values.put(COLUMN_TRANSACTION_FLAG, (int)1337);
+		values.put(COLUMN_TOKEN, "DefaultToken");
+		values.put(COLUMN_EXPIREDATE, (int)-1);
+		values.put(COLUMN_TRANSACTION_FLAG, (int)TransactionFlag.Unknown.ordinal());
 	    long result = db.insert(TABLE_NAME, null, values);
 
 		db.setTransactionSuccessful();
