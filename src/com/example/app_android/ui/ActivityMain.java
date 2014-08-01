@@ -208,6 +208,7 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 				String message = intent.getStringExtra("message");
 				Toast.makeText(this, "[TESTCODE] " + message , Toast.LENGTH_SHORT).show(); 
 				stopSyncIcon();
+				syncActionItem.setVisible(false);
 			}
 			
 			// Check with server
@@ -222,6 +223,7 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 				Toast.makeText(this, "[TESTCODE] Failed inlog. " + errorMessageShort, Toast.LENGTH_SHORT).show(); 
 			}
 			stopSyncIcon();
+			syncActionItem.setVisible(false);
 		}		
 	}
 	
