@@ -24,6 +24,8 @@ import java.util.Locale;
 
 import com.example.app_android.Cache;
 import com.example.app_android.R;
+import com.example.app_android.database.DatabaseManager;
+import com.example.app_android.database.IMapCoordinateTable;
 import com.example.app_android.util.Logger;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -36,6 +38,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class ActivityMap extends Activity {
 	private GoogleMap map;
 	private HashMap<String, Marker> mapMarkers = new HashMap<String, Marker>();
+	private IMapCoordinateTable coordinateTable;
 	private static final String TAG = "ActivityMap";
 	private ActionBarDrawerToggle drawerToggle 	= null;
 	private DrawerLayout 	drawerLayout 		= null;
@@ -55,6 +58,8 @@ public class ActivityMap extends Activity {
     	String room = bundle.getString("room");
     	
     	setContentView(R.layout.activity_map);
+    	
+    	coordinateTable = DatabaseManager.getInstance().getMapCoordinateTable();
     	
     	 if(initilizeMap()) {
     		 initializeDrawer();
@@ -101,8 +106,7 @@ public class ActivityMap extends Activity {
                 return false;
             }
             map.setInfoWindowAdapter(new SnippetInfoWindowAdapter()); //Changes the way marker descriptions is presented. If this is not done; multi line descriptions cannot be used.
-            addHouseMarkers();
-            
+            addMarkers();
         }
         return true;
     }
@@ -158,30 +162,24 @@ public class ActivityMap extends Activity {
 			viewRadioGroup.check(R.id.radio_satellite);
 		}
 	}
-	
-	private void addHouseMarkers() { //TODO add icons to the markers
-		addHouseMarker("HOUSE_A");
-		addHouseMarker("HOUSE_B");
-		addHouseMarker("HOUSE_C");
-		addHouseMarker("HOUSE_D");
-		addHouseMarker("HOUSE_G");
-		addHouseMarker("HOUSE_H");
-		addHouseMarker("HOUSE_J");
-		addHouseMarker("HOUSE_K");
-		addHouseMarker("KARLSHAMN_HOUSE_A");
-		addHouseMarker("KARLSHAMN_HOUSE_B");
+	private void addMarkers() { //TODO add icons to the markers
+		addMarker("HOUSE_A");
+		addMarker("HOUSE_B");
+		addMarker("HOUSE_C");
+		addMarker("HOUSE_D");
+		addMarker("HOUSE_G");
+		addMarker("HOUSE_H");
+		addMarker("HOUSE_J");
+		addMarker("HOUSE_K");
+		addMarker("KARLSHAMN_HOUSE_A");
+		addMarker("KARLSHAMN_HOUSE_B");
 	}
 	
-	//Helper function to add makers to the houses on campus
-	private void addHouseMarker(String house) {
-		MarkerOptions options = new MarkerOptions();
-		
-		options.title("");
-		options.position(Cache.getMapCoordinate(house));
-		options.snippet(Cache.getMapMarkerSnippet(house));
+	private void addMarker(String name) {
+		MarkerOptions options = coordinateTable.getMapMarkerOptions(name);
 		
 		if(options.getPosition() != null)
-			mapMarkers.put(house, map.addMarker(options));
+			mapMarkers.put(name, map.addMarker(options));
 	}
 	
 	private void toggleHouseMarkers (boolean on) {

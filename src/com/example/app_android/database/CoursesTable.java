@@ -41,10 +41,12 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 				COLUMN_COURSE_DESCRIPTION 		+ " " + 	COLUMN_COURSE_DESCRIPTION_TYPE 	+
 			")";
 	
-	private static final String RETRIEVE_COURSE = "select * from " + TABLE_NAME + " where courseCode = ?";
+	private static final String RETRIEVE_COURSE = "select * from " + TABLE_NAME + " where " + COLUMN_COURSE_CODE + " = ?";
 	
 	public CoursesTable(SQLiteOpenHelper SQLiteOpenHelper) {
 		super(SQLiteOpenHelper);
+		SQL_CREATE_TABLE = LOCAL_CREATE_TABLE;
+		SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 	}
 	
 	@Override

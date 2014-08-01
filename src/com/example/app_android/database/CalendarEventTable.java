@@ -30,11 +30,13 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 				COLUMN_ENDTIME 		+ " " + COLUMN_ENDTIME_TYPE 	+
 			")";
 	
-	private static final String RETRIEVE_EVENT  = "select * from " + TABLE_NAME + " where " + COLUMN_TITLE +"= ? and "+
-	COLUMN_DESCRIPTION + "= ? and " + COLUMN_STARTTIME + "= ? and " + COLUMN_ENDTIME + "= ?";
+	private static final String RETRIEVE_EVENT  = "select * from " + TABLE_NAME + " where " + COLUMN_TITLE +" = ? and "+
+	COLUMN_DESCRIPTION + " = ? and " + COLUMN_STARTTIME + " = ? and " + COLUMN_ENDTIME + " = ?";
 	
 	public CalendarEventTable(SQLiteOpenHelper SQLiteOpenHelper) {
 		super(SQLiteOpenHelper);
+		SQL_CREATE_TABLE = LOCAL_CREATE_TABLE;
+		SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 	}
 
 	@Override

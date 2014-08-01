@@ -36,7 +36,8 @@ public class DatabaseManager extends SQLiteOpenHelper{
         TOKEN,
         COURSES,
         FAVOURITE_COURSES,
-        CALENDAREVENTS;
+        CALENDAREVENTS,
+        MAPCOORDINATES;
     }
     
     // Singleton initialize instance
@@ -62,6 +63,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
 	    TABLES[1] = new CoursesTable(this);
 	    TABLES[2] = new FavouriteCourseTable(this);
 	    TABLES[3] = new CalendarEventTable(this);
+	    TABLES[4] = new MapCoordinateTable(this);
     }
       
     private BaseTable getTable(TableIndex table) {
@@ -86,6 +88,10 @@ public class DatabaseManager extends SQLiteOpenHelper{
     
     public ICalendarEventTable getCalendarEventTable() {
     	return (ICalendarEventTable)getTable(TableIndex.CALENDAREVENTS);
+    }
+    
+    public IMapCoordinateTable getMapCoordinateTable() {
+    	return (IMapCoordinateTable)getTable(TableIndex.MAPCOORDINATES);
     }
     
     /*

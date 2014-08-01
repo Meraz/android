@@ -22,7 +22,7 @@ public class BaseTable {
 	}
 	
 	public void fillTableWithDefaultData(SQLiteDatabase db) {
-		if(!SQL_DEFAULT_VALUES.isEmpty())
+		if(SQL_DEFAULT_VALUES != null && !SQL_DEFAULT_VALUES.isEmpty())
 			db.execSQL(SQL_DEFAULT_VALUES);		
 	}
 }

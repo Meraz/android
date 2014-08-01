@@ -21,6 +21,8 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 	 
 	public FavouriteCourseTable(SQLiteOpenHelper SQLiteOpenHelper) {
 		super(SQLiteOpenHelper);
+		SQL_CREATE_TABLE = LOCAL_CREATE_TABLE;
+		SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 	}
 	 
 	@Override
@@ -30,7 +32,7 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 		//TODO - remove test data
 		ContentValues values = new ContentValues();
 		values.put(COLUMN_COURSE_CODE, "testCode");
-		/*long result = */db.insert(TABLE_NAME, null, values);
+		db.insert(TABLE_NAME, null, values);
 
 		db.setTransactionSuccessful();
 		db.endTransaction();
