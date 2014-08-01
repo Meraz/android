@@ -34,6 +34,8 @@ import android.content.Intent;
 public class ServiceManager {
 
 	private static final String TAG = "Services";
+	
+	@SuppressWarnings("unused") // TODO
 	private Context mContext;
 	private static ServiceManager mServiceHelper = null;
 	
@@ -48,6 +50,7 @@ public class ServiceManager {
 	}
 	
 	// TODO SPARSEARRAY
+	@SuppressLint("UseSparseArrays")
 	private HashMap<Integer, ServiceDataBean> mServices = new HashMap<Integer, ServiceDataBean>();
 	
 	// Private constructor to stop instantiating this class.

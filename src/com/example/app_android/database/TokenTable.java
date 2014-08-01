@@ -47,6 +47,7 @@ public class TokenTable extends BaseTable implements ITokenTable{
 	}
 	
 	// Overrides this function as I'm using another method when inserting
+	// TODO, this function should return data and throw exception if nothing happens
 	@Override
 	public void fillTableWithDefaultData(SQLiteDatabase db) {
 		db.beginTransaction();
@@ -55,7 +56,9 @@ public class TokenTable extends BaseTable implements ITokenTable{
 		values.put(COLUMN_TOKEN, "DefaultToken");
 		values.put(COLUMN_EXPIREDATE, (int)-1);
 		values.put(COLUMN_TRANSACTION_FLAG, (int)TransactionFlag.Unknown.ordinal());
-	    long result = db.insert(TABLE_NAME, null, values);
+		
+	    @SuppressWarnings("unused")
+		long result = db.insert(TABLE_NAME, null, values); // TODO, this function should return data and throw exception if nothing happens
 
 		db.setTransactionSuccessful();
 		db.endTransaction();
