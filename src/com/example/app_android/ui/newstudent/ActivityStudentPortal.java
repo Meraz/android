@@ -78,7 +78,7 @@ public class ActivityStudentPortal extends BaseNewStudentActivity implements IBu
 		ButtonAction actionEnum = ButtonAction.values()[actionID];
 		
 		if(actionEnum == ButtonAction.StudentportalWebsite) {
-		    Uri uriUrl = Uri.parse("studentportal.bth.se");
+		    Uri uriUrl = Uri.parse("https://studentportal.bth.se/");
 	        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
 	        startActivity(launchBrowser);
 		}			
