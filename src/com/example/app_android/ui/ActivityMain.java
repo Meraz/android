@@ -19,7 +19,7 @@ import com.example.app_android.util.Logger;
 
 public class ActivityMain extends BaseActivity implements InterfaceActivityMain{
 	private TextView test; 	// TODO
-	private static final String TAG = "ActivityMain";
+	private static final String TAG = "Main";
 
 	/*
 	 * This is the first function that is executed for this application.
