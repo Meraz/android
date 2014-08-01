@@ -52,8 +52,8 @@ public class Processes {
 		if(experationdate < currentTime) {
 			return LoginStatus.LoginRequired;					// LoginRequired!
 		}		
-		return LoginStatus.LoginRequired; // It's always needed to login. Debug mode
-		//return LoginStatus.AlreadyLoggedIn; // No need to login
+		//return LoginStatus.LoginRequired; // It's always needed to login. Debug mode
+		return LoginStatus.AlreadyLoggedIn; // No need to login
 	}
 	
 	public static void requestToken(String username, String password) throws RestCommunicationException { //TODO RETURN ENUM?!
