@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.app_android.Cache;
 import com.example.app_android.R;
 import com.example.app_android.util.Logger;
 
@@ -32,7 +31,6 @@ public class ActivityStudentUnion extends BaseActivity {
     @Override
 	protected void onDestroy() {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
-    	Cache.serializeToFile();
     	
 		super.onDestroy();
 	}
