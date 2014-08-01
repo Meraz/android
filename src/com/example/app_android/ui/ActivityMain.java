@@ -14,6 +14,7 @@ import com.example.app_android.util.Logger;
 import com.example.app_android.util.Utilities;
 
 public class ActivityMain extends BaseActivity implements InterfaceActivityMain {
+
 	private static final String TAG = "Main";
 	
 	int mIDCheckLoginService;
@@ -109,7 +110,7 @@ public class ActivityMain extends BaseActivity implements InterfaceActivityMain 
         		Toast.makeText(getApplicationContext(), "Missing internet connection", Toast.LENGTH_SHORT).show();
 			break;
 			
-		case R.id.imageButton4:
+		case R.id.studentUnionButton:
 			intent = new Intent(getApplicationContext(), ActivityStudentUnion.class);
 	        startActivity(intent);
 			break;

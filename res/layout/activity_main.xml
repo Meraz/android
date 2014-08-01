@@ -60,8 +60,8 @@
         android:id="@+id/imageButton6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/imageButton4"
-        android:layout_below="@+id/imageButton4"
+        android:layout_alignLeft="@+id/studentUnionButton"
+        android:layout_below="@+id/studentUnionButton"
         android:layout_marginTop="50dp"
         android:src="@drawable/ic_launcher"
         android:onClick="onButtonClicked" />

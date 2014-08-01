@@ -2,13 +2,7 @@ package com.example.app_android.ui.newstudent;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.ExpandableListView;
 
 import com.example.app_android.R;

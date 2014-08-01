@@ -13,8 +13,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 
-import android.text.GetChars;
-
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.ITokenTable;
 import com.example.app_android.database.ITokenTable.TransactionFlag;
@@ -52,11 +50,22 @@ public class Processes {
 		if(experationdate < currentTime) {
 			return LoginStatus.LoginRequired;					// LoginRequired!
 		}		
-		return LoginStatus.LoginRequired; // It's always needed to login. Debug mode
-		//return LoginStatus.AlreadyLoggedIn; // No need to login
+		//return LoginStatus.LoginRequired; // It's always needed to login. Debug mode
+		return LoginStatus.AlreadyLoggedIn; // No need to login
 	}
 	
-	public static void requestToken(String username, String password) throws RestCommunicationException { //TODO RETURN ENUM?!
+	public static void requestToken(String username, String password) throws RestCommunicationException {
+		try {
+			requestTokenFromServer(username, password);
+		}
+		catch(RestCommunicationException e) {
+			ITokenTable tokenTable = DatabaseManager.getInstance().getTokenTable();
+			tokenTable.updateTransactionFlag(ITokenTable.TransactionFlag.Failed);
+			throw e;
+		}
+	}
+	
+	private static void requestTokenFromServer(String username, String password) throws RestCommunicationException {
 		Logger.VerboseLog(TAG, "Processes::entered requestToken()");
 		
 		ITokenTable tokenTable = DatabaseManager.getInstance().getTokenTable();
@@ -85,7 +94,6 @@ public class Processes {
 		
 		int statusCode = httpResponse.getStatusLine().getStatusCode();	// Get statuscode
 		if(statusCode != 200) {			
-			tokenTable.updateTransactionFlag(ITokenTable.TransactionFlag.Failed); 
 			throw new RestCommunicationException("Somewhere in the wast void between your click and the server respsone we found an error. HTTPCODE: " + statusCode);
 		}				
 		

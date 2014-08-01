@@ -12,10 +12,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.entity.*;
-
-import com.example.app_android.database.DatabaseManager;
-import com.example.app_android.database.ITokenTable;
 
 public final class RESTFunctions {
 

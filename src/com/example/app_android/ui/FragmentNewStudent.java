@@ -2,8 +2,6 @@ package com.example.app_android.ui;
 
 
 import com.example.app_android.R;
-import com.example.app_android.R.array;
-import com.example.app_android.R.layout;
 import com.example.app_android.ui.newstudent.ActivityChecklist;
 import com.example.app_android.ui.newstudent.ActivityCourseMaterial;
 import com.example.app_android.ui.newstudent.ActivityStudentPortal;
