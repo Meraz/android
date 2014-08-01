@@ -1,6 +1,10 @@
 package com.example.app_android.ui;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
 import com.example.app_android.R;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.services.ServiceManager;
@@ -10,6 +14,7 @@ import com.example.app_android.util.Logger;
 public class ActivityMain extends BaseActivity implements InterfaceActivityMain{
 	private static final String TAG = "Main";
 
+	MenuItem syncActionItem;	
 	/*
 	 * This is the first function that is executed for this application.
 	 * Specified in the file 'AndroidManifest.xml"
@@ -62,9 +67,26 @@ public class ActivityMain extends BaseActivity implements InterfaceActivityMain{
 		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		
+	    // Inflate the menu items for use in the action bar
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.layout.menu_sync, menu);
+	    syncActionItem = menu.findItem(R.id.courses_action_sync);
+	    syncActionItem.setVisible(false);
+	    return super.onCreateOptionsMenu(menu);
+	}
 
-	public void aFunction()
-	{
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered aFunction()");
+	@Override
+	public void startSyncIcon() {
+		syncActionItem.setVisible(true);
+		syncActionItem.setActionView(R.layout.item_action_sync_indicator);
+	}
+
+	@Override
+	public void stopSyncIcon() {
+		 syncActionItem.setActionView(null); // stop
 	}
 }

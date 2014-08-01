@@ -15,6 +15,9 @@ import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -30,10 +33,12 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	int mIDCheckLoginService;
 	private MyBroadCastReceiver mLoginReceiver;
 	int mIDLoginService;
+	InterfaceActivityMain mListener;
 	
 	// Interface for communication between fragment and activity
 	public interface InterfaceActivityMain {
-		void aFunction(); // Test function for fragment to communicate with activity
+		void startSyncIcon();
+		void stopSyncIcon();
 	}
 	
 	// This is the method that is invoked when clicking a menuobject on the mainpage.
@@ -86,7 +91,7 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
             break;
 
         default:
-          break;
+			// stop  break;
       }
 	}
     
@@ -108,7 +113,7 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
         mMainMenu = getResources().getStringArray(R.array.main_page_list);
 
 		try {
-			//mListener = (InterfaceListSelectionListener) activity; // TODO
+			mListener = (InterfaceActivityMain) activity; // TODO
 		} 
 		catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString() + " must implement OnArticleSelectedListener");
@@ -204,7 +209,7 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 		int id = intent.getIntExtra("id", -1);
 		
 		if(id == mIDLoginService) {
-			Toast.makeText(getActivity(), "[TESTCODE] This should be replaced by a loading bar." , Toast.LENGTH_SHORT).show(); 
+			//Toast.makeText(getActivity(), "[TESTCODE] This should be replaced by a loading bar." , Toast.LENGTH_SHORT).show(); 
 		}    	
 	}
 	
@@ -228,8 +233,9 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 			else{
 				String message = intent.getStringExtra("message");
 				Toast.makeText(getActivity(), "[TESTCODE] " + message , Toast.LENGTH_SHORT).show(); 
+				mListener.stopSyncIcon();
 			}
-				
+			
 			// Check with server
 			// Get server 
 		}		
@@ -241,6 +247,7 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 				String errorMessageShort = intent.getStringExtra("errorMessageShort");
 				Toast.makeText(getActivity(), "[TESTCODE] Failed inlog. " + errorMessageShort, Toast.LENGTH_SHORT).show(); 
 			}
+			mListener.stopSyncIcon();
 		}		
 	}
 	
@@ -254,11 +261,11 @@ public class FragmentMain extends ListFragment implements MyBroadCastReceiver.Re
 	private void attemptLogin() {
 		// Check if login is required. This is only test code. Should be moved to correct place in future
 		mIDCheckLoginService =	ServiceManager.getInstance().checkIfLoginIsRequired(getActivity().getApplicationContext(), mCheckLoginReceiver);
+		mListener.startSyncIcon();
 	}
 	
 	// TODO remove debug code
 	public void attemptLogout() {
-		
 		ITokenTable a = DatabaseManager.getInstance().getTokenTable();
 		a.updateToken("test", 0, ITokenTable.TransactionFlag.Success);
 	}	
