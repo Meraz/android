@@ -38,8 +38,6 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
     protected void onCreate(Bundle savedInstanceState) {
     	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
     	super.onCreate(savedInstanceState);
-    	ServiceManager.initialize(getApplicationContext());
-    	DatabaseManager.initialize(getApplicationContext());
     	
         // Sets the content specified in the file in res/layout/activity_main.xml
         // This also specifies which fragment(s) to activate

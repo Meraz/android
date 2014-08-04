@@ -1,10 +1,13 @@
 package com.example.app_android.database;
 
 
+import com.example.app_android.util.Logger;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class TokenTable extends BaseTable implements ITokenTable{
 
@@ -97,23 +100,31 @@ public class TokenTable extends BaseTable implements ITokenTable{
 		
 	// Inherited from ITokenTable
 	// Updates token with new tokenvalue, expiredate and sets the new transaction_flag.
-	// returns the row ID of the last row inserted, if this insert is successful. -1 otherwise.
+	// returns the amount of rows updated. 0 if none. -1 error
 	@Override
 	public int updateToken(String tokenValue, long expireDate, TransactionFlag transaction_flag) {
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
-
-		ContentValues values = new ContentValues();
-		values.put(COLUMN_TOKEN, tokenValue);
-		values.put(COLUMN_EXPIREDATE, expireDate);
-		values.put(COLUMN_TRANSACTION_FLAG, transaction_flag.ordinal());
-		int result = db.update(TABLE_NAME, values, null, null);
-
-		db.setTransactionSuccessful();
-		db.endTransaction();
-		db.close();
+		int result = -1;
+		
+		try {
+			ContentValues values = new ContentValues();
+			values.put(COLUMN_TOKEN, tokenValue);
+			values.put(COLUMN_EXPIREDATE, expireDate);
+			values.put(COLUMN_TRANSACTION_FLAG, transaction_flag.ordinal());
+			result = db.update(TABLE_NAME, values, null, null);
+			db.setTransactionSuccessful();	
+		}
+		catch(Exception e) {
+			Logger.ErrorLog("Error TokenTable. Message: " + e.getMessage());
+			return -1;
+		}
+		finally {
+			db.endTransaction();
+			db.close();				
+		}
 		return result;
-	} 
+	}
 	
 	// Inherited from ITokenTable
 	@Override

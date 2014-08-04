@@ -25,6 +25,7 @@
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 	
     <application
+        android:name="com.example.app_android.BTHApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -60,8 +61,6 @@
 		<activity android:name="com.example.app_android.ui.newstudent.ActivityCourseMaterial"></activity>
 		<activity android:name="com.example.app_android.ui.newstudent.ActivityStudentUnion"></activity>
 
-
-       	 ActivityCourseMaterial
          
          <service android:name="com.example.app_android.ServiceSchemaUpdate" /> 
          <service android:enabled="true" android:name="com.example.app_android.services.ServiceRequestToken" />
