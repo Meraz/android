@@ -178,6 +178,7 @@ public class ActivityMap extends Activity {
 		addMarker("HOUSE_H");
 		addMarker("HOUSE_J");
 		addMarker("HOUSE_K");
+		addMarker("BSK_OFFICE");
 		addMarker("KARLSHAMN_HOUSE_A");
 		addMarker("KARLSHAMN_HOUSE_B");
  	}
@@ -198,6 +199,7 @@ public class ActivityMap extends Activity {
 			mapMarkers.get("HOUSE_H").setVisible(on);
 			mapMarkers.get("HOUSE_J").setVisible(on);
 			mapMarkers.get("HOUSE_K").setVisible(on);
+			mapMarkers.get("BSK_OFFICE").setVisible(on);
 			mapMarkers.get("KARLSHAMN_HOUSE_A").setVisible(on);
 			mapMarkers.get("KARLSHAMN_HOUSE_B").setVisible(on);
 	}
