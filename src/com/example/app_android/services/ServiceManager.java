@@ -40,7 +40,6 @@ public class ServiceManager {
 	private Context mContext;
 	private static ServiceManager mServiceHelper = null;
 	
-	// This must be called before using it in the app. And should also be called with applicationContext to avoid contextleaks
 	public static void initialize(Context context) {
 		if(mServiceHelper == null)
 			mServiceHelper = new ServiceManager(context);	
@@ -58,22 +57,7 @@ public class ServiceManager {
 	private ServiceManager(Context context) {
 		mContext = context;
 	}
-	
-	public synchronized int requestData(Context context, MyBroadCastReceiver myBroadCastReceiver) {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered requestData()");
-		
-		final int key = myBroadCastReceiver.getAllBroadcasts().hashCode();
-				
-		// Not sure which kind of intent it has to be
-		//final Intent intent = new Intent(context, LoginStudentportal.class);
-		final Intent intent = new Intent(context, ServiceRequestToken.class);
 
-
-		context.startService(intent);	
-		
-		return key;
-	}
-	
 	// Returns unique hashcode
 	public synchronized int requestToken(Context context, MyBroadCastReceiver myBroadCastReceiver, String username, String password) {
 		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered requestToken()");
@@ -121,6 +105,7 @@ public class ServiceManager {
 			return true;
 		return false;
 	}
+	
 
 	// Called by a thread when it wants to remove itself from the metatable
 	public synchronized void informWorkerStop(int id) {
@@ -137,6 +122,8 @@ public class ServiceManager {
 		return intent;
 	}
 	
+	// Only important thing that I needed to save was the Intent. This was saved for the possibility to stop an service. 
+	// Nowdays this information stored is of no use, however, we'd want to stop services in the future, and as such we need to save data.
 	private static ServiceDataBean createServiceDataBean(int key, String parameters, MyBroadCastReceiver myBroadCastReceiver){
 		ServiceDataBean databean = new ServiceDataBean();
 		databean.setKey(key);

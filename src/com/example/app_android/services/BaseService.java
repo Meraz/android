@@ -50,7 +50,8 @@ public class BaseService extends Service  {
 		
 		try {
 			ServiceManager.getInstance().informWorkerStop(id);
-		}catch(NullPointerException e) {			
+		}catch(NullPointerException e) {		
+			// TODO
 		}
 		
 		if(mThreadCount == 0)
@@ -70,10 +71,7 @@ public class BaseService extends Service  {
 	// Gets called from broadcastreceiver a thread broadcasts stop 
 	protected void informWorkerStop(int id) {
 		Utilities.VerboseLog(TAG, mClassName + "::entered informWorkerStop()");
-
-		if(id != -1) {
-			decreaseThreadCount(id); // TODO might crash here?
-		}
+		decreaseThreadCount(id); // TODO might crash here?
 	}	
 	
 	protected void startThread(Runnable runnable) {	

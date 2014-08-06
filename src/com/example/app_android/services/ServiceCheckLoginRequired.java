@@ -32,7 +32,8 @@ public class ServiceCheckLoginRequired extends BaseService {
 	    }
 		
 		@Override
-	    public void run() {			
+	    public void run() {		
+			Utilities.VerboseLog(TAG, mClassName + ":entered run()");
 			informStart();
 			
 			// Send start broadcast
