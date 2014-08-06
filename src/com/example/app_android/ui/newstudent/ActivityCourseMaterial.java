@@ -11,6 +11,7 @@ import com.example.app_android.util.Utilities;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 
 
 public class ActivityCourseMaterial extends BaseNewStudentActivity implements IButtonCallback {
@@ -27,7 +28,8 @@ public class ActivityCourseMaterial extends BaseNewStudentActivity implements IB
 		mExpandableListAdapter.setButtonCallBack(this);
     }        
     
-    public ArrayList<ExpandableListGroup> SetStandardGroups() { // TODO engrish / swedrish
+    public ArrayList<ExpandableListGroup> SetStandardGroups() {
+		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":SetStandardGroups()");}
     	
     	// Return list of groups
     	ArrayList<ExpandableListGroup> finalList = new ArrayList<ExpandableListGroup>();
@@ -47,6 +49,6 @@ public class ActivityCourseMaterial extends BaseNewStudentActivity implements IB
     }
 	@Override
 	public void onButtonClick(ExpandableListMetaButton metabutton) {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onButtonClick()");		
+		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":onButtonClick()");}	
 	}     
 }

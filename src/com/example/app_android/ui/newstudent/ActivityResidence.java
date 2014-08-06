@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 
 
 import com.example.app_android.R;
@@ -28,7 +29,7 @@ public class ActivityResidence extends BaseNewStudentActivity implements IButton
     }
     
     public ArrayList<ExpandableListGroup> SetStandardGroups() { // TODO engrish / swedrish
-    	
+		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":SetStandardGroups()");}
     	// Return list of groups
     	ArrayList<ExpandableListGroup> finalList = new ArrayList<ExpandableListGroup>();
     	
@@ -48,6 +49,6 @@ public class ActivityResidence extends BaseNewStudentActivity implements IButton
 
 	@Override
 	public void onButtonClick(ExpandableListMetaButton metabutton) {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onButtonClick()");		
+		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":onButtonClick()");}	
 	} 	
 }

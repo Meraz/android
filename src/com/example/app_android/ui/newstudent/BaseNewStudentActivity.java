@@ -3,6 +3,7 @@ package com.example.app_android.ui.newstudent;
 import java.util.ArrayList;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ExpandableListView;
 
 import com.example.app_android.R;
@@ -20,10 +21,14 @@ abstract public class BaseNewStudentActivity extends BaseActivity implements IBu
 	protected ArrayList<ExpandableListGroup> mExpandableListItems;
 	protected ExpandableListView mExpandableList;
 	
+	protected String mClass;
+	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
-    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
+		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":onCreate()");}
         super.onCreate(savedInstanceState);
+        
+        mClass = getClass().getSimpleName();
         
         setContentView(R.layout.activity_studentportal); 
         
@@ -35,25 +40,25 @@ abstract public class BaseNewStudentActivity extends BaseActivity implements IBu
 
     @Override
 	protected void onDestroy() {
-    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
+    	if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":onDestroy()");}
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onPause() {
-    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
+		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":onPause()");}
 		super.onPause();
 	}
 
 	@Override
 	protected void onRestart() {
-    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
+		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":onRestart()");}
 		super.onRestart();
 	}
 
 	@Override
 	protected void onResume() {
-    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
+		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":onResume()");}
 		super.onResume();
 		
 		mTitle = "About";
@@ -62,13 +67,13 @@ abstract public class BaseNewStudentActivity extends BaseActivity implements IBu
 
 	@Override
 	protected void onStart() {
-    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
+		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":onStart()");}
 		super.onStart();
 	}
 
 	@Override
 	protected void onStop() {
-    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
+		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":onStop()");}
 		super.onStop();
 	}
 
