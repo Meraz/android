@@ -1,6 +1,7 @@
 package com.example.app_android.database;
 
 import com.example.app_android.R;
+import com.example.app_android.util.Utilities;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -10,6 +11,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class MapCoordinateTable extends BaseTable implements IMapCoordinateTable {
 	
@@ -55,7 +57,7 @@ public class MapCoordinateTable extends BaseTable implements IMapCoordinateTable
 	}
 	
 	public void fillTableWithDefaultData(SQLiteDatabase db) { //TODO save the names in an enum to avoid inline string comparisons
-		
+		super.fillTableWithDefaultData(db);
 		final int defaultValueCount = 13;
 		
 		ContentValues values[] = new ContentValues[defaultValueCount];
@@ -160,6 +162,7 @@ public class MapCoordinateTable extends BaseTable implements IMapCoordinateTable
 	
 	@Override
 	public LatLng getMapCoordinate(String name) {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":getMapCoordinate()");}
 		LatLng coordinates = null;
 		
 		SQLiteDatabase db = mHelper.getReadableDatabase();
@@ -173,6 +176,7 @@ public class MapCoordinateTable extends BaseTable implements IMapCoordinateTable
 	
 	@Override
 	public MarkerOptions getMapMarkerOptions(String name) {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":getMapMarkerOptions()");}
 		MarkerOptions options = null;
 		
 		SQLiteDatabase db = mHelper.getReadableDatabase();
@@ -191,6 +195,7 @@ public class MapCoordinateTable extends BaseTable implements IMapCoordinateTable
 	}
 	
 	private BitmapDescriptor getIconFromId(int iconId) {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":BitmapDescriptor()");}
 		BitmapDescriptor icon = null;
 		
 		switch (iconId) {

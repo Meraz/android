@@ -2,10 +2,13 @@ package com.example.app_android.database;
 
 import java.util.ArrayList;
 
+import com.example.app_android.util.Utilities;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseTable {
 	private static final String TABLE_NAME = "favouriteCourses";
@@ -27,6 +30,7 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 	 
 	@Override
 	public void fillTableWithDefaultData(SQLiteDatabase db) {
+		super.fillTableWithDefaultData(db);
 		db.beginTransaction();
 			
 		//TODO - remove test data
@@ -40,6 +44,7 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 
 	@Override
 	public boolean add(String courseCode) {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":add()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
 		
@@ -55,6 +60,7 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 
 	@Override
 	public boolean remove(String courseCode) {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":remove()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
 		
@@ -68,6 +74,7 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 
 	@Override
 	public ArrayList<String> getAll() {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":getAll()");}
 		ArrayList<String> favouriteCourses = new ArrayList<String>();
 		
 		SQLiteDatabase db = mHelper.getReadableDatabase();
@@ -86,6 +93,7 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 
 	@Override
 	public boolean isEmpty() {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":isEmpty()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		
 		Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);

@@ -1,9 +1,12 @@
 package com.example.app_android.database;
 
+import com.example.app_android.util.Utilities;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class CalendarEventTable extends BaseTable implements ICalendarEventTable{
 
@@ -41,6 +44,7 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 
 	@Override
 	public boolean add(long id, String title, String description ,String startTime, String endTime) {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":createTable()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
 		
@@ -61,6 +65,7 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 
 	@Override
 	public boolean remove(long id) {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":remove()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
 		
@@ -75,6 +80,7 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 
 	@Override
 	public int getEventId(String title, String description, String startTime, String endTime) {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":getEventId()");}
 		int id = -1;
 		
 		SQLiteDatabase db = mHelper.getWritableDatabase();

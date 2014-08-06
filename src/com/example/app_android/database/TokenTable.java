@@ -1,16 +1,17 @@
 package com.example.app_android.database;
 
 
-import com.example.app_android.util.Logger;
+import com.example.app_android.util.Utilities;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class TokenTable extends BaseTable implements ITokenTable{
-
+	
 	private static final String TABLE_NAME = "token";
 	
 	private static final String COLUMN_TOKEN = "token_value";	    
@@ -40,7 +41,7 @@ public class TokenTable extends BaseTable implements ITokenTable{
 	    COLUMN_EXPIREDATE 				+ " " + COLUMN_EXPIREDATE_TYPE 			+ ", " +
 	    COLUMN_TRANSACTION_FLAG 		+ " " + COLUMN_TRANSACTION_FLAG_TYPE +
     ");";
-			
+    
 	// CONSTRUCTOR
 	public TokenTable(SQLiteOpenHelper SQLiteOpenHelper) {
 		super(SQLiteOpenHelper);
@@ -52,7 +53,9 @@ public class TokenTable extends BaseTable implements ITokenTable{
 	// Overrides this function as I'm using another method when inserting
 	// TODO, this function should return data and throw exception if nothing happens
 	@Override
-	public void fillTableWithDefaultData(SQLiteDatabase db) {
+	public void fillTableWithDefaultData(SQLiteDatabase db) throws SQLException  {
+		super.fillTableWithDefaultData(db);
+		
 		db.beginTransaction();
 
 		ContentValues values = new ContentValues();
@@ -65,11 +68,13 @@ public class TokenTable extends BaseTable implements ITokenTable{
 
 		db.setTransactionSuccessful();
 		db.endTransaction();
+		
 	}
 	
 	// Returns token value as String. Inherited from ITokenTable
 	@Override
 	public String getTokenValue() {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":getTokenValue()");}
 		SQLiteDatabase db = mHelper.getReadableDatabase();
 		
 	    Cursor cursor = db.rawQuery(RETRIEVE_TOKEN, null);
@@ -86,6 +91,7 @@ public class TokenTable extends BaseTable implements ITokenTable{
 	// Inherited from ITokenTable
 	// Returns the expiredate for this current token in int. 
 	public long getExpireDate(){
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":getExpireDate()");}
 		SQLiteDatabase db = mHelper.getReadableDatabase();
 		
 	    Cursor cursor = db.rawQuery(RETRIEVE_EXPIREDATE, null);
@@ -103,20 +109,22 @@ public class TokenTable extends BaseTable implements ITokenTable{
 	// returns the amount of rows updated. 0 if none. -1 error
 	@Override
 	public int updateToken(String tokenValue, long expireDate, TransactionFlag transaction_flag) {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":updateToken()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
 		int result = -1;
 		
+		ContentValues values = new ContentValues();
+		values.put(COLUMN_TOKEN, tokenValue);
+		values.put(COLUMN_EXPIREDATE, expireDate);
+		values.put(COLUMN_TRANSACTION_FLAG, transaction_flag.ordinal());
+		
 		try {
-			ContentValues values = new ContentValues();
-			values.put(COLUMN_TOKEN, tokenValue);
-			values.put(COLUMN_EXPIREDATE, expireDate);
-			values.put(COLUMN_TRANSACTION_FLAG, transaction_flag.ordinal());
 			result = db.update(TABLE_NAME, values, null, null);
 			db.setTransactionSuccessful();	
 		}
 		catch(Exception e) {
-			Logger.ErrorLog("Error TokenTable. Message: " + e.getMessage());
+			Utilities.ErrorLog("Error TokenTable:updateToken(). Message: " + e.getMessage());
 			return -1;
 		}
 		finally {
@@ -128,7 +136,8 @@ public class TokenTable extends BaseTable implements ITokenTable{
 	
 	// Inherited from ITokenTable
 	@Override
-	public void updateTransactionFlag(TransactionFlag transaction_flag) {
+	public int updateTransactionFlag(TransactionFlag transaction_flag) {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":updateTransactionFlag()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
 
@@ -145,6 +154,7 @@ public class TokenTable extends BaseTable implements ITokenTable{
 	// Returns current transactionFlag on the token. There can only be one
 	@Override
 	public TransactionFlag getTransactionFlag(){
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":TransactionFlag()");}
 		SQLiteDatabase db = mHelper.getReadableDatabase();
 		
 	    Cursor cursor = db.rawQuery(RETRIEVE_TRANSACTION_FLAG, null);
@@ -160,6 +170,8 @@ public class TokenTable extends BaseTable implements ITokenTable{
 
 	@Override
 	public void PrintEntireToken() {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":PrintEntireToken()");}
+		
 		String token_value = getTokenValue();
 		long expiredate = getExpireDate();
 		TransactionFlag transactionFlag = getTransactionFlag();

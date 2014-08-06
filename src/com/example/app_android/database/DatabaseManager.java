@@ -1,8 +1,11 @@
 package com.example.app_android.database;   
 
+import com.example.app_android.util.Utilities;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseManager extends SQLiteOpenHelper{
 		
@@ -25,7 +28,9 @@ public class DatabaseManager extends SQLiteOpenHelper{
      *  
      *  Rasmus Tilljander - tilljander.rasmus@gmail.com
 	 */
-          
+    private static final String TAG = "Database";      
+    private String mClass;
+	
     private static final String DB_NAME = "bthapp.sqlite";
 	private static final int DB_VERSION = 1;
     private static BaseTable[] TABLES;
@@ -42,6 +47,8 @@ public class DatabaseManager extends SQLiteOpenHelper{
     
     // Singleton initialize instance
     public static void initialize (Context context) {
+
+		
     	if(mDatabaseManager == null)
     		mDatabaseManager = new DatabaseManager(context);
     }
@@ -54,6 +61,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
     // Constructor
     private DatabaseManager(Context context) {	     
 	    super(context, DB_NAME, null, DB_VERSION);
+	    mClass = getClass().getSimpleName();
 	    
 	    // Allocate array
 	    TABLES = new BaseTable[TableIndex.values().length];
@@ -67,6 +75,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
     }
       
     private BaseTable getTable(TableIndex table) {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":getTable()");}
     	return TABLES[table.ordinal()];
     }
     
@@ -75,22 +84,27 @@ public class DatabaseManager extends SQLiteOpenHelper{
      * As this would result in public access to create and drop table, which is not very nice.
      */
     public ITokenTable getTokenTable() {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":getTokenTable()");}
     	return (ITokenTable)getTable(TableIndex.TOKEN);
     }
     
     public ICourseTable getCourseTable() {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":getCourseTable()");}
     	return (ICourseTable)getTable(TableIndex.COURSES);
     }
     
     public IFavouriteCourseTable getFavouriteCourseTable() {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":IFavouriteCourseTable()");}
     	return (IFavouriteCourseTable)getTable(TableIndex.FAVOURITE_COURSES);
     }
     
     public ICalendarEventTable getCalendarEventTable() {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":ICalendarEventTable()");}
     	return (ICalendarEventTable)getTable(TableIndex.CALENDAREVENTS);
     }
     
     public IMapCoordinateTable getMapCoordinateTable() {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":IMapCoordinateTable()");}
     	return (IMapCoordinateTable)getTable(TableIndex.MAPCOORDINATES);
     }
     
@@ -99,6 +113,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
      */     
     @Override
     public void onCreate(SQLiteDatabase db) {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":onCreate()");}
     	
 	    for(int i = 0; i < TABLES.length; i++) {
 			TABLES[i].createTable(db);
@@ -111,6 +126,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
     
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":onUpgrade()");}
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
 	    for(int i = 0; i < TABLES.length; i++) {
@@ -121,19 +137,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
     
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":onDowngrade()");}
         onUpgrade(db, oldVersion, newVersion);
     }   
-    
-  //...
-  public synchronized SQLiteDatabase getReadableDatabase() {
-      openedConnections++;
-      return super.getReadableDatabase();
-  }
-
-  public synchronized void close() {
-      openedConnections--;
-      if (openedConnections == 0) {
-          super.close();
-      }
-  }
 }

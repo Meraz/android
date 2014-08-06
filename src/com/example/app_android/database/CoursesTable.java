@@ -1,11 +1,13 @@
 package com.example.app_android.database;
 
 import com.example.app_android.CourseBean;
+import com.example.app_android.util.Utilities;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class CoursesTable extends BaseTable implements ICourseTable{
 
@@ -51,6 +53,7 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 	
 	@Override
 	public void fillTableWithDefaultData(SQLiteDatabase db) {
+		super.fillTableWithDefaultData(db);
 		db.beginTransaction();
 		
 		//	TODO - remove test data
@@ -80,6 +83,8 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 	}
 	@Override
 	public CourseBean getCourse(String courseCode) {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":getCourse()");}
+		
 		SQLiteDatabase db = mHelper.getReadableDatabase();
 		CourseBean fetchedCourse = null;
 		
