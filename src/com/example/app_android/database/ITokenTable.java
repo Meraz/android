@@ -16,14 +16,12 @@ public interface ITokenTable {
 	// Returns expiredate of the token
 	public long getExpireDate();
 	
-	// Update the entire token structure with n
-	// Returns the row ID of the last row inserted, if this insert is successful. -1 otherwise.
+	// Updates token with new tokenvalue, expiredate and sets the new transaction_flag.
+	// returns the amount of rows updated. 0 if none. -1 error
 	public int updateToken(String tokenValue, long expireDate, TransactionFlag transaction_flag);
-	// TODO Should return fail/success
 	
 	// Update transaction_flag
-	public void updateTransactionFlag(TransactionFlag transaction_flag);
-	// TODO Should return fail/success
+	public int updateTransactionFlag(TransactionFlag transaction_flag);
 	
 	// Returns current transactionFlag on the token. There can only be one
 	public TransactionFlag getTransactionFlag();	

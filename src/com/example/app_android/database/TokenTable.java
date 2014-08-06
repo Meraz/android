@@ -21,18 +21,11 @@ public class TokenTable extends BaseTable implements ITokenTable{
     private static final String COLUMN_TOKEN_TYPE = "TEXT";
     private static final String COLUMN_EXPIREDATE_TYPE = "INTEGER";
     private static final String COLUMN_TRANSACTION_FLAG_TYPE = "INTEGER";
-  
-    public static final String INSERT_ALL = "INSERT INTO " + TABLE_NAME +
-    		"("+
-    			COLUMN_TOKEN + ", " + COLUMN_EXPIREDATE + ", " + COLUMN_TRANSACTION_FLAG +
-    		") " +
-    		"VALUES (?, ?, ?)";     
     
     private static final String RETRIEVE_TOKEN 				= "select " + COLUMN_TOKEN  			+ " from " + TABLE_NAME;
     private static final String RETRIEVE_EXPIREDATE 		= "select " + COLUMN_EXPIREDATE 		+ " from " + TABLE_NAME;
     private static final String RETRIEVE_TRANSACTION_FLAG 	= "select " + COLUMN_TRANSACTION_FLAG	+ " from " + TABLE_NAME;
 
-    //create table mytoken (token_value TEXT, expire_date INTEGER, status INTEGER);
     private static final String LOCAl_SQL_CREATE_TABLE = 
     "CREATE TABLE " + 
     TABLE_NAME + 
@@ -47,11 +40,10 @@ public class TokenTable extends BaseTable implements ITokenTable{
 		super(SQLiteOpenHelper);
 		SQL_CREATE_TABLE = LOCAl_SQL_CREATE_TABLE;
 		SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
-		SQL_DEFAULT_VALUES = INSERT_ALL;
+		SQL_DEFAULT_VALUES = "";
 	}
 	
 	// Overrides this function as I'm using another method when inserting
-	// TODO, this function should return data and throw exception if nothing happens
 	@Override
 	public void fillTableWithDefaultData(SQLiteDatabase db) throws SQLException  {
 		super.fillTableWithDefaultData(db);
@@ -63,9 +55,11 @@ public class TokenTable extends BaseTable implements ITokenTable{
 		values.put(COLUMN_EXPIREDATE, (int)-1);
 		values.put(COLUMN_TRANSACTION_FLAG, (int)TransactionFlag.Unknown.ordinal());
 		
-	    @SuppressWarnings("unused")
-		long result = db.insert(TABLE_NAME, null, values); // TODO, this function should return data and throw exception if nothing happens
+		int result = (int) db.insert(TABLE_NAME, null, values);
 
+		if(result == -1)
+			throw new SQLException("error at: " + mClass + ":fillTableWithDefaultData()");
+		
 		db.setTransactionSuccessful();
 		db.endTransaction();
 		
@@ -105,8 +99,6 @@ public class TokenTable extends BaseTable implements ITokenTable{
 	}
 		
 	// Inherited from ITokenTable
-	// Updates token with new tokenvalue, expiredate and sets the new transaction_flag.
-	// returns the amount of rows updated. 0 if none. -1 error
 	@Override
 	public int updateToken(String tokenValue, long expireDate, TransactionFlag transaction_flag) {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":updateToken()");}
@@ -140,14 +132,23 @@ public class TokenTable extends BaseTable implements ITokenTable{
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":updateTransactionFlag()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
+		int result = -1;
 
 		ContentValues values = new ContentValues();
 		values.put(COLUMN_TRANSACTION_FLAG, transaction_flag.ordinal());
-	    db.update(TABLE_NAME, values, null, null);
-
-		db.setTransactionSuccessful();
-		db.endTransaction();
-		db.close();
+		try {
+			result = db.update(TABLE_NAME, values, null, null);
+			db.setTransactionSuccessful();
+		}
+		catch(Exception e) {
+			Utilities.ErrorLog("Error TokenTable:updateTransactionFlag. Message: " + e.getMessage());
+			return -1;
+		}	
+		finally {
+			db.endTransaction();
+			db.close();				
+		}
+		return result;
 	}
 	
 	// Inherited from ITokenTable
