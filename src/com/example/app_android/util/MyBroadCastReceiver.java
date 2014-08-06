@@ -10,7 +10,6 @@ public class MyBroadCastReceiver extends BroadcastReceiver {
 	// Callback interface to implement own method on how to handle the result.
 	public interface Receiver {
 
-		// Returns the same id as ServiceHelper
 		public void onWorkerStart(Intent intent);	
 		
 		// 
@@ -49,7 +48,16 @@ public class MyBroadCastReceiver extends BroadcastReceiver {
 		{
 			filter.addAction(mStartBroadCast);
 		}
-		filter.addAction(mStopBroadCast);		
+		
+		if(mUpdateBroadCast != null)
+		{
+			filter.addAction(mUpdateBroadCast);
+		}
+		
+		if(mStopBroadCast != null)
+		{
+			filter.addAction(mStopBroadCast);
+		}	
 		context.registerReceiver(this, filter);
 	}
 	
