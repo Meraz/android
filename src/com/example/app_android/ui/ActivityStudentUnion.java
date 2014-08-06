@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.app_android.R;
-import com.example.app_android.util.Logger;
+import com.example.app_android.util.Utilities;
 
 public class ActivityStudentUnion extends BaseActivity {
 	
@@ -19,7 +19,7 @@ public class ActivityStudentUnion extends BaseActivity {
 	 */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
+    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
     	super.onCreate(savedInstanceState);
     	
     	mMessage = "Här ska en vy för Blekinge Studentkår finnas";
@@ -30,44 +30,43 @@ public class ActivityStudentUnion extends BaseActivity {
 
     @Override
 	protected void onDestroy() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
+    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
     	
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onPause() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
 		super.onPause();
 	}
 
 	@Override
 	protected void onRestart() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
 		super.onRestart();
 	}
 
 	@Override
 	protected void onResume() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
 		super.onResume();
 	}
 
 	@Override
 	protected void onStart() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
 		super.onStart();
 	}
 
 	@Override
 	protected void onStop() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
 	
 	
     // Temporary step to have original function untouched and still have the functionality set in xml 	// TODO 
-    @SuppressWarnings("unused")
 	public void launchApp(View view) {
     	launchApp(blekingeStudentUnionPackageName);
     }

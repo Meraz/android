@@ -25,7 +25,7 @@ import java.util.Locale;
 import com.example.app_android.R;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.IMapCoordinateTable;
-import com.example.app_android.util.Logger;
+import com.example.app_android.util.Utilities;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
@@ -280,38 +280,38 @@ public class ActivityMap extends Activity {
 	
     @Override
 	protected void onDestroy() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
+    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onPause() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
 		super.onPause();
 	}
 
 	@Override
 	protected void onRestart() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
 		super.onRestart();
 	}
 
 	@Override
 	protected void onResume() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
 		super.onResume();
 		initilizeMap();
 	}
 
 	@Override
 	protected void onStart() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
 		super.onStart();
 	}
 
 	@Override
 	protected void onStop() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
+    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
 	

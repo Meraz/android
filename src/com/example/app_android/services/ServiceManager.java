@@ -24,7 +24,7 @@ package com.example.app_android.services;
 
 import java.util.HashMap;
 
-import com.example.app_android.util.Logger;
+import com.example.app_android.util.Utilities;
 import com.example.app_android.util.MyBroadCastReceiver;
 
 import android.annotation.SuppressLint;
@@ -60,7 +60,7 @@ public class ServiceManager {
 	}
 	
 	public synchronized int requestData(Context context, MyBroadCastReceiver myBroadCastReceiver) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered requestData()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered requestData()");
 		
 		final int key = myBroadCastReceiver.getAllBroadcasts().hashCode();
 				
@@ -76,7 +76,7 @@ public class ServiceManager {
 	
 	// Returns unique hashcode
 	public synchronized int requestToken(Context context, MyBroadCastReceiver myBroadCastReceiver, String username, String password) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered requestToken()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered requestToken()");
 
 		
 		final int key = myBroadCastReceiver.getAllBroadcasts().hashCode();
@@ -98,7 +98,7 @@ public class ServiceManager {
 	
 	// Returns unique hashcode
 	public synchronized int checkIfLoginIsRequired(Context context, MyBroadCastReceiver myBroadCastReceiver) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered checkIfLoginIsRequired()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered checkIfLoginIsRequired()");
 		
 		final int key = myBroadCastReceiver.getAllBroadcasts().hashCode();
 		if(mServices.containsKey(key))
@@ -124,7 +124,7 @@ public class ServiceManager {
 
 	// Called by a thread when it wants to remove itself from the metatable
 	public synchronized void informWorkerStop(int id) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onThreadStop()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onThreadStop()");
 		mServices.remove(id);
 	}
 	

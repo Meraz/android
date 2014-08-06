@@ -1,6 +1,6 @@
 package com.example.app_android.services;
 
-import com.example.app_android.util.Logger;
+import com.example.app_android.util.Utilities;
 
 import android.content.Intent;
 
@@ -14,7 +14,7 @@ public class ServiceUpdateData extends BaseService {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Logger.VerboseLog(TAG, mClassName + ":entered onStartCommand()");
+		Utilities.VerboseLog(TAG, mClassName + ":entered onStartCommand()");
 		
 		CheckLogin checkLogin = new CheckLogin(this, intent);
 

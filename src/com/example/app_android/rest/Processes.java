@@ -16,7 +16,7 @@ import org.apache.http.message.BasicNameValuePair;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.ITokenTable;
 import com.example.app_android.database.ITokenTable.TransactionFlag;
-import com.example.app_android.util.Logger;
+import com.example.app_android.util.Utilities;
 
 public class Processes {
 	
@@ -32,7 +32,7 @@ public class Processes {
 	}
 	
 	public static LoginStatus checkIfLoginIsNeeded() {
-		Logger.VerboseLog(TAG, "Processes::entered checkIfLoginIsNeeded()");
+		Utilities.VerboseLog(TAG, "Processes::entered checkIfLoginIsNeeded()");
 		
 		ITokenTable tokenTable = DatabaseManager.getInstance().getTokenTable();
 		
@@ -66,7 +66,7 @@ public class Processes {
 	}
 	
 	private static void requestTokenFromServer(String username, String password) throws RestCommunicationException {
-		Logger.VerboseLog(TAG, "Processes::entered requestToken()");
+		Utilities.VerboseLog(TAG, "Processes::entered requestToken()");
 		
 		ITokenTable tokenTable = DatabaseManager.getInstance().getTokenTable();
 		
@@ -122,7 +122,7 @@ public class Processes {
 	}
 	
 	private static HttpPost preparePostCall(String url, final String[] parameterNames, final String[] parameterValues) throws RestCommunicationException {
-		Logger.VerboseLog(TAG, "Processes::entered requestToken()");
+		Utilities.VerboseLog(TAG, "Processes::entered requestToken()");
 		
 		if(parameterNames.length != parameterValues.length)
 			throw new RestCommunicationException("Not the same amount of parameters as there is values.");

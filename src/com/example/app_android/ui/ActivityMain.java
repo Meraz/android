@@ -16,7 +16,7 @@ import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.ITokenTable;
 import com.example.app_android.services.ServiceManager;
 import com.example.app_android.ui.LoginPrompt.LoginPromptCallback;
-import com.example.app_android.util.Logger;
+import com.example.app_android.util.Utilities;
 import com.example.app_android.util.MyBroadCastReceiver;
 import com.example.app_android.util.MyBroadCastReceiver.Receiver;
 import com.example.app_android.util.Utilities;
@@ -36,7 +36,7 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 	 */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
+    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
     	super.onCreate(savedInstanceState);
     	
         // Sets the content specified in the file in res/layout/activity_main.xml
@@ -46,32 +46,32 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 
     @Override
 	protected void onDestroy() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
+    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
     	
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onPause() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
 		super.onPause();
 	}
 
 	@Override
 	protected void onRestart() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
 		super.onRestart();
 	}
 
 	@Override
 	protected void onResume() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
 		super.onResume();
 	}
 
 	@Override
 	protected void onStart() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
 		
 		// Working testcode. Should only need to be moved to another file later on
 		if(mLoginReceiver == null) {
@@ -92,7 +92,7 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 
 	@Override
 	protected void onStop() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		
 		mLoginReceiver.unregisterBroadCastReceiver(this);
 		mCheckLoginReceiver.unregisterBroadCastReceiver(this);
@@ -176,7 +176,7 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 	
 	@Override
 	public void onWorkerStart(Intent intent) {		
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStart()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStart()");
 		
 		int id = intent.getIntExtra("id", -1);
 		
@@ -186,13 +186,13 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 	}	
 	@Override
 	public void onWorkerUpdate(Intent intent) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceUpdate()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceUpdate()");
 		// TODO Auto-generated method stub
 	}
 	
 	@Override
 	public void onWorkerStop(Intent intent) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStop()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStop()");
 		
 		int id = intent.getIntExtra("id", -1);
 		

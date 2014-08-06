@@ -7,7 +7,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-import com.example.app_android.util.Logger;
+import com.example.app_android.util.Utilities;
 import com.example.app_android.util.MyBroadCastReceiver;
 
 public class BaseService extends Service  {	
@@ -21,7 +21,7 @@ public class BaseService extends Service  {
 	
 	@Override 
 	public void onCreate() {	
-		Logger.VerboseLog(TAG, mClassName + "::entered onCreate()");
+		Utilities.VerboseLog(TAG, mClassName + "::entered onCreate()");
 		mClassName = getClass().getSimpleName();
 		mThread = Executors.newCachedThreadPool();		
 		super.onCreate();
@@ -29,23 +29,23 @@ public class BaseService extends Service  {
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		Logger.VerboseLog(TAG, mClassName + "::entered onBind()");
+		Utilities.VerboseLog(TAG, mClassName + "::entered onBind()");
 		return null;
 	}	
 	
 	@Override 
 	public void onDestroy () {
-		Logger.VerboseLog(TAG, mClassName + "::entered onDestroy()");
+		Utilities.VerboseLog(TAG, mClassName + "::entered onDestroy()");
 		mThread.shutdownNow();
 	}	
 	
 	private final synchronized void increaseThreadCount() {
-		Logger.VerboseLog(TAG, mClassName + "::entered IncreaseThreadCount()");
+		Utilities.VerboseLog(TAG, mClassName + "::entered IncreaseThreadCount()");
 		mThreadCount++;
 	}
 	
 	private final synchronized void decreaseThreadCount(int id) {
-		Logger.VerboseLog(TAG, mClassName + "::entered DecreaseThreadCount()");
+		Utilities.VerboseLog(TAG, mClassName + "::entered DecreaseThreadCount()");
 		mThreadCount--;
 		
 		try {
@@ -58,18 +58,18 @@ public class BaseService extends Service  {
 		}
 	
 	protected final void mySendBroadcast(Intent intent) {
-		Logger.VerboseLog(TAG, mClassName + "::entered mySendBroadcast()");
+		Utilities.VerboseLog(TAG, mClassName + "::entered mySendBroadcast()");
 		sendBroadcast(intent);
 	}
 	
 	protected void informWorkerStart() {
-		Logger.VerboseLog(TAG, mClassName + "::entered informWorkerStart()");
+		Utilities.VerboseLog(TAG, mClassName + "::entered informWorkerStart()");
 		increaseThreadCount();
 	}
 
 	// Gets called from broadcastreceiver a thread broadcasts stop 
 	protected void informWorkerStop(int id) {
-		Logger.VerboseLog(TAG, mClassName + "::entered informWorkerStop()");
+		Utilities.VerboseLog(TAG, mClassName + "::entered informWorkerStop()");
 
 		if(id != -1) {
 			decreaseThreadCount(id); // TODO might crash here?
@@ -77,7 +77,7 @@ public class BaseService extends Service  {
 	}	
 	
 	protected void startThread(Runnable runnable) {	
-		Logger.VerboseLog(TAG, mClassName + "::entered startThread()");
+		Utilities.VerboseLog(TAG, mClassName + "::entered startThread()");
 		mThread.execute(runnable);
 	}	
 }

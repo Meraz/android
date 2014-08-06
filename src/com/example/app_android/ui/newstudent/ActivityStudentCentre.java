@@ -6,7 +6,7 @@ import com.example.app_android.ui.elements.expandablelist.ExpandableListGroup;
 import com.example.app_android.ui.elements.expandablelist.ExpandableListMetaButton;
 import com.example.app_android.ui.elements.expandablelist.IButtonCallback;
 import com.example.app_android.ui.elements.expandablelist.MyBaseExpandableListAdapter;
-import com.example.app_android.util.Logger;
+import com.example.app_android.util.Utilities;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -60,7 +60,7 @@ public class ActivityStudentCentre extends BaseNewStudentActivity implements IBu
     
 	@Override
 	public void onButtonClick(ExpandableListMetaButton metabutton) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onButtonClick()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onButtonClick()");
 		
 		int actionID = metabutton.getAction();
 		ButtonAction actionEnum = ButtonAction.values()[actionID];

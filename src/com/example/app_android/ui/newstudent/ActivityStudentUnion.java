@@ -7,7 +7,7 @@ import com.example.app_android.ui.elements.expandablelist.ExpandableListGroup;
 import com.example.app_android.ui.elements.expandablelist.ExpandableListMetaButton;
 import com.example.app_android.ui.elements.expandablelist.IButtonCallback;
 import com.example.app_android.ui.elements.expandablelist.MyBaseExpandableListAdapter;
-import com.example.app_android.util.Logger;
+import com.example.app_android.util.Utilities;
 
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -49,7 +49,7 @@ public class ActivityStudentUnion extends BaseNewStudentActivity implements IBut
 
 	@Override
 	public void onButtonClick(ExpandableListMetaButton metabutton) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onButtonClick()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onButtonClick()");
 		
 	}     
 }

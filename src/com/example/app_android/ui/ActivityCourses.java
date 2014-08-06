@@ -18,7 +18,6 @@ import com.example.app_android.R;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.ICalendarEventTable;
 import com.example.app_android.database.IFavouriteCourseTable;
-import com.example.app_android.util.Logger;
 import com.example.app_android.util.Utilities;
 
 import android.annotation.SuppressLint;
@@ -83,19 +82,19 @@ public class ActivityCourses extends Activity {
 
     @Override
 	protected void onDestroy() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
+    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onPause() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
 		super.onPause();
 	}
 
 	@Override
 	protected void onRestart() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
 		//Restart this view to display the correct information
 		finish();
 		startActivity(getIntent());
@@ -104,20 +103,20 @@ public class ActivityCourses extends Activity {
 
 	@Override
 	protected void onResume() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); //This sneaky row stops the darn soft keyboard from popping up like some retarded wack-a-mole every time the activity is opened.
 		super.onResume();
 	}
 
 	@Override
 	protected void onStart() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
 		super.onStart();
 	}
 
 	@Override
 	protected void onStop() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
 
@@ -200,7 +199,7 @@ public class ActivityCourses extends Activity {
 	}
 
 	public void courseChecked(View v) {
-		Logger.VerboseLog(TAG, "Checked or Unchecked");
+		Utilities.VerboseLog(TAG, "Checked or Unchecked");
 	}
 	
 	private int deleteAllScheduleEvents() {
@@ -214,7 +213,7 @@ public class ActivityCourses extends Activity {
 	@SuppressLint("SimpleDateFormat")
 	private void exportSchedule() {
 		if(Utilities.isNetworkAvailable(getApplicationContext())) {
-			Logger.VerboseLog(TAG, "Exporting schedule to Google Calendar");
+			Utilities.VerboseLog(TAG, "Exporting schedule to Google Calendar");
 			ArrayList<String> courseCodes = favouriteCoursesHelper.getAll();
 			ArrayList<String> requests = new ArrayList<String>();
 

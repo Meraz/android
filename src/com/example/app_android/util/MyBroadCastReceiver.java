@@ -78,7 +78,7 @@ public class MyBroadCastReceiver extends BroadcastReceiver {
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onReceive()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onReceive()");
 
 		if(mReceiver != null) {
 			String action = intent.getAction();

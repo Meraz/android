@@ -8,7 +8,7 @@ import com.example.app_android.ui.newstudent.ActivityStudentPortal;
 import com.example.app_android.ui.newstudent.ActivityStudentCentre;
 import com.example.app_android.ui.newstudent.ActivityResidence;
 import com.example.app_android.ui.newstudent.ActivityStudentUnion;
-import com.example.app_android.util.Logger;
+import com.example.app_android.util.Utilities;
 
 import android.app.Activity;
 import android.app.ListFragment;
@@ -42,7 +42,7 @@ public class FragmentNewStudent extends ListFragment{
 	
     // Listener to handle interaction on the list 
     private void onListSelection(int index) {   
-    	Logger.VerboseLog(TAG, "::Tapped on index " + index);
+    	Utilities.VerboseLog(TAG, "::Tapped on index " + index);
     	
     	// Create new activity
     	Intent intent = null;
@@ -89,7 +89,7 @@ public class FragmentNewStudent extends ListFragment{
 
 	@Override
 	public void onAttach(Activity activity) {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onAttach()");   	
+    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onAttach()");   	
 		super.onAttach(activity);
     
 		// Get resources from stored string array
@@ -108,19 +108,19 @@ public class FragmentNewStudent extends ListFragment{
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
+    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
 		super.onCreate(savedInstanceState);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreateView()");
+    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreateView()");
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedState) {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
+    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
 		
 		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_main, mMenu));
@@ -129,43 +129,43 @@ public class FragmentNewStudent extends ListFragment{
 
 	@Override
 	public void onStart() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
+    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
 		super.onStart();
 	}
 
 	@Override
 	public void onResume() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
+    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
 		super.onResume();
 	}
 
 	@Override
 	public void onPause() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
+    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
 		super.onPause();
 	}
 
 	@Override
 	public void onStop() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
+    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
 
 	@Override
 	public void onDetach() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDetach()");
+    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDetach()");
 		super.onDetach();
 	}
 
 	@Override
 	public void onDestroy() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
+    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
 		super.onDestroy();
 	}
 
 	@Override
 	public void onDestroyView() {
-    	Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroyView()");
+    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroyView()");
 		super.onDestroyView();
 	}
 }

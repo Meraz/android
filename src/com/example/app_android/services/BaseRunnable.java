@@ -1,6 +1,6 @@
 package com.example.app_android.services;
 
-import com.example.app_android.util.Logger;
+import com.example.app_android.util.Utilities;
 
 import android.content.Intent;
 
@@ -31,19 +31,19 @@ public abstract class BaseRunnable implements Runnable  {
 	
 	// Add threadcount
     protected void informStart() {
-		Logger.VerboseLog(TAG, mClassName + "::entered informStart()");
+		Utilities.VerboseLog(TAG, mClassName + "::entered informStart()");
     	mService.informWorkerStart();
     }
 	
 	// Remove thread from service
     protected void informStop() {
-		Logger.VerboseLog(TAG, mClassName + "::entered informStop()");
+		Utilities.VerboseLog(TAG, mClassName + "::entered informStop()");
     	mService.informWorkerStop(mBroadcastID);
 
     }
     
     protected Intent prepareDefaultIntent(String broadCastString) {
-		Logger.VerboseLog(TAG, mClassName + "::entered prepareDefaultIntent()");
+		Utilities.VerboseLog(TAG, mClassName + "::entered prepareDefaultIntent()");
 		Intent intent = new Intent(broadCastString);
 		intent.putExtra("id", mBroadcastID);
 		return intent;

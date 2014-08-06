@@ -1,7 +1,7 @@
 package com.example.app_android.ui;
 
 import com.example.app_android.R;
-import com.example.app_android.util.Logger;
+import com.example.app_android.util.Utilities;
 
 import android.app.Activity;
 import android.app.ListFragment;
@@ -28,26 +28,26 @@ public class FragmentCourses extends ListFragment {
 
 	@Override
 	public void onAttach(Activity activity) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onAttach()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onAttach()");
 		super.onAttach(activity);
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
 		super.onCreate(savedInstanceState);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 		Bundle savedInstanceState) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedState) {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
 		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_course, R.id.course_button, ActivityCourses.coursesArray));
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -55,44 +55,44 @@ public class FragmentCourses extends ListFragment {
 
 	@Override
 	public void onStart() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
 		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_course, R.id.course_button, ActivityCourses.coursesArray));
 		super.onStart();
 	}
 
 	@Override
 	public void onResume() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
 		super.onResume();
 	}
 
 	@Override
 	public void onPause() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
 		super.onPause();
 	}
 
 	@Override
 	public void onStop() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
 		super.onStop();
 	}
 
 	@Override
 	public void onDetach() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDetach()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDetach()");
 		super.onDetach();
 	}
 
 	@Override
 	public void onDestroy() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
 		super.onDestroy();
 	}
 
 	@Override
 	public void onDestroyView() {
-		Logger.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroyView()");
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroyView()");
 		super.onDestroyView();
 	}
 }

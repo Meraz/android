@@ -10,7 +10,7 @@ import android.widget.EditText;
 
 import com.example.app_android.R;
 import com.example.app_android.services.ServiceManager;
-import com.example.app_android.util.Logger;
+import com.example.app_android.util.Utilities;
 import com.example.app_android.util.MyBroadCastReceiver;
 
 public class LoginPrompt {
@@ -50,8 +50,8 @@ public class LoginPrompt {
 			
 			 String user_text = (userInput.getText()).toString();
 			 String user_password = (password.getText()).toString();
-			 Logger.VerboseLog(TAG, user_text);
-			 Logger.VerboseLog(TAG, user_password);
+			 Utilities.VerboseLog(TAG, user_text);
+			 Utilities.VerboseLog(TAG, user_password);
 			 
 			 int id = ServiceManager.getInstance().requestToken(mContext.getApplicationContext(), mBroadCastReceiver, user_text, user_password);
 			 mCallback.onLoginButtonPressed(id);

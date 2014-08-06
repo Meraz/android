@@ -1,78 +1,38 @@
 package com.example.app_android.util;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.concurrent.ExecutionException;
-
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
+import android.util.Log;
 
-public class Utilities {
-	//Fetches string data from the specified address asynchronously (Although blocking on get)
-	public static String fetchDataFromWeb(final String adress) {
-		String fetchResult = "";
+public final class Utilities {
+
+	public final static boolean verbose = true;
+	private final static boolean error = true;
+	private final static String APP_TAG = "com.example.app_android";
+	
+	
+	private Utilities() {
 		
-    	DataFromWeb task = new DataFromWeb();
-    	task.execute(adress);
-		try {
-			fetchResult = task.get();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		}
-		
-		return fetchResult;
+	}
+	
+
+
+	static public void VerboseLog(String tag, String message)
+	{
+		if(verbose)
+			Log.v(tag, message);
+	}
+	
+	static public void ErrorLog(String message)
+	{
+		if(error)
+			Log.e(APP_TAG, message);
 	}
 	
 	public static boolean isNetworkAvailable(Context activityContext) {
 	    ConnectivityManager connectivityManager = (ConnectivityManager) activityContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 	    return activeNetworkInfo != null;
-	}
-	
-	private static class DataFromWeb extends AsyncTask<String, Void, String> {
-		@Override
-		protected String doInBackground(String... params) {
-			URL url;
-			String inputLine = "";
-			String result = "";
-			
-			try {
-				url = new URL(params[0]);	//Create URL from the inputed address
-				
-				HttpURLConnection urlCon = (HttpURLConnection)url.openConnection();
-				InputStream inStream = urlCon.getInputStream();
-				BufferedReader readBuff = new BufferedReader(new InputStreamReader(inStream));
-				while((inputLine = readBuff.readLine()) != null) {
-					result = result + inputLine;
-				}
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				result = "";		//Reset the result string in case something has already been written to it before this happens
-				e.printStackTrace();
-			}
-			return result;
-		}
-
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			// TODO Auto-generated method stub
-			super.onPostExecute(result);
-		}		
 	}
 }
