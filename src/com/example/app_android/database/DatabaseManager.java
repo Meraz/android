@@ -35,7 +35,6 @@ public class DatabaseManager extends SQLiteOpenHelper{
 	private static final int DB_VERSION = 1;
     private static BaseTable[] TABLES;
     private static DatabaseManager mDatabaseManager;
-    private int openedConnections = 0;
     
     public enum TableIndex {
         TOKEN,
