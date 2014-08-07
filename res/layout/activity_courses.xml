@@ -14,17 +14,17 @@
 	        android:layout_alignParentRight="true"
 	        android:text="@string/add_button_text" />
 	
-	   	<EditText
-	        android:id="@+id/courseCode"
+	   	<AutoCompleteTextView
+	        android:id="@+id/course_search_input"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_toLeftOf="@id/addButton"
 	        android:hint="@string/search_field_hint_courses"
 	        android:ems="10" >
-	    </EditText>
+	    </AutoCompleteTextView>
 	    
 	  	<fragment
-    		android:id="@+id/_container"
+    		android:id="@+id/courseListView"
         	android:layout_width="fill_parent"
         	android:layout_height="wrap_content"
         	android:layout_marginTop="?android:attr/actionBarSize"

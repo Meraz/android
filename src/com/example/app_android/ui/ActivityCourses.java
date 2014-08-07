@@ -15,8 +15,10 @@ import java.util.ArrayList;
 import java.util.TimeZone;
 
 import com.example.app_android.R;
+import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.ICalendarEventTable;
+import com.example.app_android.database.ICourseTable;
 import com.example.app_android.database.IFavouriteCourseTable;
 import com.example.app_android.util.Utilities;
 
@@ -39,6 +41,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,12 +53,21 @@ public class ActivityCourses extends BaseActivity {
 
 	private static final String TAG = "CourseView";
 	public static ArrayList<String> coursesArray;
-	EditText courseCode;
-	IFavouriteCourseTable favouriteCoursesHelper;
-	MenuItem syncActionItem;
+	
+	EditText courseCode;		// TODO are these used?
 	MenuItem emptyScheduleItem;
 	View courseList;
-	TextView noCoursesText;
+
+	
+	public static ArrayList<String> favouriteCoursesArray;
+	
+	private ICourseTable 			coursesHelper;
+	private IFavouriteCourseTable 	favouriteCoursesHelper;
+	private AutoCompleteTextView 	courseSearchInput;
+	private MenuItem 				syncActionItem;
+	private View 					favouriteCourseListView;
+	private TextView 				noCoursesText;
+	private ArrayAdapter<String> 	adapter;
 	
 	private static final String CALENDAR_EVENT_TAG = "[This event was added by the BTH App]";
 	
@@ -66,17 +81,23 @@ public class ActivityCourses extends BaseActivity {
 		
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); //This sneaky row stops the darn soft keyboard from popping up like some retarded wack-a-mole every time the activity is opened.
 		
-		favouriteCoursesHelper = DatabaseManager.getInstance().getFavouriteCourseTable();
-		coursesArray = favouriteCoursesHelper.getAll();
-		
 		setContentView(R.layout.activity_courses);
-
-		courseCode = (EditText) findViewById(R.id.courseCode);
-		courseList = findViewById(R.id._container);
-		noCoursesText = (TextView) findViewById(R.id.noCoursesDescription);
-
+		
+		//Get database variables
+		coursesHelper			= DatabaseManager.getInstance().getCourseTable();
+		favouriteCoursesHelper 	= DatabaseManager.getInstance().getFavouriteCourseTable();
+		favouriteCoursesArray 	= favouriteCoursesHelper.getAll();
+		
+		//Get layout variables
+		courseSearchInput 		= (AutoCompleteTextView) findViewById(R.id.course_search_input);
+		favouriteCourseListView = findViewById(R.id.courseListView);
+		noCoursesText 			= (TextView) findViewById(R.id.noCoursesDescription);
+		
+		initializeDropDownSearchField();
+		
+		//Set what should be viewed in the center of the view
 		if(favouriteCoursesHelper.isEmpty())
-			courseList.setVisibility(View.GONE);
+			favouriteCourseListView.setVisibility(View.GONE);
 		else
 			noCoursesText.setVisibility(View.GONE);
 	}
@@ -102,7 +123,6 @@ public class ActivityCourses extends BaseActivity {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.layout.activity_courses_action, menu);
 	    syncActionItem = menu.findItem(R.id.courses_action_sync);
-	    emptyScheduleItem = menu.findItem(R.id.courses_menu_empty_schedule);
 	    return super.onCreateOptionsMenu(menu);
 	}
 
@@ -113,6 +133,7 @@ public class ActivityCourses extends BaseActivity {
     	case R.id.courses_action_sync:
     		exportSchedule();
     		break;
+    		
     	case R.id.courses_menu_empty_schedule:
     		int deletedRowsCount = deleteAllScheduleEvents();
     		Toast.makeText(getApplicationContext(), "Removed " + deletedRowsCount + " events from calendar"  , Toast.LENGTH_SHORT).show();
@@ -123,7 +144,9 @@ public class ActivityCourses extends BaseActivity {
     
     @Override
     public boolean onMenuOpened(int featureId, Menu menu) {
-		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onMenuOpened()");}
+    	if(Utilities.verbose) {Log.v(TAG, mClassName + ":onMenuOpened()");}
+    	
+    	//Make icons visable in overflow menu
         if((featureId == Window.FEATURE_OPTIONS_PANEL || featureId == Window.FEATURE_ACTION_BAR ) && menu != null){
             if(menu.getClass().getSimpleName().equals("MenuBuilder")){
                 try{
@@ -144,10 +167,23 @@ public class ActivityCourses extends BaseActivity {
     }
 
 	public void addCourse(View view) {
+
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":addCourse()");}
-		String cCode = courseCode.getText().toString();
+
+		String cCode = courseSearchInput.getText().toString();
 		if(!cCode.isEmpty()) {
-			if(favouriteCoursesHelper.add(cCode)) {
+			boolean result = false;
+
+				try {
+					result = favouriteCoursesHelper.add(cCode);
+				} catch (NullPointerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (DBException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}			
+			if(result) {
 				//Insert was successful. Now restart the activity to display the added element.
 				finish();
 				startActivity(getIntent());
@@ -168,11 +204,41 @@ public class ActivityCourses extends BaseActivity {
 
 	public void readCourses() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":readCourses()");}
-		coursesArray = favouriteCoursesHelper.getAll();
+		favouriteCoursesArray = favouriteCoursesHelper.getAll();
 	}
 	
 	public void courseChecked(View v) { // TODO function needed?
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":courseChecked()");}
+	}
+	
+	private void initializeDropDownSearchField() {
+		ArrayList<String> courseCodeList = coursesHelper.getAllCourseCodes(); 
+		ArrayList<String> courseNamesList = coursesHelper.getAllCourseNames();
+		
+		int courseCount = courseCodeList.size();
+		
+		String[] courseCodes = new String[courseCount];
+		String[] courseNames = new String[courseCount];
+		courseCodes = courseCodeList.toArray(courseCodes);
+		courseNames = courseNamesList.toArray(courseNames);
+		
+		String[] adapterInput = new String[courseCount];
+		for (int i = 0; i < courseCount; ++i) {
+			adapterInput[i] = courseCodes[i] + " - " + courseNames[i];
+		}
+		
+		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, adapterInput);
+		courseSearchInput.setAdapter(adapter);
+		courseSearchInput.setThreshold(2); //Minimum two characters must be inputed before the list is presented
+		courseSearchInput.setOnItemClickListener(new OnItemClickListener() {
+		    
+			@Override
+		    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				Intent intent = new Intent(getApplicationContext(), ActivityDetailedCourse.class);
+				intent.putExtra("courseCode",(String) arg0.getItemAtPosition(arg2));
+				startActivity(intent);
+		    }
+		});
 	}
 	
 	private int deleteAllScheduleEvents() {
