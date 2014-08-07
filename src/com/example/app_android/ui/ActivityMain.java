@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.app_android.R;
+import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.ITokenTable;
 import com.example.app_android.services.ServiceManager;
@@ -169,7 +170,6 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 	@Override
 	public void onWorkerUpdate(Intent intent) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onWorkerUpdate()");}
-		// TODO Auto-generated method stub
 	}
 	
 	@Override
@@ -225,6 +225,14 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 	public void attemptLogout() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":attemptLogout()");}
 		ITokenTable a = DatabaseManager.getInstance().getTokenTable();
-		a.updateToken("test", 0, ITokenTable.TransactionFlag.Success);
+		try {
+			a.updateToken("test", 0, ITokenTable.TransactionFlag.Success);
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}	
 }

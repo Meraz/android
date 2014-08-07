@@ -2,6 +2,7 @@ package com.example.app_android.ui;
 
 import com.example.app_android.CourseBean;
 import com.example.app_android.R;
+import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.ICourseTable;
 import com.example.app_android.database.IFavouriteCourseTable;
@@ -87,7 +88,17 @@ public class ActivityDetailedCourse extends BaseActivity {
 	    	}
 	    	else {
 	    		isFavourite = true;
-	    		if(favouriteCourseHelper.add(courseCode)) {
+	    		boolean result = false;
+	    		try {
+					result = favouriteCourseHelper.add(courseCode);
+				} catch (NullPointerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (DBException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	    		
+	    		if(result) {
 	    			addOrRemoveButton.setIcon(R.drawable.ic_action_important);
 	    			Toast.makeText(getApplicationContext(), courseCode + " was added to favourite courses", Toast.LENGTH_SHORT).show();
 	    		}
