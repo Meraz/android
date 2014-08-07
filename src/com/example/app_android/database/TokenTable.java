@@ -45,7 +45,7 @@ public class TokenTable extends BaseTable implements ITokenTable{
 	
 	// Overrides this function as I'm using another method when inserting
 	@Override
-	public void fillTableWithDefaultData(SQLiteDatabase db) throws SQLException  {
+	public void fillTableWithDefaultData(SQLiteDatabase db) throws SQLException, DBException {
 		super.fillTableWithDefaultData(db);
 		
 		db.beginTransaction();
@@ -55,14 +55,26 @@ public class TokenTable extends BaseTable implements ITokenTable{
 		values.put(COLUMN_EXPIREDATE, (int)-1);
 		values.put(COLUMN_TRANSACTION_FLAG, (int)TransactionFlag.Unknown.ordinal());
 		
-		int result = (int) db.insert(TABLE_NAME, null, values);
-
-		if(result == -1)
-			throw new SQLException("error at: " + mClass + ":fillTableWithDefaultData()");
+		int result = 0;
+		try {
+			result = (int) db.insert(TABLE_NAME, null, values);
+			db.setTransactionSuccessful();
+			
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.insert()");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
+		}
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful()");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		finally{
+			db.endTransaction();
+		}
 		
-		db.setTransactionSuccessful();
-		db.endTransaction();
-		
+		if(result == 0) {
+			throw new DBException("No entries removed in database.");
+		}
 	}
 	
 	// Returns token value as String. Inherited from ITokenTable
@@ -100,7 +112,7 @@ public class TokenTable extends BaseTable implements ITokenTable{
 		
 	// Inherited from ITokenTable
 	@Override
-	public int updateToken(String tokenValue, long expireDate, TransactionFlag transaction_flag) {
+	public void updateToken(String tokenValue, long expireDate, TransactionFlag transaction_flag) throws DBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":updateToken()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
@@ -114,21 +126,27 @@ public class TokenTable extends BaseTable implements ITokenTable{
 		try {
 			result = db.update(TABLE_NAME, values, null, null);
 			db.setTransactionSuccessful();	
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.insert()");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
-		catch(Exception e) {
-			Utilities.ErrorLog("Error TokenTable:updateToken(). Message: " + e.getMessage());
-			return -1;
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful()");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
 		finally {
 			db.endTransaction();
 			db.close();				
 		}
-		return result;
+		
+		if(result == -1) {
+			throw new DBException("error at: " + mClass + ":fillTableWithDefaultData()");
+		}
 	}
 	
 	// Inherited from ITokenTable
 	@Override
-	public int updateTransactionFlag(TransactionFlag transaction_flag) {
+	public void updateTransactionFlag(TransactionFlag transaction_flag) throws DBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":updateTransactionFlag()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
@@ -139,16 +157,18 @@ public class TokenTable extends BaseTable implements ITokenTable{
 		try {
 			result = db.update(TABLE_NAME, values, null, null);
 			db.setTransactionSuccessful();
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.insert()");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
-		catch(Exception e) {
-			Utilities.ErrorLog("Error TokenTable:updateTransactionFlag. Message: " + e.getMessage());
-			return -1;
-		}	
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful()");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
 		finally {
 			db.endTransaction();
 			db.close();				
 		}
-		return result;
 	}
 	
 	// Inherited from ITokenTable

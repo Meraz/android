@@ -79,7 +79,17 @@ public class ActivityDetailedCourse extends BaseActivity {
 	    case R.id.detailed_course_action_add_or_remove:
 	    	if(isFavourite) {
 	    		isFavourite = false;
-	    		if(favouriteCourseHelper.remove(courseCode)) {
+	    		boolean result = false;
+	    			try {
+						result = favouriteCourseHelper.remove(courseCode);
+					} catch (NullPointerException e) {
+						// TODO 
+						e.printStackTrace();
+					} catch (DBException e) {
+						// TODO 
+						e.printStackTrace();
+					}	    		
+	    		if(result) {
 	    			addOrRemoveButton.setIcon(R.drawable.ic_action_not_important);
 	    			Toast.makeText(getApplicationContext(), courseCode + " was removed from favourite courses", Toast.LENGTH_SHORT).show();
 	    		}

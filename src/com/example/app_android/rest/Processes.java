@@ -71,7 +71,7 @@ public class Processes {
 				// TODO This could end in an assertion crash
 				e.printStackTrace();
 			} catch (DBException e2) {
-				// TODO This could end in an assertion crash
+				// TODO This could 
 				e.printStackTrace();
 			}
 			// Rethrow the error upwards
@@ -141,9 +141,8 @@ public class Processes {
 		expires_in += (System.currentTimeMillis()/1000); // Add currentTime for expire_time
 		tokenTable.PrintEntireToken();
 		
-		int result;
 		try {
-			result = tokenTable.updateToken(access_token, expires_in, ITokenTable.TransactionFlag.Success);
+			tokenTable.updateToken(access_token, expires_in, ITokenTable.TransactionFlag.Success);
 		} catch (NullPointerException e) {
 			// TODO
 			e.printStackTrace();

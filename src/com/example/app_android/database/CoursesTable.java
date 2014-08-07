@@ -54,7 +54,7 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 	}
 	
 	@Override
-	public void fillTableWithDefaultData(SQLiteDatabase db) {
+	public void fillTableWithDefaultData(SQLiteDatabase db) throws DBException {
 		super.fillTableWithDefaultData(db);
 		int defaultValueCount = 6;
 		
@@ -120,12 +120,28 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 		
 		db.beginTransaction();
 		
-		for (int i = 0; i < defaultValueCount; ++i) {
-			db.insert(TABLE_NAME, null, values[i]);
+		try {
+			int result = -1;
+			for (int i = 0; i < defaultValueCount; ++i) {
+				result = (int)db.insert(TABLE_NAME, null, values[i]);
+				if(result == -1) {
+					throw new DBException("Database error");
+				}
+			}
+			db.setTransactionSuccessful();
+			
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":remove()::db.delete();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
-
-		db.setTransactionSuccessful();
-		db.endTransaction();
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":remove()::db.setTransactionSuccessful();");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		finally{
+			db.endTransaction();
+			db.close();
+		}
 	}
 	
 	@Override
