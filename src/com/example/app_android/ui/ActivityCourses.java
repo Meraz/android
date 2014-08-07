@@ -491,7 +491,14 @@ public class ActivityCourses extends BaseActivity {
 			 for(int i = 0; i < outdatedEvents.size(); ++i) {
 				 String[] eventData = outdatedEvents.get(i);
 				 int eventId = eventTable.getEventId(eventData[0], eventData[1], eventData[2], eventData[3]);
-				 if(eventTable.remove(eventId)) {
+				 boolean result = false;
+				 try {
+					eventTable.remove(eventId);
+				} catch (DBException e) {
+					// TODO
+					e.printStackTrace();
+				}
+				 if(result) {
 					 if(deleteEvent(eventId)) {
 						{
 							++deletedEvents;
@@ -590,7 +597,15 @@ public class ActivityCourses extends BaseActivity {
 			String eventId = uri.getLastPathSegment();
 			
 			ICalendarEventTable eventTable = DatabaseManager.getInstance().getCalendarEventTable();
-			eventTable.add(Integer.parseInt(eventId), title, description, eventData[0], eventData[1]);
+			try {
+				eventTable.add(Integer.parseInt(eventId), title, description, eventData[0], eventData[1]);
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	 	}
 	}
 }

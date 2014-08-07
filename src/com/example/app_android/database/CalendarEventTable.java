@@ -44,7 +44,7 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 	}
 
 	@Override
-	public boolean add(long id, String title, String description ,String startTime, String endTime) {
+	public boolean add(long id, String title, String description ,String startTime, String endTime) throws DBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":createTable()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
@@ -55,27 +55,58 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 		values.put(COLUMN_DESCRIPTION, description);
 		values.put(COLUMN_STARTTIME, startTime);
 		values.put(COLUMN_ENDTIME, endTime);
-		long resultId = db.insert(TABLE_NAME, null, values);
+		long resultId = 0;
 		
-		db.setTransactionSuccessful();
-		db.endTransaction();
-		db.close();
-		
-		return resultId >= 0;
+		try {
+			resultId = db.insert(TABLE_NAME, null, values);
+			db.setTransactionSuccessful();
+			
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":add()::db.delete();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
+		}
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":add()::db.setTransactionSuccessful();");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		finally{
+			db.endTransaction();
+			db.close();
+		}
+		if(resultId == -1) {
+			throw new DBException("error at: " + mClass + ":add()");
+		}
+		return true;
 	}
 
 	@Override
-	public boolean remove(long id) {
+	public boolean remove(long id) throws DBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":remove()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
 		
-		int deletedRowCount = db.delete(TABLE_NAME, COLUMN_ID + "=" + "'" + id + "'", null);
 		
-		db.setTransactionSuccessful();
-		db.endTransaction();
-		db.close();
+		int deletedRowCount = 0;
 		
+		try {
+			deletedRowCount = db.delete(TABLE_NAME, COLUMN_ID + "=" + "'" + id + "'", null);
+			db.setTransactionSuccessful();
+			
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":remove()::db.delete();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
+		}
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":remove()::db.setTransactionSuccessful();");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		finally{
+			db.endTransaction();
+			db.close();
+		}
+		if(deletedRowCount == 0) {
+			throw new DBException("No entries removed in database.");
+		}
 		return deletedRowCount > 0;
 	}
 
