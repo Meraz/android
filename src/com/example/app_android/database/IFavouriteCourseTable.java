@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public interface IFavouriteCourseTable {
 	
-	public boolean add(String courseCode);
+	public boolean add(String courseCode) throws DBException, NullPointerException;
 	
 	public boolean remove(String courseCode);
 	

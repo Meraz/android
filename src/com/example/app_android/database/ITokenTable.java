@@ -18,10 +18,10 @@ public interface ITokenTable {
 	
 	// Updates token with new tokenvalue, expiredate and sets the new transaction_flag.
 	// returns the amount of rows updated. 0 if none. -1 error
-	public int updateToken(String tokenValue, long expireDate, TransactionFlag transaction_flag);
+	public int updateToken(String tokenValue, long expireDate, TransactionFlag transaction_flag) throws DBException, NullPointerException;
 	
 	// Update transaction_flag
-	public int updateTransactionFlag(TransactionFlag transaction_flag);
+	public int updateTransactionFlag(TransactionFlag transaction_flag) throws DBException, NullPointerException;
 	
 	// Returns current transactionFlag on the token. There can only be one
 	public TransactionFlag getTransactionFlag();	
