@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,8 @@ import android.widget.TextView;
 public class FragmentCourses extends ListFragment {
 	
 	private static final String TAG = "FragmentCourses";
-
+	private String mClassName;
+	
 	@Override
 	public void onListItemClick(ListView l, View v, int pos, long id) {
 		Intent intent = new Intent(getActivity().getApplicationContext(), ActivityDetailedCourse.class);
@@ -28,26 +30,26 @@ public class FragmentCourses extends ListFragment {
 
 	@Override
 	public void onAttach(Activity activity) {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onAttach()");
+		mClassName = getClass().getSimpleName();
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onAttach()");}
 		super.onAttach(activity);
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onCreate()");}
 		super.onCreate(savedInstanceState);
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-		Bundle savedInstanceState) {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onCreateView()");}
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedState) {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onActivityCreated()");}
 		super.onActivityCreated(savedState);
 		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_course, R.id.course_button, ActivityCourses.coursesArray));
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -55,44 +57,44 @@ public class FragmentCourses extends ListFragment {
 
 	@Override
 	public void onStart() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onStart()");}
 		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_course, R.id.course_button, ActivityCourses.coursesArray));
 		super.onStart();
 	}
 
 	@Override
 	public void onResume() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onResume()");}
 		super.onResume();
 	}
 
 	@Override
 	public void onPause() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onPause()");}
 		super.onPause();
 	}
 
 	@Override
 	public void onStop() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onStop()");}
 		super.onStop();
 	}
 
 	@Override
 	public void onDetach() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDetach()");
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onDetach()");}
 		super.onDetach();
 	}
 
 	@Override
 	public void onDestroy() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onDestroy()");}
 		super.onDestroy();
 	}
 
 	@Override
 	public void onDestroyView() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroyView()");
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onDestroyView()");}
 		super.onDestroyView();
 	}
 }

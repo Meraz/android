@@ -46,9 +46,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ActivityCourses extends Activity {
+public class ActivityCourses extends BaseActivity {
 
-	private static final String TAG = "ActivityCourses";
+	private static final String TAG = "CourseView";
 	public static ArrayList<String> coursesArray;
 	EditText courseCode;
 	IFavouriteCourseTable favouriteCoursesHelper;
@@ -61,6 +61,8 @@ public class ActivityCourses extends Activity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		mClassName = getClass().getSimpleName();
+		mTag = TAG;		
 		super.onCreate(savedInstanceState);
 		
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); //This sneaky row stops the darn soft keyboard from popping up like some retarded wack-a-mole every time the activity is opened.
@@ -79,49 +81,24 @@ public class ActivityCourses extends Activity {
 		else
 			noCoursesText.setVisibility(View.GONE);
 	}
-
-    @Override
-	protected void onDestroy() {
-    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
-		super.onDestroy();
-	}
-
-	@Override
-	protected void onPause() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
-		super.onPause();
-	}
-
+ 
 	@Override
 	protected void onRestart() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
+		super.onRestart();
 		//Restart this view to display the correct information
 		finish();
 		startActivity(getIntent());
-		super.onRestart();
 	}
 
 	@Override
 	protected void onResume() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
-		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); //This sneaky row stops the darn soft keyboard from popping up like some retarded wack-a-mole every time the activity is opened.
 		super.onResume();
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); //This sneaky row stops the darn soft keyboard from popping up like some retarded wack-a-mole every time the activity is opened.
 	}
-
-	@Override
-	protected void onStart() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
-		super.onStart();
-	}
-
-	@Override
-	protected void onStop() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
-		super.onStop();
-	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onCreateOptionsMenu()");}
 	    // Inflate the menu items for use in the action bar
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.layout.activity_courses_action, menu);
@@ -132,6 +109,7 @@ public class ActivityCourses extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+    	if(Utilities.verbose) {Log.v(TAG, mClassName + ":onOptionsItemSelected()");}
     	switch (item.getItemId()) {
     	case R.id.courses_action_info:
     		Builder alert = new AlertDialog.Builder(this);
@@ -152,8 +130,8 @@ public class ActivityCourses extends Activity {
     }
     
     @Override
-    public boolean onMenuOpened(int featureId, Menu menu)
-    {
+    public boolean onMenuOpened(int featureId, Menu menu) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onMenuOpened()");}
         if((featureId == Window.FEATURE_OPTIONS_PANEL || featureId == Window.FEATURE_ACTION_BAR ) && menu != null){
             if(menu.getClass().getSimpleName().equals("MenuBuilder")){
                 try{
@@ -174,6 +152,7 @@ public class ActivityCourses extends Activity {
     }
 
 	public void addCourse(View view) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":addCourse()");}
 		String cCode = courseCode.getText().toString();
 		if(!cCode.isEmpty()) {
 			if(favouriteCoursesHelper.add(cCode)) {
@@ -188,6 +167,7 @@ public class ActivityCourses extends Activity {
 	}
 
 	public void startCalendar(View view) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":startCalendar()");}
     	//Start the calendar app
     	Uri uri = Uri.parse("content://com.android.calendar/time");
 		Intent intent = new Intent("android.intent.action.VIEW", uri);
@@ -195,14 +175,16 @@ public class ActivityCourses extends Activity {
 	}
 
 	public void readCourses() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":readCourses()");}
 		coursesArray = favouriteCoursesHelper.getAll();
 	}
-
-	public void courseChecked(View v) {
-		Utilities.VerboseLog(TAG, "Checked or Unchecked");
+	
+	public void courseChecked(View v) { // TODO function needed?
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":courseChecked()");}
 	}
 	
 	private int deleteAllScheduleEvents() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":deleteAllScheduleEvents()");}
  		int rowsDeletedCount = getContentResolver().delete(CalendarContract.Events.CONTENT_URI,
  				Events.DESCRIPTION + " LIKE ? ", new String[] {"%" + CALENDAR_EVENT_TAG +"%"});
  		
@@ -212,6 +194,7 @@ public class ActivityCourses extends Activity {
 	@SuppressWarnings("unchecked") //Should be safe to ignore this warning. It complains about not knowing the type of arraylist being sent in exportTask.execute(requests)
 	@SuppressLint("SimpleDateFormat")
 	private void exportSchedule() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":exportSchedule()");}
 		if(Utilities.isNetworkAvailable(getApplicationContext())) {
 			Utilities.VerboseLog(TAG, "Exporting schedule to Google Calendar");
 			ArrayList<String> courseCodes = favouriteCoursesHelper.getAll();

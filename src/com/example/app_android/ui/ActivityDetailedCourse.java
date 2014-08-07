@@ -11,14 +11,15 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ActivityDetailedCourse extends Activity {
-	private static final String TAG = "ActivityDetailedCourse";
+public class ActivityDetailedCourse extends BaseActivity {
+	private static final String TAG = "CourseView";
 	String courseCode;
 	boolean isFavourite;
 	MenuItem addOrRemoveButton;
@@ -27,6 +28,8 @@ public class ActivityDetailedCourse extends Activity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		mClassName = getClass().getSimpleName();
+		mTag = TAG;
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detailed_course);
 		
@@ -56,44 +59,10 @@ public class ActivityDetailedCourse extends Activity {
 		isFavourite = favouriteCourseHelper.getAll().contains(courseCode);
 	}
 	
-	@Override
-	protected void onDestroy() {
-    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
-		super.onDestroy(); 
-	}
-
-	@Override
-	protected void onPause() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
-		super.onPause();
-	}
-
-	@Override
-	protected void onRestart() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
-		super.onRestart();
-	}
-
-	@Override
-	protected void onResume() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
-		super.onResume();
-	}
-
-	@Override
-	protected void onStart() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
-		super.onStart();		
-	}
-
-	@Override
-	protected void onStop() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
-		super.onStop();
-	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onCreateOptionsMenu()");}
 	    // Inflate the menu items for use in the action bar
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.layout.activity_detailed_course_action, menu);

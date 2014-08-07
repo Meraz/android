@@ -3,13 +3,13 @@ package com.example.app_android.ui;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import android.view.View;
 import android.widget.Toast;
-
 
 import com.example.app_android.R;
 import com.example.app_android.database.DatabaseManager;
@@ -19,24 +19,26 @@ import com.example.app_android.ui.LoginPrompt.LoginPromptCallback;
 import com.example.app_android.util.Utilities;
 import com.example.app_android.util.MyBroadCastReceiver;
 import com.example.app_android.util.MyBroadCastReceiver.Receiver;
-import com.example.app_android.util.Utilities;
 
 public class ActivityMain extends BaseActivity implements Receiver, LoginPromptCallback  {
-
-	MenuItem syncActionItem;	
-
+	
 	private static final String TAG = "Main";
+
 	private MyBroadCastReceiver mCheckLoginReceiver;
 	int mIDCheckLoginService;
 	private MyBroadCastReceiver mLoginReceiver;
 	int mIDLoginService;
+	
+	private MenuItem mSyncActionItem;	
+	
 	/*
 	 * This is the first function that is executed for this application.
 	 * Specified in the file 'AndroidManifest.xml"
 	 */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
+    	mClassName = getClass().getSimpleName();
+    	mTag = TAG;
     	super.onCreate(savedInstanceState);
     	
         // Sets the content specified in the file in res/layout/activity_main.xml
@@ -44,34 +46,9 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
         setContentView(R.layout.activity_main);
     }
 
-    @Override
-	protected void onDestroy() {
-    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
-    	
-		super.onDestroy();
-	}
-
-	@Override
-	protected void onPause() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
-		super.onPause();
-	}
-
-	@Override
-	protected void onRestart() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
-		super.onRestart();
-	}
-
-	@Override
-	protected void onResume() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
-		super.onResume();
-	}
-
 	@Override
 	protected void onStart() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
+		super.onStart();
 		
 		// Working testcode. Should only need to be moved to another file later on
 		if(mLoginReceiver == null) {
@@ -86,22 +63,20 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 		} 
 		
 		mCheckLoginReceiver.registerBroadCastReceiver(this);
-		super.onResume();
-		super.onStart();
+	//	super.onResume(); // TODO is this needed?
 	}
 
 	@Override
 	protected void onStop() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
+		super.onStop();
 		
 		mLoginReceiver.unregisterBroadCastReceiver(this);
 		mCheckLoginReceiver.unregisterBroadCastReceiver(this);
-		
-		super.onStop();
 	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onCreateOptionsMenu()");}
 		
 	    // Inflate the menu items for use in the action bar
 	    MenuInflater inflater = getMenuInflater();
@@ -113,15 +88,21 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 
 
 	public void startSyncIcon() {
-		syncActionItem.setVisible(true);
-		syncActionItem.setActionView(R.layout.item_action_sync_indicator);
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":startSyncIcon()");}
+		
+		mSyncActionItem.setVisible(true);
+		mSyncActionItem.setActionView(R.layout.item_action_sync_indicator);
 	}
 
 	public void stopSyncIcon() {
-		 syncActionItem.setActionView(null); // stop
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":stopSyncIcon()");}
+		
+		 mSyncActionItem.setActionView(null); // stop
 	}
 	
 	public void onButtonClicked(View view) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onButtonClicked()");}
+		
 		Intent intent;
 		
 		switch (view.getId()) {
@@ -169,6 +150,7 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 	}
 	
 	private void showDialog() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":showDialog()");}
 		FragmentManager manager = getFragmentManager();
 		DialogChooseCity dialog = new DialogChooseCity();
 		dialog.show(manager, "chooseCityDialog");
@@ -176,7 +158,7 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 	
 	@Override
 	public void onWorkerStart(Intent intent) {		
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStart()");
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onWorkerStart()");}
 		
 		int id = intent.getIntExtra("id", -1);
 		
@@ -186,13 +168,13 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 	}	
 	@Override
 	public void onWorkerUpdate(Intent intent) {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceUpdate()");
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onWorkerUpdate()");}
 		// TODO Auto-generated method stub
 	}
 	
 	@Override
 	public void onWorkerStop(Intent intent) {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onServiceStop()");
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onWorkerStop()");}
 		
 		int id = intent.getIntExtra("id", -1);
 		
@@ -206,7 +188,7 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 				String message = intent.getStringExtra("message");
 				Toast.makeText(this, "[TESTCODE] " + message , Toast.LENGTH_SHORT).show(); 
 				stopSyncIcon();
-				syncActionItem.setVisible(false);
+				mSyncActionItem.setVisible(false);
 			}
 			
 			// Check with server
@@ -221,24 +203,27 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 				Toast.makeText(this, "[TESTCODE] Failed inlog. " + errorMessageShort, Toast.LENGTH_SHORT).show(); 
 			}
 			stopSyncIcon();
-			syncActionItem.setVisible(false);
+			mSyncActionItem.setVisible(false);
 		}		
 	}
 	
 	@Override
 	public void onLoginButtonPressed(int workerID) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onLoginButtonPressed()");}
 		mIDLoginService = workerID;
 	}	
 	
-	// TODO remove debug code
+	// TODO Move this code to whereever you want login. atm debug code
 	private void attemptLogin() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":attemptLogin()");}
 		// Check if login is required. This is only test code. Should be moved to correct place in future
 		mIDCheckLoginService =	ServiceManager.getInstance().checkIfLoginIsRequired(this.getApplicationContext(), mCheckLoginReceiver);
 		startSyncIcon();
 	}
 	
-	// TODO remove debug code
+	// TODO Debug code to test login functionality
 	public void attemptLogout() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":attemptLogout()");}
 		ITokenTable a = DatabaseManager.getInstance().getTokenTable();
 		a.updateToken("test", 0, ITokenTable.TransactionFlag.Success);
 	}	
