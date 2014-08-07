@@ -29,47 +29,95 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 	}
 	 
 	@Override
-	public void fillTableWithDefaultData(SQLiteDatabase db) {
+	public void fillTableWithDefaultData(SQLiteDatabase db) throws DBException {
 		super.fillTableWithDefaultData(db);
 		db.beginTransaction();
 			
 		//TODO - remove test data
 		ContentValues values = new ContentValues();
-		values.put(COLUMN_COURSE_CODE, "testCode");
-		db.insert(TABLE_NAME, null, values);
-
-		db.setTransactionSuccessful();
-		db.endTransaction();
+		values.put(COLUMN_COURSE_CODE, "testCode");		
+		int result = -1;
+		try {
+			result = (int) db.insert(TABLE_NAME, null, values);
+			db.setTransactionSuccessful();
+			
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.insert();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
+		}
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful();");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		finally{
+			db.endTransaction();
+		}
+		
+		if(result == -1) {
+			throw new DBException("Database error");
+		}
 	}
 
 	@Override
-	public boolean add(String courseCode) {
+	public boolean add(String courseCode) throws DBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":add()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
-		db.beginTransaction();
-		
+		db.beginTransaction();		
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(COLUMN_COURSE_CODE, courseCode);
-		long id = db.insert(TABLE_NAME, null, contentValues);
 		
-		db.setTransactionSuccessful();
-		db.endTransaction();
-		db.close();
-		return id >= 0;
+		int result = -1;
+		try {
+			db.insert(TABLE_NAME, null, contentValues);
+			db.setTransactionSuccessful();
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":remove()::db.delete();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
+		}
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":remove()::db.setTransactionSuccessful();");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		finally{
+			db.endTransaction();
+			db.close();
+		}
+		
+		if(result == -1) {
+			throw new DBException("Database error");
+		}
+
+
+		return true;
 	}
 
 	@Override
-	public boolean remove(String courseCode) {
+	public boolean remove(String courseCode) throws DBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":remove()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
 		
-		int deletedRowCount = db.delete(TABLE_NAME, COLUMN_COURSE_CODE + "=" +"'" + courseCode + "'", null);
-		
-		db.setTransactionSuccessful();
-		db.endTransaction();
-		db.close();
-		return deletedRowCount > 0;
+		int deletedRowCount;
+		try {
+			deletedRowCount = db.delete(TABLE_NAME, COLUMN_COURSE_CODE + "=" +"'" + courseCode + "'", null);
+			db.setTransactionSuccessful();
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":remove()::db.delete();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
+		}
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":remove()::db.setTransactionSuccessful();");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		finally{
+			db.endTransaction();
+			db.close();
+		}
+				
+		if(deletedRowCount == 0) {
+			throw new DBException("No entries removed in database.");
+		}
+		return true;
 	}
 
 	@Override
