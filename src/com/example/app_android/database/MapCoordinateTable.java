@@ -61,89 +61,80 @@ public class MapCoordinateTable extends BaseTable implements IMapCoordinateTable
 		final int defaultValueCount = 13;
 		
 		ContentValues values[] = new ContentValues[defaultValueCount];
-		values[0] = new ContentValues();
+		for (int i = 0; i < defaultValueCount; ++i) {
+			values[i] = new ContentValues();
+		}
+		
 		values[0].put(COLUMN_NAME, "HOUSE_A");
 		values[0].put(COLUMN_DESCRIPTION, "Description missing");
 		values[0].put(COLUMN_COORDINATE_LATITUDE, 56.182016);
 		values[0].put(COLUMN_COORDINATE_LONGITUDE, 15.590502);
 		values[0].put(COLUMN_ICON_ID, MARKER_ICON_ID_HOUSE_A);
 		
-		values[1] = new ContentValues();
 		values[1].put(COLUMN_NAME, "HOUSE_B");
 		values[1].put(COLUMN_DESCRIPTION, "Description missing");
 		values[1].put(COLUMN_COORDINATE_LATITUDE, 56.180673);
 		values[1].put(COLUMN_COORDINATE_LONGITUDE, 15.590691);
 		values[1].put(COLUMN_ICON_ID, MARKER_ICON_ID_HOUSE_B);
 		
-		values[2] = new ContentValues();
 		values[2].put(COLUMN_NAME, "HOUSE_C");
 		values[2].put(COLUMN_DESCRIPTION, "Description missing");
 		values[2].put(COLUMN_COORDINATE_LATITUDE, 56.181189);
 		values[2].put(COLUMN_COORDINATE_LONGITUDE, 15.592303);
 		values[2].put(COLUMN_ICON_ID, MARKER_ICON_ID_HOUSE_C);
 		
-		values[3] = new ContentValues();
 		values[3].put(COLUMN_NAME, "HOUSE_D");
 		values[3].put(COLUMN_DESCRIPTION, "Description missing");
 		values[3].put(COLUMN_COORDINATE_LATITUDE, 56.181670);
 		values[3].put(COLUMN_COORDINATE_LONGITUDE, 15.592375);
 		values[3].put(COLUMN_ICON_ID, MARKER_ICON_ID_HOUSE_D);
 		
-		values[4] = new ContentValues();
 		values[4].put(COLUMN_NAME, "HOUSE_G");
 		values[4].put(COLUMN_DESCRIPTION, "Description missing");
 		values[4].put(COLUMN_COORDINATE_LATITUDE, 56.181891);
 		values[4].put(COLUMN_COORDINATE_LONGITUDE, 15.591308);
 		values[4].put(COLUMN_ICON_ID, MARKER_ICON_ID_HOUSE_G);
 		
-		values[5] = new ContentValues();
 		values[5].put(COLUMN_NAME, "HOUSE_H");
 		values[5].put(COLUMN_DESCRIPTION, "Description missing");
 		values[5].put(COLUMN_COORDINATE_LATITUDE, 56.182348);
 		values[5].put(COLUMN_COORDINATE_LONGITUDE, 15.590819);
 		values[5].put(COLUMN_ICON_ID, MARKER_ICON_ID_HOUSE_H);
 		
-		values[6] = new ContentValues();
 		values[6].put(COLUMN_NAME, "HOUSE_J");
 		values[6].put(COLUMN_DESCRIPTION, "Description missing");
 		values[6].put(COLUMN_COORDINATE_LATITUDE, 56.182933);
 		values[6].put(COLUMN_COORDINATE_LONGITUDE, 15.590401);
 		values[6].put(COLUMN_ICON_ID, MARKER_ICON_ID_HOUSE_J);
 		
-		values[7] = new ContentValues();
 		values[7].put(COLUMN_NAME, "HOUSE_K");
 		values[7].put(COLUMN_DESCRIPTION, "Description missing");
 		values[7].put(COLUMN_COORDINATE_LATITUDE, 56.181711);
 		values[7].put(COLUMN_COORDINATE_LONGITUDE, 15.589841);
 		values[7].put(COLUMN_ICON_ID, MARKER_ICON_ID_ROTUNDAN);
 		
-		values[8] = new ContentValues();
 		values[8].put(COLUMN_NAME, "KARLSHAMN_HOUSE_A");
 		values[8].put(COLUMN_DESCRIPTION, "Description missing");
 		values[8].put(COLUMN_COORDINATE_LATITUDE, 56.163626);
 		values[8].put(COLUMN_COORDINATE_LONGITUDE, 14.866623);
 		values[8].put(COLUMN_ICON_ID, MARKER_ICON_ID_HOUSE_A);
 		
-		values[9] = new ContentValues();
 		values[9].put(COLUMN_NAME, "KARLSHAMN_HOUSE_B");
 		values[9].put(COLUMN_DESCRIPTION, "Description missing");
 		values[9].put(COLUMN_COORDINATE_LATITUDE, 56.164464);
 		values[9].put(COLUMN_COORDINATE_LONGITUDE, 14.866012);
 		values[9].put(COLUMN_ICON_ID, MARKER_ICON_ID_HOUSE_B);
 		
-		values[10] = new ContentValues();
 		values[10].put(COLUMN_NAME, "CAMPUS_KARLSKRONA");
 		values[10].put(COLUMN_DESCRIPTION, "Description missing");
 		values[10].put(COLUMN_COORDINATE_LATITUDE, 56.182242);
 		values[10].put(COLUMN_COORDINATE_LONGITUDE, 15.590712);
 		
-		values[11] = new ContentValues();
 		values[11].put(COLUMN_NAME, "CAMPUS_KARLSHAMN");
 		values[11].put(COLUMN_DESCRIPTION, "Description missing");
 		values[11].put(COLUMN_COORDINATE_LATITUDE, 56.164384);
 		values[11].put(COLUMN_COORDINATE_LONGITUDE, 14.866024);
 		
-		values[12] = new ContentValues();
 		values[12].put(COLUMN_NAME, "BSK_OFFICE");
 		values[12].put(COLUMN_DESCRIPTION, "Description missing");
 		values[12].put(COLUMN_COORDINATE_LATITUDE, 56.181975);

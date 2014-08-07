@@ -17,6 +17,7 @@ import java.util.TimeZone;
 import com.example.app_android.R;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.ICalendarEventTable;
+import com.example.app_android.database.ICourseTable;
 import com.example.app_android.database.IFavouriteCourseTable;
 import com.example.app_android.util.Utilities;
 
@@ -42,20 +43,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class ActivityCourses extends Activity {
 
 	private static final String TAG = "ActivityCourses";
-	public static ArrayList<String> coursesArray;
-	EditText courseCode;
-	IFavouriteCourseTable favouriteCoursesHelper;
-	MenuItem syncActionItem;
-	MenuItem emptyScheduleItem;
-	View courseList;
-	TextView noCoursesText;
+	public static ArrayList<String> favouriteCoursesArray;
+	private ICourseTable coursesHelper;
+	private IFavouriteCourseTable favouriteCoursesHelper;
+	private AutoCompleteTextView courseSearchInput;
+	private MenuItem syncActionItem;
+	private MenuItem emptyScheduleItem;
+	private View courseList;
+	private TextView noCoursesText;
+	private ArrayAdapter<String> adapter;
 	
 	private static final String CALENDAR_EVENT_TAG = "[This event was added by the BTH App]";
 	
@@ -65,14 +73,31 @@ public class ActivityCourses extends Activity {
 		
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); //This sneaky row stops the darn soft keyboard from popping up like some retarded wack-a-mole every time the activity is opened.
 		
-		favouriteCoursesHelper = DatabaseManager.getInstance().getFavouriteCourseTable();
-		coursesArray = favouriteCoursesHelper.getAll();
-		
 		setContentView(R.layout.activity_courses);
-
-		courseCode = (EditText) findViewById(R.id.courseCode);
-		courseList = findViewById(R.id._container);
-		noCoursesText = (TextView) findViewById(R.id.noCoursesDescription);
+		
+		coursesHelper			= DatabaseManager.getInstance().getCourseTable();
+		favouriteCoursesHelper 	= DatabaseManager.getInstance().getFavouriteCourseTable();
+		favouriteCoursesArray 	= favouriteCoursesHelper.getAll();
+		
+		courseSearchInput 		= (AutoCompleteTextView) findViewById(R.id.course_search_input);
+		courseList 				= findViewById(R.id._container);
+		noCoursesText 			= (TextView) findViewById(R.id.noCoursesDescription);
+		
+		ArrayList<String> courseCodeList = coursesHelper.getAllCourseCodes(); 
+		String[] courseCodes = new String[courseCodeList.size()];
+		courseCodes = courseCodeList.toArray(courseCodes);
+		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, courseCodes);
+		courseSearchInput.setAdapter(adapter);
+		courseSearchInput.setThreshold(2); //Minimum two characters must be inputed before the list is presented
+		courseSearchInput.setOnItemClickListener(new OnItemClickListener() {
+		    
+			@Override
+		    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				Intent intent = new Intent(getApplicationContext(), ActivityDetailedCourse.class);
+				intent.putExtra("courseCode",(String) arg0.getItemAtPosition(arg2));	//Find the right courseCode in the course list and input it
+				startActivity(intent);
+		    }
+		});
 
 		if(favouriteCoursesHelper.isEmpty())
 			courseList.setVisibility(View.GONE);
@@ -174,7 +199,7 @@ public class ActivityCourses extends Activity {
     }
 
 	public void addCourse(View view) {
-		String cCode = courseCode.getText().toString();
+		String cCode = courseSearchInput.getText().toString();
 		if(!cCode.isEmpty()) {
 			if(favouriteCoursesHelper.add(cCode)) {
 				//Insert was successful. Now restart the activity to display the added element.
@@ -195,7 +220,7 @@ public class ActivityCourses extends Activity {
 	}
 
 	public void readCourses() {
-		coursesArray = favouriteCoursesHelper.getAll();
+		favouriteCoursesArray = favouriteCoursesHelper.getAll();
 	}
 
 	public void courseChecked(View v) {

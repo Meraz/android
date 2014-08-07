@@ -49,14 +49,14 @@ public class FragmentCourses extends ListFragment {
 	public void onActivityCreated(Bundle savedState) {
 		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onActivityCreated()");
 		super.onActivityCreated(savedState);
-		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_course, R.id.course_button, ActivityCourses.coursesArray));
+		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_course, R.id.course_button, ActivityCourses.favouriteCoursesArray));
 		getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 	}
 
 	@Override
 	public void onStart() {
 		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
-		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_course, R.id.course_button, ActivityCourses.coursesArray));
+		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.item_course, R.id.course_button, ActivityCourses.favouriteCoursesArray));
 		super.onStart();
 	}
 
