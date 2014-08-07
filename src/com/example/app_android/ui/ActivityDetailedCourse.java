@@ -4,6 +4,7 @@ import com.example.app_android.CourseBean;
 import com.example.app_android.R;
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
+import com.example.app_android.database.NoRowsAffectedDBException;
 import com.example.app_android.database.interfaces.ICourseTable;
 import com.example.app_android.database.interfaces.IFavouriteCourseTable;
 import com.example.app_android.util.Utilities;
@@ -82,11 +83,11 @@ public class ActivityDetailedCourse extends BaseActivity {
 	    		boolean result = false;
 	    			try {
 						result = favouriteCourseHelper.remove(courseCode);
-					} catch (NullPointerException e) {
-						// TODO 
-						e.printStackTrace();
 					} catch (DBException e) {
 						// TODO 
+						e.printStackTrace();
+					} catch (NoRowsAffectedDBException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}	    		
 	    		if(result) {

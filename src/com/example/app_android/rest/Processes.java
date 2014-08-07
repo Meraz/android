@@ -15,6 +15,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
+import com.example.app_android.database.NoRowsAffectedDBException;
 import com.example.app_android.database.interfaces.ITokenTable;
 import com.example.app_android.database.interfaces.ITokenTable.TransactionFlag;
 import com.example.app_android.util.Utilities;
@@ -67,12 +68,12 @@ public class Processes {
 			// This might throw some unexpected Exceptions
 			try {
 				tokenTable.updateTransactionFlag(ITokenTable.TransactionFlag.Failed);
-			} catch (NullPointerException e1) {
-				// TODO This could end in an assertion crash
-				e.printStackTrace();
 			} catch (DBException e2) {
-				// TODO This could 
+				// TODO
 				e.printStackTrace();
+			} catch (NoRowsAffectedDBException e1) {
+				// TODO
+				e1.printStackTrace();
 			}
 			// Rethrow the error upwards
 			throw e;
@@ -87,12 +88,12 @@ public class Processes {
 		// Update to pending transaction flag.  
 		try {
 			tokenTable.updateTransactionFlag(ITokenTable.TransactionFlag.Pending);
-		} catch (NullPointerException e1) {
-			// TODO
-			e1.printStackTrace();
 		} catch (DBException e1) {
 			// TODO
 			e1.printStackTrace();
+		} catch (NoRowsAffectedDBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} 
 		
 		HttpPost httpPost = null;
@@ -143,11 +144,11 @@ public class Processes {
 		
 		try {
 			tokenTable.updateToken(access_token, expires_in, ITokenTable.TransactionFlag.Success);
-		} catch (NullPointerException e) {
-			// TODO
-			e.printStackTrace();
 		} catch (DBException e) {
 			// TODO 
+			e.printStackTrace();
+		} catch (NoRowsAffectedDBException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

@@ -44,7 +44,7 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 	}
 
 	@Override
-	public boolean add(long id, String title, String description ,String startTime, String endTime) throws DBException {
+	public boolean add(long id, String title, String description ,String startTime, String endTime) throws NoRowsAffectedDBException, DBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":createTable()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
@@ -74,13 +74,13 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 			db.close();
 		}
 		if(resultId == -1) {
-			throw new DBException("error at: " + mClass + ":add()");
+			throw new NoRowsAffectedDBException("error at: " + mClass + ":add()");
 		}
 		return true;
 	}
 
 	@Override
-	public boolean remove(long id) throws DBException {
+	public boolean remove(long id) throws NoRowsAffectedDBException, DBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":remove()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
@@ -105,7 +105,7 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 			db.close();
 		}
 		if(deletedRowCount == 0) {
-			throw new DBException("No entries removed in database.");
+			throw new NoRowsAffectedDBException("No entries removed in database.");
 		}
 		return deletedRowCount > 0;
 	}

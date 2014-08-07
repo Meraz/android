@@ -56,7 +56,7 @@ public class TokenTable extends BaseTable implements ITokenTable{
 		values.put(COLUMN_EXPIREDATE, (int)-1);
 		values.put(COLUMN_TRANSACTION_FLAG, (int)TransactionFlag.Unknown.ordinal());
 		
-		int result = 0;
+		int result = -1;
 		try {
 			result = (int) db.insert(TABLE_NAME, null, values);
 			db.setTransactionSuccessful();
@@ -73,8 +73,8 @@ public class TokenTable extends BaseTable implements ITokenTable{
 			db.endTransaction();
 		}
 		
-		if(result == 0) {
-			throw new DBException("No entries removed in database.");
+		if(result == -1) {
+			throw new DBException("Database error:" + mClass + "::fillTableWithDefaultData");
 		}
 	}
 	
@@ -113,17 +113,17 @@ public class TokenTable extends BaseTable implements ITokenTable{
 		
 	// Inherited from ITokenTable
 	@Override
-	public void updateToken(String tokenValue, long expireDate, TransactionFlag transaction_flag) throws DBException {
+	public void updateToken(String tokenValue, long expireDate, TransactionFlag transaction_flag) throws DBException, NoRowsAffectedDBException{
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":updateToken()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
-		int result = -1;
 		
 		ContentValues values = new ContentValues();
 		values.put(COLUMN_TOKEN, tokenValue);
 		values.put(COLUMN_EXPIREDATE, expireDate);
 		values.put(COLUMN_TRANSACTION_FLAG, transaction_flag.ordinal());
 		
+		int result = 0;
 		try {
 			result = db.update(TABLE_NAME, values, null, null);
 			db.setTransactionSuccessful();	
@@ -141,17 +141,17 @@ public class TokenTable extends BaseTable implements ITokenTable{
 		}
 		
 		if(result == -1) {
-			throw new DBException("error at: " + mClass + ":fillTableWithDefaultData()");
+			throw new NoRowsAffectedDBException("error at: " + mClass + ":fillTableWithDefaultData()");
 		}
 	}
 	
 	// Inherited from ITokenTable
 	@Override
-	public void updateTransactionFlag(TransactionFlag transaction_flag) throws DBException {
+	public void updateTransactionFlag(TransactionFlag transaction_flag) throws DBException, NoRowsAffectedDBException{
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":updateTransactionFlag()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
-		int result = -1;
+		int result = 0;
 
 		ContentValues values = new ContentValues();
 		values.put(COLUMN_TRANSACTION_FLAG, transaction_flag.ordinal());
@@ -169,6 +169,9 @@ public class TokenTable extends BaseTable implements ITokenTable{
 		finally {
 			db.endTransaction();
 			db.close();				
+		}
+		if(result == 0) {
+			throw new NoRowsAffectedDBException("Error: Token not updated. " + mClass + ":updateTransactionFlag");
 		}
 	}
 	

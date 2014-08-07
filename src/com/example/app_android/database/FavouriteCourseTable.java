@@ -93,7 +93,7 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 	}
 
 	@Override
-	public boolean remove(String courseCode) throws DBException {
+	public boolean remove(String courseCode) throws DBException, NoRowsAffectedDBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":remove()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
@@ -116,7 +116,7 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 		}
 				
 		if(deletedRowCount == 0) {
-			throw new DBException("No entries removed in database.");
+			throw new NoRowsAffectedDBException("No entries removed in database.");
 		}
 		return true;
 	}

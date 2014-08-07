@@ -17,6 +17,7 @@ import java.util.TimeZone;
 import com.example.app_android.R;
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
+import com.example.app_android.database.NoRowsAffectedDBException;
 import com.example.app_android.database.interfaces.ICalendarEventTable;
 import com.example.app_android.database.interfaces.ICourseTable;
 import com.example.app_android.database.interfaces.IFavouriteCourseTable;
@@ -497,6 +498,9 @@ public class ActivityCourses extends BaseActivity {
 				} catch (DBException e) {
 					// TODO
 					e.printStackTrace();
+				} catch (NoRowsAffectedDBException e) {
+					// TODO
+					e.printStackTrace();
 				}
 				 if(result) {
 					 if(deleteEvent(eventId)) {
@@ -603,6 +607,9 @@ public class ActivityCourses extends BaseActivity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (DBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoRowsAffectedDBException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

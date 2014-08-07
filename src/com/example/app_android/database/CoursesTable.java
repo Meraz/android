@@ -142,7 +142,7 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 		finally{
 			db.endTransaction();
 			db.close();
-		}
+		}		
 	}
 	
 	@Override

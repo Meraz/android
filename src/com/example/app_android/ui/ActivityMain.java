@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.app_android.R;
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
+import com.example.app_android.database.NoRowsAffectedDBException;
 import com.example.app_android.database.interfaces.ITokenTable;
 import com.example.app_android.services.ServiceManager;
 import com.example.app_android.ui.LoginPrompt.LoginPromptCallback;
@@ -227,10 +228,10 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 		ITokenTable a = DatabaseManager.getInstance().getTokenTable();
 		try {
 			a.updateToken("test", 0, ITokenTable.TransactionFlag.Success);
-		} catch (NullPointerException e) {
+		} catch (DBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (DBException e) {
+		} catch (NoRowsAffectedDBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
