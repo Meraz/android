@@ -82,7 +82,7 @@ public class ActivityCourses extends Activity {
 		
 		//Get layout variables
 		courseSearchInput 		= (AutoCompleteTextView) findViewById(R.id.course_search_input);
-		favouriteCourseListView 				= findViewById(R.id._container);
+		favouriteCourseListView = findViewById(R.id.courseListView);
 		noCoursesText 			= (TextView) findViewById(R.id.noCoursesDescription);
 		
 		initializeDropDownSearchField();
@@ -220,9 +220,21 @@ public class ActivityCourses extends Activity {
 	
 	private void initializeDropDownSearchField() {
 		ArrayList<String> courseCodeList = coursesHelper.getAllCourseCodes(); 
-		String[] courseCodes = new String[courseCodeList.size()];
+		ArrayList<String> courseNamesList = coursesHelper.getAllCourseNames();
+		
+		int courseCount = courseCodeList.size();
+		
+		String[] courseCodes = new String[courseCount];
+		String[] courseNames = new String[courseCount];
 		courseCodes = courseCodeList.toArray(courseCodes);
-		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, courseCodes);
+		courseNames = courseNamesList.toArray(courseNames);
+		
+		String[] adapterInput = new String[courseCount];
+		for (int i = 0; i < courseCount; ++i) {
+			adapterInput[i] = courseCodes[i] + " - " + courseNames[i];
+		}
+		
+		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, adapterInput);
 		courseSearchInput.setAdapter(adapter);
 		courseSearchInput.setThreshold(2); //Minimum two characters must be inputed before the list is presented
 		courseSearchInput.setOnItemClickListener(new OnItemClickListener() {

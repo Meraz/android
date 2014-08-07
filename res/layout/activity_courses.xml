@@ -24,7 +24,7 @@
 	    </AutoCompleteTextView>
 	    
 	  	<fragment
-    		android:id="@+id/_container"
+    		android:id="@+id/courseListView"
         	android:layout_width="fill_parent"
         	android:layout_height="wrap_content"
         	android:layout_marginTop="?android:attr/actionBarSize"
