@@ -1,5 +1,6 @@
 package com.example.app_android.database;
 
+import com.example.app_android.database.interfaces.ICalendarEventTable;
 import com.example.app_android.util.Utilities;
 
 import android.content.ContentValues;

@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.example.app_android.R;
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
-import com.example.app_android.database.ITokenTable;
+import com.example.app_android.database.interfaces.ITokenTable;
 import com.example.app_android.services.ServiceManager;
 import com.example.app_android.ui.LoginPrompt.LoginPromptCallback;
 import com.example.app_android.util.Utilities;

@@ -22,7 +22,7 @@ import java.util.Locale;
 
 import com.example.app_android.R;
 import com.example.app_android.database.DatabaseManager;
-import com.example.app_android.database.IMapCoordinateTable;
+import com.example.app_android.database.interfaces.IMapCoordinateTable;
 import com.example.app_android.util.Utilities;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

@@ -4,8 +4,8 @@ import com.example.app_android.CourseBean;
 import com.example.app_android.R;
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
-import com.example.app_android.database.ICourseTable;
-import com.example.app_android.database.IFavouriteCourseTable;
+import com.example.app_android.database.interfaces.ICourseTable;
+import com.example.app_android.database.interfaces.IFavouriteCourseTable;
 import com.example.app_android.util.Utilities;
 
 import android.os.Bundle;

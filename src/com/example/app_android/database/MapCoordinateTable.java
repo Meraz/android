@@ -1,6 +1,7 @@
 package com.example.app_android.database;
 
 import com.example.app_android.R;
+import com.example.app_android.database.interfaces.IMapCoordinateTable;
 import com.example.app_android.util.Utilities;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;

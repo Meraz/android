@@ -15,8 +15,8 @@ import org.apache.http.message.BasicNameValuePair;
 
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
-import com.example.app_android.database.ITokenTable;
-import com.example.app_android.database.ITokenTable.TransactionFlag;
+import com.example.app_android.database.interfaces.ITokenTable;
+import com.example.app_android.database.interfaces.ITokenTable.TransactionFlag;
 import com.example.app_android.util.Utilities;
 
 public class Processes {

@@ -2,6 +2,7 @@ package com.example.app_android.database;
 
 import java.util.ArrayList;
 
+import com.example.app_android.database.interfaces.IFavouriteCourseTable;
 import com.example.app_android.util.Utilities;
 
 import android.content.ContentValues;

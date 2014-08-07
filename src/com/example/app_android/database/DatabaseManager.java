@@ -1,5 +1,10 @@
 package com.example.app_android.database;   
 
+import com.example.app_android.database.interfaces.ICalendarEventTable;
+import com.example.app_android.database.interfaces.ICourseTable;
+import com.example.app_android.database.interfaces.IFavouriteCourseTable;
+import com.example.app_android.database.interfaces.IMapCoordinateTable;
+import com.example.app_android.database.interfaces.ITokenTable;
 import com.example.app_android.util.Utilities;
 
 import android.content.Context;

@@ -1,6 +1,7 @@
 package com.example.app_android.database;
 
 
+import com.example.app_android.database.interfaces.ITokenTable;
 import com.example.app_android.util.Utilities;
 
 import android.content.ContentValues;
