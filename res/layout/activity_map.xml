@@ -20,32 +20,14 @@
     android:layout_gravity="left"
     android:background="#FFF"
     android:orientation="vertical" >
-    
-    <LinearLayout 
-        android:id="@+id/search_content"
-    	android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-    	android:orientation="horizontal">
     	
-    	<EditText
-        	android:id="@+id/search_field"
-       		android:layout_width="match_parent"
-        	android:layout_height="40dp"
-        	android:layout_weight="0.75"
-        	android:textColor="#000"
-        	android:hint="@string/search_field_hint_map" >
-    	</EditText>
-    	
-    	<ImageButton 
-    	    android:id="@+id/search_button"
-    	    android:layout_width="wrap_content"
-    	    android:layout_height="match_parent"
-    	    android:layout_weight="0.25"
-    	    android:onClick="onSearchButtonClicked"
-			android:src="@drawable/ic_search"
-			android:contentDescription="@string/search_button_description" />
-
-    </LinearLayout>
+   	<AutoCompleteTextView
+       	android:id="@+id/map_place_search_field"
+   		android:layout_width="match_parent"
+       	android:layout_height="wrap_content"
+       	android:hint="@string/search_field_hint_map" 
+       	android:ems="10" >
+   	</AutoCompleteTextView>
     
     <Space 
         android:layout_width="fill_parent"

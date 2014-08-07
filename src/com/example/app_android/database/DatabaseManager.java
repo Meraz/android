@@ -70,7 +70,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
 	    TABLES[1] = new CoursesTable(this);
 	    TABLES[2] = new FavouriteCourseTable(this);
 	    TABLES[3] = new CalendarEventTable(this);
-	    TABLES[4] = new MapCoordinateTable(this);
+	    TABLES[4] = new MapPlaceTable(this);
     }
       
     private BaseTable getTable(TableIndex table) {
@@ -102,9 +102,9 @@ public class DatabaseManager extends SQLiteOpenHelper{
     	return (ICalendarEventTable)getTable(TableIndex.CALENDAREVENTS);
     }
     
-    public IMapCoordinateTable getMapCoordinateTable() {
+    public IMapPlaceTable getMapCoordinateTable() {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":IMapCoordinateTable()");}
-    	return (IMapCoordinateTable)getTable(TableIndex.MAPCOORDINATES);
+    	return (IMapPlaceTable)getTable(TableIndex.MAPCOORDINATES);
     }
     
     /*

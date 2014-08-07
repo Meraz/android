@@ -47,8 +47,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,11 +57,12 @@ public class ActivityCourses extends Activity {
 	
 	private ICourseTable 			coursesHelper;
 	private IFavouriteCourseTable 	favouriteCoursesHelper;
-	private AutoCompleteTextView 	courseSearchInput;
+	
 	private MenuItem 				syncActionItem;
 	private View 					favouriteCourseListView;
 	private TextView 				noCoursesText;
-	private ArrayAdapter<String> 	adapter;
+	private AutoCompleteTextView 	searchField;
+	private ArrayAdapter<String> 	searchAdapter;
 	
 	private static final String CALENDAR_EVENT_TAG = "[This event was added by the BTH App]";
 	
@@ -81,7 +80,7 @@ public class ActivityCourses extends Activity {
 		favouriteCoursesArray 	= favouriteCoursesHelper.getAll();
 		
 		//Get layout variables
-		courseSearchInput 		= (AutoCompleteTextView) findViewById(R.id.course_search_input);
+		searchField 		= (AutoCompleteTextView) findViewById(R.id.course_search_input);
 		favouriteCourseListView = findViewById(R.id.courseListView);
 		noCoursesText 			= (TextView) findViewById(R.id.noCoursesDescription);
 		
@@ -190,7 +189,7 @@ public class ActivityCourses extends Activity {
     }
 
 	public void addCourse(View view) {
-		String cCode = courseSearchInput.getText().toString();
+		String cCode = searchField.getText().toString();
 		if(!cCode.isEmpty()) {
 			if(favouriteCoursesHelper.add(cCode)) {
 				//Insert was successful. Now restart the activity to display the added element.
@@ -234,10 +233,10 @@ public class ActivityCourses extends Activity {
 			adapterInput[i] = courseCodes[i] + " - " + courseNames[i];
 		}
 		
-		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, adapterInput);
-		courseSearchInput.setAdapter(adapter);
-		courseSearchInput.setThreshold(2); //Minimum two characters must be inputed before the list is presented
-		courseSearchInput.setOnItemClickListener(new OnItemClickListener() {
+		searchAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, adapterInput);
+		searchField.setAdapter(searchAdapter);
+		searchField.setThreshold(2); //Minimum two characters must be inputed before the list is presented
+		searchField.setOnItemClickListener(new OnItemClickListener() {
 		    
 			@Override
 		    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
