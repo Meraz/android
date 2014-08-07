@@ -13,6 +13,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.ITokenTable;
 import com.example.app_android.database.ITokenTable.TransactionFlag;
@@ -59,8 +60,21 @@ public class Processes {
 			requestTokenFromServer(username, password);
 		}
 		catch(RestCommunicationException e) {
+			
+			// Attempt to update database transaction flag.
 			ITokenTable tokenTable = DatabaseManager.getInstance().getTokenTable();
-			tokenTable.updateTransactionFlag(ITokenTable.TransactionFlag.Failed);
+			
+			// This might throw some unexpected Exceptions
+			try {
+				tokenTable.updateTransactionFlag(ITokenTable.TransactionFlag.Failed);
+			} catch (NullPointerException e1) {
+				// TODO This could end in an assertion crash
+				e.printStackTrace();
+			} catch (DBException e2) {
+				// TODO This could end in an assertion crash
+				e.printStackTrace();
+			}
+			// Rethrow the error upwards
 			throw e;
 		}
 	}
@@ -70,7 +84,16 @@ public class Processes {
 		
 		ITokenTable tokenTable = DatabaseManager.getInstance().getTokenTable();
 		
-		tokenTable.updateTransactionFlag(ITokenTable.TransactionFlag.Pending); // Update to pending transaction flag.  TODO, use enumerations
+		// Update to pending transaction flag.  
+		try {
+			tokenTable.updateTransactionFlag(ITokenTable.TransactionFlag.Pending);
+		} catch (NullPointerException e1) {
+			// TODO
+			e1.printStackTrace();
+		} catch (DBException e1) {
+			// TODO
+			e1.printStackTrace();
+		} 
 		
 		HttpPost httpPost = null;
 		
@@ -115,9 +138,20 @@ public class Processes {
 			expires_in = Long.parseLong(header.getValue());
 		}	
 		
-		expires_in += (System.currentTimeMillis()/1000);					// Add currentTime for expire_time
+		expires_in += (System.currentTimeMillis()/1000); // Add currentTime for expire_time
 		tokenTable.PrintEntireToken();
-		tokenTable.updateToken(access_token, expires_in, ITokenTable.TransactionFlag.Success);				// updateExistingToken // TODO use enumerations for transaction flag
+		
+		int result;
+		try {
+			result = tokenTable.updateToken(access_token, expires_in, ITokenTable.TransactionFlag.Success);
+		} catch (NullPointerException e) {
+			// TODO
+			e.printStackTrace();
+		} catch (DBException e) {
+			// TODO 
+			e.printStackTrace();
+		}
+		
 		tokenTable.PrintEntireToken();
 	}
 	
