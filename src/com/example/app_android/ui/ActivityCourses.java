@@ -53,17 +53,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ActivityCourses extends Activity {
-
 	private static final String TAG = "ActivityCourses";
+	
 	public static ArrayList<String> favouriteCoursesArray;
-	private ICourseTable coursesHelper;
-	private IFavouriteCourseTable favouriteCoursesHelper;
-	private AutoCompleteTextView courseSearchInput;
-	private MenuItem syncActionItem;
-	private MenuItem emptyScheduleItem;
-	private View courseList;
-	private TextView noCoursesText;
-	private ArrayAdapter<String> adapter;
+	
+	private ICourseTable 			coursesHelper;
+	private IFavouriteCourseTable 	favouriteCoursesHelper;
+	private AutoCompleteTextView 	courseSearchInput;
+	private MenuItem 				syncActionItem;
+	private View 					favouriteCourseListView;
+	private TextView 				noCoursesText;
+	private ArrayAdapter<String> 	adapter;
 	
 	private static final String CALENDAR_EVENT_TAG = "[This event was added by the BTH App]";
 	
@@ -75,32 +75,21 @@ public class ActivityCourses extends Activity {
 		
 		setContentView(R.layout.activity_courses);
 		
+		//Get database variables
 		coursesHelper			= DatabaseManager.getInstance().getCourseTable();
 		favouriteCoursesHelper 	= DatabaseManager.getInstance().getFavouriteCourseTable();
 		favouriteCoursesArray 	= favouriteCoursesHelper.getAll();
 		
+		//Get layout variables
 		courseSearchInput 		= (AutoCompleteTextView) findViewById(R.id.course_search_input);
-		courseList 				= findViewById(R.id._container);
+		favouriteCourseListView 				= findViewById(R.id._container);
 		noCoursesText 			= (TextView) findViewById(R.id.noCoursesDescription);
 		
-		ArrayList<String> courseCodeList = coursesHelper.getAllCourseCodes(); 
-		String[] courseCodes = new String[courseCodeList.size()];
-		courseCodes = courseCodeList.toArray(courseCodes);
-		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, courseCodes);
-		courseSearchInput.setAdapter(adapter);
-		courseSearchInput.setThreshold(2); //Minimum two characters must be inputed before the list is presented
-		courseSearchInput.setOnItemClickListener(new OnItemClickListener() {
-		    
-			@Override
-		    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				Intent intent = new Intent(getApplicationContext(), ActivityDetailedCourse.class);
-				intent.putExtra("courseCode",(String) arg0.getItemAtPosition(arg2));	//Find the right courseCode in the course list and input it
-				startActivity(intent);
-		    }
-		});
-
+		initializeDropDownSearchField();
+		
+		//Set what should be viewed in the center of the view
 		if(favouriteCoursesHelper.isEmpty())
-			courseList.setVisibility(View.GONE);
+			favouriteCourseListView.setVisibility(View.GONE);
 		else
 			noCoursesText.setVisibility(View.GONE);
 	}
@@ -151,7 +140,6 @@ public class ActivityCourses extends Activity {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.layout.activity_courses_action, menu);
 	    syncActionItem = menu.findItem(R.id.courses_action_sync);
-	    emptyScheduleItem = menu.findItem(R.id.courses_menu_empty_schedule);
 	    return super.onCreateOptionsMenu(menu);
 	}
 
@@ -165,9 +153,11 @@ public class ActivityCourses extends Activity {
         	alert.setPositiveButton("OK",null);
         	alert.show();
     		break;
+    		
     	case R.id.courses_action_sync:
     		exportSchedule();
     		break;
+    		
     	case R.id.courses_menu_empty_schedule:
     		int deletedRowsCount = deleteAllScheduleEvents();
     		Toast.makeText(getApplicationContext(), "Removed " + deletedRowsCount + " events from calendar"  , Toast.LENGTH_SHORT).show();
@@ -179,6 +169,7 @@ public class ActivityCourses extends Activity {
     @Override
     public boolean onMenuOpened(int featureId, Menu menu)
     {
+    	//Make icons visable in overflow menu
         if((featureId == Window.FEATURE_OPTIONS_PANEL || featureId == Window.FEATURE_ACTION_BAR ) && menu != null){
             if(menu.getClass().getSimpleName().equals("MenuBuilder")){
                 try{
@@ -225,6 +216,24 @@ public class ActivityCourses extends Activity {
 
 	public void courseChecked(View v) {
 		Utilities.VerboseLog(TAG, "Checked or Unchecked");
+	}
+	
+	private void initializeDropDownSearchField() {
+		ArrayList<String> courseCodeList = coursesHelper.getAllCourseCodes(); 
+		String[] courseCodes = new String[courseCodeList.size()];
+		courseCodes = courseCodeList.toArray(courseCodes);
+		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, courseCodes);
+		courseSearchInput.setAdapter(adapter);
+		courseSearchInput.setThreshold(2); //Minimum two characters must be inputed before the list is presented
+		courseSearchInput.setOnItemClickListener(new OnItemClickListener() {
+		    
+			@Override
+		    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				Intent intent = new Intent(getApplicationContext(), ActivityDetailedCourse.class);
+				intent.putExtra("courseCode",(String) arg0.getItemAtPosition(arg2));
+				startActivity(intent);
+		    }
+		});
 	}
 	
 	private int deleteAllScheduleEvents() {
