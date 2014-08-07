@@ -19,7 +19,7 @@ public class BaseTable {
 	protected String mClass;
 		
 	public BaseTable(SQLiteOpenHelper SQLiteOpenHelper) {
-
+		mClass = getClass().getSimpleName();
 		
 		mHelper = SQLiteOpenHelper;
 	}
