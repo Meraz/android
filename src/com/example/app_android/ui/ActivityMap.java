@@ -50,6 +50,9 @@ public class ActivityMap extends BaseActivity {
 		mClassName = getClass().getSimpleName();
 		mTag = TAG;
         super.onCreate(savedInstanceState);
+        
+        mInfoBoxMessage = "This dialog should contain information about how the map view works. But it doesn't, this is just hard code! :<";
+        
         LatLng place = null;
         
         //Get input parameters

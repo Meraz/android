@@ -21,9 +21,6 @@ import com.example.app_android.database.IFavouriteCourseTable;
 import com.example.app_android.util.Utilities;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -64,6 +61,8 @@ public class ActivityCourses extends BaseActivity {
 		mClassName = getClass().getSimpleName();
 		mTag = TAG;		
 		super.onCreate(savedInstanceState);
+		mInfoBoxMessage = "Insert info about this view here";
+		
 		
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); //This sneaky row stops the darn soft keyboard from popping up like some retarded wack-a-mole every time the activity is opened.
 		
@@ -111,13 +110,6 @@ public class ActivityCourses extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
     	if(Utilities.verbose) {Log.v(TAG, mClassName + ":onOptionsItemSelected()");}
     	switch (item.getItemId()) {
-    	case R.id.courses_action_info:
-    		Builder alert = new AlertDialog.Builder(this);
-        	alert.setTitle("Courses");
-        	alert.setMessage("Insert info about this view here");
-        	alert.setPositiveButton("OK",null);
-        	alert.show();
-    		break;
     	case R.id.courses_action_sync:
     		exportSchedule();
     		break;
@@ -219,10 +211,10 @@ public class ActivityCourses extends BaseActivity {
 	}
 
 	 private class ExportResult {
-		 int resultFlag		= 0; // 0 = Normal, 1 = All events up to date, 2 = No data recieved from timeedit, 3 = Event export failed, 4 = No calendar found
-		 int exportedCount 	= 0;
-		 int deletedCount 	= 0;
-		 int upToDateCount	= 0;
+		int resultFlag		= 0; // 0 = Normal, 1 = All events up to date, 2 = No data recieved from timeedit, 3 = Event export failed, 4 = No calendar found
+		int exportedCount 	= 0;
+		int deletedCount 	= 0;
+		int upToDateCount	= 0;
 	 }
 
 	 private class ExportToGCalFromTimeEditTask extends AsyncTask<ArrayList<String>, Void, ExportResult> {

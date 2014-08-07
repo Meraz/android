@@ -7,9 +7,6 @@ import com.example.app_android.database.ICourseTable;
 import com.example.app_android.database.IFavouriteCourseTable;
 import com.example.app_android.util.Utilities;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -76,14 +73,8 @@ public class ActivityDetailedCourse extends BaseActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onCreateOptionsMenu()");}
 		switch (item.getItemId()) {
-	    case R.id.detailed_course_action_info:
-	   		Builder alert = new AlertDialog.Builder(this);
-	   		alert.setTitle("Course " + courseCode);
-	   		alert.setMessage("Insert info about this view here~'("); //TODO
-	   		alert.setPositiveButton("OK",null);
-    		alert.show();
-    		break;
 	    case R.id.detailed_course_action_add_or_remove:
 	    	if(isFavourite) {
 	    		isFavourite = false;

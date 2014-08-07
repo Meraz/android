@@ -1,8 +1,4 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/detailed_course_action_info"
-          android:icon="@drawable/ic_dialog_info"
-          android:showAsAction="always" />
-    
+<menu xmlns:android="http://schemas.android.com/apk/res/android" > 
     <item android:id="@+id/detailed_course_action_add_or_remove"
           android:showAsAction="always" />
 </menu>

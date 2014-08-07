@@ -81,8 +81,8 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 	    // Inflate the menu items for use in the action bar
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.layout.menu_sync, menu);
-	    syncActionItem = menu.findItem(R.id.courses_action_sync);
-	    syncActionItem.setVisible(false);
+	    mSyncActionItem = menu.findItem(R.id.courses_action_sync);
+	    mSyncActionItem.setVisible(false);
 	    return super.onCreateOptionsMenu(menu);
 	}
 
