@@ -3,6 +3,7 @@ package com.example.app_android.services;
 import com.example.app_android.util.Utilities;
 
 import android.content.Intent;
+import android.util.Log;
 
 public abstract class BaseRunnable implements Runnable  {
 	
@@ -31,19 +32,19 @@ public abstract class BaseRunnable implements Runnable  {
 	
 	// Add threadcount
     protected void informStart() {
-		Utilities.VerboseLog(TAG, mClassName + "::entered informStart()");
+    	if(Utilities.verbose) {Log.v(TAG, mClassName + ":informStart()");}
     	mService.informWorkerStart();
     }
 	
 	// Remove thread from service
     protected void informStop() {
-		Utilities.VerboseLog(TAG, mClassName + "::entered informStop()");
+    	if(Utilities.verbose) {Log.v(TAG, mClassName + ":informStop()");}
     	mService.informWorkerStop(mBroadcastID);
 
     }
     
     protected Intent prepareDefaultIntent(String broadCastString) {
-		Utilities.VerboseLog(TAG, mClassName + "::entered prepareDefaultIntent()");
+    	if(Utilities.verbose) {Log.v(TAG, mClassName + ":prepareDefaultIntent()");}
 		Intent intent = new Intent(broadCastString);
 		intent.putExtra("id", mBroadcastID);
 		return intent;

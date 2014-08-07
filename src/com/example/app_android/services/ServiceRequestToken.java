@@ -5,6 +5,7 @@ import com.example.app_android.rest.RestCommunicationException;
 import com.example.app_android.util.Utilities;
 
 import android.content.Intent;
+import android.util.Log;
 
 public class ServiceRequestToken extends BaseService {
 	
@@ -16,7 +17,7 @@ public class ServiceRequestToken extends BaseService {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Utilities.VerboseLog(TAG, mClassName + ":entered onStartCommand()");
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onStartCommand()");}
 		
 		GenericRunnableToken genericRunnableToken = new GenericRunnableToken(this, intent);
 
@@ -32,6 +33,8 @@ public class ServiceRequestToken extends BaseService {
 	    }	
 		
 	    public void run() {
+			if(Utilities.verbose) {Log.v(TAG, mClassName + ":run()");}
+	    	
 			informStart();
 			// Send start broadcast
 			Intent intent = prepareDefaultIntent(mStartBroadcast);
