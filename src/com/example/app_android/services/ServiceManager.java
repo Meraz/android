@@ -30,11 +30,13 @@ import com.example.app_android.util.MyBroadCastReceiver;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 
 public class ServiceManager {
 
 	private static final String TAG = "Services";
+	private static String mClassName;
 	
 	@SuppressWarnings("unused") // TODO
 	private Context mContext;
@@ -56,11 +58,12 @@ public class ServiceManager {
 	// Private constructor to stop instantiating this class.
 	private ServiceManager(Context context) {
 		mContext = context;
+		mClassName = getClass().getSimpleName();
 	}
 
 	// Returns unique hashcode
 	public synchronized int requestToken(Context context, MyBroadCastReceiver myBroadCastReceiver, String username, String password) {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered requestToken()");
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":requestToken()");}
 
 		
 		final int key = myBroadCastReceiver.getAllBroadcasts().hashCode();
@@ -82,7 +85,7 @@ public class ServiceManager {
 	
 	// Returns unique hashcode
 	public synchronized int checkIfLoginIsRequired(Context context, MyBroadCastReceiver myBroadCastReceiver) {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered checkIfLoginIsRequired()");
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":checkIfLoginIsRequired()");}
 		
 		final int key = myBroadCastReceiver.getAllBroadcasts().hashCode();
 		if(mServices.containsKey(key))
@@ -109,11 +112,13 @@ public class ServiceManager {
 
 	// Called by a thread when it wants to remove itself from the metatable
 	public synchronized void informWorkerStop(int id) {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onThreadStop()");
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":requestToken()");}
 		mServices.remove(id);
 	}
 	
 	private static Intent prepareDefaultIntent(Intent intent, ServiceDataBean databean) {	
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":prepareDefaultIntent()");}
+		
 		intent.putExtra("id", databean.getKey());
 		intent.putExtra("startBroadcast", databean.getBroadCastReceiver().getStartBroadCast());
 		intent.putExtra("updateBroadcast", databean.getBroadCastReceiver().getUpdateBroadCast());
@@ -125,6 +130,8 @@ public class ServiceManager {
 	// Only important thing that I needed to save was the Intent. This was saved for the possibility to stop an service. 
 	// Nowdays this information stored is of no use, however, we'd want to stop services in the future, and as such we need to save data.
 	private static ServiceDataBean createServiceDataBean(int key, String parameters, MyBroadCastReceiver myBroadCastReceiver){
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":createServiceDataBean()");}
+		
 		ServiceDataBean databean = new ServiceDataBean();
 		databean.setKey(key);
 		databean.setParameter(parameters);

@@ -8,7 +8,7 @@ import android.util.Log;
 public final class Utilities {
 
 	public final static boolean verbose = true;
-	private final static boolean error = true;
+	public final static boolean error = true;
 	private final static String APP_TAG = "com.example.app_android";
 	
 	

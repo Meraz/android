@@ -46,7 +46,7 @@
   <string name="main_courses_and_schedule_button">Kurser och Scheman</string>
   <string name="main_map_button">Karta över Campus</string>
   <string name="main_student_union_button">Blekinge Studentkår</string>
-  
+
 
   <string-array name="new_student_menu" >
     <item >Att göra som ny student</item>
@@ -64,7 +64,7 @@
     <item >Registrera dig på CSN</item>
     <item >Skaffa BTH-kort</item>
     <item >Skaffa din kurslitteratur</item>
-    <item >Registrera dig hos studentkåren</item>
+    <item >Bli medlem i studentkåren</item>
   </string-array>
   <string-array name="new_student_menu_checklist_text" >
     <item >För att kunna genomföra dina studier på ett bra sätt behöver du ett boende med god tillgång till skolan. Se till att vara ute i god tid då de bästa lägenheterna försvinner snabbast.</item>

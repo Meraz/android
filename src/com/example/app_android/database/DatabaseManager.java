@@ -1,8 +1,14 @@
 package com.example.app_android.database;   
 
+import com.example.app_android.database.interfaces.ICalendarEventTable;
+import com.example.app_android.database.interfaces.ICourseTable;
+import com.example.app_android.database.interfaces.IFavouriteCourseTable;
+import com.example.app_android.database.interfaces.IMapCoordinateTable;
+import com.example.app_android.database.interfaces.ITokenTable;
 import com.example.app_android.util.Utilities;
 
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -114,12 +120,25 @@ public class DatabaseManager extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":onCreate()");}
     	
+		
 	    for(int i = 0; i < TABLES.length; i++) {
-			TABLES[i].createTable(db);
+			try {
+				TABLES[i].createTable(db);
+			} catch (SQLException e) {
+				Log.e(TAG, mClass+":onCreate::createTable()");
+			} catch (DBException e) {
+				Log.e(TAG, mClass+":onCreate::createTable()");
+			}
 	    }
 	    
 	    for(int i = 0; i < TABLES.length; i++) {
-			TABLES[i].fillTableWithDefaultData(db);
+			try {
+				TABLES[i].fillTableWithDefaultData(db);
+			} catch (SQLException e) {
+				Log.e(TAG, mClass+":onCreate::fillTableWithDefaultData()");
+			} catch (DBException e) {
+				Log.e(TAG, mClass+":onCreate::fillTableWithDefaultData()");
+			}
 	    }	    
     }
     
@@ -129,7 +148,13 @@ public class DatabaseManager extends SQLiteOpenHelper{
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
 	    for(int i = 0; i < TABLES.length; i++) {
-			TABLES[i].dropTable(db);
+			try {
+				TABLES[i].dropTable(db);
+			} catch (SQLException e) {
+				Log.e(TAG, mClass+":onUpgrade::dropTable()");
+			} catch (DBException e) {
+				Log.e(TAG, mClass+":onUpgrade::dropTable()");
+			}
 	    }
         onCreate(db);
     }

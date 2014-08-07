@@ -15,16 +15,15 @@ import java.util.ArrayList;
 import java.util.TimeZone;
 
 import com.example.app_android.R;
+import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
-import com.example.app_android.database.ICalendarEventTable;
-import com.example.app_android.database.ICourseTable;
-import com.example.app_android.database.IFavouriteCourseTable;
+import com.example.app_android.database.NoRowsAffectedDBException;
+import com.example.app_android.database.interfaces.ICalendarEventTable;
+import com.example.app_android.database.interfaces.ICourseTable;
+import com.example.app_android.database.interfaces.IFavouriteCourseTable;
 import com.example.app_android.util.Utilities;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -50,9 +49,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ActivityCourses extends Activity {
-	private static final String TAG = "ActivityCourses";
-	
+public class ActivityCourses extends BaseActivity {
+
+	private static final String TAG = "CourseView";
+	public static ArrayList<String> coursesArray;
 	public static ArrayList<String> favouriteCoursesArray;
 	
 	private ICourseTable 			coursesHelper;
@@ -68,7 +68,11 @@ public class ActivityCourses extends Activity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		mClassName = getClass().getSimpleName();
+		mTag = TAG;		
 		super.onCreate(savedInstanceState);
+		mInfoBoxMessage = "Insert info about this view here";
+		
 		
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); //This sneaky row stops the darn soft keyboard from popping up like some retarded wack-a-mole every time the activity is opened.
 		
@@ -92,49 +96,24 @@ public class ActivityCourses extends Activity {
 		else
 			noCoursesText.setVisibility(View.GONE);
 	}
-
-    @Override
-	protected void onDestroy() {
-    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
-		super.onDestroy();
-	}
-
-	@Override
-	protected void onPause() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
-		super.onPause();
-	}
-
+ 
 	@Override
 	protected void onRestart() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
+		super.onRestart();
 		//Restart this view to display the correct information
 		finish();
 		startActivity(getIntent());
-		super.onRestart();
 	}
 
 	@Override
 	protected void onResume() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
-		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); //This sneaky row stops the darn soft keyboard from popping up like some retarded wack-a-mole every time the activity is opened.
 		super.onResume();
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); //This sneaky row stops the darn soft keyboard from popping up like some retarded wack-a-mole every time the activity is opened.
 	}
-
-	@Override
-	protected void onStart() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
-		super.onStart();
-	}
-
-	@Override
-	protected void onStop() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
-		super.onStop();
-	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onCreateOptionsMenu()");}
 	    // Inflate the menu items for use in the action bar
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.layout.activity_courses_action, menu);
@@ -144,15 +123,8 @@ public class ActivityCourses extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+    	if(Utilities.verbose) {Log.v(TAG, mClassName + ":onOptionsItemSelected()");}
     	switch (item.getItemId()) {
-    	case R.id.courses_action_info:
-    		Builder alert = new AlertDialog.Builder(this);
-        	alert.setTitle("Courses");
-        	alert.setMessage("Insert info about this view here");
-        	alert.setPositiveButton("OK",null);
-        	alert.show();
-    		break;
-    		
     	case R.id.courses_action_sync:
     		exportSchedule();
     		break;
@@ -166,8 +138,9 @@ public class ActivityCourses extends Activity {
     }
     
     @Override
-    public boolean onMenuOpened(int featureId, Menu menu)
-    {
+    public boolean onMenuOpened(int featureId, Menu menu) {
+    	if(Utilities.verbose) {Log.v(TAG, mClassName + ":onMenuOpened()");}
+    	
     	//Make icons visable in overflow menu
         if((featureId == Window.FEATURE_OPTIONS_PANEL || featureId == Window.FEATURE_ACTION_BAR ) && menu != null){
             if(menu.getClass().getSimpleName().equals("MenuBuilder")){
@@ -189,9 +162,21 @@ public class ActivityCourses extends Activity {
     }
 
 	public void addCourse(View view) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":addCourse()");}
 		String cCode = searchField.getText().toString();
 		if(!cCode.isEmpty()) {
-			if(favouriteCoursesHelper.add(cCode)) {
+			boolean result = false;
+
+				try {
+					result = favouriteCoursesHelper.add(cCode);
+				} catch (NullPointerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (DBException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}			
+			if(result) {
 				//Insert was successful. Now restart the activity to display the added element.
 				finish();
 				startActivity(getIntent());
@@ -203,6 +188,7 @@ public class ActivityCourses extends Activity {
 	}
 
 	public void startCalendar(View view) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":startCalendar()");}
     	//Start the calendar app
     	Uri uri = Uri.parse("content://com.android.calendar/time");
 		Intent intent = new Intent("android.intent.action.VIEW", uri);
@@ -210,11 +196,12 @@ public class ActivityCourses extends Activity {
 	}
 
 	public void readCourses() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":readCourses()");}
 		favouriteCoursesArray = favouriteCoursesHelper.getAll();
 	}
-
-	public void courseChecked(View v) {
-		Utilities.VerboseLog(TAG, "Checked or Unchecked");
+	
+	public void courseChecked(View v) { // TODO function needed?
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":courseChecked()");}
 	}
 	
 	private void initializeDropDownSearchField() {
@@ -248,6 +235,7 @@ public class ActivityCourses extends Activity {
 	}
 	
 	private int deleteAllScheduleEvents() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":deleteAllScheduleEvents()");}
  		int rowsDeletedCount = getContentResolver().delete(CalendarContract.Events.CONTENT_URI,
  				Events.DESCRIPTION + " LIKE ? ", new String[] {"%" + CALENDAR_EVENT_TAG +"%"});
  		
@@ -257,6 +245,7 @@ public class ActivityCourses extends Activity {
 	@SuppressWarnings("unchecked") //Should be safe to ignore this warning. It complains about not knowing the type of arraylist being sent in exportTask.execute(requests)
 	@SuppressLint("SimpleDateFormat")
 	private void exportSchedule() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":exportSchedule()");}
 		if(Utilities.isNetworkAvailable(getApplicationContext())) {
 			Utilities.VerboseLog(TAG, "Exporting schedule to Google Calendar");
 			ArrayList<String> courseCodes = favouriteCoursesHelper.getAll();
@@ -281,10 +270,10 @@ public class ActivityCourses extends Activity {
 	}
 
 	 private class ExportResult {
-		 int resultFlag		= 0; // 0 = Normal, 1 = All events up to date, 2 = No data recieved from timeedit, 3 = Event export failed, 4 = No calendar found
-		 int exportedCount 	= 0;
-		 int deletedCount 	= 0;
-		 int upToDateCount	= 0;
+		int resultFlag		= 0; // 0 = Normal, 1 = All events up to date, 2 = No data recieved from timeedit, 3 = Event export failed, 4 = No calendar found
+		int exportedCount 	= 0;
+		int deletedCount 	= 0;
+		int upToDateCount	= 0;
 	 }
 
 	 private class ExportToGCalFromTimeEditTask extends AsyncTask<ArrayList<String>, Void, ExportResult> {
@@ -495,7 +484,17 @@ public class ActivityCourses extends Activity {
 			 for(int i = 0; i < outdatedEvents.size(); ++i) {
 				 String[] eventData = outdatedEvents.get(i);
 				 int eventId = eventTable.getEventId(eventData[0], eventData[1], eventData[2], eventData[3]);
-				 if(eventTable.remove(eventId)) {
+				 boolean result = false;
+				 try {
+					eventTable.remove(eventId);
+				} catch (DBException e) {
+					// TODO
+					e.printStackTrace();
+				} catch (NoRowsAffectedDBException e) {
+					// TODO
+					e.printStackTrace();
+				}
+				 if(result) {
 					 if(deleteEvent(eventId)) {
 						{
 							++deletedEvents;
@@ -594,7 +593,18 @@ public class ActivityCourses extends Activity {
 			String eventId = uri.getLastPathSegment();
 			
 			ICalendarEventTable eventTable = DatabaseManager.getInstance().getCalendarEventTable();
-			eventTable.add(Integer.parseInt(eventId), title, description, eventData[0], eventData[1]);
+			try {
+				eventTable.add(Integer.parseInt(eventId), title, description, eventData[0], eventData[1]);
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoRowsAffectedDBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	 	}
 	}
 }

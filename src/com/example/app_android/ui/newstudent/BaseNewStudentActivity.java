@@ -21,14 +21,11 @@ abstract public class BaseNewStudentActivity extends BaseActivity implements IBu
 	protected ArrayList<ExpandableListGroup> mExpandableListItems;
 	protected ExpandableListView mExpandableList;
 	
-	protected String mClass;
-	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
-		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":onCreate()");}
+        mClassName = getClass().getSimpleName();
+		mTag = TAG;
         super.onCreate(savedInstanceState);
-        
-        mClass = getClass().getSimpleName();
         
         setContentView(R.layout.activity_studentportal); 
         
@@ -37,39 +34,6 @@ abstract public class BaseNewStudentActivity extends BaseActivity implements IBu
     }        
     
 	abstract protected ArrayList<ExpandableListGroup> SetStandardGroups();
-
-    @Override
-	protected void onDestroy() {
-    	if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":onDestroy()");}
-		super.onDestroy();
-	}
-
-	@Override
-	protected void onPause() {
-		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":onPause()");}
-		super.onPause();
-	}
-
-	@Override
-	protected void onRestart() {
-		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":onRestart()");}
-		super.onRestart();
-	}
-
-	@Override
-	protected void onResume() {
-		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":onResume()");}
-		super.onResume();
-		
-		mTitle = "About";
-		mMessage = "Add text here";
-	}
-
-	@Override
-	protected void onStart() {
-		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":onStart()");}
-		super.onStart();
-	}
 
 	@Override
 	protected void onStop() {

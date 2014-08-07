@@ -2,6 +2,7 @@ package com.example.app_android.database;
 
 import com.example.app_android.CourseBean;
 import com.example.app_android.R;
+import com.example.app_android.database.interfaces.IMapCoordinateTable;
 import com.example.app_android.util.Utilities;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -10,6 +11,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -66,7 +68,7 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 		SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 	}
 	
-	public void fillTableWithDefaultData(SQLiteDatabase db) { //TODO save the names in an enum to avoid inline string comparisons
+	public void fillTableWithDefaultData(SQLiteDatabase db) throws SQLException, DBException{ //TODO save the names in an enum to avoid inline string comparisons
 		super.fillTableWithDefaultData(db);
 		final int defaultValueCount = 13; //TODO remove test values
 		

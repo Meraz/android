@@ -3,6 +3,7 @@ package com.example.app_android.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.app_android.R;
@@ -11,60 +12,18 @@ import com.example.app_android.util.Utilities;
 public class ActivityStudentUnion extends BaseActivity {
 	
 	private static final String TAG = "MainMenu";
+	
 	private static final String blekingeStudentUnionPackageName = "se.bthstudent.android.bsk"; // TODO, move it to xml or something
 
-	/*
-	 * This is the first function that is executed for this application.
-	 * Specified in the file 'AndroidManifest.xml"
-	 */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onCreate()");
+    	mClassName = getClass().getSimpleName();    
+    	mTag = TAG;
     	super.onCreate(savedInstanceState);
     	
-    	mMessage = "Här ska en vy för Blekinge Studentkår finnas";
-        // Sets the content specified in the file in res/layout/activity_main.xml
-        // This also specifies which fragment to active
+    	mInfoBoxMessage = "Här ska en vy för Blekinge Studentkår finnas";
         setContentView(R.layout.activity_studentunion);
     }
-
-    @Override
-	protected void onDestroy() {
-    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
-    	
-		super.onDestroy();
-	}
-
-	@Override
-	protected void onPause() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
-		super.onPause();
-	}
-
-	@Override
-	protected void onRestart() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
-		super.onRestart();
-	}
-
-	@Override
-	protected void onResume() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
-		super.onResume();
-	}
-
-	@Override
-	protected void onStart() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
-		super.onStart();
-	}
-
-	@Override
-	protected void onStop() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
-		super.onStop();
-	}
-	
 	
     // Temporary step to have original function untouched and still have the functionality set in xml 	// TODO 
 	public void launchApp(View view) {
@@ -73,7 +32,7 @@ public class ActivityStudentUnion extends BaseActivity {
 	
     // Attempts to start to app with the inputed packageName. If it doesn't exist it opens the apps market page
     private void launchApp(String packageName) {
-    	
+    	if(Utilities.verbose) {Log.v(mTag, mClassName + ":launchApp()");}
     	Intent intent = getPackageManager().getLaunchIntentForPackage(packageName);
     	if (intent != null) {
     		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -85,6 +44,5 @@ public class ActivityStudentUnion extends BaseActivity {
    		    intent.setData(Uri.parse("market://details?id=" + packageName));
     	    startActivity(intent);
     	}
-    }
-    	
+    }    	
 }

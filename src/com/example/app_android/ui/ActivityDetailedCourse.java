@@ -2,23 +2,23 @@ package com.example.app_android.ui;
 
 import com.example.app_android.CourseBean;
 import com.example.app_android.R;
+import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
-import com.example.app_android.database.ICourseTable;
-import com.example.app_android.database.IFavouriteCourseTable;
+import com.example.app_android.database.NoRowsAffectedDBException;
+import com.example.app_android.database.interfaces.ICourseTable;
+import com.example.app_android.database.interfaces.IFavouriteCourseTable;
 import com.example.app_android.util.Utilities;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ActivityDetailedCourse extends Activity {
-	private static final String TAG = "ActivityDetailedCourse";
+public class ActivityDetailedCourse extends BaseActivity {
+	private static final String TAG = "CourseView";
 	String courseCode;
 	boolean isFavourite;
 	MenuItem addOrRemoveButton;
@@ -27,6 +27,8 @@ public class ActivityDetailedCourse extends Activity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		mClassName = getClass().getSimpleName();
+		mTag = TAG;
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detailed_course);
 		
@@ -56,44 +58,10 @@ public class ActivityDetailedCourse extends Activity {
 		isFavourite = favouriteCourseHelper.getAll().contains(courseCode);
 	}
 	
-	@Override
-	protected void onDestroy() {
-    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
-		super.onDestroy(); 
-	}
-
-	@Override
-	protected void onPause() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
-		super.onPause();
-	}
-
-	@Override
-	protected void onRestart() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
-		super.onRestart();
-	}
-
-	@Override
-	protected void onResume() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
-		super.onResume();
-	}
-
-	@Override
-	protected void onStart() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
-		super.onStart();		
-	}
-
-	@Override
-	protected void onStop() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
-		super.onStop();
-	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onCreateOptionsMenu()");}
 	    // Inflate the menu items for use in the action bar
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.layout.activity_detailed_course_action, menu);
@@ -107,18 +75,22 @@ public class ActivityDetailedCourse extends Activity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onCreateOptionsMenu()");}
 		switch (item.getItemId()) {
-	    case R.id.detailed_course_action_info:
-	   		Builder alert = new AlertDialog.Builder(this);
-	   		alert.setTitle("Course " + courseCode);
-	   		alert.setMessage("Insert info about this view here~'("); //TODO
-	   		alert.setPositiveButton("OK",null);
-    		alert.show();
-    		break;
 	    case R.id.detailed_course_action_add_or_remove:
 	    	if(isFavourite) {
 	    		isFavourite = false;
-	    		if(favouriteCourseHelper.remove(courseCode)) {
+	    		boolean result = false;
+	    			try {
+						result = favouriteCourseHelper.remove(courseCode);
+					} catch (DBException e) {
+						// TODO 
+						e.printStackTrace();
+					} catch (NoRowsAffectedDBException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}	    		
+	    		if(result) {
 	    			addOrRemoveButton.setIcon(R.drawable.ic_action_not_important);
 	    			Toast.makeText(getApplicationContext(), courseCode + " was removed from favourite courses", Toast.LENGTH_SHORT).show();
 	    		}
@@ -127,7 +99,17 @@ public class ActivityDetailedCourse extends Activity {
 	    	}
 	    	else {
 	    		isFavourite = true;
-	    		if(favouriteCourseHelper.add(courseCode)) {
+	    		boolean result = false;
+	    		try {
+					result = favouriteCourseHelper.add(courseCode);
+				} catch (NullPointerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (DBException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	    		
+	    		if(result) {
 	    			addOrRemoveButton.setIcon(R.drawable.ic_action_important);
 	    			Toast.makeText(getApplicationContext(), courseCode + " was added to favourite courses", Toast.LENGTH_SHORT).show();
 	    		}

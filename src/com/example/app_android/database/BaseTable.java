@@ -19,24 +19,24 @@ public class BaseTable {
 	protected String mClass;
 		
 	public BaseTable(SQLiteOpenHelper SQLiteOpenHelper) {
-
+		mClass = getClass().getSimpleName();
 		
 		mHelper = SQLiteOpenHelper;
 	}
 	
-	public void createTable(SQLiteDatabase db) throws SQLException {
+	public void createTable(SQLiteDatabase db) throws SQLException, DBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":createTable()");}
 		if(SQL_CREATE_TABLE != null && !SQL_CREATE_TABLE.isEmpty())
 			db.execSQL(SQL_CREATE_TABLE);
 	}
 
-	public void dropTable(SQLiteDatabase db) throws SQLException {
+	public void dropTable(SQLiteDatabase db) throws SQLException, DBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":dropTable()");}
 		if(SQL_DROP_TABLE != null && !SQL_DROP_TABLE.isEmpty())
 			db.execSQL(SQL_DROP_TABLE);		
 	}
 	
-	public void fillTableWithDefaultData(SQLiteDatabase db) throws SQLException {
+	public void fillTableWithDefaultData(SQLiteDatabase db) throws SQLException, DBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":fillTableWithDefaultData()");}
 		if(SQL_DEFAULT_VALUES != null && !SQL_DEFAULT_VALUES.isEmpty())
 			db.execSQL(SQL_DEFAULT_VALUES);		

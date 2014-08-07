@@ -5,6 +5,7 @@ import com.example.app_android.rest.Processes.LoginStatus;
 import com.example.app_android.util.Utilities;
 
 import android.content.Intent;
+import android.util.Log;
 
 public class ServiceCheckLoginRequired extends BaseService {
 	
@@ -16,7 +17,7 @@ public class ServiceCheckLoginRequired extends BaseService {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Utilities.VerboseLog(TAG, mClassName + ":entered onStartCommand()");
+		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":onStartCommand()");}
 		
 		CheckLogin checkLogin = new CheckLogin(this, intent);
 
@@ -33,7 +34,7 @@ public class ServiceCheckLoginRequired extends BaseService {
 		
 		@Override
 	    public void run() {		
-			Utilities.VerboseLog(TAG, mClassName + ":entered run()");
+			if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":run()");}
 			informStart();
 			
 			// Send start broadcast

@@ -3,6 +3,7 @@ package com.example.app_android.services;
 import com.example.app_android.util.Utilities;
 
 import android.content.Intent;
+import android.util.Log;
 
 public class ServiceUpdateData extends BaseService {
 	
@@ -14,7 +15,7 @@ public class ServiceUpdateData extends BaseService {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Utilities.VerboseLog(TAG, mClassName + ":entered onStartCommand()");
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onStartCommand()");}
 		
 		CheckLogin checkLogin = new CheckLogin(this, intent);
 
@@ -30,7 +31,8 @@ public class ServiceUpdateData extends BaseService {
 	    }
 		
 		@Override
-	    public void run() {			
+	    public void run() {		
+			if(Utilities.verbose) {Log.v(TAG, mClassName + ":run()");}
 			informStart();
 			
 			// Send start broadcast

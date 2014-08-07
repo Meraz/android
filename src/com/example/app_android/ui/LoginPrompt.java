@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -20,20 +21,21 @@ public class LoginPrompt {
 	}
 	
 	private static final String TAG = "Login";
-
+	private String mClassName;
+	
 	private Context mContext;
 	private MyBroadCastReceiver mBroadCastReceiver;
-	private LoginPromptCallback mCallback;
-	
+	private LoginPromptCallback mCallback;	
 
 	public LoginPrompt(Context context, MyBroadCastReceiver broadCastReceiver, LoginPromptCallback callback) {
+		mClassName = getClass().getSimpleName();
 		mContext = context;
 		mBroadCastReceiver = broadCastReceiver;
 		mCallback = callback;
 	}
 	
 	public void attempLogin() {
-		
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":attempLogin()");}
 		LayoutInflater layoutInflater = LayoutInflater.from(mContext);				
 
 		View view = layoutInflater.inflate(R.layout.item_loginprompt, null);
@@ -50,8 +52,6 @@ public class LoginPrompt {
 			
 			 String user_text = (userInput.getText()).toString();
 			 String user_password = (password.getText()).toString();
-			 Utilities.VerboseLog(TAG, user_text);
-			 Utilities.VerboseLog(TAG, user_password);
 			 
 			 int id = ServiceManager.getInstance().requestToken(mContext.getApplicationContext(), mBroadCastReceiver, user_text, user_password);
 			 mCallback.onLoginButtonPressed(id);

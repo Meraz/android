@@ -19,7 +19,7 @@ public class MyBroadCastReceiver extends BroadcastReceiver {
 		public void onWorkerStop(Intent intent);
 	}
 
-	private static final String TAG = "MyResultReceiver";
+	private static final String TAG = "Callback";
 	private String mStartBroadCast = null;
 	private String mStopBroadCast = null;
 	private String mUpdateBroadCast = null;

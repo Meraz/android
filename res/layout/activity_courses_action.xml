@@ -2,9 +2,7 @@
     <item android:id="@+id/courses_action_sync"
           android:icon="@drawable/ic_action_refresh"
           android:showAsAction="always" />
-    <item android:id="@+id/courses_action_info"
-          android:icon="@drawable/ic_dialog_info"
-          android:showAsAction="always" />
+
     <item android:id="@+id/courses_menu_empty_schedule"
 		  android:icon="@drawable/ic_action_delete"
 		  android:title="@string/empty_schedule"

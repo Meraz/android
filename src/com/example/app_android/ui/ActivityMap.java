@@ -1,24 +1,16 @@
 package com.example.app_android.ui;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.content.Context;
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Html;
+import android.util.Log;
 import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -26,7 +18,6 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.HashMap;
-import java.util.Locale;
 
 import com.example.app_android.R;
 import com.example.app_android.database.DatabaseManager;
@@ -40,8 +31,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class ActivityMap extends Activity {
-	private static final String TAG = "ActivityMap";
+public class ActivityMap extends BaseActivity {
+	private static final String TAG = "Map";
 	
 	private GoogleMap map;
 	private HashMap<String, Marker> mapMarkers = new HashMap<String, Marker>();
@@ -60,7 +51,12 @@ public class ActivityMap extends Activity {
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
+		mClassName = getClass().getSimpleName();
+		mTag = TAG;
         super.onCreate(savedInstanceState);
+        
+        mInfoBoxMessage = "This dialog should contain information about how the map view works. But it doesn't, this is just hard code! :<";
+        
         LatLng place = null;
         
         //Get input parameters
@@ -119,103 +115,8 @@ public class ActivityMap extends Activity {
     	 }
     }
 	
-	public void onToggleClicked(View view) {
-		boolean on = ((ToggleButton)view).isChecked();
-		switch(view.getId()) {
-		case R.id.marker_toggle_houses:
-				toggleHouseMarkers(on);
-			break;
-		}
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    //Inflate the menu items for the action bar
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.layout.activity_map_action, menu);
-	    return super.onCreateOptionsMenu(menu);
-	}
-	
-    @Override
-	protected void onDestroy() {
-    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onDestroy()");
-		super.onDestroy();
-	}
-
-	@Override
-	protected void onPause() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onPause()");
-		super.onPause();
-	}
-
-	@Override
-	protected void onRestart() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onRestart()");
-		super.onRestart();
-	}
-
-	@Override
-	protected void onResume() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
-		super.onResume();
-		initilizeMap();
-	}
-
-	@Override
-	protected void onStart() {
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStart()");
-		super.onStart();
-	}
-
-	@Override
-	protected void onStop() {
-    	Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onStop()");
-		super.onStop();
-	}
-	
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
-    }
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        if(item.getItemId() == R.id.map_action_info) {
-        	Builder alert = new AlertDialog.Builder(this);
-        	alert.setTitle("Map");
-        	alert.setMessage("This dialog should contain information about how the map view works. But it doesn't, this is just hard code! :<");
-        	alert.setPositiveButton("OK",null);
-        	alert.show();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    
-    public void onRadioButtonClicked(View view) {
-		switch(view.getId()) {
-			case R.id.radio_karlskrona:
-				moveToKarlskrona();
-				break;
-			case R.id.radio_karlshamn:
-				moveToKarlshamn();
-				break;
-			case R.id.radio_normal:
-				map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-				break;
-			case R.id.radio_satellite:
-				map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-				break;
-			case R.id.radio_hybrid:
-				map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-				break;
-		}
-		drawerLayout.closeDrawers();
-	}
-	
 	private boolean initilizeMap() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":initilizeMap()");}
         if (map == null) {
         	map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
             // check if map is created successfully or not
@@ -230,6 +131,8 @@ public class ActivityMap extends Activity {
     }
 	
 	private void initializeDrawer() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":initializeDrawer()");}
+
 		searchField 		= (AutoCompleteTextView) findViewById(R.id.course_search_input);
 		drawerLayout 		= (DrawerLayout) findViewById(R.id.drawer_layout);
 		campusRadioGroup 	= (RadioGroup) findViewById(R.id.radio_group_campus);
@@ -297,6 +200,8 @@ public class ActivityMap extends Activity {
 	}
 	
 	private void moveToKarlskrona() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":moveToKarlskrona()");}
+		
 		map.moveCamera( CameraUpdateFactory.newLatLngZoom(campusKarlskronaCoordinates, 17.0f));
 		if(map.getMapType() != GoogleMap.MAP_TYPE_NORMAL)  { //Only change if the normal map type is not set. (The satellite and hybrid view of campus Karlskrona is outdated)
 			map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -305,6 +210,8 @@ public class ActivityMap extends Activity {
 	}
 	
 	private void moveToKarlshamn() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":moveToKarlshamn()");}
+		
 		map.moveCamera( CameraUpdateFactory.newLatLngZoom(campusKarlshamnCoordinates, 17.0f));
 		if(map.getMapType() == GoogleMap.MAP_TYPE_NORMAL) { //Only change if the normal map type is set. (Google Maps currently has no good data for the map type for the Karlshamn Campus area)
 			map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
@@ -312,7 +219,10 @@ public class ActivityMap extends Activity {
 		}
 	}
 	
+
 	private void addMarkers() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":addMarkers()");}
+
 		addMarker("HOUSE_A");
 		addMarker("HOUSE_B");
 		addMarker("HOUSE_C");
@@ -327,6 +237,8 @@ public class ActivityMap extends Activity {
  	}
 	
 	private void addMarker(String name) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":addMarker()");}
+		
 		MarkerOptions options = mPlaceTable.getMapMarkerOptions(name);
 		
 		if(options.getPosition() != null)
@@ -334,6 +246,7 @@ public class ActivityMap extends Activity {
 	}
 	
 	private void toggleHouseMarkers (boolean on) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":toggleHouseMarkers()");}
 			mapMarkers.get("HOUSE_A").setVisible(on);
 			mapMarkers.get("HOUSE_B").setVisible(on);
 			mapMarkers.get("HOUSE_C").setVisible(on);
@@ -361,9 +274,56 @@ public class ActivityMap extends Activity {
 		campusKarlskronaCoordinates = new LatLng(karlskronaLatitude.getFloat(),karlskronaLongitude.getFloat());
 		campusKarlshamnCoordinates = new LatLng(karlshamnLatitude.getFloat(), karlshamnLongitude.getFloat());
 	}	
-    
-  //Used to display HTML-based text as marker snippet
-  	private class SnippetInfoWindowAdapter implements InfoWindowAdapter{	
+	
+	public void onRadioButtonClicked(View view) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onRadioButtonClicked()");}
+		switch(view.getId()) {
+			case R.id.radio_karlskrona:
+				moveToKarlskrona();
+				break;
+			case R.id.radio_karlshamn:
+				moveToKarlshamn();
+				break;
+			case R.id.radio_normal:
+				map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+				break;
+			case R.id.radio_satellite:
+				map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+				break;
+			case R.id.radio_hybrid:
+				map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+				break;
+		}
+		drawerLayout.closeDrawers();
+	}
+	
+	public void onToggleClicked(View view) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onToggleClicked()");}
+		boolean on = ((ToggleButton)view).isChecked();
+		switch(view.getId()) {
+		case R.id.marker_toggle_houses:
+				toggleHouseMarkers(on);
+			break;
+		}
+	}
+		
+	@Override
+	protected void onResume() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onResume()");}
+		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
+		super.onResume();
+		initilizeMap();
+	}
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onPostCreate()");}
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
+    }
+	
+	//Used to display HTML-based text as marker snippet
+	private class SnippetInfoWindowAdapter implements InfoWindowAdapter{	
 
   		@Override
   		public View getInfoContents(Marker marker) {
