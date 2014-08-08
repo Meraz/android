@@ -20,7 +20,8 @@ public class ServiceManager {
 	 *  Might be used in the future.
 	 */
 	@SuppressWarnings("unused") // TODO
-	private Context mContext; 		private static ServiceManager mServiceHelper = null;
+	private Context mContext; 		
+	private static ServiceManager mServiceHelper = null;
 	
 	public static void initialize(Context context) {
 		if(mServiceHelper == null)
@@ -91,8 +92,7 @@ public class ServiceManager {
 	public synchronized void informWorkerStop(int id) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":requestToken()");}
 		mServices.remove(id);
-	}
-	
+	}	
 
 	/*
 	 * Shall return true if a service with this key is running, otherwise false
@@ -103,12 +103,6 @@ public class ServiceManager {
 			return true;
 		return false;
 	}	
-
-	// Called by a thread when it wants to remove itself from the metatable
-	public synchronized void informWorkerStop(int id) {
-		if(Utilities.verbose) {Log.v(TAG, mClassName + ":requestToken()");}
-		mServices.remove(id);
-	}
 	
 	private static Intent prepareDefaultIntent(Intent intent, ServiceDataBean databean) {	
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":prepareDefaultIntent()");}
