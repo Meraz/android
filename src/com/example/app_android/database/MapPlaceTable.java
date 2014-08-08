@@ -178,6 +178,43 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 	}
 	
 	@Override
+	public boolean add(String name, String description, float latitude, float longitude, int iconId, int toggleId) throws DBException {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":add()");}
+		
+		SQLiteDatabase db = mHelper.getWritableDatabase();
+		db.beginTransaction();		
+		ContentValues contentValues = new ContentValues();
+		contentValues.put(COLUMN_NAME, name);
+		contentValues.put(COLUMN_DESCRIPTION, description);
+		contentValues.put(COLUMN_COORDINATE_LATITUDE, latitude);
+		contentValues.put(COLUMN_COORDINATE_LONGITUDE, longitude);
+		contentValues.put(COLUMN_ICON_ID, iconId);
+		contentValues.put(COLUMN_TOGGLE_ID, toggleId);
+		
+		int result = -1;
+		try {
+			result = (int) db.insert(TABLE_NAME, null, contentValues);
+			db.setTransactionSuccessful();
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":add()::db.insert();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
+		}
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":add()::db.setTransactionSuccessful();");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		finally{
+			db.endTransaction();
+			db.close();
+		}
+		
+		if(result == -1) {
+			throw new DBException("Database error");
+		}
+		return true;
+	}
+	
+	@Override
 	public LatLng getMapCoordinate(String name) {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":getMapCoordinate()");}
 		LatLng coordinates = null;

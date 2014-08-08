@@ -72,11 +72,11 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 			result = (int) db.insert(TABLE_NAME, null, contentValues);
 			db.setTransactionSuccessful();
 		}catch(NullPointerException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":remove()::db.delete();");}
+			if(Utilities.error) {Log.v(TAG, mClass + ":add()::db.insert();");}
 			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":remove()::db.setTransactionSuccessful();");}
+			if(Utilities.error) {Log.v(TAG, mClass + ":add()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
 		finally{
