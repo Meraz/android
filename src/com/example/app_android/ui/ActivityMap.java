@@ -33,7 +33,6 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.plus.model.people.Person.PlacesLived;
 
 public class ActivityMap extends BaseActivity {
 	private static final String TAG = "Map";
@@ -176,6 +175,8 @@ public class ActivityMap extends BaseActivity {
 	}
 	
 	private void initializeDropDownSearchField() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":initializeDropDownSearchField()");}
+		
 		String[] searchablesPlaceNames = mPlaceTable.getAllNamesByToggleId(MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE, false);
 		searchAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, searchablesPlaceNames);
 		searchField.setAdapter(searchAdapter);
@@ -189,6 +190,7 @@ public class ActivityMap extends BaseActivity {
 				if(imm.isActive())
 					imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 				
+				//Move the search marker
 				MarkerOptions markerOptions = mPlaceTable.getMapMarkerOptions( (String) arg0.getItemAtPosition(arg2));
 				if(markerOptions != null) {
 					if(mapMarkers.containsKey("SearchMarker")) {
@@ -200,6 +202,7 @@ public class ActivityMap extends BaseActivity {
 						mapMarkers.put("SearchMarker", map.addMarker(markerOptions));
 					}
 					
+					//Move the camera and close the drawer to show the search marker
 					map.moveCamera( CameraUpdateFactory.newLatLngZoom(markerOptions.getPosition(), 17.0f));
 					searchField.setText(""); //Make the text field empty so that the user doesn't have to erase text in it before searching again
 					drawerLayout.closeDrawers();
@@ -246,19 +249,13 @@ public class ActivityMap extends BaseActivity {
 			mapMarkers.put(name, map.addMarker(options));
 	}
 	
-	private void toggleHouseMarkers (boolean on) {
-		if(Utilities.verbose) {Log.v(TAG, mClassName + ":toggleHouseMarkers()");}
-			mapMarkers.get("HOUSE_A").setVisible(on);
-			mapMarkers.get("HOUSE_B").setVisible(on);
-			mapMarkers.get("HOUSE_C").setVisible(on);
-			mapMarkers.get("HOUSE_D").setVisible(on);
-			mapMarkers.get("HOUSE_G").setVisible(on);
-			mapMarkers.get("HOUSE_H").setVisible(on);
-			mapMarkers.get("HOUSE_J").setVisible(on);
-			mapMarkers.get("HOUSE_K").setVisible(on);
-			mapMarkers.get("BSK_OFFICE").setVisible(on);
-			mapMarkers.get("KARLSHAMN_HOUSE_A").setVisible(on);
-			mapMarkers.get("KARLSHAMN_HOUSE_B").setVisible(on);
+	private void toggleMarkers (int toggleId ,boolean on) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":toggleMarkers()");}
+		
+		String[] markerNames = mPlaceTable.getAllNamesByToggleId(toggleId, false);
+		for(int i = 0; i < markerNames.length; ++i) {
+			mapMarkers.get(markerNames[i]).setVisible(on);
+		}
 	}
 	
 	private void getCampusCoordinates() {
@@ -303,7 +300,7 @@ public class ActivityMap extends BaseActivity {
 		boolean on = ((ToggleButton)view).isChecked();
 		switch(view.getId()) {
 		case R.id.marker_toggle_houses:
-				toggleHouseMarkers(on);
+			toggleMarkers(MapPlaceIdentifiers.TOGGLE_ID_CAMPUS_HOUSES, on);
 			break;
 		}
 	}
