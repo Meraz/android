@@ -25,7 +25,7 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 	private static final String COLUMN_COURSE_NEXT_EXAM_DATE = "nextExamDate";
 	private static final String COLUMN_COURSE_DESCRIPTION 	= "courseDescription";
     
-    private static final String COULUMN_COURSE_CODE_TYPE 		= "VARCHAR(8) PRIMARY KEY";
+    private static final String COLUMN_COURSE_CODE_TYPE 		= "VARCHAR(8) PRIMARY KEY";
     private static final String COLUMN_COURSE_NAME_TYPE 		= "VARCHAR(255)";
     private static final String COLUMN_COURSE_RESPONSIBLE_TYPE 	= "VARCHAR(50)";
     private static final String COLUMN_COURSE_START_DATE_TYPE 	= "VARCHAR(10)";
@@ -36,7 +36,7 @@ public class CoursesTable extends BaseTable implements ICourseTable{
     
 	private static final String LOCAL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " " +
 			"("+
-				COLUMN_COURSE_CODE	 			+ " " + 	COULUMN_COURSE_CODE_TYPE 		+", " 	+
+				COLUMN_COURSE_CODE	 			+ " " + 	COLUMN_COURSE_CODE_TYPE 		+", " 	+
 				COLUMN_COURSE_NAME 				+ " " + 	COLUMN_COURSE_NAME_TYPE  		+", " 	+
 				COLUMN_COURSE_RESPONSIBLE		+ " " + 	COLUMN_COURSE_RESPONSIBLE_TYPE 	+", " 	+
 				COLUMN_COURSE_START_DATE 		+ " " + 	COLUMN_COURSE_START_DATE_TYPE 	+", " 	+
@@ -143,6 +143,45 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 			db.endTransaction();
 			db.close();
 		}		
+	}
+	
+	@Override
+	public boolean add(CourseBean course) throws DBException {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":add()");}
+		
+		SQLiteDatabase db = mHelper.getWritableDatabase();
+		db.beginTransaction();		
+		ContentValues contentValues = new ContentValues();
+		contentValues.put(COLUMN_COURSE_CODE, course.getCourseCode());
+		contentValues.put(COLUMN_COURSE_NAME, course.getCourseName());
+		contentValues.put(COLUMN_COURSE_RESPONSIBLE, course.getCourseResponsible());
+		contentValues.put(COLUMN_COURSE_START_DATE, course.getStartDate());
+		contentValues.put(COLUMN_COURSE_END_DATE, course.getEndDate());
+		contentValues.put(COLUMN_COURSE_LITERATURE, course.getCourseLiterature());
+		contentValues.put(COLUMN_COURSE_NEXT_EXAM_DATE, course.getNextExamDate());
+		contentValues.put(COLUMN_COURSE_DESCRIPTION, course.getCourseDescription());
+		
+		int result = -1;
+		try {
+			result = (int) db.insert(TABLE_NAME, null, contentValues);
+			db.setTransactionSuccessful();
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":remove()::db.delete();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
+		}
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":remove()::db.setTransactionSuccessful();");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		finally{
+			db.endTransaction();
+			db.close();
+		}
+		
+		if(result == -1) {
+			throw new DBException("Database error");
+		}
+		return true;
 	}
 	
 	@Override

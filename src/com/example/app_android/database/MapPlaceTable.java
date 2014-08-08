@@ -1,6 +1,5 @@
 package com.example.app_android.database;
 
-import com.example.app_android.CourseBean;
 import com.example.app_android.R;
 import com.example.app_android.database.interfaces.IMapPlaceTable;
 import com.example.app_android.util.Utilities;
@@ -131,7 +130,7 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 		values[7].put(COLUMN_COORDINATE_LATITUDE, 56.181711);
 		values[7].put(COLUMN_COORDINATE_LONGITUDE, 15.589841);
 		values[7].put(COLUMN_ICON_ID, MARKER_ICON_ID_ROTUNDAN);
-		values[7].put(COLUMN_TOGGLE_ID, TOGGLE_ID_CAMPUS_HOUSES);
+		values[7].put(COLUMN_TOGGLE_ID, TOGGLE_ID_STUDENT_PUBS);
 		
 		values[8].put(COLUMN_NAME, "KARLSHAMN_HOUSE_A");
 		values[8].put(COLUMN_DESCRIPTION, "Description missing");
