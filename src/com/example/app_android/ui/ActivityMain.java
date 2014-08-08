@@ -19,16 +19,16 @@ import com.example.app_android.database.interfaces.ITokenTable;
 import com.example.app_android.services.ServiceManager;
 import com.example.app_android.ui.LoginPrompt.LoginPromptCallback;
 import com.example.app_android.util.Utilities;
-import com.example.app_android.util.MyBroadCastReceiver;
-import com.example.app_android.util.MyBroadCastReceiver.Receiver;
+import com.example.app_android.util.MyBroadcastReceiver;
+import com.example.app_android.util.MyBroadcastReceiver.Receiver;
 
 public class ActivityMain extends BaseActivity implements Receiver, LoginPromptCallback  {
 	
 	private static final String TAG = "Main";
 
-	private MyBroadCastReceiver mCheckLoginReceiver;
+	private MyBroadcastReceiver mCheckLoginReceiver;
 	int mIDCheckLoginService;
-	private MyBroadCastReceiver mLoginReceiver;
+	private MyBroadcastReceiver mLoginReceiver;
 	int mIDLoginService;
 	
 	private MenuItem mSyncActionItem;	
@@ -54,13 +54,13 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 		
 		// Working testcode. Should only need to be moved to another file later on
 		if(mLoginReceiver == null) {
-			mLoginReceiver = new MyBroadCastReceiver(TAG + "_LOGIN_START", TAG + "_LOGIN_UPDATE", TAG + "_LOGIN_STOP");
+			mLoginReceiver = new MyBroadcastReceiver(TAG + "_LOGIN_START", TAG + "_LOGIN_UPDATE", TAG + "_LOGIN_STOP");
 			mLoginReceiver.registerCallback(this);
 		}
 		mLoginReceiver.registerBroadCastReceiver(this);
 		
 		if(mCheckLoginReceiver == null) {
-			mCheckLoginReceiver = new MyBroadCastReceiver(TAG + "_CHECK_LOGIN_START", TAG + "_CHECK_LOGIN_UPDATE", TAG + "_CHECK_LOGIN_STOP");
+			mCheckLoginReceiver = new MyBroadcastReceiver(TAG + "_CHECK_LOGIN_START", TAG + "_CHECK_LOGIN_UPDATE", TAG + "_CHECK_LOGIN_STOP");
 			mCheckLoginReceiver.registerCallback(this);
 		} 
 		

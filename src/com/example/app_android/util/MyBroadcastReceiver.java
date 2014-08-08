@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
 
-public class MyBroadCastReceiver extends BroadcastReceiver {
+public class MyBroadcastReceiver extends BroadcastReceiver {
 	
 	// Callback interface to implement own method on how to handle the result.
 	public interface Receiver {
@@ -28,7 +28,7 @@ public class MyBroadCastReceiver extends BroadcastReceiver {
 	protected String mUpdateBroadCast = null;
 	protected Receiver mReceiver = null;
 	
-	public MyBroadCastReceiver(String startBroadCast, String updateBroadCast, String stopBroadCast)
+	public MyBroadcastReceiver(String startBroadCast, String updateBroadCast, String stopBroadCast)
 	{
 		mStartBroadCast 	= startBroadCast;
 		mUpdateBroadCast 	= updateBroadCast;
@@ -37,7 +37,7 @@ public class MyBroadCastReceiver extends BroadcastReceiver {
 		mClassName = getClass().getSimpleName();
 	}
 	
-	public MyBroadCastReceiver(String stopBroadCast)
+	public MyBroadcastReceiver(String stopBroadCast)
 	{
 		mStopBroadCast = stopBroadCast;
 	}
