@@ -62,7 +62,7 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 			db.setTransactionSuccessful();
 			
 		}catch(NullPointerException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":add()::db.delete();");}
+			if(Utilities.error) {Log.v(TAG, mClass + ":add()::insert();");}
 			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
@@ -74,7 +74,7 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 			db.close();
 		}
 		if(resultId == -1) {
-			throw new NoRowsAffectedDBException("error at: " + mClass + ":add()");
+			throw new DBException("error at: " + mClass + ":add()");
 		}
 		return true;
 	}
