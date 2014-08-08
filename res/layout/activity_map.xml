@@ -128,6 +128,22 @@
 				    android:textOn="Houses"
 					android:textOff="Houses"
     				android:onClick="onToggleClicked" />
+	            
+	            <ToggleButton
+    				android:id="@+id/marker_toggle_student_union"
+				    android:layout_width="wrap_content"
+    				android:layout_height="wrap_content"
+				    android:textOn="BSK"
+					android:textOff="BSK"
+    				android:onClick="onToggleClicked" />
+	            
+	            <ToggleButton
+    				android:id="@+id/marker_toggle_student_pubs"
+				    android:layout_width="wrap_content"
+    				android:layout_height="wrap_content"
+				    android:textOn="Pubs"
+					android:textOff="Pubs"
+    				android:onClick="onToggleClicked" />
 	    </LinearLayout>
 	</LinearLayout>	
 </LinearLayout>

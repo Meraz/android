@@ -45,7 +45,8 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 	")";
 	
 	private static final String RETRIEVE_MARKER_INFO 	= "select * from " + TABLE_NAME + " where " + COLUMN_NAME + " = ?";
-	private static final String RETRIEVE_ON_TOGGLE_ID 	= "select * from " + TABLE_NAME + " where " + COLUMN_TOGGLE_ID + " = ?";
+	private static final String RETRIEVE_TOGGLE_EQUAL_TO 	= "select * from " + TABLE_NAME + " where " + COLUMN_TOGGLE_ID + " = ?";
+	private static final String RETRIEVE_TOGGLE_NOT_EQUAL_TO = "select * from " + TABLE_NAME + " where " + COLUMN_TOGGLE_ID + " != ?";
 	
 	public MapPlaceTable(SQLiteOpenHelper SQLiteOpenHelper) {
 		super(SQLiteOpenHelper);
@@ -203,8 +204,8 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 	@Override
 	public LatLng getMapCoordinate(String name) {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":getMapCoordinate()");}
-		LatLng coordinates = null;
 		
+		LatLng coordinates = null;
 		SQLiteDatabase db = mHelper.getReadableDatabase();
 		Cursor cursor = db.rawQuery(RETRIEVE_MARKER_INFO, new String[] { name });
 		
@@ -217,8 +218,8 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 	@Override
 	public MarkerOptions getMapMarkerOptions(String name) {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":getMapMarkerOptions()");}
-		MarkerOptions options = null;
 		
+		MarkerOptions options = null;
 		SQLiteDatabase db = mHelper.getReadableDatabase();
 		Cursor cursor = db.rawQuery(RETRIEVE_MARKER_INFO, new String[] { name });
 		
@@ -234,21 +235,30 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 		return options;
 	}
 	
-	public String[] getAllSearchableNames() {
-		if(Utilities.verbose) {Log.v(TAG, mClass + ":getAllSearchableNames");}
+	@Override
+	//If the getNonEqual flag is not set the function returns all names that have the inputed toggle id.
+	//If the getNonEqual flag is set the function returns all names that doesn't have the inputed toggle id.
+	public String[] getAllNamesByToggleId(int toggleId, boolean getNonEqual) {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":getAllWithoutToggleId");}
 		
 		SQLiteDatabase db = mHelper.getReadableDatabase();
-		Cursor cursor = db.rawQuery(RETRIEVE_ON_TOGGLE_ID, new String[] { Integer.toString(MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE)});
+		Cursor cursor;
+		if(!getNonEqual) {
+			cursor = db.rawQuery(RETRIEVE_TOGGLE_EQUAL_TO, new String[] { Integer.toString(toggleId)});
+		}
+		else {
+			cursor = db.rawQuery(RETRIEVE_TOGGLE_NOT_EQUAL_TO, new String[] { Integer.toString(toggleId)});
+		}
 		
 		int rowCount = cursor.getCount();
-		String[] searchableNames = new String[rowCount];
+		String[] names = new String[rowCount];
 		for(int i = 0; i < rowCount; ++i) {
 			cursor.moveToNext();
-			searchableNames[i] = cursor.getString(0);
+			names[i] = cursor.getString(0);
 		}
 		
 		db.close();
-		return searchableNames;
+		return names;
 	}
 	
 	private BitmapDescriptor getIconFromId(int iconId) {
