@@ -247,7 +247,6 @@ public class ActivityCourses extends BaseActivity {
 	private void exportSchedule() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":exportSchedule()");}
 		if(Utilities.isNetworkAvailable(getApplicationContext())) {
-			Utilities.VerboseLog(TAG, "Exporting schedule to Google Calendar");
 			ArrayList<String> courseCodes = favouriteCoursesHelper.getAll();
 			ArrayList<String> requests = new ArrayList<String>();
 

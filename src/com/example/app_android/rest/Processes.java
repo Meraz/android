@@ -13,6 +13,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 
+import android.util.Log;
+
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.NoRowsAffectedDBException;
@@ -34,7 +36,7 @@ public class Processes {
 	}
 	
 	public static LoginStatus checkIfLoginIsNeeded() {
-		Utilities.VerboseLog(TAG, "Processes::entered checkIfLoginIsNeeded()");
+		if(Utilities.verbose) {Log.v(TAG, ":checkIfLoginIsNeeded()");}
 		
 		ITokenTable tokenTable = DatabaseManager.getInstance().getTokenTable();
 		
@@ -57,6 +59,7 @@ public class Processes {
 	}
 	
 	public static void requestToken(String username, String password) throws RestCommunicationException {
+		if(Utilities.verbose) {Log.v(TAG, ":requestToken()");}
 		try {
 			requestTokenFromServer(username, password);
 		}
@@ -81,7 +84,7 @@ public class Processes {
 	}
 	
 	private static void requestTokenFromServer(String username, String password) throws RestCommunicationException {
-		Utilities.VerboseLog(TAG, "Processes::entered requestToken()");
+		if(Utilities.verbose) {Log.v(TAG, ":requestTokenFromServer()");}
 		
 		ITokenTable tokenTable = DatabaseManager.getInstance().getTokenTable();
 		
@@ -156,7 +159,7 @@ public class Processes {
 	}
 	
 	private static HttpPost preparePostCall(String url, final String[] parameterNames, final String[] parameterValues) throws RestCommunicationException {
-		Utilities.VerboseLog(TAG, "Processes::entered requestToken()");
+		if(Utilities.verbose) {Log.v(TAG, ":preparePostCall()");}
 		
 		if(parameterNames.length != parameterValues.length)
 			throw new RestCommunicationException("Not the same amount of parameters as there is values.");

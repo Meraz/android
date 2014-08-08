@@ -316,8 +316,6 @@ public class ActivityMap extends BaseActivity {
 		
 	@Override
 	protected void onResume() {
-		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onResume()");}
-		Utilities.VerboseLog(TAG, getClass().getSimpleName() + ":entered onResume()");
 		super.onResume();
 		initilizeMap();
 	}

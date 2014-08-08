@@ -27,43 +27,43 @@ public class BaseActivity extends Activity {
 		Assert.assertNotNull("You must specify mTag in " + getClass().getSimpleName(), mTag);
 		Assert.assertNotNull("You must specify mClassName in " + getClass().getSimpleName(), mClassName);
 
-    	Utilities.VerboseLog(mTag, mClassName + ":entered onCreate()");
+		if(Utilities.verbose) {Log.v(mTag, mClassName + ":onCreate()");}
         super.onCreate(savedInstanceState);
     }    
 
     @Override
 	protected void onDestroy() {
-    	Utilities.VerboseLog(mTag, mClassName + ":entered onDestroy()");
+		if(Utilities.verbose) {Log.v(mTag, mClassName + ":onDestroy()");}
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onPause() {
-    	Utilities.VerboseLog(mTag, mClassName + ":entered onPause()");
+		if(Utilities.verbose) {Log.v(mTag, mClassName + ":onPause()");}
 		super.onPause();
 	}
 
 	@Override
 	protected void onRestart() {
-    	Utilities.VerboseLog(mTag, mClassName + ":entered onRestart()");
+		if(Utilities.verbose) {Log.v(mTag, mClassName + ":onRestart()");}
 		super.onRestart();
 	}
 
 	@Override
 	protected void onResume() {
-    	Utilities.VerboseLog(mTag, mClassName + ":entered onResume()");
+		if(Utilities.verbose) {Log.v(mTag, mClassName + ":onResume()");}
 		super.onResume();
 	}
 
 	@Override
 	protected void onStart() {
-    	Utilities.VerboseLog(mTag, mClassName + ":entered onStart()");
+		if(Utilities.verbose) {Log.v(mTag, mClassName + ":onStart()");}
 		super.onStart();
 	}
 
 	@Override
 	protected void onStop() {
-    	Utilities.VerboseLog(mTag, mClassName + ":entered onPause()");
+		if(Utilities.verbose) {Log.v(mTag, mClassName + ":onStop()");}
 		super.onStop();
 	} 
 
