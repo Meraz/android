@@ -212,6 +212,7 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 	public void onLoginButtonPressed(int workerID) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onLoginButtonPressed()");}
 		mIDLoginService = workerID;
+		startSyncIcon();
 	}	
 	
 	// TODO Move this code to whereever you want login. atm debug code
@@ -219,7 +220,6 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":attemptLogin()");}
 		// Check if login is required. This is only test code. Should be moved to correct place in future
 		mIDCheckLoginService =	ServiceManager.getInstance().checkIfLoginIsRequired(this.getApplicationContext(), mCheckLoginReceiver);
-		startSyncIcon();
 	}
 	
 	// TODO Debug code to test login functionality
