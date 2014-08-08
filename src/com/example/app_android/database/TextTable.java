@@ -13,15 +13,15 @@ public class TextTable extends BaseTable implements ITextTable {
 	
 	private static final String TABLE_NAME = "token";
 	
-	private static final String COLUMN_TOKEN = "token_value";	    
+	private static final String COLUMN_ID = "id";	    
     private static final String COLUMN_EXPIREDATE = "expire_date";
     private static final String COLUMN_TRANSACTION_FLAG = "transaction_flag";
     
-    private static final String COLUMN_TOKEN_TYPE = "TEXT";
+    private static final String COLUMN_ID_TYPE = "primary INTEGER";
     private static final String COLUMN_EXPIREDATE_TYPE = "INTEGER";
     private static final String COLUMN_TRANSACTION_FLAG_TYPE = "INTEGER";
     
-    private static final String RETRIEVE_TOKEN 				= "select " + COLUMN_TOKEN  			+ " from " + TABLE_NAME;
+    private static final String RETRIEVE_TOKEN 				= "select " + COLUMN_ID  			+ " from " + TABLE_NAME;
     private static final String RETRIEVE_EXPIREDATE 		= "select " + COLUMN_EXPIREDATE 		+ " from " + TABLE_NAME;
     private static final String RETRIEVE_TRANSACTION_FLAG 	= "select " + COLUMN_TRANSACTION_FLAG	+ " from " + TABLE_NAME;
 
@@ -29,7 +29,7 @@ public class TextTable extends BaseTable implements ITextTable {
     "CREATE TABLE " + 
     TABLE_NAME + 
     " (" +
-	    COLUMN_TOKEN 					+ " " + COLUMN_TOKEN_TYPE 				+ ", " +
+    	COLUMN_ID 					+ " " + COLUMN_ID_TYPE 				+ ", " +
 	    COLUMN_EXPIREDATE 				+ " " + COLUMN_EXPIREDATE_TYPE 			+ ", " +
 	    COLUMN_TRANSACTION_FLAG 		+ " " + COLUMN_TRANSACTION_FLAG_TYPE +
     ");";
@@ -47,7 +47,7 @@ public class TextTable extends BaseTable implements ITextTable {
 		db.beginTransaction();
 
 		ContentValues values = new ContentValues();
-		values.put(COLUMN_TOKEN, "DefaultToken");
+		values.put(COLUMN_ID, "DefaultToken");
 		values.put(COLUMN_EXPIREDATE, (int)-1);
 		values.put(COLUMN_TRANSACTION_FLAG, (int)TransactionFlag.Unknown.ordinal());
 		
