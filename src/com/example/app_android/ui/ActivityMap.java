@@ -1,5 +1,6 @@
 package com.example.app_android.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -7,6 +8,7 @@ import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -179,6 +181,11 @@ public class ActivityMap extends BaseActivity {
 		searchField.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 		    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) { 
+				//Remove the input keyboard
+				searchField.clearFocus();
+				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+				if(imm.isActive())
+					imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 				
 				MarkerOptions markerOptions = mPlaceTable.getMapMarkerOptions( (String) arg0.getItemAtPosition(arg2));
 				if(markerOptions != null) {
