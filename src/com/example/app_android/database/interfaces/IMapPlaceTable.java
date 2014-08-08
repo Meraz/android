@@ -12,7 +12,5 @@ public interface IMapPlaceTable {
 	
 	MarkerOptions getMapMarkerOptions(String name);
 	
-	String[] getAllSearchableNames();
-	
-	String[] getAllNonSearchableNames();
+	String[] getAllNamesByToggleId(int toggleId, boolean getNonEqual);
 }

@@ -235,38 +235,28 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 		return options;
 	}
 	
-	public String[] getAllSearchableNames() {
-		if(Utilities.verbose) {Log.v(TAG, mClass + ":getAllSearchableNames");}
-		
-		SQLiteDatabase db = mHelper.getReadableDatabase();
-		Cursor cursor = db.rawQuery(RETRIEVE_TOGGLE_EQUAL_TO, new String[] { Integer.toString(MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE)});
-		
-		int rowCount = cursor.getCount();
-		String[] searchableNames = new String[rowCount];
-		for(int i = 0; i < rowCount; ++i) {
-			cursor.moveToNext();
-			searchableNames[i] = cursor.getString(0);
-		}
-		
-		db.close();
-		return searchableNames;
-	}
 	@Override
-	public String[] getAllNonSearchableNames() {
-		if(Utilities.verbose) {Log.v(TAG, mClass + ":getAllNonSearchableNames");}
+	public String[] getAllNamesByToggleId(int toggleId, boolean getNonEqual) {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":getAllWithoutToggleId");}
 		
 		SQLiteDatabase db = mHelper.getReadableDatabase();
-		Cursor cursor = db.rawQuery(RETRIEVE_TOGGLE_NOT_EQUAL_TO, new String[] { Integer.toString(MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE)});
+		Cursor cursor;
+		if(!getNonEqual) {
+			cursor = db.rawQuery(RETRIEVE_TOGGLE_EQUAL_TO, new String[] { Integer.toString(toggleId)});
+		}
+		else {
+			cursor = db.rawQuery(RETRIEVE_TOGGLE_NOT_EQUAL_TO, new String[] { Integer.toString(toggleId)});
+		}
 		
 		int rowCount = cursor.getCount();
-		String[] nonSearchableNames = new String[rowCount];
+		String[] names = new String[rowCount];
 		for(int i = 0; i < rowCount; ++i) {
 			cursor.moveToNext();
-			nonSearchableNames[i] = cursor.getString(0);
+			names[i] = cursor.getString(0);
 		}
 		
 		db.close();
-		return nonSearchableNames;
+		return names;
 	}
 	
 	private BitmapDescriptor getIconFromId(int iconId) {

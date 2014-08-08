@@ -21,6 +21,7 @@ import android.widget.ToggleButton;
 
 import java.util.HashMap;
 
+import com.example.app_android.MapPlaceIdentifiers;
 import com.example.app_android.R;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.interfaces.IMapPlaceTable;
@@ -175,7 +176,7 @@ public class ActivityMap extends BaseActivity {
 	}
 	
 	private void initializeDropDownSearchField() {
-		String[] searchablesPlaceNames = mPlaceTable.getAllSearchableNames();
+		String[] searchablesPlaceNames = mPlaceTable.getAllNamesByToggleId(MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE, false);
 		searchAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, searchablesPlaceNames);
 		searchField.setAdapter(searchAdapter);
 		searchField.setThreshold(1);
@@ -229,7 +230,8 @@ public class ActivityMap extends BaseActivity {
 	
 	private void addMarkers() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":addMarkers()");}
-		String[] markerNames = mPlaceTable.getAllNonSearchableNames();
+		
+		String[] markerNames = mPlaceTable.getAllNamesByToggleId(MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE, true);
 		for(int i = 0; i < markerNames.length; ++i) {
 			addMarker(markerNames[i]);
 		};
