@@ -45,7 +45,8 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 	")";
 	
 	private static final String RETRIEVE_MARKER_INFO 	= "select * from " + TABLE_NAME + " where " + COLUMN_NAME + " = ?";
-	private static final String RETRIEVE_ON_TOGGLE_ID 	= "select * from " + TABLE_NAME + " where " + COLUMN_TOGGLE_ID + " = ?";
+	private static final String RETRIEVE_TOGGLE_EQUAL_TO 	= "select * from " + TABLE_NAME + " where " + COLUMN_TOGGLE_ID + " = ?";
+	private static final String RETRIEVE_TOGGLE_NOT_EQUAL_TO = "select * from " + TABLE_NAME + " where " + COLUMN_TOGGLE_ID + " != ?";
 	
 	public MapPlaceTable(SQLiteOpenHelper SQLiteOpenHelper) {
 		super(SQLiteOpenHelper);
@@ -238,7 +239,7 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":getAllSearchableNames");}
 		
 		SQLiteDatabase db = mHelper.getReadableDatabase();
-		Cursor cursor = db.rawQuery(RETRIEVE_ON_TOGGLE_ID, new String[] { Integer.toString(MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE)});
+		Cursor cursor = db.rawQuery(RETRIEVE_TOGGLE_EQUAL_TO, new String[] { Integer.toString(MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE)});
 		
 		int rowCount = cursor.getCount();
 		String[] searchableNames = new String[rowCount];
@@ -249,6 +250,23 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 		
 		db.close();
 		return searchableNames;
+	}
+	@Override
+	public String[] getAllNonSearchableNames() {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":getAllNonSearchableNames");}
+		
+		SQLiteDatabase db = mHelper.getReadableDatabase();
+		Cursor cursor = db.rawQuery(RETRIEVE_TOGGLE_NOT_EQUAL_TO, new String[] { Integer.toString(MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE)});
+		
+		int rowCount = cursor.getCount();
+		String[] nonSearchableNames = new String[rowCount];
+		for(int i = 0; i < rowCount; ++i) {
+			cursor.moveToNext();
+			nonSearchableNames[i] = cursor.getString(0);
+		}
+		
+		db.close();
+		return nonSearchableNames;
 	}
 	
 	private BitmapDescriptor getIconFromId(int iconId) {

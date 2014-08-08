@@ -32,6 +32,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.plus.model.people.Person.PlacesLived;
 
 public class ActivityMap extends BaseActivity {
 	private static final String TAG = "Map";
@@ -226,21 +227,12 @@ public class ActivityMap extends BaseActivity {
 		}
 	}
 	
-
 	private void addMarkers() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":addMarkers()");}
-
-		addMarker("HOUSE_A");
-		addMarker("HOUSE_B");
-		addMarker("HOUSE_C");
-		addMarker("HOUSE_D");
-		addMarker("HOUSE_G");
-		addMarker("HOUSE_H");
-		addMarker("HOUSE_J");
-		addMarker("HOUSE_K");
-		addMarker("BSK_OFFICE");
-		addMarker("KARLSHAMN_HOUSE_A");
-		addMarker("KARLSHAMN_HOUSE_B");
+		String[] markerNames = mPlaceTable.getAllNonSearchableNames();
+		for(int i = 0; i < markerNames.length; ++i) {
+			addMarker(markerNames[i]);
+		};
  	}
 	
 	private void addMarker(String name) {
