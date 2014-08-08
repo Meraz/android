@@ -204,8 +204,8 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 	@Override
 	public LatLng getMapCoordinate(String name) {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":getMapCoordinate()");}
-		LatLng coordinates = null;
 		
+		LatLng coordinates = null;
 		SQLiteDatabase db = mHelper.getReadableDatabase();
 		Cursor cursor = db.rawQuery(RETRIEVE_MARKER_INFO, new String[] { name });
 		
@@ -218,8 +218,8 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 	@Override
 	public MarkerOptions getMapMarkerOptions(String name) {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":getMapMarkerOptions()");}
-		MarkerOptions options = null;
 		
+		MarkerOptions options = null;
 		SQLiteDatabase db = mHelper.getReadableDatabase();
 		Cursor cursor = db.rawQuery(RETRIEVE_MARKER_INFO, new String[] { name });
 		
@@ -236,6 +236,8 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 	}
 	
 	@Override
+	//If the getNonEqual flag is not set the function returns all names that have the inputed toggle id.
+	//If the getNonEqual flag is set the function returns all names that doesn't have the inputed toggle id.
 	public String[] getAllNamesByToggleId(int toggleId, boolean getNonEqual) {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":getAllWithoutToggleId");}
 		

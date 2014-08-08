@@ -128,7 +128,7 @@ public class ActivityMap extends BaseActivity {
                 return false;
             }
             map.setInfoWindowAdapter(new SnippetInfoWindowAdapter()); //Changes the way marker descriptions is presented. If this is not done; multi line descriptions cannot be used.
-            addMarkers();
+            initializeToggleableMarkers();
         }
         return true;
     }
@@ -232,23 +232,17 @@ public class ActivityMap extends BaseActivity {
 		}
 	}
 	
-	private void addMarkers() {
+	private void initializeToggleableMarkers() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":addMarkers()");}
 		
 		String[] markerNames = mPlaceTable.getAllNamesByToggleId(MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE, true);
 		for(int i = 0; i < markerNames.length; ++i) {
-			addMarker(markerNames[i]);
+			MarkerOptions options = mPlaceTable.getMapMarkerOptions(markerNames[i]);
+			
+			if(options.getPosition() != null)
+				mapMarkers.put(markerNames[i], map.addMarker(options));
 		};
  	}
-	
-	private void addMarker(String name) {
-		if(Utilities.verbose) {Log.v(TAG, mClassName + ":addMarker()");}
-		
-		MarkerOptions options = mPlaceTable.getMapMarkerOptions(name);
-		
-		if(options.getPosition() != null)
-			mapMarkers.put(name, map.addMarker(options));
-	}
 	
 	private void toggleMarkers (int toggleId ,boolean on) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":toggleMarkers()");}
@@ -259,6 +253,7 @@ public class ActivityMap extends BaseActivity {
 		}
 	}
 	
+	// Gets Coordinates for the camera default location for respective campuses. Gets them from resource files.
 	private void getCampusCoordinates() {
 		TypedValue karlskronaLatitude = new TypedValue();
 		TypedValue karlskronaLongitude = new TypedValue();
