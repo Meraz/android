@@ -1,4 +1,4 @@
-package com.example.app_android.database;
+package com.example.app_android.database.interfaces;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
