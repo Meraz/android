@@ -81,7 +81,7 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 		}
 		finally{
 			db.endTransaction();
-			db.close();
+			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 		
 		if(result == -1) {
@@ -110,7 +110,7 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 		}
 		finally{
 			db.endTransaction();
-			db.close();
+			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 				
 		if(deletedRowCount == 0) {
@@ -134,7 +134,7 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 			String courseCode = cursor.getString(index);
 			favouriteCourses.add(courseCode);
 		}
-		db.close();
+		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		return favouriteCourses;
 	}
 
@@ -146,7 +146,7 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 		Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
 		boolean empty = cursor.getCount() <= 0;
 		
-		db.close();
+		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		return empty;
 	}
 }

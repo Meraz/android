@@ -174,7 +174,7 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 		}
 		finally{
 			db.endTransaction();
-			db.close();
+			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 		
 		if(result == -1) {
@@ -198,7 +198,7 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 			String courseCode = cursor.getString(index);
 			courseCodes.add(courseCode);
 		}
-		db.close();
+	//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		return courseCodes;
 	};
 	
@@ -217,7 +217,7 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 			String courseCode = cursor.getString(index);
 			courseNames.add(courseCode);
 		}
-		db.close();
+		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		return courseNames;
 	};
 	
@@ -234,7 +234,7 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 					cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
 		}
 		
-		db.close();
+		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		return fetchedCourse;
 	}
 }

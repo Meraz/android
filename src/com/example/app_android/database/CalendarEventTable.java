@@ -71,7 +71,6 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 		}
 		finally{
 			db.endTransaction();
-			db.close();
 		}
 		if(resultId == -1) {
 			throw new DBException("error at: " + mClass + ":add()");
@@ -102,7 +101,7 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 		}
 		finally{
 			db.endTransaction();
-			db.close();
+			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 		if(deletedRowCount == 0) {
 			throw new NoRowsAffectedDBException("No entries removed in database.");
@@ -125,7 +124,7 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 		
 		db.setTransactionSuccessful();
 		db.endTransaction();
-		db.close();
+		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		 
 		return id;
 	}

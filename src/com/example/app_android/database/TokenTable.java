@@ -90,7 +90,7 @@ public class TokenTable extends BaseTable implements ITokenTable{
 	    if (cursor.moveToFirst()) {
 	    	token = cursor.getString(0); // Database SHOULD only hold one. If there's ever more than one entry, somethings wrong. Should add check for this...
 	    }
-	    db.close();
+		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 
 		return token;
 	}
@@ -107,7 +107,7 @@ public class TokenTable extends BaseTable implements ITokenTable{
 	    if (cursor.moveToFirst()) {
 	    	expiredate = cursor.getLong(0); // Database SHOULD only hold one. If there's ever more than one entry, somethings wrong. Should add check for this...
 	    }
-	    db.close();
+		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 	    return expiredate;
 	}
 		
@@ -137,7 +137,7 @@ public class TokenTable extends BaseTable implements ITokenTable{
 		}
 		finally {
 			db.endTransaction();
-			db.close();				
+			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection		
 		}
 		
 		if(result == -1) {
@@ -168,7 +168,7 @@ public class TokenTable extends BaseTable implements ITokenTable{
 		}
 		finally {
 			db.endTransaction();
-			db.close();				
+			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection			
 		}
 		if(result == 0) {
 			throw new NoRowsAffectedDBException("Error: Token not updated. " + mClass + ":updateTransactionFlag");
@@ -189,7 +189,7 @@ public class TokenTable extends BaseTable implements ITokenTable{
 	    	// Database SHOULD only hold one. If there's ever more than one entry, somethings wrong. Should add check for this...
 	    	transactionFlag = TransactionFlag.values()[cursor.getInt(0)]; 
 	    }
-	    db.close();
+		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 	    return transactionFlag;
 	}
 

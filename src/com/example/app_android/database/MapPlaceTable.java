@@ -192,7 +192,7 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 		}
 		finally{
 			db.endTransaction();
-			db.close();
+			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 		
 		if(result == -1) {
@@ -212,6 +212,8 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 		if(cursor.moveToFirst()) {
 			coordinates = new LatLng(cursor.getFloat(2), cursor.getFloat(3));
 		}
+		
+		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		return coordinates;
 	}
 	
@@ -231,7 +233,7 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 			options.icon(getIconFromId(cursor.getInt(5)));
 		}
 		
-		db.close();
+		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		return options;
 	}
 	
@@ -257,7 +259,7 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 			names[i] = cursor.getString(0);
 		}
 		
-		db.close();
+		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		return names;
 	}
 	
