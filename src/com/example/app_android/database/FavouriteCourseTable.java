@@ -69,7 +69,7 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 		
 		int result = -1;
 		try {
-			db.insert(TABLE_NAME, null, contentValues);
+			result = (int) db.insert(TABLE_NAME, null, contentValues);
 			db.setTransactionSuccessful();
 		}catch(NullPointerException e) {
 			if(Utilities.error) {Log.v(TAG, mClass + ":remove()::db.delete();");}
@@ -87,8 +87,6 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 		if(result == -1) {
 			throw new DBException("Database error");
 		}
-
-
 		return true;
 	}
 

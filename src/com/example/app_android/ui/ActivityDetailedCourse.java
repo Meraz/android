@@ -79,42 +79,34 @@ public class ActivityDetailedCourse extends BaseActivity {
 		switch (item.getItemId()) {
 	    case R.id.detailed_course_action_add_or_remove:
 	    	if(isFavourite) {
-	    		isFavourite = false;
 	    		boolean result = false;
 	    			try {
 						result = favouriteCourseHelper.remove(courseCode);
 					} catch (DBException e) {
-						// TODO 
-						e.printStackTrace();
+						Toast.makeText(getApplicationContext(), "Failed to remove course :(", Toast.LENGTH_SHORT).show();
 					} catch (NoRowsAffectedDBException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						Toast.makeText(getApplicationContext(), "Failed to remove course :(", Toast.LENGTH_SHORT).show();
 					}	    		
 	    		if(result) {
+	    			isFavourite = false;
 	    			addOrRemoveButton.setIcon(R.drawable.ic_action_not_important);
 	    			Toast.makeText(getApplicationContext(), courseCode + " was removed from favourite courses", Toast.LENGTH_SHORT).show();
 	    		}
-	    		else
-	    			Toast.makeText(getApplicationContext(), "Failed to remove course :(", Toast.LENGTH_SHORT).show();
 	    	}
 	    	else {
-	    		isFavourite = true;
 	    		boolean result = false;
 	    		try {
 					result = favouriteCourseHelper.add(courseCode);
 				} catch (NullPointerException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Toast.makeText(getApplicationContext(), "Failed to add course :(", Toast.LENGTH_SHORT).show();
 				} catch (DBException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Toast.makeText(getApplicationContext(), "Failed to add course :(", Toast.LENGTH_SHORT).show();
 				}	    		
 	    		if(result) {
+	    			isFavourite = true;
 	    			addOrRemoveButton.setIcon(R.drawable.ic_action_important);
 	    			Toast.makeText(getApplicationContext(), courseCode + " was added to favourite courses", Toast.LENGTH_SHORT).show();
 	    		}
-	    		else
-	    			Toast.makeText(getApplicationContext(), "Failed to add course :(", Toast.LENGTH_SHORT).show();
 	    	}
 	    	break;
 	    }
