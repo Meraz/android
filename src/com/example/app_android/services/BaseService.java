@@ -9,7 +9,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.example.app_android.util.Utilities;
-import com.example.app_android.util.MyBroadCastReceiver;
+import com.example.app_android.util.MyBroadcastReceiver;
 
 public class BaseService extends Service  {	
 	
@@ -17,7 +17,7 @@ public class BaseService extends Service  {
 	protected String mClassName;
 	
 	protected int mThreadCount;	
-	protected MyBroadCastReceiver mBroadCastReceiver;
+	protected MyBroadcastReceiver mBroadCastReceiver;
 	protected ExecutorService mThread;
 	
 	@Override 

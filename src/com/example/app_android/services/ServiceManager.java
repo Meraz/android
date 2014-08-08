@@ -25,7 +25,7 @@ package com.example.app_android.services;
 import java.util.HashMap;
 
 import com.example.app_android.util.Utilities;
-import com.example.app_android.util.MyBroadCastReceiver;
+import com.example.app_android.util.MyBroadcastReceiver;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -62,11 +62,11 @@ public class ServiceManager {
 	}
 
 	// Returns unique hashcode
-	public synchronized int requestToken(Context context, MyBroadCastReceiver myBroadCastReceiver, String username, String password) {
+	public synchronized int requestToken(Context context, MyBroadcastReceiver myBroadCastReceiver, String username, String password) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":requestToken()");}
 
 		
-		final int key = myBroadCastReceiver.getAllBroadcasts().hashCode();
+		final int key = myBroadCastReceiver.getAllBroadcastStringAsOne().hashCode();
 		if(mServices.containsKey(key))
 			return key; 					// This service is already ongoing. Return key for it.
 				
@@ -84,10 +84,10 @@ public class ServiceManager {
 	}
 	
 	// Returns unique hashcode
-	public synchronized int checkIfLoginIsRequired(Context context, MyBroadCastReceiver myBroadCastReceiver) {
+	public synchronized int checkIfLoginIsRequired(Context context, MyBroadcastReceiver myBroadCastReceiver) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":checkIfLoginIsRequired()");}
 		
-		final int key = myBroadCastReceiver.getAllBroadcasts().hashCode();
+		final int key = myBroadCastReceiver.getAllBroadcastStringAsOne().hashCode();
 		if(mServices.containsKey(key))
 			return key; 					// This service is already ongoing. Return key for it.
 				
@@ -129,7 +129,7 @@ public class ServiceManager {
 	
 	// Only important thing that I needed to save was the Intent. This was saved for the possibility to stop an service. 
 	// Nowdays this information stored is of no use, however, we'd want to stop services in the future, and as such we need to save data.
-	private static ServiceDataBean createServiceDataBean(int key, String parameters, MyBroadCastReceiver myBroadCastReceiver){
+	private static ServiceDataBean createServiceDataBean(int key, String parameters, MyBroadcastReceiver myBroadCastReceiver){
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":createServiceDataBean()");}
 		
 		ServiceDataBean databean = new ServiceDataBean();

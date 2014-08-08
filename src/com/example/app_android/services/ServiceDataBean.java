@@ -3,13 +3,13 @@ package com.example.app_android.services;
 import android.content.Intent;
 
 // import com.example.app_android.services.ServiceHelper.ActivityCallback; // TODO
-import com.example.app_android.util.MyBroadCastReceiver;
+import com.example.app_android.util.MyBroadcastReceiver;
 
 public class ServiceDataBean {
 
 	private int mKey;
 	private String mParameter;
-	private MyBroadCastReceiver mBroadCastReceiver;
+	private MyBroadcastReceiver mBroadCastReceiver;
 	private Intent mIntent; 
 		
 	public ServiceDataBean() {
@@ -31,12 +31,12 @@ public class ServiceDataBean {
 		mParameter = parameter;
 	}
 
-	public MyBroadCastReceiver getBroadCastReceiver()
+	public MyBroadcastReceiver getBroadCastReceiver()
 	{
 		return mBroadCastReceiver;
 	}
 	
-	public void settBroadCastReceiver(MyBroadCastReceiver broadCastReceiver) {
+	public void settBroadCastReceiver(MyBroadcastReceiver broadCastReceiver) {
 		mBroadCastReceiver = broadCastReceiver;
 	}	
 	

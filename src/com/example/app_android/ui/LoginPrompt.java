@@ -12,7 +12,7 @@ import android.widget.EditText;
 import com.example.app_android.R;
 import com.example.app_android.services.ServiceManager;
 import com.example.app_android.util.Utilities;
-import com.example.app_android.util.MyBroadCastReceiver;
+import com.example.app_android.util.MyBroadcastReceiver;
 
 public class LoginPrompt {
 	
@@ -24,10 +24,10 @@ public class LoginPrompt {
 	private String mClassName;
 	
 	private Context mContext;
-	private MyBroadCastReceiver mBroadCastReceiver;
+	private MyBroadcastReceiver mBroadCastReceiver;
 	private LoginPromptCallback mCallback;	
 
-	public LoginPrompt(Context context, MyBroadCastReceiver broadCastReceiver, LoginPromptCallback callback) {
+	public LoginPrompt(Context context, MyBroadcastReceiver broadCastReceiver, LoginPromptCallback callback) {
 		mClassName = getClass().getSimpleName();
 		mContext = context;
 		mBroadCastReceiver = broadCastReceiver;
