@@ -166,7 +166,8 @@ public class ActivityMap extends BaseActivity {
 				LinearLayout childLayout = (LinearLayout) child;
 				for(int j = 0; j < childLayout.getChildCount(); ++j) { // Find the relevant grandChildren
 					ToggleButton grandChild = (ToggleButton) childLayout.getChildAt(j); //The childLayout contains only ToggleButtons
-					if(grandChild.getId() == R.id.marker_toggle_houses) {
+					if(grandChild.getId() == R.id.marker_toggle_houses || grandChild.getId() == R.id.marker_toggle_student_union ||
+							grandChild.getId() == R.id.marker_toggle_student_pubs) {
 						((ToggleButton)grandChild).setChecked(true);
 					}
 				}
@@ -301,6 +302,14 @@ public class ActivityMap extends BaseActivity {
 		switch(view.getId()) {
 		case R.id.marker_toggle_houses:
 			toggleMarkers(MapPlaceIdentifiers.TOGGLE_ID_CAMPUS_HOUSES, on);
+			break;
+			
+		case R.id.marker_toggle_student_union:
+		toggleMarkers(MapPlaceIdentifiers.TOGGLE_ID_STUDENT_UNION, on);
+		break;
+		
+		case R.id.marker_toggle_student_pubs:
+			toggleMarkers(MapPlaceIdentifiers.TOGGLE_ID_STUDENT_PUBS, on);
 			break;
 		}
 	}
