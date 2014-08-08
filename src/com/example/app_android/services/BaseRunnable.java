@@ -30,19 +30,21 @@ public abstract class BaseRunnable implements Runnable  {
     	mStopBroadcast 		= mIntent.getStringExtra("stopBroadcast");
     }	
 	
-	// Add threadcount
+	// Put thread in threadpool
+	// This is made as a function so it can be logged and if ever the future brings on functionality that has to be done before actually starting. Also increased readability in the run function.
     protected void informStart() {
     	if(Utilities.verbose) {Log.v(TAG, mClassName + ":informStart()");}
     	mService.informWorkerStart();
     }
 	
-	// Remove thread from service
+	// Remove thread from threadpool
+    // Read informStop comment
     protected void informStop() {
     	if(Utilities.verbose) {Log.v(TAG, mClassName + ":informStop()");}
     	mService.informWorkerStop(mBroadcastID);
-
     }
     
+    // This reduced the amount of code as this was repeated quite often. It also made it much easier to read
     protected Intent prepareDefaultIntent(String broadCastString) {
     	if(Utilities.verbose) {Log.v(TAG, mClassName + ":prepareDefaultIntent()");}
 		Intent intent = new Intent(broadCastString);

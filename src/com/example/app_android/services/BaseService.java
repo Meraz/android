@@ -18,7 +18,7 @@ public class BaseService extends Service  {
 	
 	protected int mThreadCount;	
 	protected MyBroadcastReceiver mBroadCastReceiver;
-	protected ExecutorService mThread;
+	protected ExecutorService mThreadPool;
 	
 	@Override 
 	public void onCreate() {	
@@ -26,7 +26,7 @@ public class BaseService extends Service  {
 		
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onCreate()");}
 		
-		mThread = Executors.newCachedThreadPool();		
+		mThreadPool = Executors.newCachedThreadPool();		// TODO Optimally, this should be moved out from here and put in an override version of onCreate. This is true because it's not sure that all services would want to use the same kind of Executor
 		super.onCreate();
 	}
 
@@ -39,7 +39,7 @@ public class BaseService extends Service  {
 	@Override 
 	public void onDestroy () {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onDestroy()");}
-		mThread.shutdownNow();
+		mThreadPool.shutdownNow();
 	}	
 	
 	private final synchronized void increaseThreadCount() {
@@ -59,7 +59,7 @@ public class BaseService extends Service  {
 		
 		if(mThreadCount == 0)
 			this.stopSelf();
-		}
+	}
 	
 	protected final void mySendBroadcast(Intent intent) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":mySendBroadcast()");}
@@ -74,11 +74,12 @@ public class BaseService extends Service  {
 	// Gets called from broadcastreceiver a thread broadcasts stop 
 	protected void informWorkerStop(int id) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":informWorkerStop()");}
-		decreaseThreadCount(id); // TODO might crash here?
+		decreaseThreadCount(id);
 	}	
 	
+	// This is where thread starts. Put this in a function if ever a queue or other instructions are needed beyond just starting the thread.
 	protected void startThread(Runnable runnable) {	
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":startThread()");}
-		mThread.execute(runnable);
+		mThreadPool.execute(runnable);
 	}	
 }

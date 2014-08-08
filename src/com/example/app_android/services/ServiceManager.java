@@ -1,27 +1,5 @@
 package com.example.app_android.services;
 
-/* If an service is already started when calling startservice, the service will not be created, however,
-	the function onCommand will be called for that service. 
-	And in this we create a new instance of a thread in which is unique. Thus one unique service can have several instances of a single thread in it.
-
-	This is why the functions that add and remove services is synchronized.
-	So if I try to stop a service there wont start one at the same time.
-	
-	Also, if I try to use one when it's open and delete at the same time. Not good
-	
-	POTENTIAL PROBLEM
-	Explaination
-	This, however, means that if there's several calls wanting to create a workingtask and/or remove such from the metadata table
-	AND the mainthread executes and says it wants to execute new working task. 
-	
-	Result
-	The main thread is blocked on synchronized methods
-	
-	Solution
-	Mainthread starts thread that does everything, including queuing itself and starting a new thread.
-	
-*/
-
 import java.util.HashMap;
 
 import com.example.app_android.util.Utilities;
@@ -32,15 +10,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-
 public class ServiceManager {
 
 	private static final String TAG = "Services";
 	private static String mClassName;
 	
+	/*
+	 *  If ever a service/thread has to be started from some place where you do NOT have access to a/the context.
+	 *  Might be used in the future.
+	 */
 	@SuppressWarnings("unused") // TODO
-	private Context mContext;
-	private static ServiceManager mServiceHelper = null;
+	private Context mContext; 		private static ServiceManager mServiceHelper = null;
 	
 	public static void initialize(Context context) {
 		if(mServiceHelper == null)
@@ -51,9 +31,14 @@ public class ServiceManager {
 		return mServiceHelper;
 	}
 	
-	// TODO SPARSEARRAY
-	@SuppressLint("UseSparseArrays")
-	private HashMap<Integer, ServiceDataBean> mServices = new HashMap<Integer, ServiceDataBean>();
+	
+	/*
+	 * This is supposed to save information about each started service/thread so it has the possibility of shutting one down during 
+	 * runtime. This, however, does not exist for the moment.
+	 */
+	@SuppressLint("UseSparseArrays") 	// TODO SPARSEARRAY
+	private HashMap<Integer, ServiceDataBean> mServices = new HashMap<Integer, ServiceDataBean>(); 
+	
 	
 	// Private constructor to stop instantiating this class.
 	private ServiceManager(Context context) {
@@ -102,13 +87,22 @@ public class ServiceManager {
 		return key;
 	}
 	
+	// Called by a thread when it wants to remove itself from the metatable
+	public synchronized void informWorkerStop(int id) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":requestToken()");}
+		mServices.remove(id);
+	}
+	
+
+	/*
+	 * Shall return true if a service with this key is running, otherwise false
+	 */
 	// TODO. Test this function
 	public boolean checkOngoing(int key) {
 		if(mServices.containsKey(key))
 			return true;
 		return false;
-	}
-	
+	}	
 
 	// Called by a thread when it wants to remove itself from the metatable
 	public synchronized void informWorkerStop(int id) {
@@ -127,8 +121,9 @@ public class ServiceManager {
 		return intent;
 	}
 	
-	// Only important thing that I needed to save was the Intent. This was saved for the possibility to stop an service. 
-	// Nowdays this information stored is of no use, however, we'd want to stop services in the future, and as such we need to save data.
+	/* Only important thing that I needed to save was the Intent. This was saved for the possibility to stop an service. 
+	 * Nowdays this information stored is of no use, however, we'd want to stop services in the future, and as such we need to save data.
+	 */
 	private static ServiceDataBean createServiceDataBean(int key, String parameters, MyBroadcastReceiver myBroadCastReceiver){
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":createServiceDataBean()");}
 		
