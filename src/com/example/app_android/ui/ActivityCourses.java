@@ -10,6 +10,7 @@ import com.example.app_android.R;
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.NoResultFoundDBException;
+import com.example.app_android.database.NoRowsAffectedDBException;
 import com.example.app_android.database.interfaces.ICourseTable;
 import com.example.app_android.database.interfaces.IFavouriteCourseTable;
 import com.example.app_android.util.CalendarUtilities;
@@ -65,7 +66,15 @@ public class ActivityCourses extends BaseActivity {
 		//Get database variables
 		coursesHelper			= DatabaseManager.getInstance().getCourseTable();
 		favouriteCoursesHelper 	= DatabaseManager.getInstance().getFavouriteCourseTable();
-		favouriteCoursesArray 	= favouriteCoursesHelper.getAll();
+		try {
+			favouriteCoursesArray 	= favouriteCoursesHelper.getAll();
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoResultFoundDBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		//Get layout variables
 		searchField 		= (AutoCompleteTextView) findViewById(R.id.course_search_input);
@@ -75,7 +84,16 @@ public class ActivityCourses extends BaseActivity {
 		initializeDropDownSearchField();
 		
 		//Set what should be viewed in the center of the view
-		if(favouriteCoursesHelper.isEmpty())
+		
+		boolean isEmpty = false;
+		try {
+			isEmpty = favouriteCoursesHelper.isEmpty();
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(isEmpty)
 			favouriteCourseListView.setVisibility(View.GONE);
 		else
 			noCoursesText.setVisibility(View.GONE);
@@ -149,17 +167,17 @@ public class ActivityCourses extends BaseActivity {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":addCourse()");}
 		String cCode = searchField.getText().toString();
 		if(!cCode.isEmpty()) {
-			boolean result = false;
-
-				try {
-					result = favouriteCoursesHelper.add(cCode);
-				} catch (NullPointerException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (DBException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}			
+			boolean result = true;
+			try {
+				favouriteCoursesHelper.add(cCode);
+			} catch (DBException e) {					// TODO
+				result = false;			
+				e.printStackTrace();
+			} catch (NoRowsAffectedDBException e) {		// TODO
+				result = false;
+				e.printStackTrace();
+			}
+	
 			if(result) {
 				//Insert was successful. Now restart the activity to display the added element.
 				finish();
@@ -181,7 +199,15 @@ public class ActivityCourses extends BaseActivity {
 
 	public void readCourses() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":readCourses()");}
-		favouriteCoursesArray = favouriteCoursesHelper.getAll();
+		try {
+			favouriteCoursesArray = favouriteCoursesHelper.getAll();
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoResultFoundDBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void courseChecked(View v) { // TODO function needed?
@@ -250,7 +276,16 @@ public class ActivityCourses extends BaseActivity {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":exportSchedule()");}
 		
 		if(Utilities.isNetworkAvailable(getApplicationContext())) {
-			ArrayList<String> courseCodes = favouriteCoursesHelper.getAll();
+			ArrayList<String> courseCodes = null;
+			try {
+				courseCodes = favouriteCoursesHelper.getAll();
+			} catch (DBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoResultFoundDBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			ArrayList<String> requests = new ArrayList<String>();
 
 			Calendar calendar = Calendar.getInstance();

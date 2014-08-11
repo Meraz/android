@@ -70,7 +70,15 @@ public class ActivityDetailedCourse extends BaseActivity {
 		}
 		
 		//If the course code is present in the favouriteCourseDatabase, well, then it's one of the users favourites and we can mark it as a favourite
-		isFavourite = favouriteCourseHelper.getAll().contains(courseCode);
+		try {
+			isFavourite = favouriteCourseHelper.getAll().contains(courseCode);
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoResultFoundDBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -115,13 +123,15 @@ public class ActivityDetailedCourse extends BaseActivity {
 		switch (item.getItemId()) {
 	    case R.id.detailed_course_action_add_or_remove:
 	    	if(isFavourite) {
-	    		boolean result = false;
+	    		boolean result = true;
 	    			try {
-						result = favouriteCourseHelper.remove(courseCode);
+						favouriteCourseHelper.remove(courseCode);
 					} catch (DBException e) {		//Sorry for the duplicate code. Need java 7 to use one handler for multiple cathces
 						Toast.makeText(getApplicationContext(), "Failed to remove course :(", Toast.LENGTH_SHORT).show();
+						result = false;
 					} catch (NoRowsAffectedDBException e) {
 						Toast.makeText(getApplicationContext(), "Failed to remove course :(", Toast.LENGTH_SHORT).show();
+						result = false;
 					}	    		
 	    		if(result) {
 	    			isFavourite = false;
@@ -130,13 +140,15 @@ public class ActivityDetailedCourse extends BaseActivity {
 	    		}
 	    	}
 	    	else {
-	    		boolean result = false;
+	    		boolean result = true;
 	    		try {
-					result = favouriteCourseHelper.add(courseCode.split(" ")[0]); //Get only the course code, not the name
-				} catch (NullPointerException e) {
+					favouriteCourseHelper.add(courseCode.split(" ")[0]); 	//Get only the course code, not the name
+				} catch (DBException e) {		//Sorry for the duplicate code. Need java 7 to use one handler for multiple cathces
 					Toast.makeText(getApplicationContext(), "Failed to add course :(", Toast.LENGTH_SHORT).show();
-				} catch (DBException e) {
+					result = false;
+				} catch (NoRowsAffectedDBException e) {
 					Toast.makeText(getApplicationContext(), "Failed to add course :(", Toast.LENGTH_SHORT).show();
+					result = false;
 				}	    		
 	    		if(result) {
 	    			isFavourite = true;
