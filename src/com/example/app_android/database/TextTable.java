@@ -139,7 +139,7 @@ public class TextTable extends BaseTable implements ITextTable {
 		
 		int result = 0;
 		try {
-			result = db.update(TABLE_NAME, values, null, null);
+			result = db.update(TABLE_NAME, values, null, null);	// TODO
 			// More than one entry was changed. This functionality should not be supported and it's quite terrible if this starts happening.
 			if(result > 1) {
 				throw new DBException(mClass + ":updateText();" + " More than one entry was changed. Aborting.");
@@ -174,12 +174,18 @@ public class TextTable extends BaseTable implements ITextTable {
 		
 		SQLiteDatabase db = mHelper.getReadableDatabase();
 		int returnHash = -1;
+		db.beginTransaction();
 		
 		try {
 			Cursor cursor = db.rawQuery(RETRIEVE_TEXT_HASH, new String[] { Integer.toString(textIdentifier.ordinal())});
 			if (cursor.moveToFirst()) {
 				returnHash = cursor.getInt(0);
 			}
+			db.setTransactionSuccessful();
+		}
+		catch(NullPointerException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":getTextHash()");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
 			if(Utilities.error) {Log.v(TAG, mClass + ":getTextHash()");}
@@ -190,6 +196,7 @@ public class TextTable extends BaseTable implements ITextTable {
 			throw new DBException("SQLException. Message: " + e.getMessage());
 		}
 		finally {
+			db.endTransaction();
 			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection		
 		}	
 		
@@ -197,8 +204,6 @@ public class TextTable extends BaseTable implements ITextTable {
 		if(returnHash == -1) {
 			throw new NoResultFoundDBException(mClass + ":getTextHash(); returnhash is of -1 value");
 		}
-
-		
 		return returnHash;
 	}
 }
