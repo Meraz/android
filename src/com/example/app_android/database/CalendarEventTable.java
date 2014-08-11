@@ -5,6 +5,7 @@ import com.example.app_android.util.Utilities;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -44,7 +45,7 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 	}
 
 	@Override
-	public boolean add(long id, String title, String description ,String startTime, String endTime) throws NoRowsAffectedDBException, DBException {
+	public boolean add(long id, String title, String description ,String startTime, String endTime) throws DBException, NoRowsAffectedDBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":createTable()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
@@ -60,7 +61,6 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 		try {
 			resultId = db.insert(TABLE_NAME, null, values);
 			db.setTransactionSuccessful();
-			
 		}catch(NullPointerException e) {
 			if(Utilities.error) {Log.v(TAG, mClass + ":add()::insert();");}
 			throw new DBException("NullPointerException. Message: " + e.getMessage());
@@ -69,28 +69,34 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 			if(Utilities.error) {Log.v(TAG, mClass + ":add()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":add(). SQLException. Something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
+		}
 		finally{
 			db.endTransaction();
 		}
 		if(resultId == -1) {
-			throw new DBException("error at: " + mClass + ":add()");
+			if(Utilities.error) {Log.v(TAG, mClass + ":add(); No entry was added to the database");}
+			throw new DBException(mClass + ":add(); No entry was added to the database");
 		}
 		return true;
 	}
 
 	@Override
-	public boolean remove(long id) throws NoRowsAffectedDBException, DBException {
+	public void remove(long id) throws DBException, NoRowsAffectedDBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":remove()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
-		
-		
+				
 		int deletedRowCount = 0;
 		
 		try {
 			deletedRowCount = db.delete(TABLE_NAME, COLUMN_ID + "=" + "'" + id + "'", null);
-			db.setTransactionSuccessful();
-			
+			if(deletedRowCount > 1) {
+				throw new DBException(mClass + ":remove();" + " More than one entry was removed. Aborting.");
+			}
+			db.setTransactionSuccessful();			
 		}catch(NullPointerException e) {
 			if(Utilities.error) {Log.v(TAG, mClass + ":remove()::db.delete();");}
 			throw new DBException("NullPointerException. Message: " + e.getMessage());
@@ -99,33 +105,57 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 			if(Utilities.error) {Log.v(TAG, mClass + ":remove()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":remove(). SQLException. Something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
+		}
 		finally{
 			db.endTransaction();
 			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 		if(deletedRowCount == 0) {
-			throw new NoRowsAffectedDBException("No entries removed in database.");
+			if(Utilities.error) {Log.v(TAG, mClass + ":remove(); No entries removed in database.");}
+			throw new NoRowsAffectedDBException(mClass + ":remove(); No entries removed in database.");
 		}
-		return deletedRowCount > 0;
 	}
 
 	@Override
-	public int getEventId(String title, String description, String startTime, String endTime) {
-		if(Utilities.verbose) {Log.v(TAG, mClass + ":getEventId()");}
-		int id = -1;
+	public int getEventId(String title, String description, String startTime, String endTime) throws DBException, NoResultFoundDBException {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":getEventId()");}		
 		
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
-		
-		Cursor cursor = db.rawQuery(RETRIEVE_EVENT, new String[] { title, description, startTime, endTime });
-		if (cursor.moveToFirst()) {
-			id = cursor.getInt(0);
+
+		int id = -1;
+		try {
+			Cursor cursor = db.rawQuery(RETRIEVE_EVENT, new String[] { title, description, startTime, endTime });
+			if (cursor.moveToFirst()) {
+				id = cursor.getInt(0);
+			}
+			db.setTransactionSuccessful();
 		}
+		catch(NullPointerException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":getEventId()");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
+		}
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":getEventId()");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":getEventId(). SQLException. Something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
+		}
+		finally {
+			db.endTransaction();
+			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection		
+		}	
 		
-		db.setTransactionSuccessful();
-		db.endTransaction();
-		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
-		 
+		// No value found
+		if(id == -1) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":getEventId(). eventId is of -1 value");}
+			throw new NoResultFoundDBException(mClass + ":getEventId(); eventId is of -1 value");
+		}		
 		return id;
 	}
 }
