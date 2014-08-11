@@ -48,13 +48,12 @@ public class DatabaseManager extends SQLiteOpenHelper{
         COURSES,
         FAVOURITE_COURSES,
         CALENDAREVENTS,
-        MAPCOORDINATES;
+        MAPCOORDINATES,
+        TEXT;
     }
     
     // Singleton initialize instance
     public static void initialize (Context context) {
-
-		
     	if(mDatabaseManager == null)
     		mDatabaseManager = new DatabaseManager(context);
     }
@@ -78,6 +77,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
 	    TABLES[2] = new FavouriteCourseTable(this);
 	    TABLES[3] = new CalendarEventTable(this);
 	    TABLES[4] = new MapPlaceTable(this);
+	    TABLES[5] = new TextTable(this);
     }
       
     private BaseTable getTable(TableIndex table) {
@@ -112,6 +112,11 @@ public class DatabaseManager extends SQLiteOpenHelper{
     public IMapPlaceTable getMapCoordinateTable() {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":IMapCoordinateTable()");}
     	return (IMapPlaceTable)getTable(TableIndex.MAPCOORDINATES);
+    }
+    
+    public ITextTable getTextTable() {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":getTextTable()");}
+    	return (ITextTable)getTable(TableIndex.TEXT);
     }
     
     /*
