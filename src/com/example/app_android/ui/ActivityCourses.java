@@ -144,32 +144,6 @@ public class ActivityCourses extends BaseActivity {
         return super.onMenuOpened(featureId, menu);
     }
 
-	public void addCourse(View view) {
-		if(Utilities.verbose) {Log.v(TAG, mClassName + ":addCourse()");}
-		String cCode = searchField.getText().toString();
-		if(!cCode.isEmpty()) {
-			boolean result = false;
-
-				try {
-					result = favouriteCoursesHelper.add(cCode);
-				} catch (NullPointerException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (DBException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}			
-			if(result) {
-				//Insert was successful. Now restart the activity to display the added element.
-				finish();
-				startActivity(getIntent());
-			}
-		}
-		else {
-			Toast.makeText(getApplicationContext(), "The input field cannot be empty!", Toast.LENGTH_SHORT).show();
-		}
-	}
-
 	public void startCalendar(View view) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":startCalendar()");}
     	//Start the calendar app
