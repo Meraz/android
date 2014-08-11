@@ -159,7 +159,7 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 		int result = -1;
 		try {
 			for(int i = 0; i < defaultValueCount; ++i) {
-				db.insert(TABLE_NAME, null, values[i]);
+				result = (int) db.insert(TABLE_NAME, null, values[i]);
 				if(result == -1 ) {
 			        if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData(); No entry was added to the database.");}
 			        throw new DBException(mClass + ":add(); No entry was added to the database.");
