@@ -7,6 +7,7 @@ import com.example.app_android.ExportToGCalFromTimeEditTask;
 import com.example.app_android.R;
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
+import com.example.app_android.database.NoResultFoundDBException;
 import com.example.app_android.database.NoRowsAffectedDBException;
 import com.example.app_android.database.interfaces.ICourseTable;
 import com.example.app_android.database.interfaces.IFavouriteCourseTable;
@@ -44,7 +45,16 @@ public class ActivityDetailedCourse extends BaseActivity {
 		favouriteCourseHelper = DatabaseManager.getInstance().getFavouriteCourseTable();
 		
 		//Fetch course info
-		CourseBean courseInfo = courseHelper.getCourse(courseCode);
+		CourseBean courseInfo = null; // TODO SOMETHINGS WRONG HERE
+		try {
+			courseInfo = courseHelper.getCourse(courseCode);
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoResultFoundDBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if(courseInfo == null) {
 			Toast.makeText(getApplicationContext(), "Failed to retrieve info about this course,  sorry :<", Toast.LENGTH_SHORT).show();
 			getActionBar().setTitle(courseCode);

@@ -9,6 +9,7 @@ import com.example.app_android.ExportToGCalFromTimeEditTask;
 import com.example.app_android.R;
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
+import com.example.app_android.database.NoResultFoundDBException;
 import com.example.app_android.database.interfaces.ICourseTable;
 import com.example.app_android.database.interfaces.IFavouriteCourseTable;
 import com.example.app_android.util.CalendarUtilities;
@@ -188,8 +189,26 @@ public class ActivityCourses extends BaseActivity {
 	}
 	
 	private void initializeDropDownSearchField() {
-		ArrayList<String> courseCodeList = coursesHelper.getAllCourseCodes(); 
-		ArrayList<String> courseNamesList = coursesHelper.getAllCourseNames();
+		ArrayList<String> courseCodeList = null;
+		try {
+			courseCodeList = coursesHelper.getAllCourseCodes();
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoResultFoundDBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		ArrayList<String> courseNamesList = null;
+		try {
+			courseNamesList = coursesHelper.getAllCourseNames();
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoResultFoundDBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		int courseCount = courseCodeList.size();
 		

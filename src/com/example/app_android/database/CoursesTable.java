@@ -119,7 +119,7 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 	}
 	
 	@Override
-	public boolean add(CourseBean course) throws DBException {
+	public boolean add(CourseBean course) throws DBException, NoRowsAffectedDBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":add()");}
 		
 		SQLiteDatabase db = mHelper.getWritableDatabase();
@@ -139,12 +139,16 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 			result = (int) db.insert(TABLE_NAME, null, contentValues);
 			db.setTransactionSuccessful();
 		}catch(NullPointerException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":add()::db.insert();");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":add()::db.insert();");}
 			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":add()::db.setTransactionSuccessful();");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":add()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":add(). SQLException: something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
 		}
 		finally{
 			db.endTransaction();
@@ -152,63 +156,133 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 		}
 		
 		if(result == -1) {
-			throw new DBException("Database error");
+		    if(Utilities.error) {Log.v(TAG, mClass + ":add(); No entry was added to the database");}
+		    throw new DBException(mClass + ":add(); No entry was added to the database");
 		}
 		return true;
 	}
 	
 	@Override
-	public ArrayList<String> getAllCourseCodes() {
+	public ArrayList<String> getAllCourseCodes() throws DBException, NoResultFoundDBException{
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":getAllCourseCodes()");}
+		SQLiteDatabase db = mHelper.getReadableDatabase();		
+		db.beginTransaction();
 		ArrayList<String> courseCodes = new ArrayList<String>();
-		
-		SQLiteDatabase db = mHelper.getReadableDatabase();
 		String[] columns = {COLUMN_COURSE_CODE};
-		Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null);
 		
-		int index;
-		while(cursor.moveToNext()) {
-			index = cursor.getColumnIndex(COLUMN_COURSE_CODE);
-			String courseCode = cursor.getString(index);
-			courseCodes.add(courseCode);
+		try {
+			Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null);
+			int index;
+			while(cursor.moveToNext()) {
+				index = cursor.getColumnIndex(COLUMN_COURSE_CODE);
+				String courseCode = cursor.getString(index);
+				courseCodes.add(courseCode);
+			}
+			db.setTransactionSuccessful();
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getAllCourseCodes()::db.insert();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
-	//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getAllCourseCodes();");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getAllCourseCodes(); SQLException, something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
+		}
+		finally {
+			db.endTransaction();
+//			db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
+		}
+		
+		if(courseCodes.size() == 0) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getAllCourseCodes(); No result was found in database");}
+			throw new NoResultFoundDBException(mClass + ":getAllCourseCodes(); No result was found in database");
+		}
 		return courseCodes;
-	};
+	}
 	
 	@Override
-	public ArrayList<String> getAllCourseNames() {
+	public ArrayList<String> getAllCourseNames() throws DBException, NoResultFoundDBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":getAllCourseNames()");}
 		ArrayList<String> courseNames = new ArrayList<String>();
 		
-		SQLiteDatabase db = mHelper.getReadableDatabase();
+		SQLiteDatabase db = mHelper.getReadableDatabase();	
+		db.beginTransaction();
 		String[] columns = {COLUMN_COURSE_NAME};
-		Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null);
 		
-		int index;
-		while(cursor.moveToNext()) {
-			index = cursor.getColumnIndex(COLUMN_COURSE_NAME);
-			String courseCode = cursor.getString(index);
-			courseNames.add(courseCode);
+		try {
+			Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null);
+			int index;
+			while(cursor.moveToNext()) {
+				index = cursor.getColumnIndex(COLUMN_COURSE_NAME);
+				String courseCode = cursor.getString(index);
+				courseNames.add(courseCode);
+			}
+			db.setTransactionSuccessful();
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getAllCourseNames()::db.insert();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
-		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getAllCourseNames();");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getAllCourseNames(); SQLException, something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
+		}
+		
+		finally {
+			db.endTransaction();
+//			db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
+		}
+		
+		if(courseNames.size() == 0) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getAllCourseNames(); No result was found in database");}
+			throw new NoResultFoundDBException(mClass + ":getAllCourseNames(); No result was found in database");
+		}
 		return courseNames;
-	};
+	}
 	
 	@Override
-	public CourseBean getCourse(String courseCode) {
+	public CourseBean getCourse(String courseCode) throws DBException, NoResultFoundDBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":getCourse()");}
 		
 		SQLiteDatabase db = mHelper.getReadableDatabase();
-		CourseBean fetchedCourse = null;
-		
-		Cursor cursor = db.rawQuery(RETRIEVE_COURSE, new String[] { courseCode });
-		if (cursor.moveToFirst()) {
-			fetchedCourse = new CourseBean(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3),
-					cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+		db.beginTransaction();
+		CourseBean fetchedCourse = null;		
+		try {
+			
+			Cursor cursor = db.rawQuery(RETRIEVE_COURSE, new String[] { courseCode });
+			if (cursor.moveToFirst()) {
+				fetchedCourse = new CourseBean(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3),
+						cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+			}
+			db.setTransactionSuccessful();
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getCourse()::db.insert();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
+		}
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getCourse();");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getCourse(); SQLException, something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
 		}
 		
-		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
+		finally {
+			db.endTransaction();
+//			db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
+		}
+		
+		if(fetchedCourse == null) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getCourse(); No result was found in database for courseCode:= " + courseCode);}
+			throw new NoResultFoundDBException(mClass + ":getCourse(); No result was found in database for courseCode= " + courseCode);
+		}
 		return fetchedCourse;
 	}
 }
