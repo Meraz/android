@@ -44,7 +44,8 @@
         android:layout_alignLeft="@+id/coursesButton"
         android:layout_alignTop="@+id/mapButton"
         android:src="@drawable/ic_launcher"
-        android:onClick="onButtonClicked" />
+        android:onClick="onButtonClicked"
+        android:contentDescription="@string/main_student_union_button"/>
 
     <ImageButton
         android:id="@+id/imageButton5"
@@ -53,8 +54,7 @@
         android:layout_alignLeft="@+id/mapButton"
         android:layout_alignTop="@+id/imageButton6"
         android:src="@drawable/ic_launcher"
-        android:onClick="onButtonClicked"
-        android:contentDescription="@string/main_new_student_button" />
+        android:onClick="onButtonClicked" />
     
     <ImageButton
         android:id="@+id/imageButton6"
@@ -75,15 +75,6 @@
         android:text="@string/main_new_student_button" />
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/studentUnionButton"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="29dp"
-        android:text="@string/main_map_button" />
-
-    <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -91,6 +82,15 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="18dp"
         android:text="@string/main_courses_and_schedule_button" />
+    
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/studentUnionButton"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="29dp"
+        android:text="@string/main_map_button" />
 
     <TextView
         android:id="@+id/textView4"
