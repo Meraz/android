@@ -65,7 +65,7 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 		}
 		
 		//	TODO - remove test data
-		values[0].put(COLUMN_COURSE_CODE, "dr1337");
+		values[0].put(COLUMN_COURSE_CODE, "testCode");
 		values[0].put(COLUMN_COURSE_NAME, "testName");
 		values[0].put(COLUMN_COURSE_RESPONSIBLE, "testPerson");
 		values[0].put(COLUMN_COURSE_START_DATE, "2014-07-01");
