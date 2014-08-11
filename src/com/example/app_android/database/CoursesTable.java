@@ -55,7 +55,7 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 	}
 	
 	@Override
-	public void fillTableWithDefaultData(SQLiteDatabase db) throws DBException {
+	public void fillTableWithDefaultData(SQLiteDatabase db) throws SQLException, DBException {
 		super.fillTableWithDefaultData(db);
 		int defaultValueCount = 6;
 		

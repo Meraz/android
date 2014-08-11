@@ -30,7 +30,7 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 	}
 	 
 	@Override
-	public void fillTableWithDefaultData(SQLiteDatabase db) throws DBException {
+	public void fillTableWithDefaultData(SQLiteDatabase db) throws SQLException, DBException {
 		super.fillTableWithDefaultData(db);
 		db.beginTransaction();
 			
