@@ -10,5 +10,5 @@ public interface ICalendarEventTable {
 	public boolean remove(long id) throws NoRowsAffectedDBException, DBException;
 	
 	//Returns -1 if the event is not present in the database
-	public int getEventId(String title, String description, String startTime, String endTime);
+	public int getEventId(String title, String description, String startTime, String endTime); // TODO should throw exception if nothing is found
 }
