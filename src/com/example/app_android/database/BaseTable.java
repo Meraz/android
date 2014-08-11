@@ -9,14 +9,22 @@ import android.util.Log;
 
 public class BaseTable {
 	
+	/*
+	 * All tables created to be used in this databasemanager-system must inherit this class. 
+	 * Used to ease the functionality of create, initialize, drop and logging
+	 * 
+ 	 * All functions inherited may throw SQLException. BUT ONLY FUNCTION INHERITED FROM THIS CLASS. 
+ 	 * All (other) table interfaces should throw DBException instead. Read DBException for more information.
+	 */
+	
 	protected static final String TAG = "Database";
 	
 	protected SQLiteOpenHelper mHelper;
 	protected String SQL_CREATE_TABLE;
 	protected String SQL_DROP_TABLE;
 	protected String SQL_DEFAULT_VALUES;
-	
-	protected String mClass;
+
+	protected String mClass;	// TODO rename mClassName, diden't want to do this when found. Might change many files.
 		
 	public BaseTable(SQLiteOpenHelper SQLiteOpenHelper) {
 		mClass = getClass().getSimpleName();

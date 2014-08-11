@@ -4,6 +4,7 @@ import com.example.app_android.database.interfaces.ICalendarEventTable;
 import com.example.app_android.database.interfaces.ICourseTable;
 import com.example.app_android.database.interfaces.IFavouriteCourseTable;
 import com.example.app_android.database.interfaces.IMapPlaceTable;
+import com.example.app_android.database.interfaces.ITextTable;
 import com.example.app_android.database.interfaces.ITokenTable;
 import com.example.app_android.util.Utilities;
 
@@ -126,8 +127,10 @@ public class DatabaseManager extends SQLiteOpenHelper{
 				TABLES[i].createTable(db);
 			} catch (SQLException e) {
 				Log.e(TAG, mClass+":onCreate::createTable()");
+				// TODO
 			} catch (DBException e) {
 				Log.e(TAG, mClass+":onCreate::createTable()");
+				// TODO
 			}
 	    }
 	    
@@ -136,8 +139,10 @@ public class DatabaseManager extends SQLiteOpenHelper{
 				TABLES[i].fillTableWithDefaultData(db);
 			} catch (SQLException e) {
 				Log.e(TAG, mClass+":onCreate::fillTableWithDefaultData()");
+				// TODO
 			} catch (DBException e) {
 				Log.e(TAG, mClass+":onCreate::fillTableWithDefaultData()");
+				// TODO
 			}
 	    }	    
     }
