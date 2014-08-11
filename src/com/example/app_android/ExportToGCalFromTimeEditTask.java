@@ -29,8 +29,9 @@ import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.NoRowsAffectedDBException;
 import com.example.app_android.database.interfaces.ICalendarEventTable;
+import com.example.app_android.util.CalendarUtilities;
 
-public class ExportToGCalFromTimeEditTask extends AsyncTask<ArrayList<String>, Void, ExportResultBean> {
+public class ExportToGCalFromTimeEditTask extends AsyncTask<ArrayList<String>, Void, CalendarUtilities.ExportResultBean> {
 	 final Context context;
 	 final MenuItem syncItem;
 	 public static final String CALENDAR_EVENT_TAG = "[This event was added by the BTH App]";
@@ -41,9 +42,9 @@ public class ExportToGCalFromTimeEditTask extends AsyncTask<ArrayList<String>, V
 	 }
 
 	 @Override
-    protected ExportResultBean doInBackground(ArrayList<String>... requests) {
-		 ExportResultBean exportResult = new ExportResultBean();
-   	 int calendarID = findCalendarID();
+    protected CalendarUtilities.ExportResultBean doInBackground(ArrayList<String>... requests) {
+		 CalendarUtilities.ExportResultBean exportResult = new CalendarUtilities.ExportResultBean();
+		 int calendarID = findCalendarID();
 
    	 if(calendarID != -1) // -1 indicates that no Google account is linked to this device
    	 {
@@ -83,7 +84,7 @@ public class ExportToGCalFromTimeEditTask extends AsyncTask<ArrayList<String>, V
 	 }
 
 	 @Override
-	 protected void onPostExecute(ExportResultBean exportResult) {
+	 protected void onPostExecute(CalendarUtilities.ExportResultBean exportResult) {
 
 		 switch (exportResult.resultFlag) {
 		 	case 0: // Normal

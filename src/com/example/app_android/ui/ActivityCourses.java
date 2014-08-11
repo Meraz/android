@@ -1,6 +1,5 @@
 package com.example.app_android.ui;
 
-
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -12,6 +11,7 @@ import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.interfaces.ICourseTable;
 import com.example.app_android.database.interfaces.IFavouriteCourseTable;
+import com.example.app_android.util.CalendarUtilities;
 import com.example.app_android.util.Utilities;
 
 import android.annotation.SuppressLint;
@@ -205,7 +205,7 @@ public class ActivityCourses extends BaseActivity {
 		
 		searchAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, adapterInput);
 		searchField.setAdapter(searchAdapter);
-		searchField.setThreshold(2); //Minimum two characters must be inputed before the list is presented
+		searchField.setThreshold(0);
 		searchField.setOnItemClickListener(new OnItemClickListener() {
 		    
 			@Override
@@ -229,6 +229,7 @@ public class ActivityCourses extends BaseActivity {
 	@SuppressLint("SimpleDateFormat")
 	private void exportSchedule() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":exportSchedule()");}
+		
 		if(Utilities.isNetworkAvailable(getApplicationContext())) {
 			ArrayList<String> courseCodes = favouriteCoursesHelper.getAll();
 			ArrayList<String> requests = new ArrayList<String>();
@@ -240,8 +241,7 @@ public class ActivityCourses extends BaseActivity {
 			String endDate = dateFormat.format(calendar.getTime());
 
 			for(int i = 0; i < courseCodes.size(); ++i) {
-				requests.add("https://se.timeedit.net/web/bth/db1/sched1/s.csv?tab=5&object=" + courseCodes.get(i) +
-						"&type=root&startdate=" + startDate + "&enddate=" + endDate + "&p=0.m%2C2.w");
+				requests.add(CalendarUtilities.buildTimeEditRequest(courseCodes.get(i), startDate, endDate)); //TODO - set start and end date to the start and end of the course. This can be fetched from the database.
 			}
 				ExportToGCalFromTimeEditTask exportTask = new ExportToGCalFromTimeEditTask(getApplicationContext(), syncActionItem);
 				exportTask.execute(requests);

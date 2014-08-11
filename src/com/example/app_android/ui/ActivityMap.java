@@ -181,7 +181,7 @@ public class ActivityMap extends BaseActivity {
 		String[] searchablesPlaceNames = mPlaceTable.getAllNamesByToggleId(MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE, false);
 		searchAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, searchablesPlaceNames);
 		searchField.setAdapter(searchAdapter);
-		searchField.setThreshold(1);
+		searchField.setThreshold(0);
 		searchField.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 		    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) { 

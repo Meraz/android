@@ -1,12 +1,16 @@
 package com.example.app_android.ui;
 
+import java.util.ArrayList;
+
 import com.example.app_android.CourseBean;
+import com.example.app_android.ExportToGCalFromTimeEditTask;
 import com.example.app_android.R;
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.NoRowsAffectedDBException;
 import com.example.app_android.database.interfaces.ICourseTable;
 import com.example.app_android.database.interfaces.IFavouriteCourseTable;
+import com.example.app_android.util.CalendarUtilities;
 import com.example.app_android.util.Utilities;
 
 import android.os.Bundle;
@@ -14,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +49,7 @@ public class ActivityDetailedCourse extends BaseActivity {
 			Toast.makeText(getApplicationContext(), "Failed to retrieve info about this course,  sorry :<", Toast.LENGTH_SHORT).show();
 			getActionBar().setTitle(courseCode);
 		} else {
-			getActionBar().setTitle(courseCode + " - " + courseInfo.getCourseName()); //TODO - add course name here too
+			getActionBar().setTitle(courseCode + " - " + courseInfo.getCourseName());
 		
 			((TextView)findViewById(R.id.course_responsible_text)).setText(courseInfo.getCourseResponsible());
 			((TextView)findViewById(R.id.course_start_text)).setText(courseInfo.getStartDate());
@@ -58,10 +63,31 @@ public class ActivityDetailedCourse extends BaseActivity {
 		isFavourite = favouriteCourseHelper.getAll().contains(courseCode);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public void onExportButtonPressed(View exportButton) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onExportButtonPressed()");}
+		
+		if(Utilities.isNetworkAvailable(getApplicationContext())) {
+			
+			ArrayList<String> requests = new ArrayList<String>();
+			requests.add(CalendarUtilities.buildTimeEditRequest(courseCode,
+					((String) ((TextView)findViewById(R.id.course_start_text)).getText()).replace("-", ""),	//Removes the dashes since timeEdit don't like them.
+					((String) ((TextView)findViewById(R.id.course_end_text)).getText())).replace("-", ""));
+			ExportToGCalFromTimeEditTask exportTask = new ExportToGCalFromTimeEditTask(getApplicationContext(), null); //TODO - add sync item in action bar and start it after this call
+			exportTask.execute(requests);
+		}
+		else 
+			Toast.makeText(getApplicationContext(), "Missing internet connection", Toast.LENGTH_SHORT).show();
+	}
+	
+	public void onRegisterCourseButtonPressed(View RegisterCourseButton) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onRegisterCourseButtonPressed()");}
+	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onCreateOptionsMenu()");}
+		
 	    // Inflate the menu items for use in the action bar
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.layout.activity_detailed_course_action, menu);
@@ -82,7 +108,7 @@ public class ActivityDetailedCourse extends BaseActivity {
 	    		boolean result = false;
 	    			try {
 						result = favouriteCourseHelper.remove(courseCode);
-					} catch (DBException e) {
+					} catch (DBException e) {		//Sorry for the duplicate code. Need java 7 to use one handler for multiple cathces
 						Toast.makeText(getApplicationContext(), "Failed to remove course :(", Toast.LENGTH_SHORT).show();
 					} catch (NoRowsAffectedDBException e) {
 						Toast.makeText(getApplicationContext(), "Failed to remove course :(", Toast.LENGTH_SHORT).show();
@@ -90,13 +116,13 @@ public class ActivityDetailedCourse extends BaseActivity {
 	    		if(result) {
 	    			isFavourite = false;
 	    			addOrRemoveButton.setIcon(R.drawable.ic_action_not_important);
-	    			Toast.makeText(getApplicationContext(), courseCode + " was removed from favourite courses", Toast.LENGTH_SHORT).show();
+	    			Toast.makeText(getApplicationContext(), "Removed from favourites", Toast.LENGTH_SHORT).show();
 	    		}
 	    	}
 	    	else {
 	    		boolean result = false;
 	    		try {
-					result = favouriteCourseHelper.add(courseCode);
+					result = favouriteCourseHelper.add(courseCode.split(" ")[0]); //Get only the course code, not the name
 				} catch (NullPointerException e) {
 					Toast.makeText(getApplicationContext(), "Failed to add course :(", Toast.LENGTH_SHORT).show();
 				} catch (DBException e) {
@@ -105,7 +131,7 @@ public class ActivityDetailedCourse extends BaseActivity {
 	    		if(result) {
 	    			isFavourite = true;
 	    			addOrRemoveButton.setIcon(R.drawable.ic_action_important);
-	    			Toast.makeText(getApplicationContext(), courseCode + " was added to favourite courses", Toast.LENGTH_SHORT).show();
+	    			Toast.makeText(getApplicationContext(), "Added to favourites", Toast.LENGTH_SHORT).show();
 	    		}
 	    	}
 	    	break;
