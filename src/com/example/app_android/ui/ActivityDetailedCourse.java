@@ -82,6 +82,8 @@ public class ActivityDetailedCourse extends BaseActivity {
 	
 	public void onRegisterCourseButtonPressed(View RegisterCourseButton) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onRegisterCourseButtonPressed()");}
+		
+		//TODO - Check if the user is registered and if not, make an attempt at registering him/her.
 	}
 	
 	@Override
