@@ -156,16 +156,31 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 		
 		db.beginTransaction();
 		
-		for(int i = 0; i < defaultValueCount; ++i) {
-			db.insert(TABLE_NAME, null, values[i]);
+		int result = -1;
+		try {
+			for(int i = 0; i < defaultValueCount; ++i) {
+				db.insert(TABLE_NAME, null, values[i]);
+				if(result == -1 ) {
+			        if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData(); No entry was added to the database.");}
+			        throw new DBException(mClass + ":add(); No entry was added to the database.");
+				}
+			}
+			db.setTransactionSuccessful();
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData()::db.insert();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
-		
-		db.setTransactionSuccessful();
-		db.endTransaction();
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful();");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		finally {
+			db.endTransaction();
+		}
 	}
 	
 	@Override
-	public boolean add(String name, String description, float latitude, float longitude, int iconId, int toggleId) throws DBException {
+	public void add(String name, String description, float latitude, float longitude, int iconId, int toggleId) throws DBException, NoRowsAffectedDBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":add()");}
 		
 		SQLiteDatabase db = mHelper.getWritableDatabase();
@@ -183,12 +198,16 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 			result = (int) db.insert(TABLE_NAME, null, contentValues);
 			db.setTransactionSuccessful();
 		}catch(NullPointerException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":add()::db.insert();");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":add()::db.insert();");}
 			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":add()::db.setTransactionSuccessful();");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":add()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":add(); SQLException, something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
 		}
 		finally{
 			db.endTransaction();
@@ -196,24 +215,44 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 		}
 		
 		if(result == -1) {
-			throw new DBException("Database error");
+		    if(Utilities.error) {Log.e(TAG, mClass + ":add(); No entry was added to the database.");}
+		    throw new NoRowsAffectedDBException(mClass + ":add(); No entry was added to the database.");
 		}
-		return true;
 	}
 	
 	@Override
-	public LatLng getMapCoordinate(String name) {
+	public LatLng getMapCoordinate(String name) throws DBException, NoResultFoundDBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":getMapCoordinate()");}
 		
-		LatLng coordinates = null;
 		SQLiteDatabase db = mHelper.getReadableDatabase();
-		Cursor cursor = db.rawQuery(RETRIEVE_MARKER_INFO, new String[] { name });
-		
-		if(cursor.moveToFirst()) {
-			coordinates = new LatLng(cursor.getFloat(2), cursor.getFloat(3));
+		db.beginTransaction();		
+		LatLng coordinates = null;
+		try {
+			Cursor cursor = db.rawQuery(RETRIEVE_MARKER_INFO, new String[] { name });
+			if(cursor.moveToFirst()) {
+				coordinates = new LatLng(cursor.getFloat(2), cursor.getFloat(3));
+			}
+			db.setTransactionSuccessful();
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getMapCoordinate()::db.insert();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
-		
-		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getMapCoordinate()::db.setTransactionSuccessful();");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getMapCoordinate(); SQLException, something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
+		}
+		finally{
+			db.endTransaction();
+			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
+		}		
+		if(coordinates == null) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getMapCoordinate(); No result was found in database for name:= " + name);}
+			throw new NoResultFoundDBException(mClass + ":getMapCoordinate(); No result was found in database for name= " + name);
+		}
 		return coordinates;
 	}
 	
