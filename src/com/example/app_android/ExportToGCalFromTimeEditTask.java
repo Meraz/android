@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
+import com.example.app_android.database.NoResultFoundDBException;
 import com.example.app_android.database.NoRowsAffectedDBException;
 import com.example.app_android.database.interfaces.ICalendarEventTable;
 import com.example.app_android.util.CalendarUtilities;
@@ -241,7 +242,16 @@ public class ExportToGCalFromTimeEditTask extends AsyncTask<ArrayList<String>, V
 		 int deletedEvents = 0;
 		 for(int i = 0; i < outdatedEvents.size(); ++i) {
 			 String[] eventData = outdatedEvents.get(i);
-			 int eventId = eventTable.getEventId(eventData[0], eventData[1], eventData[2], eventData[3]);
+			int eventId = -1; // TODO, is -1 a good default value? //bult
+			try {
+				eventId = eventTable.getEventId(eventData[0], eventData[1], eventData[2], eventData[3]);
+			} catch (DBException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (NoResultFoundDBException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			 boolean result = false;
 			 try {
 				eventTable.remove(eventId);

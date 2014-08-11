@@ -3,15 +3,28 @@ package com.example.app_android.database.interfaces;
 import java.util.ArrayList;
 
 import com.example.app_android.database.DBException;
+import com.example.app_android.database.NoResultFoundDBException;
 import com.example.app_android.database.NoRowsAffectedDBException;
 
 public interface IFavouriteCourseTable {
 	
-	public boolean add(String courseCode) throws DBException;
+	/*
+	 * TODO
+	 */
+	public void add(String courseCode) throws DBException, NoRowsAffectedDBException;
 	
-	public boolean remove(String courseCode) throws DBException, NoRowsAffectedDBException;
+	/*
+	 * TODO
+	 */
+	public void remove(String courseCode) throws DBException, NoRowsAffectedDBException;
 	
-	public ArrayList<String> getAll();
+	/*
+	 * TODO
+	 */
+	public ArrayList<String> getAll() throws DBException, NoResultFoundDBException;
 	
-	public boolean isEmpty();
+	/*
+	 * TODO
+	 */
+	public boolean isEmpty() throws DBException;
 }

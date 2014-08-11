@@ -23,7 +23,9 @@ import java.util.HashMap;
 
 import com.example.app_android.MapPlaceIdentifiers;
 import com.example.app_android.R;
+import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
+import com.example.app_android.database.NoResultFoundDBException;
 import com.example.app_android.database.interfaces.IMapPlaceTable;
 import com.example.app_android.util.Utilities;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -93,7 +95,15 @@ public class ActivityMap extends BaseActivity {
     			 }
     		 }
     		 else if(entryID == 1) { //Entered trough an entrypoint that specified a room
-    			place = mPlaceTable.getMapCoordinate(room);
+    			try {
+					place = mPlaceTable.getMapCoordinate(room);
+				} catch (DBException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoResultFoundDBException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
     			if(place != null) {
     				map.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));
          			if(!mapMarkers.containsKey("SearchMarker")) {

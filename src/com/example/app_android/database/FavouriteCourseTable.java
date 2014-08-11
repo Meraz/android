@@ -7,6 +7,7 @@ import com.example.app_android.util.Utilities;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -30,7 +31,7 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 	}
 	 
 	@Override
-	public void fillTableWithDefaultData(SQLiteDatabase db) throws DBException {
+	public void fillTableWithDefaultData(SQLiteDatabase db) throws SQLException, DBException {
 		super.fillTableWithDefaultData(db);
 		db.beginTransaction();
 			
@@ -43,11 +44,11 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 			db.setTransactionSuccessful();
 			
 		}catch(NullPointerException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.insert();");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData()::db.insert();");}
 			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful();");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
 		finally{
@@ -55,12 +56,13 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 		}
 		
 		if(result == -1) {
-			throw new DBException("Database error");
+		    if(Utilities.error) {Log.e(TAG, mClass	+ ":fillTableWithDefaultData(); No entry was added to the database");}
+		    throw new DBException(mClass 			+ ":fillTableWithDefaultData(); No entry was added to the database");
 		}
 	}
 
 	@Override
-	public boolean add(String courseCode) throws DBException {
+	public void add(String courseCode) throws DBException, NoRowsAffectedDBException  {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":add()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();		
@@ -72,12 +74,16 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 			result = (int) db.insert(TABLE_NAME, null, contentValues);
 			db.setTransactionSuccessful();
 		}catch(NullPointerException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":add()::db.insert();");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":add()::db.insert();");}
 			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":add()::db.setTransactionSuccessful();");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":add()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":add(); SQLException, something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
 		}
 		finally{
 			db.endTransaction();
@@ -85,13 +91,13 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 		}
 		
 		if(result == -1) {
-			throw new DBException("Database error");
+		    if(Utilities.error) {Log.e(TAG, mClass + ":add(); No entry was added to the database.");}
+		    throw new NoRowsAffectedDBException(mClass + ":add(); No entry was added to the database.");
 		}
-		return true;
 	}
 
 	@Override
-	public boolean remove(String courseCode) throws DBException, NoRowsAffectedDBException {
+	public void remove(String courseCode) throws DBException, NoRowsAffectedDBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":remove()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
@@ -108,45 +114,91 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 			if(Utilities.error) {Log.v(TAG, mClass + ":remove()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":remove(); SQLException, something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
+		}
 		finally{
 			db.endTransaction();
 			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 				
 		if(deletedRowCount == 0) {
-			throw new NoRowsAffectedDBException("No entries removed in database.");
+		      if(Utilities.error) {Log.e(TAG, mClass + ":remove(); No entries removed in database.");}
+		      throw new NoRowsAffectedDBException(mClass + ":remove(); No entries removed in database.");
 		}
-		return true;
 	}
 
 	@Override
-	public ArrayList<String> getAll() {
+	public ArrayList<String> getAll() throws DBException, NoResultFoundDBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":getAll()");}
+		
+		SQLiteDatabase db = mHelper.getWritableDatabase();
+		db.beginTransaction();			
 		ArrayList<String> favouriteCourses = new ArrayList<String>();
-		
-		SQLiteDatabase db = mHelper.getReadableDatabase();
 		String[] columns = {COLUMN_COURSE_CODE};
-		Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null);
 		
-		int index;
-		while(cursor.moveToNext()) {
-			index = cursor.getColumnIndex(COLUMN_COURSE_CODE);
-			String courseCode = cursor.getString(index);
-			favouriteCourses.add(courseCode);
+		try {
+			Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null);
+			int index;
+			while(cursor.moveToNext()) {
+				index = cursor.getColumnIndex(COLUMN_COURSE_CODE);
+				String courseCode = cursor.getString(index);
+				favouriteCourses.add(courseCode);
+			}
+			db.setTransactionSuccessful();
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getAll()::db.insert();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
-		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getAll()::db.setTransactionSuccessful();");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getAll(); SQLException, something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
+		}
+		finally {
+			db.endTransaction();
+			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
+		}
+		
+		if(favouriteCourses.size() == 0) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getAll(); No result was found in database for courseCode.");}
+			throw new NoResultFoundDBException(mClass + ":getAll(); No result was found in database for courseCode.");
+		}
 		return favouriteCourses;
 	}
 
 	@Override
-	public boolean isEmpty() {
+	public boolean isEmpty() throws DBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":isEmpty()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
-		
-		Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
-		boolean empty = cursor.getCount() <= 0;
-		
-		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
+		db.beginTransaction();		
+		boolean empty = false;
+		try {
+			Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+			if(cursor.getCount() <= 0) {
+				empty = true;
+			}
+			db.setTransactionSuccessful();
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":isEmpty()::db.insert();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
+		}
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":isEmpty()::db.setTransactionSuccessful();");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":isEmpty(); SQLException, something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
+		}
+		finally {
+			db.endTransaction();
+			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
+		}
 		return empty;
 	}
 }

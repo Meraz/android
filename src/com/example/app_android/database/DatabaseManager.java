@@ -4,6 +4,7 @@ import com.example.app_android.database.interfaces.ICalendarEventTable;
 import com.example.app_android.database.interfaces.ICourseTable;
 import com.example.app_android.database.interfaces.IFavouriteCourseTable;
 import com.example.app_android.database.interfaces.IMapPlaceTable;
+import com.example.app_android.database.interfaces.ITextTable;
 import com.example.app_android.database.interfaces.ITokenTable;
 import com.example.app_android.util.Utilities;
 
@@ -47,13 +48,12 @@ public class DatabaseManager extends SQLiteOpenHelper{
         COURSES,
         FAVOURITE_COURSES,
         CALENDAREVENTS,
-        MAPCOORDINATES;
+        MAPCOORDINATES,
+        TEXT;
     }
     
     // Singleton initialize instance
     public static void initialize (Context context) {
-
-		
     	if(mDatabaseManager == null)
     		mDatabaseManager = new DatabaseManager(context);
     }
@@ -77,6 +77,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
 	    TABLES[2] = new FavouriteCourseTable(this);
 	    TABLES[3] = new CalendarEventTable(this);
 	    TABLES[4] = new MapPlaceTable(this);
+	    TABLES[5] = new TextTable(this);
     }
       
     private BaseTable getTable(TableIndex table) {
@@ -113,6 +114,11 @@ public class DatabaseManager extends SQLiteOpenHelper{
     	return (IMapPlaceTable)getTable(TableIndex.MAPCOORDINATES);
     }
     
+    public ITextTable getTextTable() {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":getTextTable()");}
+    	return (ITextTable)getTable(TableIndex.TEXT);
+    }
+    
     /*
      * Overridden functions from  SQLiteOpenHelper
      */     
@@ -126,8 +132,10 @@ public class DatabaseManager extends SQLiteOpenHelper{
 				TABLES[i].createTable(db);
 			} catch (SQLException e) {
 				Log.e(TAG, mClass+":onCreate::createTable()");
+				// TODO
 			} catch (DBException e) {
 				Log.e(TAG, mClass+":onCreate::createTable()");
+				// TODO
 			}
 	    }
 	    
@@ -136,8 +144,10 @@ public class DatabaseManager extends SQLiteOpenHelper{
 				TABLES[i].fillTableWithDefaultData(db);
 			} catch (SQLException e) {
 				Log.e(TAG, mClass+":onCreate::fillTableWithDefaultData()");
+				// TODO
 			} catch (DBException e) {
 				Log.e(TAG, mClass+":onCreate::fillTableWithDefaultData()");
+				// TODO
 			}
 	    }	    
     }
