@@ -256,7 +256,7 @@ public class ActivityCourses extends BaseActivity {
 			@Override
 		    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				Intent intent = new Intent(getApplicationContext(), ActivityDetailedCourse.class);
-				intent.putExtra("courseCode",(String) arg0.getItemAtPosition(arg2));
+				intent.putExtra("courseCode",((String) arg0.getItemAtPosition(arg2)).split(" ")[0]); //Send only the course code, not the concatinated name
 				startActivity(intent);
 		    }
 		});

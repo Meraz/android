@@ -208,9 +208,11 @@ public class ActivityMap extends BaseActivity {
 						Marker marker = mapMarkers.get("SearchMarker");
 						marker.setPosition(markerOptions.getPosition());
 						marker.setSnippet(markerOptions.getSnippet());
+						marker.showInfoWindow();
 					}
 					else {
 						mapMarkers.put("SearchMarker", map.addMarker(markerOptions));
+						mapMarkers.get("SearchMarker").showInfoWindow();
 					}
 					
 					//Move the camera and close the drawer to show the search marker
