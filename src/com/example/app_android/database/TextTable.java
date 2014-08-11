@@ -1,37 +1,16 @@
 package com.example.app_android.database;
 
 import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.app_android.database.interfaces.ITextTable;
-import com.example.app_android.database.interfaces.ITokenTable.TransactionFlag;
 import com.example.app_android.util.Utilities;
 
 public class TextTable extends BaseTable implements ITextTable {
-	
-	/*
-	 * 
-	 * http://sqlfiddle.com/#!5/70b3f/1
-	 * // Create
-			create table general_text (id INTEGER PRIMARY_KEY, text TEXT, text_hash INTEGER);
-			
-			insert into general_text VALues (0, "abrgh", 514);
-			insert into general_text values (2, "abrgh", 514);
-			
-			
-			
-			// Retrieve and update
-			select text from general_text where id = 2;
-			select text_hash from general_text where id = 2;
-			
-			update general_text SET text='Alfred Schmidt', text_hash=515151515151 WHERE id = 2;
-			
-			select text from general_text where id = 2;
-			select text_hash from general_text where id = 2;
-	 */
-	
 	
 	private static final String TABLE_NAME = "general_text";
 	
@@ -39,21 +18,41 @@ public class TextTable extends BaseTable implements ITextTable {
     private static final String COLUMN_TEXT = "text";
     private static final String COLUMN_TEXT_HASH = "text_hash";
     
-    private static final String COLUMN_ID_TYPE = "primary key INTEGER";
+    private static final String COLUMN_ID_TYPE = "INTEGER primary_key";
     private static final String COLUMN_TEXT_TYPE = "TEXT";
     private static final String COLUMN_TEXT_HASH_TYPE = "INTEGER";
-    
-    private static final String RETRIEVE_TEXT 		= "select " + COLUMN_TEXT  			+ " from " + TABLE_NAME + "where " + COLUMN_ID + "=" +"?";
-    private static final String RETRIEVE_TEXT_HASH 	= "select " + COLUMN_TEXT_HASH  			+ " from " + TABLE_NAME + "where " + COLUMN_ID + "=" +"?";
+    private static final String RETRIEVE_TEXT 		= "select " + COLUMN_TEXT  		+ " from " + TABLE_NAME + " where " + COLUMN_ID + "=" +"?";
+    private static final String RETRIEVE_TEXT_HASH 	= "select " + COLUMN_TEXT_HASH  + " from " + TABLE_NAME + " where " + COLUMN_ID + "=" +"?";
+  
+    /*
+    Code that was produced for usage but ended up not being used. Saving it for future reference. This may be removed safely if everything works. 
+    2014-08-11
+   	
+   
     private static final String UPDATE_TEXT			= "update " + TABLE_NAME + " SET " + COLUMN_TEXT + "=?, " + COLUMN_TEXT_HASH + "=? where " + COLUMN_ID + "=?";
 
+	// TEST CODE THAT WAS WRITTEN TO TEST DB queries
+	 * 
+	 *     http://sqlfiddle.com/#!5/70b3f/1
+    create table general_text (id INTEGER PRIMARY_KEY, text TEXT, text_hash INTEGER);
+    insert into general_text VALues (1, "Test1", 1);
+	insert into general_text values (2, "Test2", 2);
+	
+	select text from general_text where id = 2;
+	select text_hash from general_text where id = 2;	
+	update general_text SET text='Alfred Schmidt', text_hash=515151515151 WHERE id = 2;
+	
+	select text from general_text where id = 2;
+	select text_hash from general_text where id = 2;    
+ 
+*/
     private static final String LOCAl_SQL_CREATE_TABLE = 
     "CREATE TABLE " + 
     TABLE_NAME + 
     " (" +
     	COLUMN_ID 					+ " " + COLUMN_ID_TYPE 				+ ", " +
     	COLUMN_TEXT 				+ " " + COLUMN_TEXT_TYPE 			+ ", " +
-	    COLUMN_TEXT_HASH 		+ " " + COLUMN_TEXT_HASH_TYPE +
+	    COLUMN_TEXT_HASH 			+ " " + COLUMN_TEXT_HASH_TYPE +
     ");";
 
 	public TextTable(SQLiteOpenHelper SQLiteOpenHelper) {
@@ -64,11 +63,11 @@ public class TextTable extends BaseTable implements ITextTable {
 	}
 	
 	@Override 
-	public void fillTableWithDefaultData(SQLiteDatabase db) throws android.database.SQLException , DBException {
+	public void fillTableWithDefaultData(SQLiteDatabase db) throws SQLException, DBException {
 		db.beginTransaction();
 
 		ContentValues values = new ContentValues();
-		values.put(COLUMN_ID, "1");
+		values.put(COLUMN_ID, "0");
 		values.put(COLUMN_TEXT, "TETX");
 		values.put(COLUMN_TEXT_HASH, 51515151);
 		
@@ -85,6 +84,9 @@ public class TextTable extends BaseTable implements ITextTable {
 			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful()");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
+		/*
+		 * This could also throw SQLException. Functions inherited from BaseTable may throw this.
+		 */
 		finally{
 			db.endTransaction();
 		}
@@ -95,14 +97,38 @@ public class TextTable extends BaseTable implements ITextTable {
 	};
 
 	@Override
-	public String getText(TextIdentifier textIdentifier) throws DBException {
-		// TODO
-		return "";
+	public String getText(TextIdentifier textIdentifier) throws DBException, NoResultFoundDBException {
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":getText()");}
+		
+		SQLiteDatabase db = mHelper.getReadableDatabase();
+		String returnText = null;
+		
+		try {
+			Cursor cursor = db.rawQuery(RETRIEVE_TEXT, new String[] { Integer.toString(textIdentifier.ordinal())});
+			if (cursor.moveToFirst()) {
+				returnText = cursor.getString(0);
+			}
+		}
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":getText()");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":getText(). SQLException. Something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
+		}
+		
+		if(returnText == null) {
+			throw new NoResultFoundDBException("error at: " + mClass + ":getText(); string is of nullvalue");
+		}
+		
+		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
+		return returnText;
 	}
 
 	@Override
-	public void setText(TextIdentifier textIdentifier, String text, int text_hash) throws DBException, NoRowsAffectedDBException{
-		if(Utilities.verbose) {Log.v(TAG, mClass + ":updateToken()");}
+	public void updateText(TextIdentifier textIdentifier, String text, int text_hash) throws DBException, NoRowsAffectedDBException{
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":updateText()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
 		
@@ -114,22 +140,65 @@ public class TextTable extends BaseTable implements ITextTable {
 		int result = 0;
 		try {
 			result = db.update(TABLE_NAME, values, null, null);
+			// More than one entry was changed. This functionality should not be supported and it's quite terrible if this starts happening.
+			if(result > 1) {
+				throw new DBException(mClass + ":updateText();" + " More than one entry was changed. Aborting.");
+			}				
 			db.setTransactionSuccessful();	
 		}catch(NullPointerException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":setText()::db.insert()");}
+			if(Utilities.error) {Log.v(TAG, mClass + ":updateText()::db.insert()");}
 			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":setText()::db.setTransactionSuccessful()");}
+			if(Utilities.error) {Log.v(TAG, mClass + ":updateText()::db.setTransactionSuccessful()");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":updateText(). SQLException: something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
 		}
 		finally {
 			db.endTransaction();
 			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection		
-		}
+		}		
 		
+		// If no rows were affected.
 		if(result == 0) {
-			throw new NoRowsAffectedDBException("error at: " + mClass + ":setText()");
+			throw new NoRowsAffectedDBException(mClass + ":updateText()");
 		}	
+	}
+
+	@Override
+	public int getTextHash(TextIdentifier textIdentifier) throws DBException, NoResultFoundDBException {
+	if(Utilities.verbose) {Log.v(TAG, mClass + ":getTextHash()");}
+		
+		SQLiteDatabase db = mHelper.getReadableDatabase();
+		int returnHash = -1;
+		
+		try {
+			Cursor cursor = db.rawQuery(RETRIEVE_TEXT_HASH, new String[] { Integer.toString(textIdentifier.ordinal())});
+			if (cursor.moveToFirst()) {
+				returnHash = cursor.getInt(0);
+			}
+		}
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":getTextHash()");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.v(TAG, mClass + ":getTextHash(). SQLException. Something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
+		}
+		finally {
+			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection		
+		}	
+		
+		// No value found
+		if(returnHash == -1) {
+			throw new NoResultFoundDBException(mClass + ":getTextHash(); returnhash is of -1 value");
+		}
+
+		
+		return returnHash;
 	}
 }
