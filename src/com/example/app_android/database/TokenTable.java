@@ -60,13 +60,12 @@ public class TokenTable extends BaseTable implements ITokenTable{
 		try {
 			result = (int) db.insert(TABLE_NAME, null, values);
 			db.setTransactionSuccessful();
-			
 		}catch(NullPointerException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.insert()");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData()::db.insert();");}
 			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful()");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
 		finally{
@@ -128,21 +127,26 @@ public class TokenTable extends BaseTable implements ITokenTable{
 			result = db.update(TABLE_NAME, values, null, null);
 			db.setTransactionSuccessful();	
 		}catch(NullPointerException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.insert()");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":updateToken()::db.insert();");}
 			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful()");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":updateToken()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":updateToken(); SQLException, something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
 		}
 		finally {
 			db.endTransaction();
 			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection		
 		}
 		
-		if(result == -1) {
-			throw new NoRowsAffectedDBException("error at: " + mClass + ":fillTableWithDefaultData()");
-		}
+	    if(result == -1) {
+	        if(Utilities.error) {Log.e(TAG, mClass + ":updateToken(); No entry was added to the database.");}
+	        throw new NoRowsAffectedDBException(mClass + ":updateToken(); No entry was added to the database.");
+	    }	        
 	}
 	
 	// Inherited from ITokenTable

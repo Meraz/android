@@ -162,7 +162,7 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 				result = (int) db.insert(TABLE_NAME, null, values[i]);
 				if(result == -1 ) {
 			        if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData(); No entry was added to the database.");}
-			        throw new DBException(mClass + ":add(); No entry was added to the database.");
+			        throw new DBException(mClass + ":fillTableWithDefaultData(); No entry was added to the database.");
 				}
 			}
 			db.setTransactionSuccessful();
@@ -174,8 +174,12 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 			if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
+		/*
+		 * This could also throw SQLException. Functions inherited from BaseTable do not need to catch SQLExceptions.
+		 */
 		finally {
 			db.endTransaction();
+			// Functions inherited from BaseTable MUST NOT call db.close();
 		}
 	}
 	
@@ -231,6 +235,10 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 			Cursor cursor = db.rawQuery(RETRIEVE_MARKER_INFO, new String[] { name });
 			if(cursor.moveToFirst()) {
 				coordinates = new LatLng(cursor.getFloat(2), cursor.getFloat(3));
+			}
+			else{
+				if(Utilities.error) {Log.e(TAG, mClass + ":getMapCoordinate(); No result was found in database for name:= " + name);}
+				throw new NoResultFoundDBException(mClass + ":getMapCoordinate(); No result was found in database for name= " + name);
 			}
 			db.setTransactionSuccessful();
 		}catch(NullPointerException e) {

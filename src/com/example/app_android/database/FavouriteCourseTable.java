@@ -51,6 +51,9 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 			if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
+		/*
+		 * This could also throw SQLException. Functions inherited from BaseTable do not need to catch SQLExceptions.
+		 */
 		finally{
 			db.endTransaction();
 		}
@@ -69,9 +72,9 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(COLUMN_COURSE_CODE, courseCode);
 		
-		int result = -1;
+		long result = -1;
 		try {
-			result = (int) db.insert(TABLE_NAME, null, contentValues);
+			result = db.insert(TABLE_NAME, null, contentValues);
 			db.setTransactionSuccessful();
 		}catch(NullPointerException e) {
 			if(Utilities.error) {Log.e(TAG, mClass + ":add()::db.insert();");}

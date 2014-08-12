@@ -62,23 +62,23 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 			resultId = db.insert(TABLE_NAME, null, values);
 			db.setTransactionSuccessful();
 		}catch(NullPointerException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":add()::insert();");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":add()::insert();");}
 			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":add()::db.setTransactionSuccessful();");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":add()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
 		catch(SQLException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":add(). SQLException. Something went wrong.");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":add(). SQLException. Something went wrong.");}
 			throw new DBException("SQLException. Message: " + e.getMessage());
 		}
 		finally{
 			db.endTransaction();
 		}
 		if(resultId == -1) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":add(); No entry was added to the database");}
-			throw new DBException(mClass + ":add(); No entry was added to the database");
+			if(Utilities.error) {Log.e(TAG, mClass + ":add(); No entry was added to the database");}
+			throw new NoRowsAffectedDBException(mClass + ":add(); No entry was added to the database");
 		}
 		return true;
 	}
@@ -98,15 +98,15 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 			}
 			db.setTransactionSuccessful();			
 		}catch(NullPointerException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":remove()::db.delete();");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":remove()::db.delete();");}
 			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":remove()::db.setTransactionSuccessful();");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":remove()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
 		catch(SQLException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":remove(). SQLException. Something went wrong.");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":remove(). SQLException. Something went wrong.");}
 			throw new DBException("SQLException. Message: " + e.getMessage());
 		}
 		finally{
@@ -114,8 +114,8 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 		if(deletedRowCount == 0) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":remove(); No entries removed in database.");}
-			throw new NoRowsAffectedDBException(mClass + ":remove(); No entries removed in database.");
+		      if(Utilities.error) {Log.e(TAG, mClass + ":remove(); No entries removed in database.");}
+		      throw new NoRowsAffectedDBException(mClass + ":remove(); No entries removed in database.");
 		}
 	}
 
@@ -135,15 +135,15 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 			db.setTransactionSuccessful();
 		}
 		catch(NullPointerException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":getEventId()");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":getEventId()");}
 			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":getEventId()");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":getEventId()");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
 		catch(SQLException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":getEventId(). SQLException. Something went wrong.");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":getEventId(). SQLException. Something went wrong.");}
 			throw new DBException("SQLException. Message: " + e.getMessage());
 		}
 		finally {
@@ -153,8 +153,8 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 		
 		// No value found
 		if(id == -1) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":getEventId(). eventId is of -1 value");}
-			throw new NoResultFoundDBException(mClass + ":getEventId(); eventId is of -1 value");
+			if(Utilities.error) {Log.e(TAG, mClass + 	":getCourse(); No result was found in database for title= " + title + ", description=" + description + ", startTime=" +startTime + ", endTime" + endTime);}
+			throw new NoResultFoundDBException(mClass + ":getCourse(); No result was found in database for title= " + title + ", description=" + description + ", startTime=" +startTime + ", endTime" + endTime);
 		}		
 		return id;
 	}

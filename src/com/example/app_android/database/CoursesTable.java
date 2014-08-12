@@ -152,12 +152,11 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 		}
 		finally{
 			db.endTransaction();
-			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 		
 		if(result == -1) {
 		    if(Utilities.error) {Log.v(TAG, mClass + ":add(); No entry was added to the database");}
-		    throw new DBException(mClass + ":add(); No entry was added to the database");
+		    throw new NoRowsAffectedDBException(mClass + ":add(); No entry was added to the database");
 		}
 		return true;
 	}
@@ -193,7 +192,6 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 		}
 		finally {
 			db.endTransaction();
-//			db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 		
 		if(courseCodes.size() == 0) {
@@ -236,7 +234,6 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 		
 		finally {
 			db.endTransaction();
-//			db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 		
 		if(courseNames.size() == 0) {
@@ -276,7 +273,6 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 		
 		finally {
 			db.endTransaction();
-//			db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 		
 		if(fetchedCourse == null) {
