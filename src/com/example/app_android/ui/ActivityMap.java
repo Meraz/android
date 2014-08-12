@@ -188,7 +188,13 @@ public class ActivityMap extends BaseActivity {
 	private void initializeDropDownSearchField() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":initializeDropDownSearchField()");}
 		
-		String[] searchablesPlaceNames = mPlaceTable.getAllNamesByToggleId(MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE, false);
+		String[] searchablesPlaceNames = null;
+		try {
+			searchablesPlaceNames = mPlaceTable.getAllNamesByToggleId(MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE, false);
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		searchAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, searchablesPlaceNames);
 		searchField.setAdapter(searchAdapter);
 		searchField.setThreshold(0);
@@ -202,7 +208,17 @@ public class ActivityMap extends BaseActivity {
 					imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 				
 				//Move the search marker
-				MarkerOptions markerOptions = mPlaceTable.getMapMarkerOptions( (String) arg0.getItemAtPosition(arg2));
+				MarkerOptions markerOptions = null;
+				try {
+					markerOptions = mPlaceTable.getMapMarkerOptions( (String) arg0.getItemAtPosition(arg2));
+				} catch (DBException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoResultFoundDBException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				if(markerOptions != null) {
 					if(mapMarkers.containsKey("SearchMarker")) {
 						Marker marker = mapMarkers.get("SearchMarker");
@@ -247,9 +263,24 @@ public class ActivityMap extends BaseActivity {
 	private void initializeToggleableMarkers() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":addMarkers()");}
 		
-		String[] markerNames = mPlaceTable.getAllNamesByToggleId(MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE, true);
+		String[] markerNames = null;
+		try {
+			markerNames = mPlaceTable.getAllNamesByToggleId(MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE, true);
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		for(int i = 0; i < markerNames.length; ++i) {
-			MarkerOptions options = mPlaceTable.getMapMarkerOptions(markerNames[i]);
+			MarkerOptions options = null;
+			try {
+				options = mPlaceTable.getMapMarkerOptions(markerNames[i]);
+			} catch (DBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoResultFoundDBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			if(options.getPosition() != null)
 				mapMarkers.put(markerNames[i], map.addMarker(options));
@@ -259,7 +290,13 @@ public class ActivityMap extends BaseActivity {
 	private void toggleMarkers (int toggleId ,boolean on) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":toggleMarkers()");}
 		
-		String[] markerNames = mPlaceTable.getAllNamesByToggleId(toggleId, false);
+		String[] markerNames = null;
+		try {
+			markerNames = mPlaceTable.getAllNamesByToggleId(toggleId, false);
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		for(int i = 0; i < markerNames.length; ++i) {
 			mapMarkers.get(markerNames[i]).setVisible(on);
 		}
