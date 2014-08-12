@@ -2,6 +2,8 @@ package com.example.app_android.ui.newstudent;
 
 import java.util.ArrayList;
 
+import com.example.app_android.R;
+import com.example.app_android.ui.elements.expandablelist.ExpandableListChild;
 import com.example.app_android.ui.elements.expandablelist.ExpandableListGroup;
 import com.example.app_android.ui.elements.expandablelist.ExpandableListMetaButton;
 import com.example.app_android.ui.elements.expandablelist.IButtonCallback;
@@ -9,6 +11,7 @@ import com.example.app_android.ui.elements.expandablelist.MyBaseExpandableListAd
 import com.example.app_android.util.Utilities;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,30 +35,31 @@ public class ActivityStudentCentre extends BaseNewStudentActivity implements IBu
 		mExpandableListAdapter.setButtonCallBack(this);
     }        
     
-    public ArrayList<ExpandableListGroup> SetStandardGroups() { // TODO engrish / swedrish
+    public ArrayList<ExpandableListGroup> SetStandardGroups() {
 		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":SetStandardGroups()");}
     	// Return list of groups
     	ArrayList<ExpandableListGroup> finalList = new ArrayList<ExpandableListGroup>();
     	
     	// Temporary group
     	ExpandableListGroup group;
-    	String groupText;	    	
-    	String childText;
-
-    	// TODO REMOVE HARDCODE
-    	groupText = "Studentcentrum ";	    	
-    	childText = "Studentcentrum hjälper dig med att få svar på dina frågor kring registreringar på program/kurser, BTH-kortet, ditt studentkonto, parkeringstillstånd på campus Gräsvik, utelämning av tentamen och intyg för tidigare studenter." +
-    	"<br><br> Studentcentrums öppetider är:"+ 
-    			"<br>Mån-Tors 10-14"+
-    	"<br>10-11:30"+
-    	"<br><br>Man kan även nå studentcentrum via telefonnummer 0455-385700 mån-fre mellan 10-11:30"+
-    	"<br><br> För ytterliggare information besök studentcentrum på andra våningen i J-huset, ovanför Bistron.";
-    	ExpandableListMetaButton metaButton = new ExpandableListMetaButton();
-    	metaButton.setButton(Button.VISIBLE, "Gå till studentcentrums hemsida", ButtonAction.StudentCentreWebsite.ordinal());
+   	
+    	Resources res = getResources();
+    	String[] header = res.getStringArray(R.array.new_student_menu_studentcentre_header);
+    	String[] text = res.getStringArray(R.array.new_student_menu_studentcentre_text);
     	
-    	group = ExpandableListGroup.ConstructOneGroupWithOneChild(groupText, childText, null, metaButton);
-    	finalList.add(group);
-  	
+    	for(int i = 0; i < header.length; i++) {
+    		group = ExpandableListGroup.ConstructOneGroupWithOneChild(header[i], text[i], null);
+    		
+    		ExpandableListChild child = new ExpandableListChild();
+    		child.setText(null); child.setTag(null);
+    		ExpandableListMetaButton metaButton = new ExpandableListMetaButton();
+    		metaButton.setButton(Button.VISIBLE, getString(R.string.new_student_menu_studentcentre_button), ButtonAction.StudentCentreWebsite.ordinal());
+    		child.setMetaButton(metaButton);
+    		group.appendItem(child);    
+    		
+    		finalList.add(group);
+    	}
+    	  	
 		return finalList;
     }
     
@@ -67,7 +71,7 @@ public class ActivityStudentCentre extends BaseNewStudentActivity implements IBu
 		ButtonAction actionEnum = ButtonAction.values()[actionID];
 		
 		if(actionEnum == ButtonAction.StudentCentreWebsite) {
-		    Uri uriUrl = Uri.parse("https://studentportal.bth.se/web/studentportal.nsf/web.xsp/studentcentrum");
+		    Uri uriUrl = Uri.parse("https://studentportal.bth.se/web/studentportal.nsf/web.xsp/studentcentrum");	// TODO
 	        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
 	        startActivity(launchBrowser);
 		}		
