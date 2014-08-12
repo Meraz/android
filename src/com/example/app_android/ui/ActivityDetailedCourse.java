@@ -25,11 +25,11 @@ import android.widget.Toast;
 
 public class ActivityDetailedCourse extends BaseActivity {
 	private static final String TAG = "CourseView";
-	String courseCode;
-	boolean isFavourite;
-	MenuItem addOrRemoveButton;
-	IFavouriteCourseTable favouriteCourseHelper;
-	ICourseTable courseHelper;
+	String 					mCourseCode;
+	boolean 				mIsFavourite;
+	MenuItem 				mAddOrRemoveFavouriteButton;
+	IFavouriteCourseTable 	mFavouriteCourseTable;
+	ICourseTable 			mCourseTable;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,26 +40,26 @@ public class ActivityDetailedCourse extends BaseActivity {
 		
 		//Get the intent bundle and the databases we need 
 		Bundle bundle = getIntent().getExtras();
-		courseCode = bundle.getString("courseCode");
-		courseHelper = DatabaseManager.getInstance().getCourseTable();
-		favouriteCourseHelper = DatabaseManager.getInstance().getFavouriteCourseTable();
+		mCourseCode = bundle.getString("courseCode");
+		mCourseTable = DatabaseManager.getInstance().getCourseTable();
+		mFavouriteCourseTable = DatabaseManager.getInstance().getFavouriteCourseTable();
 		
 		//Fetch course info
-		CourseBean courseInfo = null; // TODO SOMETHINGS WRONG HERE
+		CourseBean courseInfo;
 		try {
-			courseInfo = courseHelper.getCourse(courseCode);
+			courseInfo = mCourseTable.getCourse(mCourseCode);
 		} catch (DBException e) {
-			// TODO Auto-generated catch block
+			courseInfo = null;
 			e.printStackTrace();
 		} catch (NoResultFoundDBException e) {
-			// TODO Auto-generated catch block
+			courseInfo = null;
 			e.printStackTrace();
 		}
 		if(courseInfo == null) {
 			Toast.makeText(getApplicationContext(), "Failed to retrieve info about this course,  sorry :<", Toast.LENGTH_SHORT).show();
-			getActionBar().setTitle(courseCode);
+			getActionBar().setTitle(mCourseCode);
 		} else {
-			getActionBar().setTitle(courseCode + " - " + courseInfo.getCourseName());
+			getActionBar().setTitle(mCourseCode + " - " + courseInfo.getCourseName());
 		
 			((TextView)findViewById(R.id.course_responsible_text)).setText(courseInfo.getCourseResponsible());
 			((TextView)findViewById(R.id.course_start_text)).setText(courseInfo.getStartDate());
@@ -71,12 +71,12 @@ public class ActivityDetailedCourse extends BaseActivity {
 		
 		//If the course code is present in the favouriteCourseDatabase, well, then it's one of the users favourites and we can mark it as a favourite
 		try {
-			isFavourite = favouriteCourseHelper.getAll().contains(courseCode);
+			mIsFavourite = mFavouriteCourseTable.getAll().contains(mCourseCode);
 		} catch (DBException e) {
-			// TODO Auto-generated catch block
+			mIsFavourite = false;
 			e.printStackTrace();
 		} catch (NoResultFoundDBException e) {
-			// TODO Auto-generated catch block
+			mIsFavourite = false;
 			e.printStackTrace();
 		}
 	}
@@ -86,11 +86,10 @@ public class ActivityDetailedCourse extends BaseActivity {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onExportButtonPressed()");}
 		
 		if(Utilities.isNetworkAvailable(getApplicationContext())) {
-			
 			ArrayList<String> requests = new ArrayList<String>();
-			requests.add(CalendarUtilities.buildTimeEditRequest(courseCode,
-					((String) ((TextView)findViewById(R.id.course_start_text)).getText()).replace("-", ""),	//Removes the dashes since timeEdit don't like them.
-					((String) ((TextView)findViewById(R.id.course_end_text)).getText())).replace("-", ""));
+			requests.add(CalendarUtilities.buildTimeEditRequest(mCourseCode,
+					((String) ((TextView)findViewById(R.id.course_start_text)).getText()).replaceAll("-", ""),	//Removes the dashes since timeEdit don't like them.
+					((String) ((TextView)findViewById(R.id.course_end_text)).getText())).replaceAll("-", ""));
 			ExportToGCalFromTimeEditTask exportTask = new ExportToGCalFromTimeEditTask(getApplicationContext(), null); //TODO - add sync item in action bar and start it after this call
 			exportTask.execute(requests);
 		}
@@ -111,11 +110,11 @@ public class ActivityDetailedCourse extends BaseActivity {
 	    // Inflate the menu items for use in the action bar
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.layout.activity_detailed_course_action, menu);
-	    addOrRemoveButton = menu.findItem(R.id.detailed_course_action_add_or_remove);
-	    if(isFavourite)
-	    	addOrRemoveButton.setIcon(R.drawable.ic_action_important);
+	    mAddOrRemoveFavouriteButton = menu.findItem(R.id.detailed_course_action_add_or_remove);
+	    if(mIsFavourite)
+	    	mAddOrRemoveFavouriteButton.setIcon(R.drawable.ic_action_important);
 	    else
-	    	addOrRemoveButton.setIcon(R.drawable.ic_action_not_important);
+	    	mAddOrRemoveFavouriteButton.setIcon(R.drawable.ic_action_not_important);
 	    return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -124,10 +123,10 @@ public class ActivityDetailedCourse extends BaseActivity {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onCreateOptionsMenu()");}
 		switch (item.getItemId()) {
 	    case R.id.detailed_course_action_add_or_remove:
-	    	if(isFavourite) {
+	    	if(mIsFavourite) {
 	    		boolean result = true;
 	    			try {
-						favouriteCourseHelper.remove(courseCode);
+						mFavouriteCourseTable.remove(mCourseCode);
 					} catch (DBException e) {		//Sorry for the duplicate code. Need java 7 to use one handler for multiple cathces
 						Toast.makeText(getApplicationContext(), "Failed to remove course :(", Toast.LENGTH_SHORT).show();
 						result = false;
@@ -136,15 +135,15 @@ public class ActivityDetailedCourse extends BaseActivity {
 						result = false;
 					}	    		
 	    		if(result) {
-	    			isFavourite = false;
-	    			addOrRemoveButton.setIcon(R.drawable.ic_action_not_important);
+	    			mIsFavourite = false;
+	    			mAddOrRemoveFavouriteButton.setIcon(R.drawable.ic_action_not_important);
 	    			Toast.makeText(getApplicationContext(), "Removed from favourites", Toast.LENGTH_SHORT).show();
 	    		}
 	    	}
 	    	else {
 	    		boolean result = true;
 	    		try {
-					favouriteCourseHelper.add(courseCode.split(" ")[0]); 	//Get only the course code, not the name
+					mFavouriteCourseTable.add(mCourseCode.split(" ")[0]); 	//Get only the course code, not the name
 				} catch (DBException e) {		//Sorry for the duplicate code. Need java 7 to use one handler for multiple cathces
 					Toast.makeText(getApplicationContext(), "Failed to add course :(", Toast.LENGTH_SHORT).show();
 					result = false;
@@ -153,8 +152,8 @@ public class ActivityDetailedCourse extends BaseActivity {
 					result = false;
 				}	    		
 	    		if(result) {
-	    			isFavourite = true;
-	    			addOrRemoveButton.setIcon(R.drawable.ic_action_important);
+	    			mIsFavourite = true;
+	    			mAddOrRemoveFavouriteButton.setIcon(R.drawable.ic_action_important);
 	    			Toast.makeText(getApplicationContext(), "Added to favourites", Toast.LENGTH_SHORT).show();
 	    		}
 	    	}
