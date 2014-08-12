@@ -8,7 +8,7 @@
     <item >@string/new_student_menu_studentcentre</item>
   </string-array>
 
-  <string name="new_student_menu_studentcentre_button">Gå till studentcentrums hemsida</string>
+  <string name="new_student_menu_studentcentre_button">Studentcentrums hemsida</string>
   <string name="new_student_menu_studentcentre_button_url">https://studentportal.bth.se/web/studentportal.nsf/web.xsp/studentcentrum</string>
 
 
