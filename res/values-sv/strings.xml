@@ -139,13 +139,4 @@
     <item>Campus Karlshamn</item>
     <item>J1270</item>
   </string-array>
-
-
-  <color name="Black">#000000</color>
-  <color name="ExpandChildText">#686868</color>
-  <color name="ExpandChildBackground">#F5F5F5</color>
-
-  <color name="ExpandGroupText">#ffffff</color>
-  <color name="ExpandGroupBackground">#82AAD2</color>
-
 </resources>
