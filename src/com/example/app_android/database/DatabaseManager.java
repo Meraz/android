@@ -144,9 +144,11 @@ public class DatabaseManager extends SQLiteOpenHelper{
 				TABLES[i].fillTableWithDefaultData(db);
 			} catch (SQLException e) {
 				Log.e(TAG, mClass+":onCreate::fillTableWithDefaultData()");
+				Log.e(TAG, "Message: " + e.getMessage());
 				// TODO
 			} catch (DBException e) {
 				Log.e(TAG, mClass+":onCreate::fillTableWithDefaultData()");
+				Log.e(TAG, "Message: " + e.getMessage());
 				// TODO
 			}
 	    }	    
