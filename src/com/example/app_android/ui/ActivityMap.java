@@ -39,20 +39,20 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class ActivityMap extends BaseActivity {
 	private static final String TAG = "Map";
 	
-	private GoogleMap mMap;
-	private HashMap<String, Marker> mapMarkers = new HashMap<String, Marker>();
+	private GoogleMap 				mMap;
+	private HashMap<String, Marker> mMapMarkers = new HashMap<String, Marker>();
 	
 	private IMapPlaceTable 			mPlaceTable;
 	
-	private ActionBarDrawerToggle 	drawerToggle;
-	private DrawerLayout 			drawerLayout;
-	private RadioGroup 				campusRadioGroup;
-	private RadioGroup 				viewRadioGroup;
-	private AutoCompleteTextView	searchField;
-	private ArrayAdapter<String> 	searchAdapter;
+	private ActionBarDrawerToggle 	mDrawerToggle;
+	private DrawerLayout 			mDrawerLayout;
+	private RadioGroup 				mCampusRadioGroup;
+	private RadioGroup 				mViewRadioGroup;
+	private AutoCompleteTextView	mSearchField;
+	private ArrayAdapter<String> 	mSearchAdapter;
 	
-	private LatLng campusKarlskronaCoordinates;
-	private LatLng campusKarlshamnCoordinates;
+	private LatLng 					mCampusKarlskronaCoordinates;
+	private LatLng 					mCampusKarlshamnCoordinates;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,14 +83,14 @@ public class ActivityMap extends BaseActivity {
     		 if(entryID == 0) { 
     			 assert startPositionID >= 0 && startPositionID <= 2;
     			 if(startPositionID == 0) { //Karlskrona Selected
-    				 campusRadioGroup.check(R.id.radio_karlskrona);
-    				 viewRadioGroup.check(R.id.radio_normal);
+    				 mCampusRadioGroup.check(R.id.radio_karlskrona);
+    				 mViewRadioGroup.check(R.id.radio_normal);
     				 moveToKarlskrona();
     				 
     			 } 
     			 else if (startPositionID == 1) { //Karlshamn Selected
-    				 campusRadioGroup.check(R.id.radio_karlshamn);
-    				 viewRadioGroup.check(R.id.radio_satellite);
+    				 mCampusRadioGroup.check(R.id.radio_karlshamn);
+    				 mViewRadioGroup.check(R.id.radio_satellite);
     				 moveToKarlshamn();
     			 }
     		 }
@@ -106,22 +106,22 @@ public class ActivityMap extends BaseActivity {
 				}
     			if(place != null) {
     				mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));
-         			if(!mapMarkers.containsKey("SearchMarker")) {
+         			if(!mMapMarkers.containsKey("SearchMarker")) {
          				MarkerOptions markerOptions = new MarkerOptions();
 						markerOptions.position(place);
 						markerOptions.snippet(room);
-						mapMarkers.put("SearchMarker", mMap.addMarker(markerOptions));
+						mMapMarkers.put("SearchMarker", mMap.addMarker(markerOptions));
          			}
          			else {
-						Marker marker = mapMarkers.get("SearchMarker");
+						Marker marker = mMapMarkers.get("SearchMarker");
 						marker.setPosition(place);
 						marker.setSnippet(room);
 					}
     			}
     			else {	//If the lookup fails toast the user about it and move to Karlskrona
     				Toast.makeText(getApplicationContext(), "Could not find the place :(", Toast.LENGTH_SHORT).show();
-    				campusRadioGroup.check(R.id.radio_karlskrona);
-    				viewRadioGroup.check(R.id.radio_normal);
+    				mCampusRadioGroup.check(R.id.radio_karlskrona);
+    				mViewRadioGroup.check(R.id.radio_normal);
     				moveToKarlskrona();
     			}
     		 }
@@ -146,14 +146,14 @@ public class ActivityMap extends BaseActivity {
 	private void initializeDrawer() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":initializeDrawer()");}
 
-		searchField 		= (AutoCompleteTextView) findViewById(R.id.course_search_input);
-		drawerLayout 		= (DrawerLayout) findViewById(R.id.drawer_layout);
-		campusRadioGroup 	= (RadioGroup) findViewById(R.id.radio_group_campus);
-		viewRadioGroup 		= (RadioGroup) findViewById(R.id.radio_group_views);
-		searchField 		= (AutoCompleteTextView) findViewById(R.id.map_place_search_field);
+		mSearchField 		= (AutoCompleteTextView) findViewById(R.id.course_search_input);
+		mDrawerLayout 		= (DrawerLayout) findViewById(R.id.drawer_layout);
+		mCampusRadioGroup 	= (RadioGroup) findViewById(R.id.radio_group_campus);
+		mViewRadioGroup 		= (RadioGroup) findViewById(R.id.radio_group_views);
+		mSearchField 		= (AutoCompleteTextView) findViewById(R.id.map_place_search_field);
 		
 		//Initialize the drawer indicator/button
-		drawerToggle		= new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close){
+		mDrawerToggle		= new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close){
             public void onDrawerClosed(View view) {
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
@@ -162,7 +162,7 @@ public class ActivityMap extends BaseActivity {
                 invalidateOptionsMenu();
             }
         };
-		drawerLayout.setDrawerListener(drawerToggle);
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
         
@@ -195,14 +195,14 @@ public class ActivityMap extends BaseActivity {
 			searchablesPlaceNames = new String[0];
 			e.printStackTrace();
 		}
-		searchAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, searchablesPlaceNames);
-		searchField.setAdapter(searchAdapter);
-		searchField.setThreshold(0);
-		searchField.setOnItemClickListener(new OnItemClickListener() {
+		mSearchAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, searchablesPlaceNames);
+		mSearchField.setAdapter(mSearchAdapter);
+		mSearchField.setThreshold(0);
+		mSearchField.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 		    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) { 
 				//Remove the input keyboard
-				searchField.clearFocus();
+				mSearchField.clearFocus();
 				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 				if(imm.isActive())
 					imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
@@ -220,21 +220,21 @@ public class ActivityMap extends BaseActivity {
 				}
 				
 				if(markerOptions != null) {
-					if(mapMarkers.containsKey("SearchMarker")) {
-						Marker marker = mapMarkers.get("SearchMarker");
+					if(mMapMarkers.containsKey("SearchMarker")) {
+						Marker marker = mMapMarkers.get("SearchMarker");
 						marker.setPosition(markerOptions.getPosition());
 						marker.setSnippet(markerOptions.getSnippet());
 						marker.showInfoWindow();
 					}
 					else {
-						mapMarkers.put("SearchMarker", mMap.addMarker(markerOptions));
-						mapMarkers.get("SearchMarker").showInfoWindow();
+						mMapMarkers.put("SearchMarker", mMap.addMarker(markerOptions));
+						mMapMarkers.get("SearchMarker").showInfoWindow();
 					}
 					
 					//Move the camera and close the drawer to show the search marker
 					mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(markerOptions.getPosition(), 17.0f));
-					searchField.setText(""); //Make the text field empty so that the user doesn't have to erase text in it before searching again
-					drawerLayout.closeDrawers();
+					mSearchField.setText(""); //Make the text field empty so that the user doesn't have to erase text in it before searching again
+					mDrawerLayout.closeDrawers();
 				}
 			}	
 		});
@@ -243,20 +243,20 @@ public class ActivityMap extends BaseActivity {
 	private void moveToKarlskrona() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":moveToKarlskrona()");}
 		
-		mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(campusKarlskronaCoordinates, 17.0f));
+		mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(mCampusKarlskronaCoordinates, 17.0f));
 		if(mMap.getMapType() != GoogleMap.MAP_TYPE_NORMAL)  { //Only change if the normal map type is not set. (The satellite and hybrid view of campus Karlskrona is outdated)
 			mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-			viewRadioGroup.check(R.id.radio_normal);
+			mViewRadioGroup.check(R.id.radio_normal);
 		}
 	}
 	
 	private void moveToKarlshamn() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":moveToKarlshamn()");}
 		
-		mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(campusKarlshamnCoordinates, 17.0f));
+		mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(mCampusKarlshamnCoordinates, 17.0f));
 		if(mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL) { //Only change if the normal map type is set. (Google Maps currently has no good data for the map type for the Karlshamn Campus area)
 			mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-			viewRadioGroup.check(R.id.radio_satellite);
+			mViewRadioGroup.check(R.id.radio_satellite);
 		}
 	}
 	
@@ -285,7 +285,7 @@ public class ActivityMap extends BaseActivity {
 					e.printStackTrace();
 				}
 				if(options.getPosition() != null)
-					mapMarkers.put(markerNames[i], mMap.addMarker(options));
+					mMapMarkers.put(markerNames[i], mMap.addMarker(options));
 			}
 		}
 	}
@@ -302,7 +302,7 @@ public class ActivityMap extends BaseActivity {
 		}
 		if(markerNames != null) {
 			for(int i = 0; i < markerNames.length; ++i) {
-				mapMarkers.get(markerNames[i]).setVisible(on);
+				mMapMarkers.get(markerNames[i]).setVisible(on);
 			}
 		}
 	}
@@ -319,8 +319,8 @@ public class ActivityMap extends BaseActivity {
 		getResources().getValue(R.dimen.karlshamn_campus_latitude, karlshamnLatitude, true);
 		getResources().getValue(R.dimen.karlshamn_campus_longitude, karlshamnLongitude, true);
 		
-		campusKarlskronaCoordinates = new LatLng(karlskronaLatitude.getFloat(),karlskronaLongitude.getFloat());
-		campusKarlshamnCoordinates = new LatLng(karlshamnLatitude.getFloat(), karlshamnLongitude.getFloat());
+		mCampusKarlskronaCoordinates = new LatLng(karlskronaLatitude.getFloat(),karlskronaLongitude.getFloat());
+		mCampusKarlshamnCoordinates = new LatLng(karlshamnLatitude.getFloat(), karlshamnLongitude.getFloat());
 	}	
 	
 	public void onRadioButtonClicked(View view) {
@@ -342,7 +342,7 @@ public class ActivityMap extends BaseActivity {
 				mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 				break;
 		}
-		drawerLayout.closeDrawers();
+		mDrawerLayout.closeDrawers();
 	}
 	
 	public void onToggleClicked(View view) {
@@ -373,7 +373,7 @@ public class ActivityMap extends BaseActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onPostCreate()");}
         super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
+        mDrawerToggle.syncState();
     }
 	
 	//Used to display HTML-based text as marker snippet
