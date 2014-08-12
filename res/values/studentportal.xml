@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string-array name="new_student_menu_studentportal_header" >
+    <item >Studentportalen</item>
+  </string-array>
+  <string-array name="new_student_menu_studentportal_text" >
+    <item >Genom studentportalen kan man registrera sig till kurser, tentor och göra registerutskrifter från ladok som visar vilka genomförda kruser man har studeras samt vilket betyg man fått i dessa. För mer information besök studenportalens hemsida via länken nedan.</item>
+  </string-array>
+
+  <string name="new_student_menu_studentcentre_website_button">Studentportalens hemsida</string>
+  <string name="new_student_menu_studentcentre_interapp_button">Studentportalen i applikationen</string>
+
+    <string name="new_student_menu_studentcentre_website_button_url">https://studentportal.bth.se/"</string>
+
+
+</resources>

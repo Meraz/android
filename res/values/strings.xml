@@ -91,14 +91,6 @@
     <item >En förmedlingssajt åt studenter som söker bostad. Studentlya äger inte själv några bostäder utan är en mellanhand åt bostadsägare som vill hyra ut sin bostad till studenter. [KNAPP]</item>
   </string-array>
 
-
-  <string-array name="new_student_menu_studentportal_header" >
-    <item >Studentportalen</item>
-  </string-array>
-  <string-array name="new_student_menu_studentportal_text" >
-    <item >Genom studentportalen kan man registrera sig till kurser, tentor och göra registerutskrifter från ladok som visar vilka genomförda kruser man har studeras samt vilket betyg man fått i dessa. För mer information besök studenportalens hemsida via länken nedan.</item>
-  </string-array>
-
   <string-array name="new_student_menu_coursematerial_header" >
     <item >Kurslitteratur</item>
     <item >Bibliotek</item>

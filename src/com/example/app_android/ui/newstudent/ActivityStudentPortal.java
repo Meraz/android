@@ -37,7 +37,7 @@ public class ActivityStudentPortal extends BaseNewStudentActivity implements IBu
 		mExpandableListAdapter.setButtonCallBack(this);
     }        
     
-    public ArrayList<ExpandableListGroup> SetStandardGroups() { // TODO engrish / swedrish
+    public ArrayList<ExpandableListGroup> SetStandardGroups() {
 		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":SetStandardGroups()");}
     	// Return list of groups
     	ArrayList<ExpandableListGroup> finalList = new ArrayList<ExpandableListGroup>();
@@ -55,14 +55,14 @@ public class ActivityStudentPortal extends BaseNewStudentActivity implements IBu
     		ExpandableListChild child = new ExpandableListChild();
     		child.setText(null); child.setTag(null);
     		ExpandableListMetaButton metaButton = new ExpandableListMetaButton();
-    		metaButton.setButton(Button.VISIBLE, "Studentportalens hemsida", ButtonAction.StudentportalWebsite.ordinal());
+    		metaButton.setButton(Button.VISIBLE, getString(R.string.new_student_menu_studentcentre_website_button), ButtonAction.StudentportalWebsite.ordinal());
     		child.setMetaButton(metaButton);
     		group.appendItem(child);    
     		
     		child = new ExpandableListChild();
     		child.setText(null); child.setTag(null);
     		metaButton = new ExpandableListMetaButton();
-    		metaButton.setButton(Button.VISIBLE, "Studentportalen i applikationen", ButtonAction.StudentportalInterApp.ordinal());
+    		metaButton.setButton(Button.VISIBLE, getString(R.string.new_student_menu_studentcentre_interapp_button), ButtonAction.StudentportalInterApp.ordinal());
     		child.setMetaButton(metaButton);
     		group.appendItem(child); 
     		
@@ -79,7 +79,7 @@ public class ActivityStudentPortal extends BaseNewStudentActivity implements IBu
 		ButtonAction actionEnum = ButtonAction.values()[actionID];
 		
 		if(actionEnum == ButtonAction.StudentportalWebsite) {
-		    Uri uriUrl = Uri.parse("https://studentportal.bth.se/");
+		    Uri uriUrl = Uri.parse(getString(R.string.new_student_menu_studentcentre_website_button_url));
 	        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
 	        startActivity(launchBrowser);
 		}			
