@@ -67,12 +67,12 @@ public class ActivityCourses extends BaseActivity {
 		coursesHelper			= DatabaseManager.getInstance().getCourseTable();
 		favouriteCoursesHelper 	= DatabaseManager.getInstance().getFavouriteCourseTable();
 		try {
-			favouriteCoursesArray 	= favouriteCoursesHelper.getAll();
+			favouriteCoursesArray = favouriteCoursesHelper.getAll();
 		} catch (DBException e) {
-			// TODO Auto-generated catch block
+			favouriteCoursesArray = new ArrayList<String>();
 			e.printStackTrace();
 		} catch (NoResultFoundDBException e) {
-			// TODO Auto-generated catch block
+			favouriteCoursesArray = new ArrayList<String>();
 			e.printStackTrace();
 		}
 		

@@ -29,37 +29,6 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 		SQL_CREATE_TABLE = LOCAL_CREATE_TABLE;
 		SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 	}
-	 
-	@Override
-	public void fillTableWithDefaultData(SQLiteDatabase db) throws SQLException, DBException {
-		super.fillTableWithDefaultData(db);
-		db.beginTransaction();
-			
-		//TODO - remove test data
-		ContentValues values = new ContentValues();
-		values.put(COLUMN_COURSE_CODE, "testCode");		
-		int result = -1;
-		try {
-			result = (int) db.insert(TABLE_NAME, null, values);
-			db.setTransactionSuccessful();
-			
-		}catch(NullPointerException e) {
-			if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData()::db.insert();");}
-			throw new DBException("NullPointerException. Message: " + e.getMessage());
-		}
-		catch(IllegalStateException e) {
-			if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful();");}
-			throw new DBException("IllegalStateException. Message: " + e.getMessage());
-		}
-		finally{
-			db.endTransaction();
-		}
-		
-		if(result == -1) {
-		    if(Utilities.error) {Log.e(TAG, mClass	+ ":fillTableWithDefaultData(); No entry was added to the database");}
-		    throw new DBException(mClass 			+ ":fillTableWithDefaultData(); No entry was added to the database");
-		}
-	}
 
 	@Override
 	public void add(String courseCode) throws DBException, NoRowsAffectedDBException  {
