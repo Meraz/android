@@ -47,7 +47,7 @@
   <string name="main_map_button">Karta över Campus</string>
   <string name="main_student_union_button">Blekinge Studentkår</string>
   
-
+  <!--  New student main menu -->
   <string-array name="new_student_menu" >
     <item >Att göra som ny student</item>
     <item >Boende</item>
@@ -57,7 +57,10 @@
     <item >Kursmaterial</item>
     <item >Kartor over campus</item>
   </string-array>
+  
 
+
+<!--  New student submenu 'newstudent' -->
   <string-array name="new_student_menu_checklist_header" >
     <item >Fixa boende</item>
     <item >Registrera dig på kurser och program</item>
@@ -67,7 +70,7 @@
     <item >Registrera dig hos studentkåren</item>
   </string-array>
   <string-array name="new_student_menu_checklist_text" >
-    <item >För att kunna genomföra dina studier på ett bra sätt behöver du ett boende med god tillgång till skolan. Se till att vara ute i god tid då de bästa lägenheterna försvinner snabbast.</item>
+    <item ><![CDATA[För att kunna genomföra dina studier på ett bra sätt behöver du ett boende med god tillgång till skolan. Se till att vara ute i god tid då de bästa lägenheterna försvinner snabbast.]]></item>
     <item >Som student behöver du registrera dig till programmet du läser. Detta för att få full tillgång till scheman och uppgifter som publiceras men även för att kunna söka CSN.</item>
     <item >För att få studiebidrag och lån behöver man söka studiemedel och lämna en studieförsäkran hos CSN som görs via deras hemsida.</item>
     <item >behövs för att kunna komma in i vissa låsta salar, ex datorsalar, samt på skolan efter stängning. Kan även användas som studentlegitimation och kopplas till skrivarna för lättare inloggning vid utskrift. Då det används som legitimation kommer ni till att bli fotograferade vid framtagning av kortet. [KNAPP]</item>
@@ -75,6 +78,7 @@
     <item >För att kunna vara med och kvalitetssäkra utbildningen och som student få hjälp vid tvister med högskolan behöver man vara medlem i studentkåren. Man har även genom organisationen en möjlighet att påverka beslutsfattare lokalt och nationellt, andra arbetsområden är studiesociala frågor från miljön på campus till aktiviteter utanför skolan. Besök BTHstudent.se för att läsa mer om det viktiga och roliga arbete som görs. [Knapp]</item>
   </string-array>
 
+  <!--  New student submenu 'residence' -->
   <string-array name="new_student_menu_residence_header" >
     <item >Boende</item>
     <item >Karlskrona Hem</item>
@@ -90,7 +94,7 @@
     <item >En förmedlingssajt åt studenter som söker bostad. Studentlya äger inte själv några bostäder utan är en mellanhand åt bostadsägare som vill hyra ut sin bostad till studenter. [KNAPP]</item>
   </string-array>
 
-
+  <!--  New student submenu 'studentportal' -->
   <string-array name="new_student_menu_studentportal_header" >
     <item >Studentportalen</item>
   </string-array>
@@ -98,6 +102,7 @@
     <item >Genom studentportalen kan man registrera sig till kurser, tentor och göra registerutskrifter från ladok som visar vilka genomförda kruser man har studeras samt vilket betyg man fått i dessa. För mer information besök studenportalens hemsida via länken nedan.</item>
   </string-array>
 
+    <!--  New student submenu 'coursematerial' -->
   <string-array name="new_student_menu_coursematerial_header" >
     <item >Kurslitteratur</item>
     <item >Bibliotek</item>
@@ -115,6 +120,7 @@
     <item >CDON.se nordens största nätvaruhus med ständigt nya kampanjer och säkra snabba leveranser.</item>
   </string-array>
 
+      <!--  New student submenu 'studentunion' -->
   <string-array name="new_student_menu_studentunion_header" >
     <item >Studentkåren</item>
     <item >BOSS</item>
