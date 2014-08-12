@@ -98,10 +98,10 @@ public class ActivityMap extends BaseActivity {
     			try {
 					place = mPlaceTable.getMapCoordinate(room);
 				} catch (DBException e) {
-					// TODO Auto-generated catch block
+					place = null;
 					e.printStackTrace();
 				} catch (NoResultFoundDBException e) {
-					// TODO Auto-generated catch block
+					place = null;
 					e.printStackTrace();
 				}
     			if(place != null) {
@@ -119,7 +119,7 @@ public class ActivityMap extends BaseActivity {
 					}
     			}
     			else {	//If the lookup fails toast the user about it and move to Karlskrona
-    				Toast.makeText(getApplicationContext(), "Unable to find room :(", Toast.LENGTH_SHORT).show();
+    				Toast.makeText(getApplicationContext(), "Could not find the place :(", Toast.LENGTH_SHORT).show();
     				campusRadioGroup.check(R.id.radio_karlskrona);
     				viewRadioGroup.check(R.id.radio_normal);
     				moveToKarlskrona();
@@ -137,7 +137,7 @@ public class ActivityMap extends BaseActivity {
                 Toast.makeText(getApplicationContext(), "Unable to start Google Maps. Sorry! :(", Toast.LENGTH_LONG).show();
                 return false;
             }
-            map.setInfoWindowAdapter(new SnippetInfoWindowAdapter()); //Changes the way marker descriptions is presented. If this is not done; multi line descriptions cannot be used.
+            map.setInfoWindowAdapter(new SnippetInfoWindowAdapter()); //Changes the way marker descriptions are presented. If this is not done; multi line descriptions cannot be used.
             initializeToggleableMarkers();
         }
         return true;
@@ -188,11 +188,11 @@ public class ActivityMap extends BaseActivity {
 	private void initializeDropDownSearchField() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":initializeDropDownSearchField()");}
 		
-		String[] searchablesPlaceNames = null;
+		String[] searchablesPlaceNames;
 		try {
 			searchablesPlaceNames = mPlaceTable.getAllNamesByToggleId(MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE, false);
 		} catch (DBException e) {
-			// TODO Auto-generated catch block
+			searchablesPlaceNames = new String[0];
 			e.printStackTrace();
 		}
 		searchAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, searchablesPlaceNames);
@@ -208,14 +208,14 @@ public class ActivityMap extends BaseActivity {
 					imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 				
 				//Move the search marker
-				MarkerOptions markerOptions = null;
+				MarkerOptions markerOptions;
 				try {
 					markerOptions = mPlaceTable.getMapMarkerOptions( (String) arg0.getItemAtPosition(arg2));
 				} catch (DBException e) {
-					// TODO Auto-generated catch block
+					markerOptions = null;
 					e.printStackTrace();
 				} catch (NoResultFoundDBException e) {
-					// TODO Auto-generated catch block
+					markerOptions = null;
 					e.printStackTrace();
 				}
 				
@@ -263,42 +263,47 @@ public class ActivityMap extends BaseActivity {
 	private void initializeToggleableMarkers() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":addMarkers()");}
 		
-		String[] markerNames = null;
+		//Get all non searchable places
+		String[] markerNames;
 		try {
 			markerNames = mPlaceTable.getAllNamesByToggleId(MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE, true);
 		} catch (DBException e) {
-			// TODO Auto-generated catch block
+			markerNames = null;
 			e.printStackTrace();
 		}
-		for(int i = 0; i < markerNames.length; ++i) {
-			MarkerOptions options = null;
-			try {
-				options = mPlaceTable.getMapMarkerOptions(markerNames[i]);
-			} catch (DBException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoResultFoundDBException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		if(markerNames != null) {
+			//Get the specifications for the found places and create the markers.
+			for(int i = 0; i < markerNames.length; ++i) {
+				MarkerOptions options;
+				try {
+					options = mPlaceTable.getMapMarkerOptions(markerNames[i]);
+				} catch (DBException e) {
+					options = null;
+					e.printStackTrace();
+				} catch (NoResultFoundDBException e) {
+					options = null;
+					e.printStackTrace();
+				}
+				if(options.getPosition() != null)
+					mapMarkers.put(markerNames[i], map.addMarker(options));
 			}
-			
-			if(options.getPosition() != null)
-				mapMarkers.put(markerNames[i], map.addMarker(options));
-		};
- 	}
+		}
+	}
 	
 	private void toggleMarkers (int toggleId ,boolean on) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":toggleMarkers()");}
 		
-		String[] markerNames = null;
+		String[] markerNames;
 		try {
 			markerNames = mPlaceTable.getAllNamesByToggleId(toggleId, false);
 		} catch (DBException e) {
-			// TODO Auto-generated catch block
+			markerNames = null;
 			e.printStackTrace();
 		}
-		for(int i = 0; i < markerNames.length; ++i) {
-			mapMarkers.get(markerNames[i]).setVisible(on);
+		if(markerNames != null) {
+			for(int i = 0; i < markerNames.length; ++i) {
+				mapMarkers.get(markerNames[i]).setVisible(on);
+			}
 		}
 	}
 	
