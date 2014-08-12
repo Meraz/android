@@ -246,10 +246,12 @@ public class ActivityCourses extends BaseActivity {
 			} catch (NoResultFoundDBException e) {
 				courseCodes = new ArrayList<String>();
 			}
-			
+
+			//Get course information and build timeedit request strings from it. Then start an export task.
 			if(!courseCodes.isEmpty())
 			{
 				ArrayList<String> requests = new ArrayList<String>();
+
 
 				for(int i = 0; i < courseCodes.size(); ++i) {
 					CourseBean course;
