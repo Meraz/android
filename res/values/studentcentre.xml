@@ -7,7 +7,11 @@
   <string-array name="new_student_menu_studentcentre_text" >
     <item >@string/new_student_menu_studentcentre</item>
   </string-array>
-    <string name="new_student_menu_studentcentre_button">Gå till studentcentrums hemsida</string>
+
+  <string name="new_student_menu_studentcentre_button">Gå till studentcentrums hemsida</string>
+  <string name="new_student_menu_studentcentre_button_url">https://studentportal.bth.se/web/studentportal.nsf/web.xsp/studentcentrum</string>
+
+
   <string name="new_student_menu_studentcentre"><![CDATA[
 <b>Studentcentrum</b> hjälper dig med att få svar på dina frågor kring registreringar på program/kurser, BTH-kortet, ditt studentkonto, parkeringstillstånd på campus Gräsvik, utelämning av tentamen och intyg för tidigare studenter.
 <br>

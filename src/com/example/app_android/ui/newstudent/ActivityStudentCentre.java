@@ -71,7 +71,7 @@ public class ActivityStudentCentre extends BaseNewStudentActivity implements IBu
 		ButtonAction actionEnum = ButtonAction.values()[actionID];
 		
 		if(actionEnum == ButtonAction.StudentCentreWebsite) {
-		    Uri uriUrl = Uri.parse("https://studentportal.bth.se/web/studentportal.nsf/web.xsp/studentcentrum");	// TODO
+		    Uri uriUrl = Uri.parse(getString(R.string.new_student_menu_studentcentre_button_url));	// TODO
 	        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
 	        startActivity(launchBrowser);
 		}		
