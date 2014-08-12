@@ -23,6 +23,12 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
     protected boolean mOnlyOneGroupOpenAtTheTime = false;
     //protected boolean mFirstGroupCanBeClosed = true; // Future functionality
     protected boolean mUseHtmlTextInTextFields = false;
+    
+    /*
+     * Allows ahref html specified link to work in the middle of the text. 
+     * * mUseHtmlTextInTextFields must be set as true for this to work
+     */
+    protected boolean mClickableHtmlLinks = false;
     protected int mLastExpandedGroup;
     IButtonCallback mButtonCallback;
     
@@ -71,6 +77,10 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
     // Sets the behavior if text in textfields are html or not. Default is false
     public void setUseHtmlFormattingOnText(boolean useHtmlFormattingOnText) {
     	mUseHtmlTextInTextFields = useHtmlFormattingOnText;
+    }
+    
+    public void setClickableHtmlLinks(boolean clickableHtmlLinks) {
+    	mClickableHtmlLinks = clickableHtmlLinks;
     }
    
     /*
@@ -167,11 +177,18 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
 	        if(mUseHtmlTextInTextFields == true)
 	        {
 	        	tv.setText(Html.fromHtml(child.getText()));	// Read the text as html formatted
-	        	Linkify.addLinks(tv, Linkify.ALL);
-	        	tv.setMovementMethod(LinkMovementMethod.getInstance());
+	        	if(mClickableHtmlLinks) {
+		        	Linkify.addLinks(tv, Linkify.ALL);
+		        	tv.setMovementMethod(LinkMovementMethod.getInstance());
+		        	tv.setLinksClickable(true);
+	        	}
+	        	else {
+		        	tv.setLinksClickable(true);
+	        	}
 	        }	        
-	        else if(mUseHtmlTextInTextFields == false)
+	        else if(mUseHtmlTextInTextFields == false) {
 	        	tv.setText(child.getText());					// Read the text as not html formatted
+	        }
 	        tv.setTag(child.getTag());
         }
         else {
