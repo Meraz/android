@@ -102,7 +102,8 @@ public class TextTable extends BaseTable implements ITextTable {
 	public String getText(TextIdentifier textIdentifier) throws DBException, NoResultFoundDBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":getText()");}
 		
-		SQLiteDatabase db = mHelper.getReadableDatabase();
+		SQLiteDatabase db = mHelper.getReadableDatabase();		
+		db.beginTransaction();
 		String returnText = null;
 		
 		try {
@@ -110,21 +111,32 @@ public class TextTable extends BaseTable implements ITextTable {
 			if (cursor.moveToFirst()) {
 				returnText = cursor.getString(0);
 			}
+			else {
+				if(Utilities.error) {Log.e(TAG, mClass + ":getText(); No result was found in database for TextIdentifier:= " + textIdentifier.toString());}
+				throw new NoResultFoundDBException(mClass + ":getText(); No result was found in database for TextIdentifier= " + textIdentifier.toString());
+			}
+			db.setTransactionSuccessful();
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getText()::db.insert();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":getText()");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":getText()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
 		catch(SQLException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":getText(). SQLException. Something went wrong.");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":getText(); SQLException, something went wrong.");}
 			throw new DBException("SQLException. Message: " + e.getMessage());
+		}
+		finally {
+			db.beginTransaction();
+//			db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 		
 		if(returnText == null) {
-			throw new NoResultFoundDBException("error at: " + mClass + ":getText(); string is of nullvalue");
+			if(Utilities.error) {Log.e(TAG, mClass + ":getText(); No result was found in database for TextIdentifier:= " + textIdentifier.toString());}
+			throw new NoResultFoundDBException(mClass + ":getText(); No result was found in database for TextIdentifier= " + textIdentifier.toString());
 		}
-		
-		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		return returnText;
 	}
 
