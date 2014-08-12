@@ -5,6 +5,8 @@ import com.example.app_android.R;
  
 import android.content.Context;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -149,7 +151,7 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
     }
  
     public long getChildId(int groupPosition, int childPosition) {
-        // TODO ??
+        // TODO ?? 
         return childPosition;
     }
  
@@ -163,7 +165,11 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
         
         if(child.getText() != null) {
 	        if(mUseHtmlTextInTextFields == true)
+	        {
 	        	tv.setText(Html.fromHtml(child.getText()));	// Read the text as html formatted
+	        	Linkify.addLinks(tv, Linkify.ALL);
+	        	tv.setMovementMethod(LinkMovementMethod.getInstance());
+	        }	        
 	        else if(mUseHtmlTextInTextFields == false)
 	        	tv.setText(child.getText());					// Read the text as not html formatted
 	        tv.setTag(child.getTag());
