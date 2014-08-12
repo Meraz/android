@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+	<resources>
 
-<item name="karlskrona_campus_latitude" format="float" type="dimen">56.182242</item>
-<item name="karlskrona_campus_longitude" format="float" type="dimen">15.590712</item>
-<item name="karlshamn_campus_latitude" format="float" type="dimen">56.164384</item>
-<item name="karlshamn_campus_longitude" format="float" type="dimen">14.866024</item>
+	<item name="karlskrona_campus_latitude" format="float" type="dimen">56.182242</item>
+	<item name="karlskrona_campus_longitude" format="float" type="dimen">15.590712</item>
+	<item name="karlshamn_campus_latitude" format="float" type="dimen">56.164384</item>
+	<item name="karlshamn_campus_longitude" format="float" type="dimen">14.866024</item>
     
-</resources>
+	</resources>

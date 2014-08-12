@@ -1,16 +1,14 @@
 package com.example.app_android.ui;
 
 import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.ArrayList;
 
+import com.example.app_android.CourseBean;
 import com.example.app_android.ExportToGCalFromTimeEditTask;
 import com.example.app_android.R;
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.NoResultFoundDBException;
-import com.example.app_android.database.NoRowsAffectedDBException;
 import com.example.app_android.database.interfaces.ICourseTable;
 import com.example.app_android.database.interfaces.IFavouriteCourseTable;
 import com.example.app_android.util.CalendarUtilities;
@@ -38,18 +36,18 @@ import android.widget.Toast;
 
 public class ActivityCourses extends BaseActivity {
 
-	private static final String TAG = "CourseView";
-	public static ArrayList<String> coursesArray;
-	public static ArrayList<String> favouriteCoursesArray;
+	private static final String 	TAG = "CourseView";
+	public static ArrayList<String> mCourseCodeList;
+	public static ArrayList<String> mFavouriteCoursesList;
 	
-	private ICourseTable 			coursesHelper;
-	private IFavouriteCourseTable 	favouriteCoursesHelper;
+	private ICourseTable 			mCoursesTable;
+	private IFavouriteCourseTable 	mFavouriteCoursesTable;
 	
-	private MenuItem 				syncActionItem;
-	private View 					favouriteCourseListView;
-	private TextView 				noCoursesText;
-	private AutoCompleteTextView 	searchField;
-	private ArrayAdapter<String> 	searchAdapter;
+	private MenuItem 				mSyncActionItem;
+	private View 					mFavouriteCourseListView;
+	private TextView 				mNoCoursesText;
+	private AutoCompleteTextView 	mSearchField;
+	private ArrayAdapter<String> 	mSearchAdapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,39 +62,37 @@ public class ActivityCourses extends BaseActivity {
 		setContentView(R.layout.activity_courses);
 		
 		//Get database variables
-		coursesHelper			= DatabaseManager.getInstance().getCourseTable();
-		favouriteCoursesHelper 	= DatabaseManager.getInstance().getFavouriteCourseTable();
+		mCoursesTable			= DatabaseManager.getInstance().getCourseTable();
+		mFavouriteCoursesTable 	= DatabaseManager.getInstance().getFavouriteCourseTable();
 		try {
-			favouriteCoursesArray 	= favouriteCoursesHelper.getAll();
+			mFavouriteCoursesList = mFavouriteCoursesTable.getAll();
 		} catch (DBException e) {
-			// TODO Auto-generated catch block
+			mFavouriteCoursesList = new ArrayList<String>();
 			e.printStackTrace();
 		} catch (NoResultFoundDBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			mFavouriteCoursesList = new ArrayList<String>();
 		}
 		
 		//Get layout variables
-		searchField 		= (AutoCompleteTextView) findViewById(R.id.course_search_input);
-		favouriteCourseListView = findViewById(R.id.courseListView);
-		noCoursesText 			= (TextView) findViewById(R.id.noCoursesDescription);
+		mSearchField 		= (AutoCompleteTextView) findViewById(R.id.course_search_input);
+		mFavouriteCourseListView = findViewById(R.id.courseListView);
+		mNoCoursesText 			= (TextView) findViewById(R.id.noCoursesDescription);
 		
 		initializeDropDownSearchField();
 		
-		//Set what should be viewed in the center of the view
-		
+		//Set what should be displayed in the center of the view
 		boolean isEmpty = false;
 		try {
-			isEmpty = favouriteCoursesHelper.isEmpty();
+			isEmpty = mFavouriteCoursesTable.isEmpty();
 		} catch (DBException e) {
-			// TODO Auto-generated catch block
+			isEmpty = false;
 			e.printStackTrace();
 		}
 		
 		if(isEmpty)
-			favouriteCourseListView.setVisibility(View.GONE);
+			mFavouriteCourseListView.setVisibility(View.GONE);
 		else
-			noCoursesText.setVisibility(View.GONE);
+			mNoCoursesText.setVisibility(View.GONE);
 	}
  
 	@Override
@@ -119,7 +115,7 @@ public class ActivityCourses extends BaseActivity {
 	    // Inflate the menu items for use in the action bar
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.layout.activity_courses_action, menu);
-	    syncActionItem = menu.findItem(R.id.courses_action_sync);
+	    mSyncActionItem = menu.findItem(R.id.courses_action_sync);
 	    return super.onCreateOptionsMenu(menu);
 	}
 
@@ -170,43 +166,34 @@ public class ActivityCourses extends BaseActivity {
 		Intent intent = new Intent("android.intent.action.VIEW", uri);
 		startActivity(intent);
 	}
-
-	public void readCourses() {
-		if(Utilities.verbose) {Log.v(TAG, mClassName + ":readCourses()");}
-		try {
-			favouriteCoursesArray = favouriteCoursesHelper.getAll();
-		} catch (DBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoResultFoundDBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public void courseChecked(View v) { // TODO function needed?
-		if(Utilities.verbose) {Log.v(TAG, mClassName + ":courseChecked()");}
-	}
 	
 	private void initializeDropDownSearchField() {
 		ArrayList<String> courseCodeList = null;
 		try {
-			courseCodeList = coursesHelper.getAllCourseCodes();
+			courseCodeList = mCoursesTable.getAllCourseCodes();
 		} catch (DBException e) {
-			// TODO Auto-generated catch block
+			courseCodeList = new ArrayList<String>();
 			e.printStackTrace();
 		} catch (NoResultFoundDBException e) {
-			// TODO Auto-generated catch block
+			courseCodeList = new ArrayList<String>();
 			e.printStackTrace();
 		} 
 		ArrayList<String> courseNamesList = null;
 		try {
-			courseNamesList = coursesHelper.getAllCourseNames();
+			courseNamesList = mCoursesTable.getAllCourseNames();
 		} catch (DBException e) {
-			// TODO Auto-generated catch block
+			courseNamesList = new ArrayList<String>(courseCodeList.size());
+			for(int i = 0; i < courseCodeList.size(); ++i) {
+				courseNamesList.add("");
+			}
+			
 			e.printStackTrace();
 		} catch (NoResultFoundDBException e) {
-			// TODO Auto-generated catch block
+			courseNamesList = new ArrayList<String>(courseCodeList.size());
+			for(int i = 0; i < courseCodeList.size(); ++i) {
+				courseNamesList.add("");
+			}
+			
 			e.printStackTrace();
 		}
 		
@@ -222,10 +209,10 @@ public class ActivityCourses extends BaseActivity {
 			adapterInput[i] = courseCodes[i] + " - " + courseNames[i];
 		}
 		
-		searchAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, adapterInput);
-		searchField.setAdapter(searchAdapter);
-		searchField.setThreshold(0);
-		searchField.setOnItemClickListener(new OnItemClickListener() {
+		mSearchAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, adapterInput);
+		mSearchField.setAdapter(mSearchAdapter);
+		mSearchField.setThreshold(0);
+		mSearchField.setOnItemClickListener(new OnItemClickListener() {
 		    
 			@Override
 		    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
@@ -250,30 +237,43 @@ public class ActivityCourses extends BaseActivity {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":exportSchedule()");}
 		
 		if(Utilities.isNetworkAvailable(getApplicationContext())) {
-			ArrayList<String> courseCodes = null;
+			ArrayList<String> courseCodes;
 			try {
-				courseCodes = favouriteCoursesHelper.getAll();
+				courseCodes = mFavouriteCoursesTable.getAll();
 			} catch (DBException e) {
-				// TODO Auto-generated catch block
+				courseCodes = new ArrayList<String>();
 				e.printStackTrace();
 			} catch (NoResultFoundDBException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				courseCodes = new ArrayList<String>();
 			}
-			ArrayList<String> requests = new ArrayList<String>();
+			
+			if(!courseCodes.isEmpty())
+			{
+				ArrayList<String> requests = new ArrayList<String>();
 
-			Calendar calendar = Calendar.getInstance();
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-			String startDate = dateFormat.format(calendar.getTime());
-			calendar.add(Calendar.MONTH, 6);
-			String endDate = dateFormat.format(calendar.getTime());
-
-			for(int i = 0; i < courseCodes.size(); ++i) {
-				requests.add(CalendarUtilities.buildTimeEditRequest(courseCodes.get(i), startDate, endDate)); //TODO - set start and end date to the start and end of the course. This can be fetched from the database.
+				for(int i = 0; i < courseCodes.size(); ++i) {
+					CourseBean course;
+					try {
+						course = mCoursesTable.getCourse(courseCodes.get(i));
+					} catch (DBException e) {
+						course = null;
+						e.printStackTrace();
+					} catch (NoResultFoundDBException e) {
+						course = null;
+						e.printStackTrace();
+					}
+					if(course != null)
+						requests.add(CalendarUtilities.buildTimeEditRequest(courseCodes.get(i),
+								course.getStartDate().replaceAll("-", "") , course.getEndDate().replaceAll("-", "")));
+				}
+				if(requests.size() > 0) {
+					ExportToGCalFromTimeEditTask exportTask = new ExportToGCalFromTimeEditTask(getApplicationContext(), mSyncActionItem);
+					exportTask.execute(requests);
+					mSyncActionItem.setActionView(R.layout.item_action_sync_indicator);
+				}
 			}
-				ExportToGCalFromTimeEditTask exportTask = new ExportToGCalFromTimeEditTask(getApplicationContext(), syncActionItem);
-				exportTask.execute(requests);
-				syncActionItem.setActionView(R.layout.item_action_sync_indicator);
+			else
+				Toast.makeText(getApplicationContext(), "No courses to export!", Toast.LENGTH_SHORT).show();
 		}
 		else
 			Toast.makeText(getApplicationContext(), "Missing internet connection", Toast.LENGTH_SHORT).show();
