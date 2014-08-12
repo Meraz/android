@@ -48,6 +48,11 @@
   <string name="main_map_button">Karta över Campus</string>
   <string name="main_student_union_button">Blekinge Studentkår</string>
 
+  <!--  Login -->
+    <string name="login_prompt_login">Logga in</string>
+      <string name="login_prompt_acronym">Logga in</string>
+      <string name="login_prompt_password">Lösenord</string>
+
 
   <string-array name="new_student_menu" >
     <item >Att göra som ny student</item>
