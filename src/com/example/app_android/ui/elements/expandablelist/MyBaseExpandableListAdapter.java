@@ -5,6 +5,8 @@ import com.example.app_android.R;
  
 import android.content.Context;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,13 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
     protected boolean mOnlyOneGroupOpenAtTheTime = false;
     //protected boolean mFirstGroupCanBeClosed = true; // Future functionality
     protected boolean mUseHtmlTextInTextFields = false;
+    
+    /*
+     * Allows ahref html specified link to work in the middle of the text. 
+     * * mUseHtmlTextInTextFields must be set as true for this to work
+     * * Default true, if there's a link you probably want to use it.
+     */
+    protected boolean mClickableHtmlLinks = true;
     protected int mLastExpandedGroup;
     IButtonCallback mButtonCallback;
     
@@ -69,6 +78,10 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
     // Sets the behavior if text in textfields are html or not. Default is false
     public void setUseHtmlFormattingOnText(boolean useHtmlFormattingOnText) {
     	mUseHtmlTextInTextFields = useHtmlFormattingOnText;
+    }
+    
+    public void setClickableHtmlLinks(boolean clickableHtmlLinks) {
+    	mClickableHtmlLinks = clickableHtmlLinks;
     }
    
     /*
@@ -149,7 +162,7 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
     }
  
     public long getChildId(int groupPosition, int childPosition) {
-        // TODO ??
+        // TODO ?? 
         return childPosition;
     }
  
@@ -163,10 +176,24 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
         
         if(child.getText() != null) {
 	        if(mUseHtmlTextInTextFields == true)
+	        {
 	        	tv.setText(Html.fromHtml(child.getText()));	// Read the text as html formatted
-	        else if(mUseHtmlTextInTextFields == false)
+	        	if(mClickableHtmlLinks) {
+		        	Linkify.addLinks(tv, Linkify.ALL);
+		        	tv.setMovementMethod(LinkMovementMethod.getInstance());
+		        	tv.setLinksClickable(true);
+	        	}
+	        	else {
+		        	tv.setLinksClickable(true);
+	        	}
+	        }	        
+	        else if(mUseHtmlTextInTextFields == false) {
 	        	tv.setText(child.getText());					// Read the text as not html formatted
+	        }
 	        tv.setTag(child.getTag());
+        }
+        else {
+        	tv.setVisibility(TextView.GONE);
         }
     
     	Button button = (Button) view.findViewById(R.id.tvButton1);

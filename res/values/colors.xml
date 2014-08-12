@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+      <color name="Black">#000000</color>
+  <color name="ExpandChildText">#000000</color>
+  <color name="ExpandChildBackground">#ffffff</color>
+
+  <color name="ExpandGroupText">#0099CC</color>
+  <color name="ExpandGroupBackground">#ffffff</color>
+    
+</resources>

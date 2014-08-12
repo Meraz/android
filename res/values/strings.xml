@@ -52,6 +52,11 @@
   <string name="main_map_button">Karta över Campus</string>
   <string name="main_student_union_button">Blekinge Studentkår</string>
 
+  <!--  Login -->
+    <string name="login_prompt_login">Logga in</string>
+      <string name="login_prompt_acronym">Logga in</string>
+      <string name="login_prompt_password">Lösenord</string>
+
 
   <string-array name="new_student_menu" >
     <item >Att göra som ny student</item>
@@ -65,7 +70,7 @@
 
   <string-array name="new_student_menu_checklist_header" >
     <item >Fixa boende</item>
-    <item >Registrera dig på kurser och program</item>
+    <item >Registrera dig på kurser/program</item>
     <item >Registrera dig på CSN</item>
     <item >Skaffa BTH-kort</item>
     <item >Skaffa din kurslitteratur</item>
@@ -95,14 +100,6 @@
     <item >En förmedlingssajt åt studenter som söker bostad. Studentlya äger inte själv några bostäder utan är en mellanhand åt bostadsägare som vill hyra ut sin bostad till studenter. [KNAPP]</item>
   </string-array>
 
-
-  <string-array name="new_student_menu_studentportal_header" >
-    <item >Studentportalen</item>
-  </string-array>
-  <string-array name="new_student_menu_studentportal_text" >
-    <item >Genom studentportalen kan man registrera sig till kurser, tentor och göra registerutskrifter från ladok som visar vilka genomförda kruser man har studeras samt vilket betyg man fått i dessa. För mer information besök studenportalens hemsida via länken nedan.</item>
-  </string-array>
-
   <string-array name="new_student_menu_coursematerial_header" >
     <item >Kurslitteratur</item>
     <item >Bibliotek</item>
@@ -113,26 +110,12 @@
   </string-array>
   <string-array name="new_student_menu_coursematerial_text" >
     <item >För studenten är kurslitteraturen något av det viktigaste, inte bara att ha rätt kurslitteratur men även att man ska ha kvar pengar att leva för när denna är inhandlad. Nedan hittar du några nyttiga länkar.</item>
-    <item >Bibliotek, om du är ute i god tid finns det stora möjligheter att låna sin kurslitteratur kostnadsfritt via biblioteket på skolan.</item>
+    <item >Om du är ute i god tid finns det stora möjligheter att låna sin kurslitteratur kostnadsfritt via biblioteket på skolan.</item>
     <item >Bokfynd är en jämförelsesida som samlar kostnaden för hela ditt köp och meddelar var du får den billigast. www.bokfynd.nu</item>
     <item >Adlibris.com vill leverera böcker från hela världen till Sverige, Finland och Norge. Sveriges största nätbokhandel.</item>
     <item >Bokus.com bokhandeln som enligt sig själva alltid är vaken och har nyheterna samtidigt som de släpps.</item>
     <item >CDON.se nordens största nätvaruhus med ständigt nya kampanjer och säkra snabba leveranser.</item>
   </string-array>
-
-  <string-array name="new_student_menu_studentunion_header" >
-    <item >Studentkåren</item>
-    <item >BOSS</item>
-    <item >Mårfin(t)</item>
-    <item >BITS</item>
-  </string-array>
-  <string-array name="new_student_menu_studentunion_text" >
-    <item >Studentkårens huvudsyfte är att kvalitetssäkra utbildningen och hjälpa dig som är student vid tvister med högskolan. De arbetar även för att förbättra BTH-studenternas situation i samhället genom att påverka viktiga beslutsfattare, både lokalt och nationellt. Studentkåren är på det viset lite som en fackförening fast för studenter under studietiden. De arbetar dessutom med studiesociala frågor vilket innefattar allt från studiemiljön på campus till att det ska finnas något roligt att göra vid sidan av studierna. Ditt medlemskap gör det möjligt att driva dessa viktiga frågor och ser till att studenter som hamnar i kläm har någon stans att vända sig när de känner sig orättvist behandlade. Besök bthstudent.se för att läsa mer om Blekinge Studentkårs viktiga arbete. Medlemskap köper du snabbt och enkelt i vår webshop på shop.bthstudent.se </item>
-    <item >BOSS (Blekinge Organiserade SpelStudenter) är en utbildningsförening för spelstudenter i Karlskrona. Vi representerar alla studenter på programmen Technical Artist, Spelprogrammering och Civilingenjör i Spel- och Programvaruteknik. Som student kan du se oss lite som din fackförening. Vi har förutom en styrelse utvalda representanter i varje klass som du kan vända dig till om du vill föra fram något viktigt eller har förslag på hur saker och ting borde förändras.</item>
-    <item >Mårfin(t) grundades 1999 i samband med att dåvarande Blekinge Internationella Hälsohögskola gick ihop med den statliga Högskolan Karlskrona/Ronneby som sedan döptes om till Blekinge Tekniska Högskola. Studentkåren vid BIH bildade då Mårfin(t) för att försäkra sig om att SSK-studenterna skulle ha någonstans att vända sig till. Efter ett par års aktivitet så minskade engagemanget och aktiviteten i Mårfin(t) dog tyvärr ut. Något som inte gynnade studenterna vid HAL (Sektionen för Hälsa). Tidigt 2011 så började ett intresse för att återuppliva Mårfin(t) dyka upp. Sagt och gjort så började arbetet med att få liv i föreningen. En ny styrelse sattes i maj 2011 och sedan dess pågår ett kontinuerligt arbete med att förbätta förutsättningarna för en bra studietid på BTH. Mårfin(t)s huvudsakliga mål är att bedriva utbildningsbevakning och kunna vara ett stöd för de studenter som upplever att de har problem med vissa delar av sin utbildning. Vi bedriver även till viss del studiesociala evenemang främst riktade mot studenter från HAL.</item>
-    <item >Blekinge Ingenjörs Tekniska Studenter</item>
-  </string-array>
-
 
   <string-array name="cities_dialog" >
     <item >Campus Karlskrona</item>
@@ -144,13 +127,4 @@
     <item>Campus Karlshamn</item>
     <item>J1270</item>
   </string-array>
-
-
-  <color name="Black">#000000</color>
-  <color name="ExpandChildText">#686868</color>
-  <color name="ExpandChildBackground">#F5F5F5</color>
-
-  <color name="ExpandGroupText">#ffffff</color>
-  <color name="ExpandGroupBackground">#82AAD2</color>
-
 </resources>

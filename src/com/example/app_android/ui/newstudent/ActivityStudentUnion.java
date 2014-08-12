@@ -25,10 +25,11 @@ public class ActivityStudentUnion extends BaseNewStudentActivity implements IBut
 		mExpandableListAdapter.openSpecificGroups(new int[]{0}); 	// Open first
 		mExpandableListAdapter.setOnlyOneOpenBehavior(true);		// only one group can be opened at the time
 		mExpandableListAdapter.setUseHtmlFormattingOnText(true);	// name says it all
+		mExpandableListAdapter.setClickableHtmlLinks(true);			// name says it all
 		mExpandableListAdapter.setButtonCallBack(this);
     }        
     
-    public ArrayList<ExpandableListGroup> SetStandardGroups() { // TODO engrish / swedrish
+    public ArrayList<ExpandableListGroup> SetStandardGroups() {
 		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":SetStandardGroups()");}
     	// Return list of groups
     	ArrayList<ExpandableListGroup> finalList = new ArrayList<ExpandableListGroup>();
