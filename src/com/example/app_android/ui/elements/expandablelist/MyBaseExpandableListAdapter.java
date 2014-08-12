@@ -27,8 +27,9 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
     /*
      * Allows ahref html specified link to work in the middle of the text. 
      * * mUseHtmlTextInTextFields must be set as true for this to work
+     * * Default true, if there's a link you probably want to use it.
      */
-    protected boolean mClickableHtmlLinks = false;
+    protected boolean mClickableHtmlLinks = true;
     protected int mLastExpandedGroup;
     IButtonCallback mButtonCallback;
     

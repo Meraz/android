@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <string-array name="new_student_menu_studentunion_header" >
+    <item >Studentkåren</item>
+    <item >BOSS</item>
+    <item >Mårfin(t)</item>
+    <item >BITS</item>
+  </string-array>
+  <string-array name="new_student_menu_studentunion_text" >
+    <item>@string/new_student_menu_studentunion_longtext</item>
+    <item >BOSS (Blekinge Organiserade SpelStudenter) är en utbildningsförening för spelstudenter i Karlskrona. Vi representerar alla studenter på programmen Technical Artist, Spelprogrammering och Civilingenjör i Spel- och Programvaruteknik. Som student kan du se oss lite som din fackförening. Vi har förutom en styrelse utvalda representanter i varje klass som du kan vända dig till om du vill föra fram något viktigt eller har förslag på hur saker och ting borde förändras.</item>
+    <item >Mårfin(t) grundades 1999 i samband med att dåvarande Blekinge Internationella Hälsohögskola gick ihop med den statliga Högskolan Karlskrona/Ronneby som sedan döptes om till Blekinge Tekniska Högskola. Studentkåren vid BIH bildade då Mårfin(t) för att försäkra sig om att SSK-studenterna skulle ha någonstans att vända sig till. Efter ett par års aktivitet så minskade engagemanget och aktiviteten i Mårfin(t) dog tyvärr ut. Något som inte gynnade studenterna vid HAL (Sektionen för Hälsa). Tidigt 2011 så började ett intresse för att återuppliva Mårfin(t) dyka upp. Sagt och gjort så började arbetet med att få liv i föreningen. En ny styrelse sattes i maj 2011 och sedan dess pågår ett kontinuerligt arbete med att förbätta förutsättningarna för en bra studietid på BTH. Mårfin(t)s huvudsakliga mål är att bedriva utbildningsbevakning och kunna vara ett stöd för de studenter som upplever att de har problem med vissa delar av sin utbildning. Vi bedriver även till viss del studiesociala evenemang främst riktade mot studenter från HAL.</item>
+    <item >Blekinge Ingenjörs Tekniska Studenter</item>
+  </string-array>
+
+     <string name="new_student_menu_studentunion_longtext"><![CDATA[
+		<p>Hej och välkommen till Karlskrona!<br />
+Det är vi som är Blekinge Studentkår, vårt första möte kommer ske på vår <a href="http://www.bthstudent.se/ny-student/introduktionsveckan">Introduktionsvecka</a> som vi hoppas att du kommer delta i.</p>
+<p>Men vilka är vi och vad är en studentkår?<br />
+Jo, vi är som en stor familj av engagerade studenter som på ett eller annat sätt vill göra din studietid lite roligare och se till att din utbildning håller måttet! I grunden är en studentkår som en fackförening för studenterna vid en högskola.</p>
+<p>Varför ska man betala medlemskap?<br />
+Du kan se på detta på flera olika vinklar, beroende på vad du vill få ut av oss. Du kan bland annat tänka på det som en slags försäkring, går något med utbildningen snett, du känner dig felbehandlad av skolan eller liknande, då har du oss i ryggen som kommer stå upp för dig och se till att det löser sig på ett korrekt sätt!<br />
+Ett annat sätt att se på medlemskapet är den studiesociala delen, du får som medlem chansen att delta i roligheter på din fritid så att dina år här kommer bli de bästa i ditt liv, som en liten bonus får du även komma in gratis på våra pubar.</p>
+<p>En vanlig missuppfattning är att pubarna drivs at pengar från medlemsavgiften och det är därför vi kan hålla så låga priser. Detta är helt fel och vi vill redan nu poängtera att absolut inga pengar från medlemskap går till våra pubar. Vi kan hålla de låga priserna på grund av att alla arbetar ideellt.</p>
+<p>För mer information om studentkårens olika sektioner och organ kika in på <a href="http://www.bthstudent.se/studentkaren/organ">sidan för organ</a>.</p>
+      ]]></string>
+
+
+</resources>
