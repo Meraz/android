@@ -9,12 +9,14 @@ import com.example.app_android.R;
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.NoResultFoundDBException;
+import com.example.app_android.database.NoRowsAffectedDBException;
 import com.example.app_android.database.interfaces.ICourseTable;
 import com.example.app_android.database.interfaces.IFavouriteCourseTable;
 import com.example.app_android.util.CalendarUtilities;
 import com.example.app_android.util.Utilities;
 
 import android.annotation.SuppressLint;
+import android.app.ListFragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,8 +31,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +53,7 @@ public class ActivityCourses extends BaseActivity {
 	private TextView 				mNoCoursesText;
 	private AutoCompleteTextView 	mSearchField;
 	private ArrayAdapter<String> 	mSearchAdapter;
+	private ListFragment			mListFragment;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +61,6 @@ public class ActivityCourses extends BaseActivity {
 		mTag = TAG;		
 		super.onCreate(savedInstanceState);
 		mInfoBoxMessage = "Insert info about this view here";
-		
 		
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); //This sneaky row stops the darn soft keyboard from popping up like some retarded wack-a-mole every time the activity is opened.
 		
@@ -93,10 +98,83 @@ public class ActivityCourses extends BaseActivity {
 			mFavouriteCourseListView.setVisibility(View.GONE);
 		else
 			mNoCoursesText.setVisibility(View.GONE);
+		
+		//Initialize the popup menu for long press on course item
+		mListFragment = (ListFragment) getFragmentManager().findFragmentById(R.id.courseListView);
+		mListFragment.getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view,
+					final int position, long id) {
+				
+				final boolean isFavourite = true; //TODO - ask the favourite course table if the course exists and set this flag accordingly
+
+				
+				PopupMenu popupMenu = new PopupMenu(getApplicationContext(), view);
+				popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+					
+					@Override
+					public boolean onMenuItemClick(MenuItem item) {
+						switch(item.getItemId()) {
+						
+						case R.id.course_long_press_view_detailed_info:
+							Intent intent = new Intent(getApplicationContext(), ActivityDetailedCourse.class);
+							intent.putExtra("courseCode", mFavouriteCoursesList.get(position));
+							startActivity(intent);
+							break;
+							
+						case R.id.course_long_press_export_schedule:
+							exportSingleCourseSchedule(mFavouriteCoursesList.get(position));
+							break;
+							
+						case R.id.course_long_press_add_or_remove_favourite:
+							if(isFavourite) {
+								try {
+									mFavouriteCoursesTable.remove(mFavouriteCoursesList.get(position));
+									//Restart this view to display the correct information
+									finish();
+									startActivity(getIntent());
+								} catch (DBException e) {
+									Toast.makeText(getApplicationContext(), "Failed to remove favourite", Toast.LENGTH_SHORT).show();
+									e.printStackTrace();
+								} catch (NoRowsAffectedDBException e) {
+									Toast.makeText(getApplicationContext(), "Failed to remove favourite", Toast.LENGTH_SHORT).show();
+									e.printStackTrace();
+								}
+							}
+							else {
+								try {
+									mFavouriteCoursesTable.add(mFavouriteCoursesList.get(position));
+									//Restart this view to display the correct information
+									finish();
+									startActivity(getIntent());
+								} catch (DBException e) {
+									Toast.makeText(getApplicationContext(), "Failed to add favourite", Toast.LENGTH_SHORT).show();
+									e.printStackTrace();
+								} catch (NoRowsAffectedDBException e) {
+									Toast.makeText(getApplicationContext(), "Failed to add favourite", Toast.LENGTH_SHORT).show();
+									e.printStackTrace();
+								}
+							}
+							break;
+						}
+						
+						return true;
+					}
+				});
+				popupMenu.inflate(R.menu.course_long_press);
+				//TODO - use the isfavorutie flag to decide which string should be presented on the add/remove favourite item and set it accordingly here
+				popupMenu.show();
+				
+				return true; //Indicate that this event has been comsumed. Omnomnomnomnomnom :3
+			}
+		});
+		
+		//registerForContextMenu(mListFragment.getListView());
 	}
  
 	@Override
 	protected void onRestart() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onRestart()");}
 		super.onRestart();
 		//Restart this view to display the correct information
 		finish();
@@ -105,6 +183,7 @@ public class ActivityCourses extends BaseActivity {
 
 	@Override
 	protected void onResume() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onResume()");}
 		super.onResume();
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); //This sneaky row stops the darn soft keyboard from popping up like some retarded wack-a-mole every time the activity is opened.
 	}
@@ -158,6 +237,20 @@ public class ActivityCourses extends BaseActivity {
         }
         return super.onMenuOpened(featureId, menu);
     }
+    /*
+    public void onCreateContextMenu(final ContextMenu menu, final View v, final ContextMenuInfo menuInfo) {
+    	super.onCreateContextMenu(menu, v, menuInfo);
+    	
+        if (v == mListFragment.getListView()) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.course_long_press, menu);
+        }
+    }
+    
+    public boolean onContextItemSelected(final MenuItem item) {
+    	Toast.makeText(getApplicationContext(), "testtest2", Toast.LENGTH_SHORT).show();
+    	return true;
+    }*/
     
 	public void startCalendar(View view) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":startCalendar()");}
@@ -166,6 +259,8 @@ public class ActivityCourses extends BaseActivity {
 		Intent intent = new Intent("android.intent.action.VIEW", uri);
 		startActivity(intent);
 	}
+	
+
 	
 	private void initializeDropDownSearchField() {
 		ArrayList<String> courseCodeList = null;
@@ -213,6 +308,8 @@ public class ActivityCourses extends BaseActivity {
 		mSearchField.setAdapter(mSearchAdapter);
 		mSearchField.setThreshold(0);
 		mSearchField.setOnItemClickListener(new OnItemClickListener() {
+			
+			
 		    
 			@Override
 		    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
@@ -221,6 +318,8 @@ public class ActivityCourses extends BaseActivity {
 				startActivity(intent);
 		    }
 		});
+		
+		registerForContextMenu(mSearchField);
 	}
 	
 	private int deleteAllScheduleEvents() {
@@ -229,6 +328,35 @@ public class ActivityCourses extends BaseActivity {
  				Events.DESCRIPTION + " LIKE ? ", new String[] {"%" + ExportToGCalFromTimeEditTask.CALENDAR_EVENT_TAG +"%"});
  		
  		return rowsDeletedCount;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void exportSingleCourseSchedule(String courseCode) {
+		if(Utilities.isNetworkAvailable(getApplicationContext())) {
+			ArrayList<String> requests = new ArrayList<String>();
+			CourseBean course;
+			try {
+				course = mCoursesTable.getCourse(courseCode);
+			} catch (DBException e) {
+				course = null;
+				e.printStackTrace();
+			} catch (NoResultFoundDBException e) {
+				course = null;
+				e.printStackTrace();
+			}
+			if(course != null) {
+				requests.add(CalendarUtilities.buildTimeEditRequest(course.getCourseCode(),
+						course.getStartDate().replaceAll("-", ""), //Removes the dashes since timeEdit doesn't like them.
+						course.getEndDate().replaceAll("-", "")));
+				ExportToGCalFromTimeEditTask exportTask = new ExportToGCalFromTimeEditTask(getApplicationContext(), mSyncActionItem);
+				mSyncActionItem.setActionView(R.layout.item_action_sync_indicator);
+				exportTask.execute(requests);
+			}
+			else
+				Toast.makeText(getApplicationContext(), "Failed to export schedule :<", Toast.LENGTH_SHORT).show();
+		}
+		else 
+			Toast.makeText(getApplicationContext(), "Missing internet connection", Toast.LENGTH_SHORT).show();
 	}
 	
 	@SuppressWarnings("unchecked") //Should be safe to ignore this warning. It complains about not knowing the type of arraylist being sent in exportTask.execute(requests)
