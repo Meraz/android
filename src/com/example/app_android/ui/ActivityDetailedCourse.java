@@ -36,6 +36,8 @@ public class ActivityDetailedCourse extends BaseActivity {
 		mClassName = getClass().getSimpleName();
 		mTag = TAG;
 		super.onCreate(savedInstanceState);
+		mTitle = getString(R.string.infobox_title_detailed_courses);
+		mInfoBoxMessage = getString(R.string.infobox_text_detailed_courses);
 		setContentView(R.layout.activity_detailed_course);
 		
 		//Get the intent bundle and the databases we need 

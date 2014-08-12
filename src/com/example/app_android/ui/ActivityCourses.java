@@ -54,7 +54,8 @@ public class ActivityCourses extends BaseActivity {
 		mClassName = getClass().getSimpleName();
 		mTag = TAG;		
 		super.onCreate(savedInstanceState);
-		mInfoBoxMessage = "Insert info about this view here";
+		mTitle = getString(R.string.infobox_title_courses);
+		mInfoBoxMessage = getString(R.string.infobox_text_courses);
 		
 		
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN); //This sneaky row stops the darn soft keyboard from popping up like some retarded wack-a-mole every time the activity is opened.

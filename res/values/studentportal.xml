@@ -10,7 +10,6 @@
   <string name="new_student_menu_studentcentre_website_button">Studentportalens hemsida</string>
   <string name="new_student_menu_studentcentre_interapp_button">Studentportalen i applikationen</string>
 
-    <string name="new_student_menu_studentcentre_website_button_url">https://studentportal.bth.se/"</string>
-
+  <string name="new_student_menu_studentcentre_website_button_url">https://studentportal.bth.se/"</string>
 
 </resources>

@@ -20,8 +20,9 @@ public class ActivityStudentUnion extends BaseActivity {
     	mClassName = getClass().getSimpleName();    
     	mTag = TAG;
     	super.onCreate(savedInstanceState);
-    	
-    	mInfoBoxMessage = "Här ska en vy för Blekinge Studentkår finnas";
+    	mTitle = getString(R.string.infobox_title_studentunion);
+		mInfoBoxMessage = getString(R.string.infobox_text_studentunion);
+		
         setContentView(R.layout.activity_studentunion);
     }
 	
