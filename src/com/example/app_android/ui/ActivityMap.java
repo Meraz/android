@@ -39,7 +39,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class ActivityMap extends BaseActivity {
 	private static final String TAG = "Map";
 	
-	private GoogleMap map;
+	private GoogleMap mMap;
 	private HashMap<String, Marker> mapMarkers = new HashMap<String, Marker>();
 	
 	private IMapPlaceTable 			mPlaceTable;
@@ -105,12 +105,12 @@ public class ActivityMap extends BaseActivity {
 					e.printStackTrace();
 				}
     			if(place != null) {
-    				map.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));
+    				mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(place, 17.0f));
          			if(!mapMarkers.containsKey("SearchMarker")) {
          				MarkerOptions markerOptions = new MarkerOptions();
 						markerOptions.position(place);
 						markerOptions.snippet(room);
-						mapMarkers.put("SearchMarker", map.addMarker(markerOptions));
+						mapMarkers.put("SearchMarker", mMap.addMarker(markerOptions));
          			}
          			else {
 						Marker marker = mapMarkers.get("SearchMarker");
@@ -130,14 +130,14 @@ public class ActivityMap extends BaseActivity {
 	
 	private boolean initilizeMap() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":initilizeMap()");}
-        if (map == null) {
-        	map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+        if (mMap == null) {
+        	mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
             // check if map is created successfully or not
-            if (map == null) {
+            if (mMap == null) {
                 Toast.makeText(getApplicationContext(), "Unable to start Google Maps. Sorry! :(", Toast.LENGTH_LONG).show();
                 return false;
             }
-            map.setInfoWindowAdapter(new SnippetInfoWindowAdapter()); //Changes the way marker descriptions are presented. If this is not done; multi line descriptions cannot be used.
+            mMap.setInfoWindowAdapter(new SnippetInfoWindowAdapter()); //Changes the way marker descriptions are presented. If this is not done; multi line descriptions cannot be used.
             initializeToggleableMarkers();
         }
         return true;
@@ -227,12 +227,12 @@ public class ActivityMap extends BaseActivity {
 						marker.showInfoWindow();
 					}
 					else {
-						mapMarkers.put("SearchMarker", map.addMarker(markerOptions));
+						mapMarkers.put("SearchMarker", mMap.addMarker(markerOptions));
 						mapMarkers.get("SearchMarker").showInfoWindow();
 					}
 					
 					//Move the camera and close the drawer to show the search marker
-					map.moveCamera( CameraUpdateFactory.newLatLngZoom(markerOptions.getPosition(), 17.0f));
+					mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(markerOptions.getPosition(), 17.0f));
 					searchField.setText(""); //Make the text field empty so that the user doesn't have to erase text in it before searching again
 					drawerLayout.closeDrawers();
 				}
@@ -243,9 +243,9 @@ public class ActivityMap extends BaseActivity {
 	private void moveToKarlskrona() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":moveToKarlskrona()");}
 		
-		map.moveCamera( CameraUpdateFactory.newLatLngZoom(campusKarlskronaCoordinates, 17.0f));
-		if(map.getMapType() != GoogleMap.MAP_TYPE_NORMAL)  { //Only change if the normal map type is not set. (The satellite and hybrid view of campus Karlskrona is outdated)
-			map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+		mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(campusKarlskronaCoordinates, 17.0f));
+		if(mMap.getMapType() != GoogleMap.MAP_TYPE_NORMAL)  { //Only change if the normal map type is not set. (The satellite and hybrid view of campus Karlskrona is outdated)
+			mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 			viewRadioGroup.check(R.id.radio_normal);
 		}
 	}
@@ -253,9 +253,9 @@ public class ActivityMap extends BaseActivity {
 	private void moveToKarlshamn() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":moveToKarlshamn()");}
 		
-		map.moveCamera( CameraUpdateFactory.newLatLngZoom(campusKarlshamnCoordinates, 17.0f));
-		if(map.getMapType() == GoogleMap.MAP_TYPE_NORMAL) { //Only change if the normal map type is set. (Google Maps currently has no good data for the map type for the Karlshamn Campus area)
-			map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+		mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(campusKarlshamnCoordinates, 17.0f));
+		if(mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL) { //Only change if the normal map type is set. (Google Maps currently has no good data for the map type for the Karlshamn Campus area)
+			mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 			viewRadioGroup.check(R.id.radio_satellite);
 		}
 	}
@@ -285,7 +285,7 @@ public class ActivityMap extends BaseActivity {
 					e.printStackTrace();
 				}
 				if(options.getPosition() != null)
-					mapMarkers.put(markerNames[i], map.addMarker(options));
+					mapMarkers.put(markerNames[i], mMap.addMarker(options));
 			}
 		}
 	}
@@ -333,13 +333,13 @@ public class ActivityMap extends BaseActivity {
 				moveToKarlshamn();
 				break;
 			case R.id.radio_normal:
-				map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+				mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 				break;
 			case R.id.radio_satellite:
-				map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+				mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 				break;
 			case R.id.radio_hybrid:
-				map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+				mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 				break;
 		}
 		drawerLayout.closeDrawers();
