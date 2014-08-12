@@ -130,7 +130,6 @@ public class TextTable extends BaseTable implements ITextTable {
 		}
 		finally {
 			db.beginTransaction();
-//			db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 		
 		if(returnText == null) {
@@ -173,7 +172,6 @@ public class TextTable extends BaseTable implements ITextTable {
 		}
 		finally {
 			db.endTransaction();
-			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection		
 		}		
 		
 		// If no rows were affected.
@@ -211,7 +209,6 @@ public class TextTable extends BaseTable implements ITextTable {
 		}
 		finally {
 			db.endTransaction();
-			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection		
 		}	
 		
 		// No value found

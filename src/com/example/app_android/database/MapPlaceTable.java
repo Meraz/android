@@ -215,7 +215,6 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 		}
 		finally{
 			db.endTransaction();
-			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 		
 		if(result == -1) {
@@ -255,7 +254,6 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 		}
 		finally{
 			db.endTransaction();
-			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 		return coordinates;
 	}

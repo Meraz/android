@@ -107,8 +107,7 @@ public class TokenTable extends BaseTable implements ITokenTable{
 			throw new DBException("SQLException. Message: " + e.getMessage());
 		}
 		finally {
-			db.endTransaction();
-			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection		
+			db.endTransaction();	
 		}
 		if(token == null) {
 			if(Utilities.error) {Log.e(TAG, mClass + ":getTokenValue(); No result was found in database.");}
@@ -148,8 +147,7 @@ public class TokenTable extends BaseTable implements ITokenTable{
 			throw new DBException("SQLException. Message: " + e.getMessage());
 		}
 		finally {
-			db.endTransaction();
-			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection		
+			db.endTransaction();		
 		}
 		if(expiredate == -1) {
 			if(Utilities.error) {Log.e(TAG, mClass + ":getExpireDate(); No result was found in database.");}
@@ -188,8 +186,7 @@ public class TokenTable extends BaseTable implements ITokenTable{
 			throw new DBException("SQLException. Message: " + e.getMessage());
 		}
 		finally {
-			db.endTransaction();
-			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection		
+			db.endTransaction();	
 		}
 		
 	    if(result == -1) {
@@ -224,8 +221,7 @@ public class TokenTable extends BaseTable implements ITokenTable{
 			throw new DBException("SQLException. Message: " + e.getMessage());
 		}
 		finally {
-			db.endTransaction();
-			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection			
+			db.endTransaction();		
 		}
 		if(result == 0) {
 			 if(Utilities.error) {Log.e(TAG, mClass + ":updateTransactionFlag(); Token not updated.");}
@@ -267,8 +263,7 @@ public class TokenTable extends BaseTable implements ITokenTable{
 			throw new DBException("SQLException. Message: " + e.getMessage());
 		}
 		finally {
-			db.endTransaction();
-			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection		
+			db.endTransaction();	
 		}
 		if(transactionFlag == TransactionFlag.Unknown) {
 			if(Utilities.error) {Log.e(TAG, mClass + ":getExpireDate(); No result was found in database.");}
