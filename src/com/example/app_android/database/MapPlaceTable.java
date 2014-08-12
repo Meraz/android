@@ -162,7 +162,7 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 				result = (int) db.insert(TABLE_NAME, null, values[i]);
 				if(result == -1 ) {
 			        if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData(); No entry was added to the database.");}
-			        throw new DBException(mClass + ":add(); No entry was added to the database.");
+			        throw new DBException(mClass + ":fillTableWithDefaultData(); No entry was added to the database.");
 				}
 			}
 			db.setTransactionSuccessful();
@@ -174,8 +174,12 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 			if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
+		/*
+		 * This could also throw SQLException. Functions inherited from BaseTable do not need to catch SQLExceptions.
+		 */
 		finally {
 			db.endTransaction();
+			// Functions inherited from BaseTable MUST NOT call db.close();
 		}
 	}
 	
@@ -232,6 +236,10 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 			if(cursor.moveToFirst()) {
 				coordinates = new LatLng(cursor.getFloat(2), cursor.getFloat(3));
 			}
+			else{
+				if(Utilities.error) {Log.e(TAG, mClass + ":getMapCoordinate(); No result was found in database for name:= " + name);}
+				throw new NoResultFoundDBException(mClass + ":getMapCoordinate(); No result was found in database for name= " + name);
+			}
 			db.setTransactionSuccessful();
 		}catch(NullPointerException e) {
 			if(Utilities.error) {Log.e(TAG, mClass + ":getMapCoordinate()::db.insert();");}
@@ -248,57 +256,91 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 		finally{
 			db.endTransaction();
 			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
-		}		
-		if(coordinates == null) {
-			if(Utilities.error) {Log.e(TAG, mClass + ":getMapCoordinate(); No result was found in database for name:= " + name);}
-			throw new NoResultFoundDBException(mClass + ":getMapCoordinate(); No result was found in database for name= " + name);
 		}
 		return coordinates;
 	}
 	
 	@Override
-	public MarkerOptions getMapMarkerOptions(String name) {
+	public MarkerOptions getMapMarkerOptions(String name) throws DBException, NoResultFoundDBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":getMapMarkerOptions()");}
-		
-		MarkerOptions options = null;
+
 		SQLiteDatabase db = mHelper.getReadableDatabase();
-		Cursor cursor = db.rawQuery(RETRIEVE_MARKER_INFO, new String[] { name });
+		db.beginTransaction();
 		
-		if(cursor.moveToFirst()) {
-			options = new MarkerOptions();
-			options.title("");	//The title is expected to be included in the snippet since the snippet is being formatted as HMTL
-			options.snippet(cursor.getString(1));
-			options.position(new LatLng(cursor.getFloat(2), cursor.getFloat(3)));
-			options.icon(getIconFromId(cursor.getInt(5)));
+		MarkerOptions options = null;		
+		try {
+			Cursor cursor = db.rawQuery(RETRIEVE_MARKER_INFO, new String[] { name });
+			
+			if(cursor.moveToFirst()) {
+				options = new MarkerOptions();
+				options.title("");	//The title is expected to be included in the snippet since the snippet is being formatted as HMTL
+				options.snippet(cursor.getString(1));
+				options.position(new LatLng(cursor.getFloat(2), cursor.getFloat(3)));
+				options.icon(getIconFromId(cursor.getInt(5)));
+			}
+			else{
+				if(Utilities.error) {Log.e(TAG, mClass + ":getMapMarkerOptions(); No result was found in database for name:= " + name);}
+				throw new NoResultFoundDBException(mClass + ":getMapMarkerOptions(); No result was found in database for name= " + name);
+			}	
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getMapMarkerOptions()::db.insert();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
+		}
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getMapMarkerOptions()::db.setTransactionSuccessful();");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getMapMarkerOptions(); SQLException, something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
+		}
+		finally{
+			db.endTransaction();
 		}
 		
-		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		return options;
 	}
 	
-	@Override
 	//If the getNonEqual flag is not set the function returns all names that have the inputed toggle id.
 	//If the getNonEqual flag is set the function returns all names that doesn't have the inputed toggle id.
-	public String[] getAllNamesByToggleId(int toggleId, boolean getNonEqual) {
+	@Override
+	public String[] getAllNamesByToggleId(int toggleId, boolean getNonEqual) throws DBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":getAllWithoutToggleId");}
 		
 		SQLiteDatabase db = mHelper.getReadableDatabase();
-		Cursor cursor;
-		if(!getNonEqual) {
-			cursor = db.rawQuery(RETRIEVE_TOGGLE_EQUAL_TO, new String[] { Integer.toString(toggleId)});
+		db.beginTransaction();
+		String[] names;
+		try {
+			Cursor cursor;
+			if(!getNonEqual) {
+				cursor = db.rawQuery(RETRIEVE_TOGGLE_EQUAL_TO, new String[] { Integer.toString(toggleId)});
+			}
+			else {
+				cursor = db.rawQuery(RETRIEVE_TOGGLE_NOT_EQUAL_TO, new String[] { Integer.toString(toggleId)});
+			}
+			
+			int rowCount = cursor.getCount();
+			names = new String[rowCount];
+			for(int i = 0; i < rowCount; ++i) {
+				cursor.moveToNext();
+				names[i] = cursor.getString(0);
+			}
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":updateTransactionFlag()::db.insert();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
-		else {
-			cursor = db.rawQuery(RETRIEVE_TOGGLE_NOT_EQUAL_TO, new String[] { Integer.toString(toggleId)});
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":updateTransactionFlag()::db.setTransactionSuccessful();");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
-		
-		int rowCount = cursor.getCount();
-		String[] names = new String[rowCount];
-		for(int i = 0; i < rowCount; ++i) {
-			cursor.moveToNext();
-			names[i] = cursor.getString(0);
+		catch(SQLException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":updateTransactionFlag(); SQLException, something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
+		}		
+		finally{
+			db.endTransaction();
 		}
-		
-		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
+    
 		return names;
 	}
 	

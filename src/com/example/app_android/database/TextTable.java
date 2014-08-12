@@ -68,8 +68,8 @@ public class TextTable extends BaseTable implements ITextTable {
 
 		ContentValues values = new ContentValues();
 		values.put(COLUMN_ID, "0");
-		values.put(COLUMN_TEXT, "TETX");
-		values.put(COLUMN_TEXT_HASH, 51515151);
+		values.put(COLUMN_TEXT, "DEFAULT_VALUE_1");
+		values.put(COLUMN_TEXT_HASH, 1);
 		
 		int result = 0;
 		try {
@@ -77,22 +77,24 @@ public class TextTable extends BaseTable implements ITextTable {
 			db.setTransactionSuccessful();
 			
 		}catch(NullPointerException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.insert()");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData()::db.insert()");}
 			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful()");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful()");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
 		/*
-		 * This could also throw SQLException. Functions inherited from BaseTable may throw this.
+		 * This could also throw SQLException. Functions inherited from BaseTable do not need to catch SQLExceptions.
 		 */
 		finally{
 			db.endTransaction();
+			// Functions inherited from BaseTable MUST NOT call db.close();
 		}
 		
 		if(result == 0) {
-			throw new DBException("No entries removed in database.");
+		    if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData(); No entry was added to the database.");}
+		    throw new DBException(mClass + ":fillTableWithDefaultData(); No entry was added to the database.");
 		}
 	};
 
@@ -100,7 +102,8 @@ public class TextTable extends BaseTable implements ITextTable {
 	public String getText(TextIdentifier textIdentifier) throws DBException, NoResultFoundDBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":getText()");}
 		
-		SQLiteDatabase db = mHelper.getReadableDatabase();
+		SQLiteDatabase db = mHelper.getReadableDatabase();		
+		db.beginTransaction();
 		String returnText = null;
 		
 		try {
@@ -108,21 +111,32 @@ public class TextTable extends BaseTable implements ITextTable {
 			if (cursor.moveToFirst()) {
 				returnText = cursor.getString(0);
 			}
+			else {
+				if(Utilities.error) {Log.e(TAG, mClass + ":getText(); No result was found in database for TextIdentifier:= " + textIdentifier.toString());}
+				throw new NoResultFoundDBException(mClass + ":getText(); No result was found in database for TextIdentifier= " + textIdentifier.toString());
+			}
+			db.setTransactionSuccessful();
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getText()::db.insert();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":getText()");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":getText()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
 		catch(SQLException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":getText(). SQLException. Something went wrong.");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":getText(); SQLException, something went wrong.");}
 			throw new DBException("SQLException. Message: " + e.getMessage());
+		}
+		finally {
+			db.beginTransaction();
+//			db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 		
 		if(returnText == null) {
-			throw new NoResultFoundDBException("error at: " + mClass + ":getText(); string is of nullvalue");
+			if(Utilities.error) {Log.e(TAG, mClass + ":getText(); No result was found in database for TextIdentifier:= " + textIdentifier.toString());}
+			throw new NoResultFoundDBException(mClass + ":getText(); No result was found in database for TextIdentifier= " + textIdentifier.toString());
 		}
-		
-		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		return returnText;
 	}
 
@@ -146,15 +160,15 @@ public class TextTable extends BaseTable implements ITextTable {
 			}				
 			db.setTransactionSuccessful();	
 		}catch(NullPointerException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":updateText()::db.insert()");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":updateText()::db.insert();");}
 			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":updateText()::db.setTransactionSuccessful()");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":updateText()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
 		catch(SQLException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":updateText(). SQLException: something went wrong.");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":updateText(); SQLException, something went wrong.");}
 			throw new DBException("SQLException. Message: " + e.getMessage());
 		}
 		finally {
@@ -164,7 +178,8 @@ public class TextTable extends BaseTable implements ITextTable {
 		
 		// If no rows were affected.
 		if(result == 0) {
-			throw new NoRowsAffectedDBException(mClass + ":updateText()");
+		    if(Utilities.error) {Log.e(TAG, mClass + ":updateText(); No entry was added to the database.");}
+		    throw new NoRowsAffectedDBException(mClass + ":updateText(); No entry was added to the database.");
 		}	
 	}
 
@@ -182,17 +197,16 @@ public class TextTable extends BaseTable implements ITextTable {
 				returnHash = cursor.getInt(0);
 			}
 			db.setTransactionSuccessful();
-		}
-		catch(NullPointerException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":getTextHash()");}
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getTextHash()::db.insert();");}
 			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":getTextHash()");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":getTextHash()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
 		catch(SQLException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":getTextHash(). SQLException. Something went wrong.");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":getTextHash(); SQLException, something went wrong.");}
 			throw new DBException("SQLException. Message: " + e.getMessage());
 		}
 		finally {
@@ -202,7 +216,8 @@ public class TextTable extends BaseTable implements ITextTable {
 		
 		// No value found
 		if(returnHash == -1) {
-			throw new NoResultFoundDBException(mClass + ":getTextHash(); returnhash is of -1 value");
+			if(Utilities.error) {Log.e(TAG, mClass + ":getTextHash(); No result was found in database for TextIdentifier= " + textIdentifier.toString());}
+			throw new NoResultFoundDBException(mClass + ":getTextHash(); No result was found in database for TextIdentifier= " + textIdentifier.toString());
 		}
 		return returnHash;
 	}

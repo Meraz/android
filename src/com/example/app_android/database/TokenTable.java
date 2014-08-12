@@ -1,6 +1,5 @@
 package com.example.app_android.database;
 
-
 import com.example.app_android.database.interfaces.ITokenTable;
 import com.example.app_android.util.Utilities;
 
@@ -60,13 +59,12 @@ public class TokenTable extends BaseTable implements ITokenTable{
 		try {
 			result = (int) db.insert(TABLE_NAME, null, values);
 			db.setTransactionSuccessful();
-			
 		}catch(NullPointerException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.insert()");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData()::db.insert();");}
 			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful()");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
 		}
 		finally{
@@ -74,40 +72,90 @@ public class TokenTable extends BaseTable implements ITokenTable{
 		}
 		
 		if(result == -1) {
-			throw new DBException("Database error:" + mClass + "::fillTableWithDefaultData");
+	        if(Utilities.error) {Log.e(TAG, mClass + ":fillTableWithDefaultData(); No entry was added to the database.");}
+	        throw new DBException(mClass + ":fillTableWithDefaultData(); No entry was added to the database.");
 		}
 	}
 	
 	// Returns token value as String. Inherited from ITokenTable
 	@Override
-	public String getTokenValue() {
+	public String getTokenValue() throws DBException, NoResultFoundDBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":getTokenValue()");}
 		SQLiteDatabase db = mHelper.getReadableDatabase();
-		
-	    Cursor cursor = db.rawQuery(RETRIEVE_TOKEN, null);
-	    String token = "";
-	    
-	    if (cursor.moveToFirst()) {
-	    	token = cursor.getString(0); // Database SHOULD only hold one. If there's ever more than one entry, somethings wrong. Should add check for this...
-	    }
-		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
+	    db.beginTransaction();
+	    String token = null;
+	    try{
+		    Cursor cursor = db.rawQuery(RETRIEVE_TOKEN, null);
+		    if (cursor.moveToFirst()) {
+		    	token = cursor.getString(0);
+		    }
+		    else {
+				if(Utilities.error) {Log.e(TAG, mClass + ":getTokenValue(); No result was found in database.");}
+				throw new NoResultFoundDBException(mClass + ":getTokenValue(); No result was found in database.");
+		    }
+		    db.setTransactionSuccessful();
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getTokenValue()::db.insert();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
+		}
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getTokenValue()::db.setTransactionSuccessful();");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getTokenValue(); SQLException, something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
+		}
+		finally {
+			db.endTransaction();
+			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection		
+		}
+		if(token == null) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getTokenValue(); No result was found in database.");}
+			throw new NoResultFoundDBException(mClass + ":getTokenValue(); No result was found in database.");
+		}
 
 		return token;
 	}
 	
 	// Inherited from ITokenTable
 	// Returns the expiredate for this current token in int. 
-	public long getExpireDate(){
+	public long getExpireDate() throws DBException, NoResultFoundDBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":getExpireDate()");}
 		SQLiteDatabase db = mHelper.getReadableDatabase();
-		
-	    Cursor cursor = db.rawQuery(RETRIEVE_EXPIREDATE, null);
+	    db.beginTransaction();
 	    long expiredate = -1;
-	    
-	    if (cursor.moveToFirst()) {
-	    	expiredate = cursor.getLong(0); // Database SHOULD only hold one. If there's ever more than one entry, somethings wrong. Should add check for this...
-	    }
-		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
+	    try{
+		    Cursor cursor = db.rawQuery(RETRIEVE_EXPIREDATE, null);
+		    if (cursor.moveToFirst()) {
+		    	expiredate = cursor.getLong(0);
+		    }
+		    else {
+				if(Utilities.error) {Log.e(TAG, mClass + ":getExpireDate(); No result was found in database.");}
+				throw new NoResultFoundDBException(mClass + ":getExpireDate(); No result was found in database.");
+		    }
+		    db.setTransactionSuccessful();
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getExpireDate()::db.insert();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
+		}
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getExpireDate()::db.setTransactionSuccessful();");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getTokenValue(); SQLException, something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
+		}
+		finally {
+			db.endTransaction();
+			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection		
+		}
+		if(expiredate == -1) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getExpireDate(); No result was found in database.");}
+			throw new NoResultFoundDBException(mClass + ":getExpireDate(); No result was found in database.");
+		}
+		
 	    return expiredate;
 	}
 		
@@ -128,21 +176,26 @@ public class TokenTable extends BaseTable implements ITokenTable{
 			result = db.update(TABLE_NAME, values, null, null);
 			db.setTransactionSuccessful();	
 		}catch(NullPointerException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.insert()");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":updateToken()::db.insert();");}
 			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful()");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":updateToken()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":updateToken(); SQLException, something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
 		}
 		finally {
 			db.endTransaction();
 			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection		
 		}
 		
-		if(result == -1) {
-			throw new NoRowsAffectedDBException("error at: " + mClass + ":fillTableWithDefaultData()");
-		}
+	    if(result == -1) {
+	        if(Utilities.error) {Log.e(TAG, mClass + ":updateToken(); No entry was added to the database.");}
+	        throw new NoRowsAffectedDBException(mClass + ":updateToken(); No entry was added to the database.");
+	    }	        
 	}
 	
 	// Inherited from ITokenTable
@@ -159,37 +212,68 @@ public class TokenTable extends BaseTable implements ITokenTable{
 			result = db.update(TABLE_NAME, values, null, null);
 			db.setTransactionSuccessful();
 		}catch(NullPointerException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.insert()");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":updateTransactionFlag()::db.insert();");}
 			throw new DBException("NullPointerException. Message: " + e.getMessage());
 		}
 		catch(IllegalStateException e) {
-			if(Utilities.error) {Log.v(TAG, mClass + ":fillTableWithDefaultData()::db.setTransactionSuccessful()");}
+			if(Utilities.error) {Log.e(TAG, mClass + ":updateTransactionFlag()::db.setTransactionSuccessful();");}
 			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":updateTransactionFlag(); SQLException, something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
 		}
 		finally {
 			db.endTransaction();
 			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection			
 		}
 		if(result == 0) {
-			throw new NoRowsAffectedDBException("Error: Token not updated. " + mClass + ":updateTransactionFlag");
+			 if(Utilities.error) {Log.e(TAG, mClass + ":updateTransactionFlag(); Token not updated.");}
+			throw new NoRowsAffectedDBException(mClass + ":updateTransactionFlag(); Token not updated.");
 		}
 	}
 	
 	// Inherited from ITokenTable
 	// Returns current transactionFlag on the token. There can only be one
 	@Override
-	public TransactionFlag getTransactionFlag(){
+	public TransactionFlag getTransactionFlag() throws DBException, NoResultFoundDBException{
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":TransactionFlag()");}
-		SQLiteDatabase db = mHelper.getReadableDatabase();
 		
-	    Cursor cursor = db.rawQuery(RETRIEVE_TRANSACTION_FLAG, null);
-	    TransactionFlag transactionFlag = TransactionFlag.Unknown;
+		SQLiteDatabase db = mHelper.getReadableDatabase();
+	    db.beginTransaction();
 	    
-	    if (cursor.moveToFirst()) {
-	    	// Database SHOULD only hold one. If there's ever more than one entry, somethings wrong. Should add check for this...
-	    	transactionFlag = TransactionFlag.values()[cursor.getInt(0)]; 
-	    }
-		//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
+	    TransactionFlag transactionFlag = TransactionFlag.Unknown;
+	    try{
+		    Cursor cursor = db.rawQuery(RETRIEVE_TRANSACTION_FLAG, null);	    
+		    if (cursor.moveToFirst()) {
+		    	// Database SHOULD only hold one. If there's ever more than one entry, somethings wrong. Should add check for this...
+		    	transactionFlag = TransactionFlag.values()[cursor.getInt(0)]; 
+		    }
+		    else {
+				if(Utilities.error) {Log.e(TAG, mClass + ":getExpireDate(); No result was found in database.");}
+				throw new NoResultFoundDBException(mClass + ":getExpireDate(); No result was found in database.");
+		    }
+		    db.setTransactionSuccessful();
+		}catch(NullPointerException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getExpireDate()::db.insert();");}
+			throw new DBException("NullPointerException. Message: " + e.getMessage());
+		}
+		catch(IllegalStateException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getExpireDate()::db.setTransactionSuccessful();");}
+			throw new DBException("IllegalStateException. Message: " + e.getMessage());
+		}
+		catch(SQLException e) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getTokenValue(); SQLException, something went wrong.");}
+			throw new DBException("SQLException. Message: " + e.getMessage());
+		}
+		finally {
+			db.endTransaction();
+			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection		
+		}
+		if(transactionFlag == TransactionFlag.Unknown) {
+			if(Utilities.error) {Log.e(TAG, mClass + ":getExpireDate(); No result was found in database.");}
+			throw new NoResultFoundDBException(mClass + ":getExpireDate(); No result was found in database.");
+		}
 	    return transactionFlag;
 	}
 
@@ -197,13 +281,38 @@ public class TokenTable extends BaseTable implements ITokenTable{
 	public void PrintEntireToken() {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":PrintEntireToken()");}
 		
-		String token_value = getTokenValue();
-		long expiredate = getExpireDate();
-		TransactionFlag transactionFlag = getTransactionFlag();
+		String token_value = null;
+		try {
+			token_value = getTokenValue();
+		} catch (DBException e) {
+			e.printStackTrace();
+		} catch (NoResultFoundDBException e) {
+			token_value = "NO_VALUE";
+			e.printStackTrace();
+		}
+		long expiredate = -1;
+		try {
+			expiredate = getExpireDate();
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoResultFoundDBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		TransactionFlag transactionFlag = TransactionFlag.Unknown;
+		try {
+			transactionFlag = getTransactionFlag();
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoResultFoundDBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		System.out.println("token_value: "+token_value);
-		System.out.println("expiredate: "+expiredate);
-		System.out.println("transactionFlag: "+transactionFlag.toString());
-		
+		Log.v(TAG,"token_value: "+token_value);
+		Log.v(TAG,"expiredate: "+expiredate);
+		Log.v(TAG,"transactionFlag: "+transactionFlag.toString());	
 	}
 }

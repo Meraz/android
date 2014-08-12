@@ -38,9 +38,9 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(COLUMN_COURSE_CODE, courseCode);
 		
-		int result = -1;
+		long result = -1;
 		try {
-			result = (int) db.insert(TABLE_NAME, null, contentValues);
+			result = db.insert(TABLE_NAME, null, contentValues);
 			db.setTransactionSuccessful();
 		}catch(NullPointerException e) {
 			if(Utilities.error) {Log.e(TAG, mClass + ":add()::db.insert();");}
@@ -56,7 +56,6 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 		}
 		finally{
 			db.endTransaction();
-			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 		
 		if(result == -1) {
@@ -89,7 +88,6 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 		}
 		finally{
 			db.endTransaction();
-			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 				
 		if(deletedRowCount == 0) {
@@ -130,7 +128,6 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 		}
 		finally {
 			db.endTransaction();
-			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 		
 		if(favouriteCourses.size() == 0) {
@@ -166,7 +163,6 @@ public class FavouriteCourseTable extends BaseTable implements IFavouriteCourseT
 		}
 		finally {
 			db.endTransaction();
-			//	db.close(); // http://stackoverflow.com/questions/6608498/best-place-to-close-database-connection
 		}
 		return empty;
 	}

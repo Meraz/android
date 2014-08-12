@@ -17,6 +17,7 @@ import android.util.Log;
 
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
+import com.example.app_android.database.NoResultFoundDBException;
 import com.example.app_android.database.NoRowsAffectedDBException;
 import com.example.app_android.database.interfaces.ITokenTable;
 import com.example.app_android.database.interfaces.ITokenTable.TransactionFlag;
@@ -41,14 +42,32 @@ public class Processes {
 		ITokenTable tokenTable = DatabaseManager.getInstance().getTokenTable();
 		
 		// Get current transaction flag for the token
-		TransactionFlag transactionFlag = tokenTable.getTransactionFlag();
+		TransactionFlag transactionFlag = TransactionFlag.Unknown;
+		try {
+			transactionFlag = tokenTable.getTransactionFlag();
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoResultFoundDBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		// Already in the proccess of logging in.
 		if(transactionFlag == TransactionFlag.Pending) {
 			return LoginStatus.Waiting;
 		}
 		
-		long experationdate = tokenTable.getExpireDate();
+		long experationdate = -1;
+		try {
+			experationdate = tokenTable.getExpireDate();
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoResultFoundDBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		long currentTime = (System.currentTimeMillis()/1000);
 		if(experationdate < currentTime) {
