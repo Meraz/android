@@ -168,6 +168,9 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
 	        	tv.setText(child.getText());					// Read the text as not html formatted
 	        tv.setTag(child.getTag());
         }
+        else {
+        	tv.setVisibility(TextView.GONE);
+        }
     
     	Button button = (Button) view.findViewById(R.id.tvButton1);
     	ExpandableListMetaButton metaButton = child.getButton();
