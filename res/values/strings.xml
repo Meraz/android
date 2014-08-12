@@ -61,7 +61,7 @@
 
   <string-array name="new_student_menu_checklist_header" >
     <item >Fixa boende</item>
-    <item >Registrera dig på kurser och program</item>
+    <item >Registrera dig på kurser/program</item>
     <item >Registrera dig på CSN</item>
     <item >Skaffa BTH-kort</item>
     <item >Skaffa din kurslitteratur</item>
