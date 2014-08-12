@@ -27,9 +27,13 @@
   <string name="schedule_button_text">Visa schema</string>
   <string name="search_field_hint_courses">Kurskod</string>
   <string name="no_courses_added">Inga kurser är tillagda.\n Skriv in kurskoden och tryck på "Lägg till" för att lägga till en kurs.</string>
-
   <string name="empty_schedule">Töm schema</string>
-
+  
+  <!--  Course long press popup -->
+  <string name="course_long_press_view_details">Visa detaljer</string>
+  <string name="course_long_press_add_to_favourites">Lägg till favorit</string>
+  <string name="course_long_press_remove_from_favourites">Ta bort favorit</string>
+  <string name="course_long_press_exportera_schema">Exportera schema</string>
 
   <!--  Detailed Course View -->
   <string name="course_responsible">Kursansvarig</string>

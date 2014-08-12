@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/course_long_press_view_detailed_info"
+        android:title="@string/course_long_press_view_details"
+        android:showAsAction="withText"
+        android:visible="true" />
+    
+    <item
+        android:id="@+id/course_long_press_export_schedule"
+        android:title="@string/course_long_press_exportera_schema"
+        android:showAsAction="withText"
+        android:visible="true"/>
+    
+    <item 
+        android:id="@+id/course_long_press_add_or_remove_favourite"
+        android:title="@string/course_long_press_remove_from_favourites"
+        android:showAsAction="withText"
+        android:visible="true"/>
+
+</menu>
