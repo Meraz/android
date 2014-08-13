@@ -5,7 +5,7 @@
   <string name="app_name">app-android</string>
   <string name="action_settings">Inställningar</string>
   <string name="choose_city_dialog">Choose Campus</string>
-  <string name="toast_missing_internet_connection">Internetuppkoppling saknas</string>
+  <string name="toast_general_missing_internet_connection">Internetuppkoppling saknas</string>
 
   <!-- Map  -->
   <string name="drawer_open">Öppna sidomeny</string>
@@ -29,14 +29,14 @@
   <string name="search_field_hint_courses">Kurskod</string>
   <string name="no_courses_added">Inga kurser är tillagda.\n Skriv in kurskoden och tryck på "Lägg till" för att lägga till en kurs.</string>
   <string name="empty_schedule">Töm schema</string>
-  <!-- Course Toast messages -->
   <string name="toast_courses_menu_empty_schedule_1"></string>
   <string name="toast_courses_menu_empty_schedule_2"> tillfällen borttagna</string>
   <string name="toast_courses_failed_remove_favourite">Kunde inte ta bort favoritkurs</string>
   <string name="toast_courses_failed_add_favourite">Kunde inte lägga till favoritkurs</string>
   <string name="toast_courses_failed_export_schedule">Kunde inte exportera schema</string>
   <string name="toast_courses_failed_export_schedule_no_courses">Inga kurser att exportera</string>
-  <!--  Course long press popup -->
+  <string name="toast_courses_confirm_removed_favourite_course">Kurs borttagen från favoriter</string>
+  <string name="toast_courses_confirm_added_favourite_course">Kurs tillagd bland favoriter</string>
   <string name="course_long_press_view_details">Visa detaljer</string>
   <string name="course_long_press_add_to_favourites">Lägg till favorit</string>
   <string name="course_long_press_remove_from_favourites">Ta bort favorit</string>
@@ -52,6 +52,7 @@
   <string name="course_description">Kursbeskrivning</string>
   <string name="course_info_missing">Data saknas</string>
   <string name="course_export_schedule_button">Exportera Schema</string>
+  <string name="toast_detailed_course_failed_retrieve_info">Ingen info hittad :\</string>
 
   <!--  Main -->
   <string name="main_new_student_button">Ny Student</string>

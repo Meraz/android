@@ -33,9 +33,9 @@ public class ActivityDetailedCourse extends BaseActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		mClassName = getClass().getSimpleName();
 		mTag = TAG;
-		super.onCreate(savedInstanceState);
 		mTitle = getString(R.string.infobox_title_detailed_courses);
 		mInfoBoxMessage = getString(R.string.infobox_text_detailed_courses);
 		setContentView(R.layout.activity_detailed_course);
@@ -58,7 +58,7 @@ public class ActivityDetailedCourse extends BaseActivity {
 			e.printStackTrace();
 		}
 		if(courseInfo == null) {
-			Toast.makeText(getApplicationContext(), "Failed to retrieve info about this course,  sorry :<", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), R.string.toast_detailed_course_failed_retrieve_info, Toast.LENGTH_SHORT).show();
 			getActionBar().setTitle(mCourseCode);
 		} else {
 			getActionBar().setTitle(mCourseCode + " - " + courseInfo.getCourseName());
@@ -96,13 +96,13 @@ public class ActivityDetailedCourse extends BaseActivity {
 			exportTask.execute(requests);
 		}
 		else 
-			Toast.makeText(getApplicationContext(), "Missing internet connection", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), R.string.toast_general_missing_internet_connection, Toast.LENGTH_SHORT).show();
 	}
 	
 	public void onRegisterCourseButtonPressed(View RegisterCourseButton) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onRegisterCourseButtonPressed()");}
 		
-		//TODO - Check if the user is registered and if not, make an attempt at registering him/her.
+		//TODO - Check if the user is registered on the course and if not, make an attempt at registering him/her.
 	}
 	
 	@Override
@@ -129,34 +129,34 @@ public class ActivityDetailedCourse extends BaseActivity {
 	    		boolean result = true;
 	    			try {
 						mFavouriteCourseTable.remove(mCourseCode);
-					} catch (DBException e) {		//Sorry for the duplicate code. Need java 7 to use one handler for multiple cathces
-						Toast.makeText(getApplicationContext(), "Failed to remove course :(", Toast.LENGTH_SHORT).show();
+					} catch (DBException e) {		//Sorry for the duplicate code. Need java 7 to use one handler for multiple catches
+						Toast.makeText(getApplicationContext(), R.string.toast_courses_failed_remove_favourite, Toast.LENGTH_SHORT).show();
 						result = false;
 					} catch (NoRowsAffectedDBException e) {
-						Toast.makeText(getApplicationContext(), "Failed to remove course :(", Toast.LENGTH_SHORT).show();
+						Toast.makeText(getApplicationContext(), R.string.toast_courses_failed_remove_favourite, Toast.LENGTH_SHORT).show();
 						result = false;
 					}	    		
 	    		if(result) {
 	    			mIsFavourite = false;
 	    			mAddOrRemoveFavouriteButton.setIcon(R.drawable.ic_action_not_important);
-	    			Toast.makeText(getApplicationContext(), "Removed from favourites", Toast.LENGTH_SHORT).show();
+	    			Toast.makeText(getApplicationContext(), R.string.toast_courses_confirm_removed_favourite_course, Toast.LENGTH_SHORT).show();
 	    		}
 	    	}
 	    	else {
 	    		boolean result = true;
 	    		try {
 					mFavouriteCourseTable.add(mCourseCode.split(" ")[0]); 	//Get only the course code, not the name
-				} catch (DBException e) {		//Sorry for the duplicate code. Need java 7 to use one handler for multiple cathces
-					Toast.makeText(getApplicationContext(), "Failed to add course :(", Toast.LENGTH_SHORT).show();
+				} catch (DBException e) {		//Sorry for the duplicate code. Need java 7 to use one handler for multiple catches
+					Toast.makeText(getApplicationContext(), R.string.toast_courses_failed_add_favourite, Toast.LENGTH_SHORT).show();
 					result = false;
 				} catch (NoRowsAffectedDBException e) {
-					Toast.makeText(getApplicationContext(), "Failed to add course :(", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), R.string.toast_courses_failed_add_favourite, Toast.LENGTH_SHORT).show();
 					result = false;
 				}	    		
 	    		if(result) {
 	    			mIsFavourite = true;
 	    			mAddOrRemoveFavouriteButton.setIcon(R.drawable.ic_action_important);
-	    			Toast.makeText(getApplicationContext(), "Added to favourites", Toast.LENGTH_SHORT).show();
+	    			Toast.makeText(getApplicationContext(), R.string.toast_courses_confirm_removed_favourite_course, Toast.LENGTH_SHORT).show();
 	    		}
 	    	}
 	    	break;

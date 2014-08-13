@@ -271,6 +271,7 @@ public class ActivityCourses extends BaseActivity {
 									if(isFavourite) {
 										try {
 											mFavouriteCoursesTable.remove(mFavouriteCoursesList.get(position));
+											Toast.makeText(getApplicationContext(), R.string.toast_courses_confirm_removed_favourite_course, Toast.LENGTH_SHORT).show();
 											//Restart this view to display the correct information
 											finish();
 											startActivity(getIntent());
@@ -285,6 +286,7 @@ public class ActivityCourses extends BaseActivity {
 									else {
 										try {
 											mFavouriteCoursesTable.add(mFavouriteCoursesList.get(position));
+											Toast.makeText(getApplicationContext(), R.string.toast_courses_confirm_added_favourite_course, Toast.LENGTH_SHORT).show();
 											//Restart this view to display the correct information
 											finish();
 											startActivity(getIntent());
@@ -346,7 +348,7 @@ public class ActivityCourses extends BaseActivity {
 				Toast.makeText(getApplicationContext(), R.string.toast_courses_failed_export_schedule, Toast.LENGTH_SHORT).show();
 		}
 		else 
-			Toast.makeText(getApplicationContext(), R.string.toast_missing_internet_connection, Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), R.string.toast_general_missing_internet_connection, Toast.LENGTH_SHORT).show();
 	}
 	
 	@SuppressWarnings("unchecked") //Should be safe to ignore this warning. It complains about not knowing the type of arraylist being sent in exportTask.execute(requests)
@@ -396,6 +398,6 @@ public class ActivityCourses extends BaseActivity {
 				Toast.makeText(getApplicationContext(), R.string.toast_courses_failed_export_schedule_no_courses, Toast.LENGTH_SHORT).show();
 		}
 		else
-			Toast.makeText(getApplicationContext(), R.string.toast_missing_internet_connection, Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), R.string.toast_general_missing_internet_connection, Toast.LENGTH_SHORT).show();
 	}
 }
