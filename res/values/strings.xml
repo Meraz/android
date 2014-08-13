@@ -21,6 +21,8 @@
   <string name="campus_karlskrona">Karlskrona</string>
   <string name="markers_label">Markers</string>
   <string name="markers_houses">Houses</string>
+  <string name="toast_map_failed_find_place">Kunde inte hitta platsen</string>
+  <string name="toast_map_failed_start_google_maps">Kunde inte starta Google Maps :()</string>
 
   <!-- Courses and Schedule -->
   <string name="add_button_text">Lägg till</string>

@@ -68,7 +68,7 @@ public class ActivityMap extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
     	int entryID = bundle.getInt("entryID");
     	int startPositionID = bundle.getInt("startPositionID");
-    	String room = bundle.getString("room");
+    	String placeSearchInput = bundle.getString("place");
     	
     	setContentView(R.layout.activity_map);
     	
@@ -96,7 +96,7 @@ public class ActivityMap extends BaseActivity {
     		 }
     		 else if(entryID == 1) { //Entered trough an entrypoint that specified a room
     			try {
-					place = mPlaceTable.getMapCoordinate(room);
+					place = mPlaceTable.getMapCoordinate(placeSearchInput);
 				} catch (DBException e) {
 					place = null;
 					e.printStackTrace();
@@ -109,17 +109,17 @@ public class ActivityMap extends BaseActivity {
          			if(!mMapMarkers.containsKey("SearchMarker")) {
          				MarkerOptions markerOptions = new MarkerOptions();
 						markerOptions.position(place);
-						markerOptions.snippet(room);
+						markerOptions.snippet(placeSearchInput);
 						mMapMarkers.put("SearchMarker", mMap.addMarker(markerOptions));
          			}
          			else {
 						Marker marker = mMapMarkers.get("SearchMarker");
 						marker.setPosition(place);
-						marker.setSnippet(room);
+						marker.setSnippet(placeSearchInput);
 					}
     			}
     			else {	//If the lookup fails toast the user about it and move to Karlskrona
-    				Toast.makeText(getApplicationContext(), "Could not find the place :(", Toast.LENGTH_SHORT).show();
+    				Toast.makeText(getApplicationContext(), R.string.toast_map_failed_find_place, Toast.LENGTH_SHORT).show();
     				mCampusRadioGroup.check(R.id.radio_karlskrona);
     				mViewRadioGroup.check(R.id.radio_normal);
     				moveToKarlskrona();
@@ -134,7 +134,7 @@ public class ActivityMap extends BaseActivity {
         	mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
             // check if map is created successfully or not
             if (mMap == null) {
-                Toast.makeText(getApplicationContext(), "Unable to start Google Maps. Sorry! :(", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.toast_map_failed_start_google_maps, Toast.LENGTH_LONG).show();
                 return false;
             }
             mMap.setInfoWindowAdapter(new SnippetInfoWindowAdapter()); //Changes the way marker descriptions are presented. If this is not done; multi line descriptions cannot be used.
@@ -187,7 +187,6 @@ public class ActivityMap extends BaseActivity {
 	
 	private void initializeDropDownSearchField() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":initializeDropDownSearchField()");}
-		
 		String[] searchablesPlaceNames;
 		try {
 			searchablesPlaceNames = mPlaceTable.getAllNamesByToggleId(MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE, false);
@@ -242,7 +241,6 @@ public class ActivityMap extends BaseActivity {
 	
 	private void moveToKarlskrona() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":moveToKarlskrona()");}
-		
 		mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(mCampusKarlskronaCoordinates, 17.0f));
 		if(mMap.getMapType() != GoogleMap.MAP_TYPE_NORMAL)  { //Only change if the normal map type is not set. (The satellite and hybrid view of campus Karlskrona is outdated)
 			mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -252,7 +250,6 @@ public class ActivityMap extends BaseActivity {
 	
 	private void moveToKarlshamn() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":moveToKarlshamn()");}
-		
 		mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(mCampusKarlshamnCoordinates, 17.0f));
 		if(mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL) { //Only change if the normal map type is set. (Google Maps currently has no good data for the map type for the Karlshamn Campus area)
 			mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
@@ -262,7 +259,6 @@ public class ActivityMap extends BaseActivity {
 	
 	private void initializeToggleableMarkers() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":addMarkers()");}
-		
 		//Get all non searchable places
 		String[] markerNames;
 		try {
@@ -292,7 +288,6 @@ public class ActivityMap extends BaseActivity {
 	
 	private void toggleMarkers (int toggleId ,boolean on) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":toggleMarkers()");}
-		
 		String[] markerNames;
 		try {
 			markerNames = mPlaceTable.getAllNamesByToggleId(toggleId, false);
@@ -309,6 +304,7 @@ public class ActivityMap extends BaseActivity {
 	
 	// Gets Coordinates for the camera default location for respective campuses. Gets them from resource files.
 	private void getCampusCoordinates() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":getCampusCoordinates()");}
 		TypedValue karlskronaLatitude = new TypedValue();
 		TypedValue karlskronaLongitude = new TypedValue();
 		TypedValue karlshamnLatitude = new TypedValue();
@@ -365,6 +361,7 @@ public class ActivityMap extends BaseActivity {
 		
 	@Override
 	protected void onResume() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onResume()");}
 		super.onResume();
 		initilizeMap();
 	}
