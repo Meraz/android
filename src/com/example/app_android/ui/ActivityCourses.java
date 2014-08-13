@@ -100,77 +100,7 @@ public class ActivityCourses extends BaseActivity {
 		else
 			mNoCoursesText.setVisibility(View.GONE);
 		
-		//Initialize the popup menu for long press on course item
-		mListFragment = (ListFragment) getFragmentManager().findFragmentById(R.id.courseListView);
-		mListFragment.getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view,
-					final int position, long id) {
-				
-				final boolean isFavourite = true; //TODO - ask the favourite course table if the course exists and set this flag accordingly
-
-				
-				PopupMenu popupMenu = new PopupMenu(getApplicationContext(), view);
-				popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-					
-					@Override
-					public boolean onMenuItemClick(MenuItem item) {
-						switch(item.getItemId()) {
-						
-						case R.id.course_long_press_view_detailed_info:
-							Intent intent = new Intent(getApplicationContext(), ActivityDetailedCourse.class);
-							intent.putExtra("courseCode", mFavouriteCoursesList.get(position));
-							startActivity(intent);
-							break;
-							
-						case R.id.course_long_press_export_schedule:
-							exportSingleCourseSchedule(mFavouriteCoursesList.get(position));
-							break;
-							
-						case R.id.course_long_press_add_or_remove_favourite:
-							if(isFavourite) {
-								try {
-									mFavouriteCoursesTable.remove(mFavouriteCoursesList.get(position));
-									//Restart this view to display the correct information
-									finish();
-									startActivity(getIntent());
-								} catch (DBException e) {
-									Toast.makeText(getApplicationContext(), "Failed to remove favourite", Toast.LENGTH_SHORT).show();
-									e.printStackTrace();
-								} catch (NoRowsAffectedDBException e) {
-									Toast.makeText(getApplicationContext(), "Failed to remove favourite", Toast.LENGTH_SHORT).show();
-									e.printStackTrace();
-								}
-							}
-							else {
-								try {
-									mFavouriteCoursesTable.add(mFavouriteCoursesList.get(position));
-									//Restart this view to display the correct information
-									finish();
-									startActivity(getIntent());
-								} catch (DBException e) {
-									Toast.makeText(getApplicationContext(), "Failed to add favourite", Toast.LENGTH_SHORT).show();
-									e.printStackTrace();
-								} catch (NoRowsAffectedDBException e) {
-									Toast.makeText(getApplicationContext(), "Failed to add favourite", Toast.LENGTH_SHORT).show();
-									e.printStackTrace();
-								}
-							}
-							break;
-						}
-						
-						return true;
-					}
-				});
-				popupMenu.inflate(R.menu.course_long_press);
-				//TODO - use the isfavorutie flag to decide which string should be presented on the add/remove favourite item and set it accordingly here
-				popupMenu.show();
-				
-				return true; //Indicate that this event has been comsumed. Omnomnomnomnomnom :3
-			}
-		});
 		
-		//registerForContextMenu(mListFragment.getListView());
 	}
  
 	@Override
@@ -219,7 +149,7 @@ public class ActivityCourses extends BaseActivity {
     public boolean onMenuOpened(int featureId, Menu menu) {
     	if(Utilities.verbose) {Log.v(TAG, mClassName + ":onMenuOpened()");}
     	
-    	//Make icons visable in overflow menu
+    	//Make icons visible in overflow menu
         if((featureId == Window.FEATURE_OPTIONS_PANEL || featureId == Window.FEATURE_ACTION_BAR ) && menu != null){
             if(menu.getClass().getSimpleName().equals("MenuBuilder")){
                 try{
@@ -238,20 +168,6 @@ public class ActivityCourses extends BaseActivity {
         }
         return super.onMenuOpened(featureId, menu);
     }
-    /*
-    public void onCreateContextMenu(final ContextMenu menu, final View v, final ContextMenuInfo menuInfo) {
-    	super.onCreateContextMenu(menu, v, menuInfo);
-    	
-        if (v == mListFragment.getListView()) {
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.course_long_press, menu);
-        }
-    }
-    
-    public boolean onContextItemSelected(final MenuItem item) {
-    	Toast.makeText(getApplicationContext(), "testtest2", Toast.LENGTH_SHORT).show();
-    	return true;
-    }*/
     
 	public void startCalendar(View view) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":startCalendar()");}
@@ -319,8 +235,78 @@ public class ActivityCourses extends BaseActivity {
 				startActivity(intent);
 		    }
 		});
-		
-		registerForContextMenu(mSearchField);
+	}
+	
+	private void initializePopupMenu() {
+		//Initialize the popup menu for long press on course item
+				mListFragment = (ListFragment) getFragmentManager().findFragmentById(R.id.courseListView);
+				mListFragment.getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+					@Override
+					public boolean onItemLongClick(AdapterView<?> parent, View view,
+							final int position, long id) {
+						
+						final boolean isFavourite = true; //TODO - ask the favourite course table if the course exists and set this flag accordingly
+
+						
+						PopupMenu popupMenu = new PopupMenu(getApplicationContext(), view);
+						popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+							
+							@Override
+							public boolean onMenuItemClick(MenuItem item) {
+								switch(item.getItemId()) {
+								
+								case R.id.course_long_press_view_detailed_info:
+									Intent intent = new Intent(getApplicationContext(), ActivityDetailedCourse.class);
+									intent.putExtra("courseCode", mFavouriteCoursesList.get(position));
+									startActivity(intent);
+									break;
+									
+								case R.id.course_long_press_export_schedule:
+									exportSingleCourseSchedule(mFavouriteCoursesList.get(position));
+									break;
+									
+								case R.id.course_long_press_add_or_remove_favourite:
+									if(isFavourite) {
+										try {
+											mFavouriteCoursesTable.remove(mFavouriteCoursesList.get(position));
+											//Restart this view to display the correct information
+											finish();
+											startActivity(getIntent());
+										} catch (DBException e) {
+											Toast.makeText(getApplicationContext(), "Failed to remove favourite", Toast.LENGTH_SHORT).show();
+											e.printStackTrace();
+										} catch (NoRowsAffectedDBException e) {
+											Toast.makeText(getApplicationContext(), "Failed to remove favourite", Toast.LENGTH_SHORT).show();
+											e.printStackTrace();
+										}
+									}
+									else {
+										try {
+											mFavouriteCoursesTable.add(mFavouriteCoursesList.get(position));
+											//Restart this view to display the correct information
+											finish();
+											startActivity(getIntent());
+										} catch (DBException e) {
+											Toast.makeText(getApplicationContext(), "Failed to add favourite", Toast.LENGTH_SHORT).show();
+											e.printStackTrace();
+										} catch (NoRowsAffectedDBException e) {
+											Toast.makeText(getApplicationContext(), "Failed to add favourite", Toast.LENGTH_SHORT).show();
+											e.printStackTrace();
+										}
+									}
+									break;
+								}
+								
+								return true;
+							}
+						});
+						popupMenu.inflate(R.menu.course_long_press);
+						//TODO - use the isfavorutie flag to decide which string should be presented on the add/remove favourite item and set it accordingly here
+						popupMenu.show();
+						
+						return true; //Indicate that this event has been comsumed. Omnomnomnomnomnom :3
+					}
+				});
 	}
 	
 	private int deleteAllScheduleEvents() {
