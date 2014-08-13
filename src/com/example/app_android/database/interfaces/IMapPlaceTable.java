@@ -9,22 +9,23 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public interface IMapPlaceTable {
 	
 	/*
-	 * TODO
+	 * Saves the inputed values as a database entry
 	 */
 	void add(String name, String description, float latitude, float longitude, int iconId, int toggleId) throws DBException, NoRowsAffectedDBException;
 
 	/*
-	 * TODO
+	 * Gets a coordinate pair by searching the inputed name
 	 */	
 	LatLng getMapCoordinate(String name)  throws DBException, NoResultFoundDBException;
 	
 	/*
-	 * TODO
+	 * Gets a finished markerOptions object by searching the inputed name. The markerOptions object is ready to be added to a marker object upon return
 	 */
 	MarkerOptions getMapMarkerOptions(String name) throws DBException, NoResultFoundDBException;
 	
 	/*
-	 * TODO
+	 * Gets the names of all toggleable markers with the inputed toggle id.
+	 * Setting the getNonEqual flag inverts the function so that it returns all names but those that have the inputed toggle id
 	 */
 	String[] getAllNamesByToggleId(int toggleId, boolean getNonEqual) throws DBException, NoResultFoundDBException;
 }
