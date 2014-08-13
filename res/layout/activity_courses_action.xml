@@ -1,7 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/courses_action_sync"
+    <item android:id="@+id/courses_Action_sync_indicator"
+         android:showAsAction="always" />
+         
+        
+    <item android:id="@+id/courses_menu_sync_schedule"
           android:icon="@drawable/ic_action_refresh"
-          android:showAsAction="always" />
+          android:title="@string/export_schedule"
+          android:showAsAction="never" />
 
     <item android:id="@+id/courses_menu_empty_schedule"
 		  android:icon="@drawable/ic_action_delete"

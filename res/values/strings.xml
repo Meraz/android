@@ -27,10 +27,11 @@
   <!-- Courses and Schedule -->
   <string name="add_button_text">Lägg till</string>
   <string name="export_button_text">Exportera</string>
-  <string name="schedule_button_text">Visa schema</string>
+  <string name="schedule_button_text">Öppna Kalenderapp</string>
   <string name="search_field_hint_courses">Kurskod</string>
   <string name="no_courses_added">Inga kurser är tillagda.\n Skriv in kurskoden och tryck på "Lägg till" för att lägga till en kurs.</string>
   <string name="empty_schedule">Töm schema</string>
+  <string name="export_schedule">Exportera schema</string>
   <string name="toast_courses_menu_empty_schedule"> tillfällen borttagna</string>
   <string name="toast_courses_failed_remove_favourite">Kunde inte ta bort favoritkurs</string>
   <string name="toast_courses_failed_add_favourite">Kunde inte lägga till favoritkurs</string>

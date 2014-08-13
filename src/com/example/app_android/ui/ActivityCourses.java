@@ -126,7 +126,9 @@ public class ActivityCourses extends BaseActivity {
 	    // Inflate the menu items for use in the action bar
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.layout.activity_courses_action, menu);
-	    mSyncActionItem = menu.findItem(R.id.courses_action_sync);
+	    mSyncActionItem = menu.findItem(R.id.courses_Action_sync_indicator);
+	    mSyncActionItem.setActionView(R.layout.item_action_sync_indicator);
+	    mSyncActionItem.setVisible(false);
 	    return super.onCreateOptionsMenu(menu);
 	}
 
@@ -134,14 +136,15 @@ public class ActivityCourses extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
     	if(Utilities.verbose) {Log.v(TAG, mClassName + ":onOptionsItemSelected()");}
     	switch (item.getItemId()) {
-    	case R.id.courses_action_sync:
-    		exportSchedule();
-    		break;
     		
     	case R.id.courses_menu_empty_schedule:
     		int deletedRowsCount = deleteAllScheduleEvents();
     		Toast.makeText(getApplicationContext(), deletedRowsCount + " " + 
     				getResources().getString(R.string.toast_courses_menu_empty_schedule)  , Toast.LENGTH_SHORT).show();
+    		break;
+    		
+    	case R.id.courses_menu_sync_schedule:
+    		exportSchedule();
     		break;
     	}
         return super.onOptionsItemSelected(item);
@@ -297,7 +300,6 @@ public class ActivityCourses extends BaseActivity {
 									}
 									break;
 								}
-								
 								return true;
 							}
 						});
@@ -339,7 +341,7 @@ public class ActivityCourses extends BaseActivity {
 						course.getStartDate().replaceAll("-", ""), //Removes the dashes since timeEdit doesn't like them.
 						course.getEndDate().replaceAll("-", "")));
 				ExportToGCalFromTimeEditTask exportTask = new ExportToGCalFromTimeEditTask(getApplicationContext(), mSyncActionItem);
-				mSyncActionItem.setActionView(R.layout.item_action_sync_indicator);
+				mSyncActionItem.setVisible(true);
 				exportTask.execute(requests);
 			}
 			else
@@ -368,8 +370,6 @@ public class ActivityCourses extends BaseActivity {
 			if(!courseCodes.isEmpty())
 			{
 				ArrayList<String> requests = new ArrayList<String>();
-
-
 				for(int i = 0; i < courseCodes.size(); ++i) {
 					CourseBean course;
 					try {
@@ -388,7 +388,7 @@ public class ActivityCourses extends BaseActivity {
 				if(requests.size() > 0) {
 					ExportToGCalFromTimeEditTask exportTask = new ExportToGCalFromTimeEditTask(getApplicationContext(), mSyncActionItem);
 					exportTask.execute(requests);
-					mSyncActionItem.setActionView(R.layout.item_action_sync_indicator);
+					mSyncActionItem.setVisible(true);
 				}
 			}
 			else

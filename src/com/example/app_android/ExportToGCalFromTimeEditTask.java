@@ -123,7 +123,7 @@ public class ExportToGCalFromTimeEditTask extends AsyncTask<ArrayList<String>, V
 		 		break;
 		 }
 		 if(syncItem != null)//TODO - Make a callback to set syncitem instead of inputing it here. This is only a hack.
-			 syncItem.setActionView(null);
+			 syncItem.setVisible(false);
 	 }
 	 //Finds the id of a calendar connected to a gmail account
 	 private int findCalendarID() {
