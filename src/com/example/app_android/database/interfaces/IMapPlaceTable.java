@@ -26,5 +26,5 @@ public interface IMapPlaceTable {
 	/*
 	 * TODO
 	 */
-	String[] getAllNamesByToggleId(int toggleId, boolean getNonEqual) throws DBException; // TODO should throw error if nothing is found, this was harder to implement than on other functions when adding this try/catch system. Therefore it's left as an todo.
+	String[] getAllNamesByToggleId(int toggleId, boolean getNonEqual) throws DBException, NoResultFoundDBException; // TODO should throw error if nothing is found, this was harder to implement than on other functions when adding this try/catch system. Therefore it's left as an todo.
 }

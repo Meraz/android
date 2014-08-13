@@ -193,6 +193,9 @@ public class ActivityMap extends BaseActivity {
 		} catch (DBException e) {
 			searchablesPlaceNames = new String[0];
 			e.printStackTrace();
+		} catch (NoResultFoundDBException e) {
+			searchablesPlaceNames = new String[0];
+			e.printStackTrace();
 		}
 		mSearchAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, searchablesPlaceNames);
 		mSearchField.setAdapter(mSearchAdapter);
@@ -258,12 +261,15 @@ public class ActivityMap extends BaseActivity {
 	}
 	
 	private void initializeToggleableMarkers() {
-		if(Utilities.verbose) {Log.v(TAG, mClassName + ":addMarkers()");}
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":initializeToggleableMarkers()");}
 		//Get all non searchable places
 		String[] markerNames;
 		try {
 			markerNames = mPlaceTable.getAllNamesByToggleId(MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE, true);
 		} catch (DBException e) {
+			markerNames = null;
+			e.printStackTrace();
+		} catch (NoResultFoundDBException e) {
 			markerNames = null;
 			e.printStackTrace();
 		}
@@ -292,6 +298,9 @@ public class ActivityMap extends BaseActivity {
 		try {
 			markerNames = mPlaceTable.getAllNamesByToggleId(toggleId, false);
 		} catch (DBException e) {
+			markerNames = null;
+			e.printStackTrace();
+		} catch (NoResultFoundDBException e) {
 			markerNames = null;
 			e.printStackTrace();
 		}

@@ -140,6 +140,7 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 		values[10].put(COLUMN_ICON_ID, MapPlaceIdentifiers.MARKER_ÌCON_ID_BSK_OFFICE);
 		values[10].put(COLUMN_TOGGLE_ID, MapPlaceIdentifiers.TOGGLE_ID_STUDENT_UNION);
 		
+		//TEST VALUES
 		values[11].put(COLUMN_NAME, "Alpackahage");
 		values[11].put(COLUMN_DESCRIPTION, "Description missing");
 		values[11].put(COLUMN_COORDINATE_LATITUDE, 56.181375);
@@ -302,7 +303,7 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 	//If the getNonEqual flag is not set the function returns all names that have the inputed toggle id.
 	//If the getNonEqual flag is set the function returns all names that doesn't have the inputed toggle id.
 	@Override
-	public String[] getAllNamesByToggleId(int toggleId, boolean getNonEqual) throws DBException {
+	public String[] getAllNamesByToggleId(int toggleId, boolean getNonEqual) throws DBException, NoResultFoundDBException {
 		if(Utilities.verbose) {Log.v(TAG, mClass + ":getAllWithoutToggleId");}
 		
 		SQLiteDatabase db = mHelper.getReadableDatabase();
@@ -318,10 +319,16 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 			}
 			
 			int rowCount = cursor.getCount();
-			names = new String[rowCount];
-			for(int i = 0; i < rowCount; ++i) {
-				cursor.moveToNext();
-				names[i] = cursor.getString(0);
+			if(rowCount >= 0) {
+				names = new String[rowCount];
+				for(int i = 0; i < rowCount; ++i) {
+					cursor.moveToNext();
+					names[i] = cursor.getString(0);
+				}
+			}
+			else {
+				if(Utilities.error) {Log.e(TAG, mClass + ":getAllNamesByToggleId(); No result was found in database for toggleId:= " + toggleId);}
+				throw new NoResultFoundDBException(mClass + ":getAllNamesByToggleId(); No result was found in database for toggleId= " + toggleId);
 			}
 		}catch(NullPointerException e) {
 			if(Utilities.error) {Log.e(TAG, mClass + ":updateTransactionFlag()::db.insert();");}
