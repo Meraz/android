@@ -46,8 +46,10 @@ public class LoginPrompt {
 		
         final EditText userInput = (EditText) view.findViewById(R.id.username);
         final EditText password = (EditText) view.findViewById(R.id.password);
+        userInput.setHint(R.string.login_prompt_login_hint_acronym);
+        password.setHint(R.string.login_prompt_login_hint_password);
 
-		alert.setPositiveButton(mContext.getString(R.string.login_prompt_login), new DialogInterface.OnClickListener() {
+		alert.setPositiveButton(mContext.getString(R.string.login_prompt_positive_button), new DialogInterface.OnClickListener() {
 		public void onClick(DialogInterface dialog, int whichButton) {
 			
 			 String user_text = (userInput.getText()).toString();

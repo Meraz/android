@@ -71,9 +71,11 @@
   <string name="main_student_union_button">Blekinge Studentkår</string>
 
   <!--  Login -->
-  <string name="login_prompt_login">Logga in</string>
-  <string name="login_prompt_acronym">Logga in</string>
   <string name="login_prompt_password">Lösenord</string>
+  <string name="login_prompt_login_hint_acronym">Akronym</string>
+  <string name="login_prompt_login_hint_password">Lösenord</string>
+  <string name="login_prompt_positive_button">Logga in</string>
+  <string name="login_prompt_text"> Logga in\n För att använda denna tjänst behöver du logga in med ditt studentkonto genom att ange akronym och lösenord</string>
 
   <!--  infobox -->
   <string name="infobox_title_mainmenu">Hur använder jag denna vyn? Mainmenu</string>
@@ -105,7 +107,6 @@
     <item >Studentcentrum</item>
     <item >Studentkåren</item>
     <item >Kursmaterial</item>
-    <item >Kartor over campus</item>
   </string-array>
 
   <string-array name="new_student_menu_checklist_header" >

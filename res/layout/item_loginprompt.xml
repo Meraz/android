@@ -6,14 +6,13 @@
               android:paddingLeft="3dp"
               android:paddingRight="2dp"
               >
-
-  <TextView
-            android:id="@+id/textView1"
+    <TextView
+            android:id="@+id/infotext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login_prompt_acronym"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
+            android:gravity="center"
+            android:text="Logga in\n För att använda denna tjänst behöver du logga in med ditt studentkonto genom att ange akronym och lösenord."
+            android:textAppearance="?android:attr/textAppearanceSmall" />
   <EditText
             android:id="@+id/username"
             android:layout_width="match_parent"
@@ -22,13 +21,6 @@
             android:inputType="textPersonName"
 
             />
-
-  <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/login_prompt_password"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
 
   <EditText
             android:id="@+id/password"

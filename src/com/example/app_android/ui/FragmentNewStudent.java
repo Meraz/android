@@ -163,11 +163,6 @@ public class FragmentNewStudent extends ListFragment{
 			intent = new Intent(getActivity().getApplicationContext(), ActivityCourseMaterial.class);
 			startActivity(intent);
             break;
-          
-        case 6:    
-		//	intent = new Intent(getActivity().getApplicationContext(), ActivityMap.class);
-		//	startActivity(intent);
-          break;
 
         default:
           break;
