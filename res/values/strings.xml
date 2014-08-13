@@ -107,7 +107,6 @@
     <item >Studentcentrum</item>
     <item >Studentkåren</item>
     <item >Kursmaterial</item>
-    <item >Kartor over campus</item>
   </string-array>
 
   <string-array name="new_student_menu_checklist_header" >
