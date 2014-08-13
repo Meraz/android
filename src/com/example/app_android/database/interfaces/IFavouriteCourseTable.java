@@ -9,22 +9,22 @@ import com.example.app_android.database.NoRowsAffectedDBException;
 public interface IFavouriteCourseTable {
 	
 	/*
-	 * TODO
+	 * Saves the inputed data as a database entry
 	 */
 	public void add(String courseCode) throws DBException, NoRowsAffectedDBException;
 	
 	/*
-	 * TODO
+	 * Finds and removes the entry with the inputed course code
 	 */
 	public void remove(String courseCode) throws DBException, NoRowsAffectedDBException;
 	
 	/*
-	 * TODO
+	 * Returns all entries in this table
 	 */
 	public ArrayList<String> getAll() throws DBException, NoResultFoundDBException;
 	
 	/*
-	 * TODO
+	 * Checks if the table is empty or not
 	 */
 	public boolean isEmpty() throws DBException;
 }
