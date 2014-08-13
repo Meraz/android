@@ -6,14 +6,18 @@ import com.example.app_android.database.NoRowsAffectedDBException;
 
 public interface ICalendarEventTable {
 
+	/*
+	 * Saves the inputed data as a database entry
+	 */
 	public boolean add(long id, String title, String description ,String startTime, String endTime) throws DBException, NoRowsAffectedDBException;
 	
-	
-
+	/*
+	 * Finds and removes the entry with the inputed id
+	 */
 	public void remove(long id) throws DBException, NoRowsAffectedDBException;	
 	
 	/*
-	 * Throws @NoResultFoundDBException if nothing is found in database
+	 * Finds a unique event bu the inputed parameters and returns its Id
 	 */
 	public int getEventId(String title, String description, String startTime, String endTime) throws DBException, NoResultFoundDBException;
 }
