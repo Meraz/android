@@ -10,22 +10,22 @@ import com.example.app_android.database.NoRowsAffectedDBException;
 public interface ICourseTable {
 	
 	/*
-	 * TODO
+	 * Saves the inputed course as a database entry
 	 */
 	public boolean add(CourseBean course) throws DBException, NoRowsAffectedDBException;
 	
 	/*
-	 * TODO
+	 * Returns the course code of all entries in this table
 	 */
 	public ArrayList<String> getAllCourseCodes() throws DBException, NoResultFoundDBException;
 	
 	/*
-	 * TODO
+	 * Returns the names of all courses in this table
 	 */
 	public ArrayList<String> getAllCourseNames() throws DBException, NoResultFoundDBException;
 	
 	/*
-	 * TODO
+	 * Finds a course by the inputed course coide and returns all its fields as a CourseBean
 	 */
 	public CourseBean getCourse(String CourseCode) throws DBException, NoResultFoundDBException;
 }
