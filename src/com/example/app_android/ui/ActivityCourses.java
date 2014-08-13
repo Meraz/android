@@ -42,6 +42,7 @@ import android.widget.Toast;
 public class ActivityCourses extends BaseActivity {
 
 	private static final String 	TAG = "CourseView";
+	
 	public static ArrayList<String> mCourseCodeList;
 	public static ArrayList<String> mFavouriteCoursesList;
 	
@@ -100,7 +101,7 @@ public class ActivityCourses extends BaseActivity {
 		else
 			mNoCoursesText.setVisibility(View.GONE);
 		
-		
+		initializePopupMenu();
 	}
  
 	@Override
@@ -139,7 +140,8 @@ public class ActivityCourses extends BaseActivity {
     		
     	case R.id.courses_menu_empty_schedule:
     		int deletedRowsCount = deleteAllScheduleEvents();
-    		Toast.makeText(getApplicationContext(), "Removed " + deletedRowsCount + " events from calendar"  , Toast.LENGTH_SHORT).show();
+    		Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_courses_menu_empty_schedule_1) + deletedRowsCount +
+    				getResources().getString(R.string.toast_courses_menu_empty_schedule_2)  , Toast.LENGTH_SHORT).show();
     		break;
     	}
         return super.onOptionsItemSelected(item);
@@ -231,7 +233,7 @@ public class ActivityCourses extends BaseActivity {
 			@Override
 		    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				Intent intent = new Intent(getApplicationContext(), ActivityDetailedCourse.class);
-				intent.putExtra("courseCode",((String) arg0.getItemAtPosition(arg2)).split(" ")[0]); //Send only the course code, not the concatinated name
+				intent.putExtra("courseCode",((String) arg0.getItemAtPosition(arg2)).split(" ")[0]); //Send only the course code, not the concatenated name
 				startActivity(intent);
 		    }
 		});
@@ -273,10 +275,10 @@ public class ActivityCourses extends BaseActivity {
 											finish();
 											startActivity(getIntent());
 										} catch (DBException e) {
-											Toast.makeText(getApplicationContext(), "Failed to remove favourite", Toast.LENGTH_SHORT).show();
+											Toast.makeText(getApplicationContext(), R.string.toast_courses_failed_remove_favourite , Toast.LENGTH_SHORT).show();
 											e.printStackTrace();
 										} catch (NoRowsAffectedDBException e) {
-											Toast.makeText(getApplicationContext(), "Failed to remove favourite", Toast.LENGTH_SHORT).show();
+											Toast.makeText(getApplicationContext(), R.string.toast_courses_failed_remove_favourite, Toast.LENGTH_SHORT).show();
 											e.printStackTrace();
 										}
 									}
@@ -287,10 +289,10 @@ public class ActivityCourses extends BaseActivity {
 											finish();
 											startActivity(getIntent());
 										} catch (DBException e) {
-											Toast.makeText(getApplicationContext(), "Failed to add favourite", Toast.LENGTH_SHORT).show();
+											Toast.makeText(getApplicationContext(), R.string.toast_courses_failed_add_favourite, Toast.LENGTH_SHORT).show();
 											e.printStackTrace();
 										} catch (NoRowsAffectedDBException e) {
-											Toast.makeText(getApplicationContext(), "Failed to add favourite", Toast.LENGTH_SHORT).show();
+											Toast.makeText(getApplicationContext(), R.string.toast_courses_failed_add_favourite, Toast.LENGTH_SHORT).show();
 											e.printStackTrace();
 										}
 									}
@@ -309,6 +311,7 @@ public class ActivityCourses extends BaseActivity {
 				});
 	}
 	
+	//Removes all schedule events that has a specific tag in the description
 	private int deleteAllScheduleEvents() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":deleteAllScheduleEvents()");}
  		int rowsDeletedCount = getContentResolver().delete(CalendarContract.Events.CONTENT_URI,
@@ -340,10 +343,10 @@ public class ActivityCourses extends BaseActivity {
 				exportTask.execute(requests);
 			}
 			else
-				Toast.makeText(getApplicationContext(), "Failed to export schedule :<", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), R.string.toast_courses_failed_export_schedule, Toast.LENGTH_SHORT).show();
 		}
 		else 
-			Toast.makeText(getApplicationContext(), "Missing internet connection", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), R.string.toast_missing_internet_connection, Toast.LENGTH_SHORT).show();
 	}
 	
 	@SuppressWarnings("unchecked") //Should be safe to ignore this warning. It complains about not knowing the type of arraylist being sent in exportTask.execute(requests)
@@ -390,9 +393,9 @@ public class ActivityCourses extends BaseActivity {
 				}
 			}
 			else
-				Toast.makeText(getApplicationContext(), "No courses to export!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), R.string.toast_courses_failed_export_schedule_no_courses, Toast.LENGTH_SHORT).show();
 		}
 		else
-			Toast.makeText(getApplicationContext(), "Missing internet connection", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), R.string.toast_missing_internet_connection, Toast.LENGTH_SHORT).show();
 	}
 }

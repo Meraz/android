@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- General -->
   <string name="app_name">app-android</string>
   <string name="action_settings">Inställningar</string>
   <string name="choose_city_dialog">Choose Campus</string>
+  <string name="toast_missing_internet_connection">Internetuppkoppling saknas</string>
 
   <!-- Map  -->
   <string name="drawer_open">Öppna sidomeny</string>
@@ -20,7 +22,6 @@
   <string name="markers_label">Markers</string>
   <string name="markers_houses">Houses</string>
 
-
   <!-- Courses and Schedule -->
   <string name="add_button_text">Lägg till</string>
   <string name="export_button_text">Exportera</string>
@@ -28,7 +29,13 @@
   <string name="search_field_hint_courses">Kurskod</string>
   <string name="no_courses_added">Inga kurser är tillagda.\n Skriv in kurskoden och tryck på "Lägg till" för att lägga till en kurs.</string>
   <string name="empty_schedule">Töm schema</string>
-  
+  <!-- Course Toast messages -->
+  <string name="toast_courses_menu_empty_schedule_1"></string>
+  <string name="toast_courses_menu_empty_schedule_2"> tillfällen borttagna</string>
+  <string name="toast_courses_failed_remove_favourite">Kunde inte ta bort favoritkurs</string>
+  <string name="toast_courses_failed_add_favourite">Kunde inte lägga till favoritkurs</string>
+  <string name="toast_courses_failed_export_schedule">Kunde inte exportera schema</string>
+  <string name="toast_courses_failed_export_schedule_no_courses">Inga kurser att exportera</string>
   <!--  Course long press popup -->
   <string name="course_long_press_view_details">Visa detaljer</string>
   <string name="course_long_press_add_to_favourites">Lägg till favorit</string>
