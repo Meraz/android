@@ -22,7 +22,7 @@
   <string name="markers_label">Markers</string>
   <string name="markers_houses">Houses</string>
   <string name="toast_map_failed_find_place">Kunde inte hitta platsen</string>
-  <string name="toast_map_failed_start_google_maps">Kunde inte starta Google Maps :()</string>
+  <string name="toast_map_failed_start_google_maps">Kunde inte starta Google Maps :(</string>
 
   <!-- Courses and Schedule -->
   <string name="add_button_text">Lägg till</string>
@@ -31,14 +31,22 @@
   <string name="search_field_hint_courses">Kurskod</string>
   <string name="no_courses_added">Inga kurser är tillagda.\n Skriv in kurskoden och tryck på "Lägg till" för att lägga till en kurs.</string>
   <string name="empty_schedule">Töm schema</string>
-  <string name="toast_courses_menu_empty_schedule_1"></string>
-  <string name="toast_courses_menu_empty_schedule_2"> tillfällen borttagna</string>
+  <string name="toast_courses_menu_empty_schedule"> tillfällen borttagna</string>
   <string name="toast_courses_failed_remove_favourite">Kunde inte ta bort favoritkurs</string>
   <string name="toast_courses_failed_add_favourite">Kunde inte lägga till favoritkurs</string>
   <string name="toast_courses_failed_export_schedule">Kunde inte exportera schema</string>
   <string name="toast_courses_failed_export_schedule_no_courses">Inga kurser att exportera</string>
   <string name="toast_courses_confirm_removed_favourite_course">Kurs borttagen från favoriter</string>
   <string name="toast_courses_confirm_added_favourite_course">Kurs tillagd bland favoriter</string>
+  <string name="toast_courses_exporter_result_OK_1">tillfällen tillagda</string>
+  <string name="toast_courses_exporter_result_OK_2">tillfällen borttagna</string>
+  <string name="toast_courses_exporter_result_OK_3">tillfällen redan uppdaterade</string>
+  <string name="toast_courses_exporter_result_already_updated_1">alla</string>
+  <string name="toast_courses_exporter_result_already_updated_2">tillfällen redan updaterade</string>
+  <string name="toast_courses_exporter_result_nothing_returned">Timeedit hittade ingen data för en eller flera kurser</string>
+  <string name="toast_courses_exporter_result_failed">En eller flera kurser kunde inte uppdateras</string>
+  <string name="toast_courses_exporter_result_no_calendar_found">Uppdateringen misslyckades - Ingen Google kalender kunde hittas.</string>
+  
   <string name="course_long_press_view_details">Visa detaljer</string>
   <string name="course_long_press_add_to_favourites">Lägg till favorit</string>
   <string name="course_long_press_remove_from_favourites">Ta bort favorit</string>
@@ -67,9 +75,7 @@
   <string name="login_prompt_acronym">Logga in</string>
   <string name="login_prompt_password">Lösenord</string>
 
-
   <!--  infobox -->
-
   <string name="infobox_title_mainmenu">Hur använder jag denna vyn? Mainmenu</string>
   <string name="infobox_text_mainmenu">Här skall en beskrivande text finnas om hur denna vyn fungerar.</string>
 

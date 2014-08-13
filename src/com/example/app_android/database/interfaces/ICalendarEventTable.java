@@ -17,7 +17,7 @@ public interface ICalendarEventTable {
 	public void remove(long id) throws DBException, NoRowsAffectedDBException;	
 	
 	/*
-	 * Finds a unique event bu the inputed parameters and returns its Id
+	 * Finds a unique event by the inputed parameters and returns its Id
 	 */
 	public int getEventId(String title, String description, String startTime, String endTime) throws DBException, NoResultFoundDBException;
 }

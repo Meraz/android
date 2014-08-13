@@ -89,23 +89,37 @@ public class ExportToGCalFromTimeEditTask extends AsyncTask<ArrayList<String>, V
 
 		 switch (exportResult.resultFlag) {
 		 	case 0: // Normal
-		 		Toast.makeText(context, exportResult.exportedCount + " Events added\n" + exportResult.deletedCount +" Events deleted\n" + exportResult.upToDateCount + " Events already synced", Toast.LENGTH_LONG).show();
+		 		Toast.makeText(context, exportResult.exportedCount + " " +
+		 				context.getResources().getString(R.string.toast_courses_exporter_result_OK_1) + "\n" + exportResult.deletedCount +
+		 				" " + context.getResources().getText(R.string.toast_courses_exporter_result_OK_2) + "\n" + exportResult.upToDateCount +
+		 				" " + context.getResources().getString(R.string.toast_courses_exporter_result_OK_3), Toast.LENGTH_LONG).show();
 		 		break;
 
 		 	case 1: // All events up to date
-		 		Toast.makeText(context, "All " + exportResult.upToDateCount + " events are up to date", Toast.LENGTH_SHORT).show();
+		 		Toast.makeText(context, context.getResources().getString(R.string.toast_courses_exporter_result_already_updated_1) +
+		 				" " + exportResult.upToDateCount + " " +  context.getResources().getString(R.string.toast_courses_exporter_result_already_updated_2),
+		 				Toast.LENGTH_SHORT).show();
 		 		break;
 
 		 	case 2: // No data recieved from timeedit
-		 		Toast.makeText(context, "TimeEdit failed to return data for some or all courses\n" + exportResult.exportedCount + " Events added\n" + exportResult.deletedCount +" Events deleted\n" + exportResult.upToDateCount + " Events already synced", Toast.LENGTH_LONG).show();
+		 		Toast.makeText(context, context.getResources().getString(R.string.toast_courses_exporter_result_nothing_returned) +
+		 				"\n" + exportResult.exportedCount + " " + context.getString(R.string.toast_courses_exporter_result_OK_1) +
+		 				"\n" + exportResult.deletedCount + " " + context.getResources().getString(R.string.toast_courses_exporter_result_OK_2) +
+		 				"\n" + exportResult.upToDateCount + " " +  context.getResources().getString(R.string.toast_courses_exporter_result_OK_3),
+		 				Toast.LENGTH_LONG).show();
 		 		break;
 
 		 	case 3: // Event export failed
-		 		Toast.makeText(context,"Some or all events failed to sync\n" + exportResult.exportedCount + " Events added\n" + exportResult.deletedCount +" Events deleted\n" + exportResult.upToDateCount + " Events already synced", Toast.LENGTH_LONG).show();
+		 		Toast.makeText(context,context.getResources().getString(R.string.toast_courses_exporter_result_failed) +
+		 				"\n" + exportResult.exportedCount + " " + context.getString(R.string.toast_courses_exporter_result_OK_1) +
+		 				"\n" + exportResult.deletedCount + " " + context.getResources().getString(R.string.toast_courses_exporter_result_OK_2) +
+		 				"\n" + exportResult.upToDateCount + " " +  context.getResources().getString(R.string.toast_courses_exporter_result_OK_3),
+		 				Toast.LENGTH_LONG).show();
 		 		break;
 
 		 	case 4: // No calendar found
-		 		Toast.makeText(context, "Sync failed - No Google calendar found", Toast.LENGTH_SHORT).show();
+		 		Toast.makeText(context, context.getResources().getString(R.string.toast_courses_exporter_result_no_calendar_found),
+		 				Toast.LENGTH_SHORT).show();
 		 		break;
 		 }
 		 if(syncItem != null)//TODO - Make a callback to set syncitem instead of inputing it here. This is only a hack.
@@ -242,24 +256,24 @@ public class ExportToGCalFromTimeEditTask extends AsyncTask<ArrayList<String>, V
 		 int deletedEvents = 0;
 		 for(int i = 0; i < outdatedEvents.size(); ++i) {
 			 String[] eventData = outdatedEvents.get(i);
-			int eventId = -1; // TODO, is -1 a good default value? //bult
+			int eventId;
 			try {
 				eventId = eventTable.getEventId(eventData[0], eventData[1], eventData[2], eventData[3]);
 			} catch (DBException e1) {
-				// TODO Auto-generated catch block
+				eventId = -1;
 				e1.printStackTrace();
 			} catch (NoResultFoundDBException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				eventId = -1;
 			}
-			 boolean result = false;
+			 boolean result;
 			 try {
 				eventTable.remove(eventId);
+				result = true;
 			} catch (DBException e) {
-				// TODO
+				result = false;
 				e.printStackTrace();
 			} catch (NoRowsAffectedDBException e) {
-				// TODO
+				result = false;
 				e.printStackTrace();
 			}
 			 if(result) {
@@ -364,13 +378,12 @@ public class ExportToGCalFromTimeEditTask extends AsyncTask<ArrayList<String>, V
 		try {
 			eventTable.add(Integer.parseInt(eventId), title, description, eventData[0], eventData[1]);
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (DBException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoRowsAffectedDBException e) {
-			// TODO Auto-generated catch block
+			// TODO count down the added event counter here
 			e.printStackTrace();
 		}
 	}

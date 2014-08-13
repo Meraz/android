@@ -140,13 +140,13 @@ public class ActivityCourses extends BaseActivity {
     		
     	case R.id.courses_menu_empty_schedule:
     		int deletedRowsCount = deleteAllScheduleEvents();
-    		Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_courses_menu_empty_schedule_1) + deletedRowsCount +
-    				getResources().getString(R.string.toast_courses_menu_empty_schedule_2)  , Toast.LENGTH_SHORT).show();
+    		Toast.makeText(getApplicationContext(), deletedRowsCount + " " + 
+    				getResources().getString(R.string.toast_courses_menu_empty_schedule)  , Toast.LENGTH_SHORT).show();
     		break;
     	}
         return super.onOptionsItemSelected(item);
     }
-    
+     
     @Override
     public boolean onMenuOpened(int featureId, Menu menu) {
     	if(Utilities.verbose) {Log.v(TAG, mClassName + ":onMenuOpened()");}
@@ -305,7 +305,7 @@ public class ActivityCourses extends BaseActivity {
 						//TODO - use the isfavorutie flag to decide which string should be presented on the add/remove favourite item and set it accordingly here
 						popupMenu.show();
 						
-						return true; //Indicate that this event has been comsumed. Omnomnomnomnomnom :3
+						return true; //Indicate that this event has been consumed. Omnomnomnomnomnom :3
 					}
 				});
 	}
