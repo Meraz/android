@@ -33,11 +33,12 @@ public class ActivityDetailedCourse extends BaseActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		mClassName = getClass().getSimpleName();
 		mTag = TAG;
+		super.onCreate(savedInstanceState);
 		mTitle = getString(R.string.infobox_title_detailed_courses);
 		mInfoBoxMessage = getString(R.string.infobox_text_detailed_courses);
+		
 		setContentView(R.layout.activity_detailed_course);
 		
 		//Get the intent bundle and the databases we need 

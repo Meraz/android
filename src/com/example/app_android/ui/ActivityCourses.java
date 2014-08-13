@@ -179,9 +179,8 @@ public class ActivityCourses extends BaseActivity {
 		startActivity(intent);
 	}
 	
-
-	
 	private void initializeDropDownSearchField() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":initializeDropDownSearchField()");}
 		ArrayList<String> courseCodeList = null;
 		try {
 			courseCodeList = mCoursesTable.getAllCourseCodes();
@@ -227,9 +226,6 @@ public class ActivityCourses extends BaseActivity {
 		mSearchField.setAdapter(mSearchAdapter);
 		mSearchField.setThreshold(0);
 		mSearchField.setOnItemClickListener(new OnItemClickListener() {
-			
-			
-		    
 			@Override
 		    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				Intent intent = new Intent(getApplicationContext(), ActivityDetailedCourse.class);
@@ -240,6 +236,7 @@ public class ActivityCourses extends BaseActivity {
 	}
 	
 	private void initializePopupMenu() {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":initializePopupMenu()");}
 		//Initialize the popup menu for long press on course item
 				mListFragment = (ListFragment) getFragmentManager().findFragmentById(R.id.courseListView);
 				mListFragment.getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
@@ -324,6 +321,7 @@ public class ActivityCourses extends BaseActivity {
 	
 	@SuppressWarnings("unchecked")
 	private void exportSingleCourseSchedule(String courseCode) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":exportSingleCourseSchedule()");}
 		if(Utilities.isNetworkAvailable(getApplicationContext())) {
 			ArrayList<String> requests = new ArrayList<String>();
 			CourseBean course;
@@ -355,7 +353,6 @@ public class ActivityCourses extends BaseActivity {
 	@SuppressLint("SimpleDateFormat")
 	private void exportSchedule() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":exportSchedule()");}
-		
 		if(Utilities.isNetworkAvailable(getApplicationContext())) {
 			ArrayList<String> courseCodes;
 			try {
