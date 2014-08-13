@@ -163,7 +163,6 @@ public class FragmentNewStudent extends ListFragment{
 			intent = new Intent(getActivity().getApplicationContext(), ActivityCourseMaterial.class);
 			startActivity(intent);
             break;
-          break;
 
         default:
           break;
