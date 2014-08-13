@@ -4,34 +4,20 @@
         android:layout_height="fill_parent"
         android:orientation="vertical">
         
-       	<LinearLayout
-       		android:id="@+id/detailed_course_inner_layout" 
+    	<Button
+        	android:id="@+id/course_export_schedule_button"
+        	style="?android:attr/buttonStyleSmall"
        		android:layout_width="fill_parent"
-    		android:layout_height="wrap_content"
-    		android:orientation="horizontal"
-    		android:layout_alignParentBottom="true">
-			<Button
-        		android:id="@+id/course_register_button"
-        		style="?android:attr/buttonStyleSmall"
-        		android:layout_width="fill_parent"
-        		android:layout_height="wrap_content"
-        		android:layout_weight="1"
-    	    	android:text="@string/course_register"
-    	    	android:onClick="onRegisterCourseButtonPressed" />
-    		<Button
-        		android:id="@+id/course_export_schedule_button"
-        		style="?android:attr/buttonStyleSmall"
-        		android:layout_width="fill_parent"
-        		android:layout_height="wrap_content"
-        		android:layout_weight="1"
-    	    	android:text="@string/course_export_schedule_button"
-    	    	android:onClick="onExportButtonPressed" />
-    	</LinearLayout>
+        	android:layout_height="wrap_content"
+        	android:layout_alignParentBottom="true"
+    	   	android:text="@string/course_export_schedule_button"
+    	   	android:onClick="onExportButtonPressed" />
+    	
 		<ScrollView
     		android:id="@+id/detailed_course_scroll_view"
   			android:layout_width="fill_parent"
   			android:layout_height="fill_parent"
-  			android:layout_above="@id/detailed_course_inner_layout">
+  			android:layout_above="@id/course_export_schedule_button">
 
 			<RelativeLayout
     			android:layout_width="match_parent"

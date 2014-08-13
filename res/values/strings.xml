@@ -58,7 +58,6 @@
   <string name="course_end">Slut</string>
   <string name="course_litterature">Kurslitteratur</string>
   <string name="course_exam">Tentamen</string>
-  <string name="course_register">Registrera Kurs</string>
   <string name="course_description">Kursbeskrivning</string>
   <string name="course_info_missing">Data saknas</string>
   <string name="course_export_schedule_button">Exportera Schema</string>
