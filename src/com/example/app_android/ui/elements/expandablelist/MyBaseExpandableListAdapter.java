@@ -179,7 +179,7 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
 	        {
 	        	tv.setText(Html.fromHtml(child.getText()));	// Read the text as html formatted
 	        	if(mClickableHtmlLinks) {
-		        	Linkify.addLinks(tv, Linkify.ALL);
+		        	Linkify.addLinks(tv, Linkify.WEB_URLS);
 		        	tv.setMovementMethod(LinkMovementMethod.getInstance());
 		        	tv.setLinksClickable(true);
 	        	}
