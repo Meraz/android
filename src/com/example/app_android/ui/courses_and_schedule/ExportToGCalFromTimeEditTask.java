@@ -26,13 +26,11 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.app_android.R;
-import com.example.app_android.R.string;
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.NoResultFoundDBException;
 import com.example.app_android.database.NoRowsAffectedDBException;
 import com.example.app_android.database.interfaces.ICalendarEventTable;
-import com.example.app_android.ui.courses_and_schedule.CalendarUtilities.ExportResultBean;
 
 public class ExportToGCalFromTimeEditTask extends AsyncTask<ArrayList<String>, Void, CalendarUtilities.ExportResultBean> {
 	 final Context context;

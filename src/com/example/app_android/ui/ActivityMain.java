@@ -111,17 +111,17 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
 		
 		switch (view.getId()) {
 		
-		case R.id.newStudentButton:
+		case R.id.main_new_student_button:
 			intent = new Intent(getApplicationContext(), ActivityNewStudent.class);
 	        startActivity(intent);
 			break;
 			
-		case R.id.coursesButton:
+		case R.id.main_courses_button:
 			intent = new Intent(getApplicationContext(), ActivityCourses.class);
 	        startActivity(intent);
 			break;
 			
-		case R.id.mapButton:
+		case R.id.main_map_button:
 			if(Utilities.isNetworkAvailable(this)) {
         		int startLocation = -1; //TODO - Get saved startlocation and use it instead of bringing up the dialog every time
         		if(startLocation >= 0 && startLocation <= 1) {
@@ -138,7 +138,7 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
         		Toast.makeText(getApplicationContext(), "Missing internet connection", Toast.LENGTH_SHORT).show();
 			break;
 			
-		case R.id.studentUnionButton:
+		case R.id.main_student_union_button:
 			intent = new Intent(getApplicationContext(), ActivityStudentUnion.class);
 	        startActivity(intent);
 			break;

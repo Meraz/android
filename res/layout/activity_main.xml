@@ -4,100 +4,100 @@
     android:layout_height="match_parent" >
 
     <ImageButton
-        android:id="@+id/newStudentButton"
+        android:id="@+id/main_new_student_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="50dp"
-        android:src="@drawable/ic_launcher"
         android:onClick="onButtonClicked"
-        android:contentDescription="@string/main_new_student_button" />
+        android:contentDescription="@string/main_new_student_button" 
+        android:src="@drawable/ic_launcher"/>
 
     <ImageButton
-        android:id="@+id/coursesButton"
+        android:id="@+id/main_courses_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/newStudentButton"
+        android:layout_alignTop="@+id/main_new_student_button"
         android:layout_marginRight="50dp"
-        android:src="@drawable/ic_launcher"
         android:onClick="onButtonClicked"
-        android:contentDescription="@string/main_courses_and_schedule_button" />
+        android:contentDescription="@string/main_courses_and_schedule_button"
+        android:src="@drawable/ic_launcher" />
 
     <ImageButton
-        android:id="@+id/mapButton"
+        android:id="@+id/main_map_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/newStudentButton"
-        android:layout_below="@+id/newStudentButton"
+        android:layout_alignLeft="@+id/main_new_student_button"
+        android:layout_below="@+id/main_new_student_button"
         android:layout_marginTop="50dp"
-        android:src="@drawable/ic_launcher"
         android:onClick="onButtonClicked"
-        android:contentDescription="@string/main_map_button" />
+        android:contentDescription="@string/main_map_button" 
+        android:src="@drawable/ic_launcher"/>
 
     <ImageButton
-        android:id="@+id/studentUnionButton"
+        android:id="@+id/main_student_union_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/coursesButton"
-        android:layout_alignTop="@+id/mapButton"
-        android:src="@drawable/ic_launcher"
+        android:layout_alignLeft="@+id/main_courses_button"
+        android:layout_alignTop="@+id/main_map_button"
         android:onClick="onButtonClicked"
-        android:contentDescription="@string/main_student_union_button"/>
+        android:contentDescription="@string/main_student_union_button"
+        android:src="@drawable/ic_launcher"/>
 
     <ImageButton
         android:id="@+id/imageButton5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/mapButton"
+        android:layout_alignLeft="@+id/main_map_button"
         android:layout_alignTop="@+id/imageButton6"
-        android:src="@drawable/ic_launcher"
-        android:onClick="onButtonClicked" />
+        android:onClick="onButtonClicked" 
+        android:src="@drawable/ic_launcher"/>
     
     <ImageButton
         android:id="@+id/imageButton6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/studentUnionButton"
-        android:layout_below="@+id/studentUnionButton"
+        android:layout_alignLeft="@+id/main_student_union_button"
+        android:layout_below="@+id/main_student_union_button"
         android:layout_marginTop="50dp"
-        android:src="@drawable/ic_launcher"
-        android:onClick="onButtonClicked" />
+        android:onClick="onButtonClicked"
+        android:src="@drawable/ic_launcher" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/main_new_student_button_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/coursesButton"
-        android:layout_alignRight="@+id/newStudentButton"
+        android:layout_above="@+id/main_courses_button"
+        android:layout_alignRight="@+id/main_new_student_button"
         android:text="@string/main_new_student_button" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/main_courses_button_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/coursesButton"
+        android:layout_above="@+id/main_courses_button"
         android:layout_alignParentRight="true"
         android:layout_marginRight="18dp"
         android:text="@string/main_courses_and_schedule_button" />
     
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/main_map_button_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/studentUnionButton"
+        android:layout_above="@+id/main_student_union_button"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="29dp"
         android:text="@string/main_map_button" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/main_student_union_button_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/studentUnionButton"
-        android:layout_alignLeft="@+id/studentUnionButton"
+        android:layout_above="@+id/main_student_union_button"
+        android:layout_alignLeft="@+id/main_student_union_button"
         android:text="@string/main_student_union_button" />
 
     <TextView
@@ -105,7 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/imageButton5"
-        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignLeft="@+id/main_new_student_button_label"
         android:text="Logga in" />
 
     <TextView
