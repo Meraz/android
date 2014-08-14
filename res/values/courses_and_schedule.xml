@@ -9,6 +9,7 @@
   <string name="empty_schedule">Töm schema</string>
   <string name="export_schedule">Exportera schema</string>
   <string name="toast_courses_menu_empty_schedule"> tillfällen borttagna</string>
+  <string name="toast_courses_menu_empty_schedule_no_events">Inga tillfällen hittades</string>
   <string name="toast_courses_failed_remove_favourite">Kunde inte ta bort favoritkurs</string>
   <string name="toast_courses_failed_add_favourite">Kunde inte lägga till favoritkurs</string>
   <string name="toast_courses_failed_export_schedule">Kunde inte exportera schema</string>

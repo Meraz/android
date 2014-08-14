@@ -17,6 +17,7 @@ import android.annotation.SuppressLint;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
@@ -80,7 +81,7 @@ public class ActivityCourses extends BaseActivity {
 		}
 		
 		//Get layout variables
-		mSearchField 		= (AutoCompleteTextView) findViewById(R.id.course_search_input);
+		mSearchField 			= (AutoCompleteTextView) findViewById(R.id.course_search_input);
 		mFavouriteCourseListView = findViewById(R.id.courseListView);
 		mNoCoursesText 			= (TextView) findViewById(R.id.noCoursesDescription);
 		
@@ -136,9 +137,8 @@ public class ActivityCourses extends BaseActivity {
     	switch (item.getItemId()) {
     		
     	case R.id.courses_menu_empty_schedule:
-    		int deletedRowsCount = deleteAllScheduleEvents();
-    		Toast.makeText(getApplicationContext(), deletedRowsCount + " " + 
-    				getResources().getString(R.string.toast_courses_menu_empty_schedule)  , Toast.LENGTH_SHORT).show();
+    		deleteAllScheduleEvents();
+    		
     		break;
     		
     	case R.id.courses_menu_sync_schedule:
@@ -151,7 +151,6 @@ public class ActivityCourses extends BaseActivity {
     @Override
     public boolean onMenuOpened(int featureId, Menu menu) {
     	if(Utilities.verbose) {Log.v(TAG, mClassName + ":onMenuOpened()");}
-    	
     	//Make icons visible in overflow menu
         if((featureId == Window.FEATURE_OPTIONS_PANEL || featureId == Window.FEATURE_ACTION_BAR ) && menu != null){
             if(menu.getClass().getSimpleName().equals("MenuBuilder")){
@@ -314,12 +313,10 @@ public class ActivityCourses extends BaseActivity {
 	}
 	
 	//Removes all schedule events that has a specific tag in the description
-	private int deleteAllScheduleEvents() {
+	private void deleteAllScheduleEvents() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":deleteAllScheduleEvents()");}
- 		int rowsDeletedCount = getContentResolver().delete(CalendarContract.Events.CONTENT_URI,
- 				Events.DESCRIPTION + " LIKE ? ", new String[] {"%" + ExportToGCalFromTimeEditTask.CALENDAR_EVENT_TAG +"%"});
  		
- 		return rowsDeletedCount;
+		new DelteAllScheduleEventsTask().execute();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -399,5 +396,26 @@ public class ActivityCourses extends BaseActivity {
 		}
 		else
 			Toast.makeText(getApplicationContext(), R.string.toast_general_missing_internet_connection, Toast.LENGTH_SHORT).show();
+	}
+	
+	private class DelteAllScheduleEventsTask extends AsyncTask<Void, Void, Integer> {
+
+		@Override
+		protected Integer doInBackground(Void... params) {
+	 		return getContentResolver().delete(CalendarContract.Events.CONTENT_URI,
+	 				Events.DESCRIPTION + " LIKE ? ", new String[] {"%" + ExportToGCalFromTimeEditTask.CALENDAR_EVENT_TAG +"%"});
+		}
+
+		@Override
+        protected void onPostExecute(Integer deletedRowsCount) {
+			if(deletedRowsCount > 0) {
+				Toast.makeText(getApplicationContext(), deletedRowsCount + " " +
+					getResources().getString(R.string.toast_courses_menu_empty_schedule), Toast.LENGTH_SHORT).show();
+			}
+			else {
+				Toast.makeText(getApplicationContext(),getResources().getString(R.string.toast_courses_menu_empty_schedule_no_events),
+						Toast.LENGTH_SHORT).show();
+			}
+        }
 	}
 }
