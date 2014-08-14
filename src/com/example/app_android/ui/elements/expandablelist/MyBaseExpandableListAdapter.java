@@ -184,7 +184,7 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
 		        	tv.setLinksClickable(true);
 	        	}
 	        	else {
-		        	tv.setLinksClickable(true);
+		        	tv.setLinksClickable(false);
 	        	}
 	        }	        
 	        else if(mUseHtmlTextInTextFields == false) {
