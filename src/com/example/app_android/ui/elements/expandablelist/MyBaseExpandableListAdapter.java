@@ -214,7 +214,7 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
         ArrayList<ExpandableListChild> chList = mGroups.get(groupPosition).getItems();
         return chList.size();
     }
- 
+  
     public Object getGroup(int groupPosition) {
         return mGroups.get(groupPosition);
     }

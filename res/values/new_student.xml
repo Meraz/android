@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-     <string-array name="new_student_menu" >
+
+  <!-- Newstudent mainmenu -->
+  <string-array name="new_student_menu" >
     <item >Att göra som ny student</item>
     <item >Boende</item>
     <item >Studentportalen</item>
@@ -10,6 +11,7 @@
     <item >Kursmaterial</item>
   </string-array>
 
+  <!-- Checklist -->
   <string-array name="new_student_menu_checklist_header" >
     <item >Fixa boende</item>
     <item >Registrera dig på kurser/program</item>
@@ -27,22 +29,27 @@
     <item >För att kunna vara med och kvalitetssäkra utbildningen och som student få hjälp vid tvister med högskolan behöver man vara medlem i studentkåren. Man har även genom organisationen en möjlighet att påverka beslutsfattare lokalt och nationellt, andra arbetsområden är studiesociala frågor från miljön på campus till aktiviteter utanför skolan. Besök BTHstudent.se för att läsa mer om det viktiga och roliga arbete som görs. [Knapp]</item>
   </string-array>
 
-  <string-array name="new_student_menu_residence_header" >
+  <!-- Residence -->
+  <string-array name="new_student_menu_residence_header_kna" >
     <item >Boende</item>
-    <item >Karlskrona Hem</item>
+    <item >Karlskronahem</item>
     <item >Krebo</item>
     <item >HSB Sydost</item>
     <item >Studentlya</item>
+    <item >Fler hyresvärdar</item>
   </string-array>
-  <string-array name="new_student_menu_residence_text" >
+  <string-array name="new_student_menu_residence_text_kna" >
     <item >De flesta studenterna bor i närheten av skolan i området Galgamarken och Annebo. Skolan ligger enbart några hundra meter från dessa områden och med god tillgång till kollektivtrafiken.</item>
-    <item >AB Karlskronahem är Karlskronas största bostadsbolag med fastigheter på ett flertal orter i kommunen. </item>
-    <item >Krebo har till största del riktat in sig på studentlägenheter där bostadsområdena ska ge trygghet, en känsla av tillhörighet och underlätta för god gemenskap.</item>
-    <item >Sveriges största bostadskooperation där medlemmarna äger och driver organisationen med principen ”en medlem – en röst”.</item>
-    <item >En förmedlingssajt åt studenter som söker bostad. Studentlya äger inte själv några bostäder utan är en mellanhand åt bostadsägare som vill hyra ut sin bostad till studenter. [KNAPP]</item>
+    <item >AB Karlskronahem är Karlskronas största bostadsbolag med fastigheter på ett flertal orter i kommunen. www.karlskronahem.se</item>
+    <item >Krebo har till största del riktat in sig på studentlägenheter där bostadsområdena ska ge trygghet, en känsla av tillhörighet och underlätta för god gemenskap. www.krebo.se</item>
+    <item >Sveriges största bostadskooperation där medlemmarna äger och driver organisationen med principen ”en medlem – en röst”. www.hsb.se</item>
+    <item >En förmedlingssajt åt studenter som söker bostad. Studentlya äger inte själv några bostäder utan är en mellanhand åt bostadsägare som vill hyra ut sin bostad till studenter. www.studentlya.nu</item>
+    <item >@string/new_student_residence_text_other_kna</item>
   </string-array>
+  <string name="new_student_residence_text_other_kna">http://www.karlskrona.se/sv/Bostad--miljo/Boende/Hitta-bostad</string>
 
-  <string-array name="new_student_menu_coursematerial_header" >
+  <!-- Course material -->
+  <string-array name="new_student_menu_coursematerial_header_kna" >
     <item >Kurslitteratur</item>
     <item >Bibliotek</item>
     <item >Bokfynd</item>
@@ -50,13 +57,13 @@
     <item >Bokus</item>
     <item >CDON</item>
   </string-array>
-  <string-array name="new_student_menu_coursematerial_text" >
+  <string-array name="new_student_menu_coursematerial_text_kna" >
     <item >För studenten är kurslitteraturen något av det viktigaste, inte bara att ha rätt kurslitteratur men även att man ska ha kvar pengar att leva för när denna är inhandlad. Nedan hittar du några nyttiga länkar.</item>
-    <item >Om du är ute i god tid finns det stora möjligheter att låna sin kurslitteratur kostnadsfritt via biblioteket på skolan.</item>
+    <item >Om du är ute i god tid finns det stora möjligheter att låna sin kurslitteratur kostnadsfritt via biblioteket på skolan. www.bth.se/bib</item>
     <item >Bokfynd är en jämförelsesida som samlar kostnaden för hela ditt köp och meddelar var du får den billigast. www.bokfynd.nu</item>
-    <item >Adlibris.com vill leverera böcker från hela världen till Sverige, Finland och Norge. Sveriges största nätbokhandel.</item>
-    <item >Bokus.com bokhandeln som enligt sig själva alltid är vaken och har nyheterna samtidigt som de släpps.</item>
-    <item >CDON.se nordens största nätvaruhus med ständigt nya kampanjer och säkra snabba leveranser.</item>
+    <item >Adlibris vill leverera böcker från hela världen till Sverige, Finland och Norge. Sveriges största nätbokhandel. www.adlibris.com</item>
+    <item >Bokus bokhandeln som enligt sig själva alltid är vaken och har nyheterna samtidigt som de släpps. www.bokus.com</item>
+    <item >CDON .COM är nordens största nätvaruhus med ständigt nya kampanjer och säkra snabba leveranser. www.cdon.se</item>
   </string-array>
-  
+
 </resources>

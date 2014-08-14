@@ -27,6 +27,8 @@ public class ActivityCourseMaterial extends BaseNewStudentActivity implements IB
 		mExpandableListAdapter.setUseHtmlFormattingOnText(true);	// name says it all
 		mExpandableListAdapter.setButtonCallBack(this);
 		
+//		mInfoBoxTitle = getString(R.string.infobox_title_newstudent_residence);			// TODO
+//		mInfoBoxMessage = getString(R.string.infobox_text_newstudent_residence); 		// TODO
 		mActionBarTitle += getString(R.string.actionbar_nextsign) + getString(R.string.actionbar_newstudent_course_material);
     }        
     
@@ -40,8 +42,8 @@ public class ActivityCourseMaterial extends BaseNewStudentActivity implements IB
     	ExpandableListGroup group;
 
     	Resources res = getResources();
-    	String[] header = res.getStringArray(R.array.new_student_menu_coursematerial_header);
-    	String[] text = res.getStringArray(R.array.new_student_menu_coursematerial_text);
+    	String[] header = res.getStringArray(R.array.new_student_menu_coursematerial_header_kna);	// TODO KHN/KNA
+    	String[] text = res.getStringArray(R.array.new_student_menu_coursematerial_text_kna);
     	
     	for(int i = 0; i < header.length; i++) {
     		group = ExpandableListGroup.ConstructOneGroupWithOneChild(header[i], text[i], null);
@@ -51,6 +53,6 @@ public class ActivityCourseMaterial extends BaseNewStudentActivity implements IB
     }
 	@Override
 	public void onButtonClick(ExpandableListMetaButton metabutton) {
-		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":onButtonClick()");}	
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onButtonClick()");}	
 	}     
 }

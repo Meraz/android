@@ -55,7 +55,7 @@ public class BaseActivity extends Activity {
 		if(Utilities.verbose) {Log.v(mTag, mClassName + ":onResume()");}
 		super.onResume();
 		
-		getActionBar().setTitle(mActionBarTitle);   
+		getActionBar().setTitle(mActionBarTitle);
 	}
 
 	@Override

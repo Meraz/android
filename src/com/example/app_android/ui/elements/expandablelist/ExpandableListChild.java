@@ -15,14 +15,14 @@ public class ExpandableListChild {
     public String getText() {
         return mText;
     }
-    public void setText(String Name) {
-        mText = Name;
+    public void setText(String text) {
+        mText = text;
     }
     public String getTag() {
         return mTag;
     }
-    public void setTag(String Tag) {
-        mTag = Tag;
+    public void setTag(String tag) {
+        mTag = tag;
     }
     
     public ExpandableListMetaButton getButton() {

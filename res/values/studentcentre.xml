@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <!--  New student submenu 'studentcentre' -->
-  <string-array name="new_student_menu_studentcentre_header" >
+  <string-array name="new_student_menu_studentcentre_header_kna" >
     <item >Studentcentrum</item>
+    <item >BTH-kortet</item>
+    <item >Studentkonto</item>
+    <item > Parkeringstillstånd</item>
+    <item > Utlämning av tentamen</item>
   </string-array>
-  <string-array name="new_student_menu_studentcentre_text" >
+  <string-array name="new_student_menu_studentcentre_text_kna" >
     <item >@string/new_student_menu_studentcentre</item>
+    <item >@string/new_student_menu_studentcentre_text_bth_card</item>
+    <item >@string/new_student_menu_studentcentre_text_student_account</item>
+    <item >@string/new_student_menu_studentcentre_text_parking</item>
+    <item >@string/new_student_menu_studentcentre_text_exams</item>
   </string-array>
 
   <string name="new_student_menu_studentcentre_text_url"><![CDATA[<a href="https://studentportal.bth.se/web/studentportal.nsf/web.xsp/studentcentrum">Studentcentrums hemsida</a>]]></string>
   <string name="new_student_menu_studentcentre_url">https://studentportal.bth.se/web/studentportal.nsf/web.xsp/studentcentrum</string>
 
   <string name="new_student_menu_studentcentre"><![CDATA[
-<b>Studentcentrum</b> hjälper dig med att få svar på dina frågor kring registreringar på program/kurser, BTH-kortet, ditt studentkonto, parkeringstillstånd på campus Gräsvik, utelämning av tentamen och intyg för tidigare studenter.
+Studentcentrum hjälper dig med att få svar på dina frågor kring <b>registreringar</b> på program/kurser, <b>BTH-kortet</b>, ditt <b>studentkonto</b>, <b>parkeringstillstånd</b> på campus Gräsvik, utelämning av tentamen och intyg för tidigare studenter.
 <br>
 <br>
 Studentcentrums öppetider är:
@@ -25,11 +33,16 @@ Fredag 10:00-11:30
 Man kan även nå studentcentrum via telefonnummer 0455-385700
 mån-fre mellan 10:00-11:30.
 <br>
-För ytterliggare information besök studentcentrum på <u>andra</u> våningen i J-huset, ovanför Bistron.
+För ytterliggare information besök studentcentrum på andra våningen i J-huset, ovanför Bistron.
 <br
 <br>
   ]]></string>
 
+  <string name="new_student_menu_studentcentre_text_bth_card">Behövs för att kunna komma in i vissa låsta salar, så som datorsalar, eller på skolan efter stängning. Kan även användas som studentlegitimation och kopplas till skrivarna för lättare inloggning vid utskrift. Då det används som legitimation kommer ni till att bli fotograferade vid uthämtning av kortet.</string>
 
+  <string name="new_student_menu_studentcentre_text_student_account">Aktiveras med din antagning och medför funktioner på skolan så som e-postadress, personlig hemkatalog, personlig hemsida, tillgång till datorer och wifi, it´s learning läroplattform och möjligheten till webbanmälan.</string>
 
+  <string name="new_student_menu_studentcentre_text_parking">På BTH är det strängt förbjudet att parkera utan parkeringstillstånd och överträdelser för detta beivras med böter.</string>
+
+  <string name="new_student_menu_studentcentre_text_exams">Studentcentrum har hand om de skriftliga tentor som skrivs på BTH och det är dit man går för att hämta ut sin skriftliga tentamen. Glöm inte att legitimering är ett krav när en tenta hämtas ut.</string>
 </resources>
