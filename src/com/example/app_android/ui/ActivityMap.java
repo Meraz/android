@@ -7,6 +7,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -327,7 +328,16 @@ public class ActivityMap extends BaseActivity {
 		
 		mCampusKarlskronaCoordinates = new LatLng(karlskronaLatitude.getFloat(),karlskronaLongitude.getFloat());
 		mCampusKarlshamnCoordinates = new LatLng(karlshamnLatitude.getFloat(), karlshamnLongitude.getFloat());
-	}	
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onOptionsItemSelected()");}
+		if(mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 	
 	public void onRadioButtonClicked(View view) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onRadioButtonClicked()");}
