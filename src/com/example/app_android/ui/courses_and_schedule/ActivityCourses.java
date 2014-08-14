@@ -57,7 +57,8 @@ public class ActivityCourses extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		mClassName = getClass().getSimpleName();
-		mTag = TAG;		
+		mTag = TAG;
+		mActionBarTitle = getString(R.string.actionbar_courses);
 		super.onCreate(savedInstanceState);
 		mInfoBoxTitle = getString(R.string.infobox_title_courses);
 		mInfoBoxMessage = getString(R.string.infobox_text_courses);

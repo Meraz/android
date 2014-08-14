@@ -58,9 +58,9 @@ public class ActivityDetailedCourse extends BaseActivity {
 		}
 		if(courseInfo == null) {
 			Toast.makeText(getApplicationContext(), R.string.toast_detailed_course_failed_retrieve_info, Toast.LENGTH_SHORT).show();
-			getActionBar().setTitle(mCourseCode);
+			mActionBarTitle = mCourseCode;
 		} else {
-			getActionBar().setTitle(mCourseCode + " - " + courseInfo.getCourseName());
+			mActionBarTitle = mCourseCode + " - " + courseInfo.getCourseName();
 		
 			((TextView)findViewById(R.id.course_responsible_text)).setText(courseInfo.getCourseResponsible());
 			((TextView)findViewById(R.id.course_start_text)).setText(courseInfo.getStartDate());
