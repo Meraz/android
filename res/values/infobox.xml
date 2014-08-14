@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="infobox_title_mainmenu">Hur använder jag denna vyn? Mainmenu</string>
+  <string name="infobox_text_mainmenu">Här skall en beskrivande text finnas om hur denna vyn fungerar.</string>
+
+  <string name="infobox_title_newstudent_mainmenu">Hur använder jag denna vyn? New student mainmenu</string>
+  <string name="infobox_text_newstudent_mainmenu">Här skall en beskrivande text finnas om hur denna vyn fungerar.</string>
+
+  <string name="infobox_title_newstudent">Hur använder jag denna vyn? New student</string>
+  <string name="infobox_text_newstudent">Här skall en beskrivande text finnas om hur denna vyn fungerar.</string>
+
+  <string name="infobox_title_courses">Hur använder jag denna vyn? Courses</string>
+  <string name="infobox_text_courses">Här skall en beskrivande text finnas om hur denna vyn fungerar.</string>
+
+  <string name="infobox_title_detailed_courses">Hur använder jag denna vyn? Detailed course</string>
+  <string name="infobox_text_detailed_courses">Här skall en beskrivande text finnas om hur denna vyn fungerar.</string>
+
+  <string name="infobox_title_map">Hur använder jag denna vyn? Map</string>
+  <string name="infobox_text_map">This dialog should contain information about how the map view works. But it doesn\'t, this is just some random text specified in a random .xml file somewhere.</string>
+
+  <string name="infobox_title_studentunion">Hur använder jag denna vyn? Studentunion</string>
+  <string name="infobox_text_studentunion">Här skall en beskrivande text finnas om hur denna vyn fungerar.</string>
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="drawer_open">Öppna sidomeny</string>
+  <string name="drawer_close">Stäng sidomeny</string>
+  <string name="search_field_hint_map">Sök</string>
+  <string name="search_button_description">Sökknapp</string>
+  <string name="view_label">Kartvy</string>
+  <string name="view_hybrid">Hybrid</string>
+  <string name="view_normal">Normal</string>
+  <string name="view_satellite">Satellit</string>
+  <string name="campus_label">Campus</string>
+  <string name="campus_karlshamn">Karlshamn</string>
+  <string name="campus_karlskrona">Karlskrona</string>
+  <string name="markers_label">Markers</string>
+  <string name="markers_houses">Houses</string>
+  <string name="toast_map_failed_find_place">Kunde inte hitta platsen</string>
+  <string name="toast_map_failed_start_google_maps">Kunde inte starta Google Maps :(</string>
+</resources>

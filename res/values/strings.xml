@@ -1,68 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- General -->
-  <string name="app_name">app-android</string>
+  <!-- General -->
+  <string name="app_name">Blekinge Tekniska Högskola</string>
   <string name="action_settings">Inställningar</string>
   <string name="choose_city_dialog">Choose Campus</string>
   <string name="toast_general_missing_internet_connection">Internetuppkoppling saknas</string>
-
-  <!-- Map  -->
-  <string name="drawer_open">Öppna sidomeny</string>
-  <string name="drawer_close">Stäng sidomeny</string>
-  <string name="search_field_hint_map">Sök</string>
-  <string name="search_button_description">Sökknapp</string>
-  <string name="view_label">Kartvy</string>
-  <string name="view_hybrid">Hybrid</string>
-  <string name="view_normal">Normal</string>
-  <string name="view_satellite">Satellit</string>
-  <string name="campus_label">Campus</string>
-  <string name="campus_karlshamn">Karlshamn</string>
-  <string name="campus_karlskrona">Karlskrona</string>
-  <string name="markers_label">Markers</string>
-  <string name="markers_houses">Houses</string>
-  <string name="toast_map_failed_find_place">Kunde inte hitta platsen</string>
-  <string name="toast_map_failed_start_google_maps">Kunde inte starta Google Maps :(</string>
-
-  <!-- Courses and Schedule -->
-  <string name="add_button_text">Lägg till</string>
-  <string name="export_button_text">Exportera</string>
-  <string name="schedule_button_text">Öppna Kalenderapp</string>
-  <string name="search_field_hint_courses">Kurskod</string>
-  <string name="no_courses_added">Inga kurser är tillagda.\n Skriv in kurskoden och tryck på "Lägg till" för att lägga till en kurs.</string>
-  <string name="empty_schedule">Töm schema</string>
-  <string name="export_schedule">Exportera schema</string>
-  <string name="toast_courses_menu_empty_schedule"> tillfällen borttagna</string>
-  <string name="toast_courses_failed_remove_favourite">Kunde inte ta bort favoritkurs</string>
-  <string name="toast_courses_failed_add_favourite">Kunde inte lägga till favoritkurs</string>
-  <string name="toast_courses_failed_export_schedule">Kunde inte exportera schema</string>
-  <string name="toast_courses_failed_export_schedule_no_courses">Inga kurser att exportera</string>
-  <string name="toast_courses_confirm_removed_favourite_course">Kurs borttagen från favoriter</string>
-  <string name="toast_courses_confirm_added_favourite_course">Kurs tillagd bland favoriter</string>
-  <string name="toast_courses_exporter_result_OK_1">tillfällen tillagda</string>
-  <string name="toast_courses_exporter_result_OK_2">tillfällen borttagna</string>
-  <string name="toast_courses_exporter_result_OK_3">tillfällen redan uppdaterade</string>
-  <string name="toast_courses_exporter_result_already_updated_1">alla</string>
-  <string name="toast_courses_exporter_result_already_updated_2">tillfällen redan updaterade</string>
-  <string name="toast_courses_exporter_result_nothing_returned">Timeedit hittade ingen data för en eller flera kurser</string>
-  <string name="toast_courses_exporter_result_failed">En eller flera kurser kunde inte uppdateras</string>
-  <string name="toast_courses_exporter_result_no_calendar_found">Uppdateringen misslyckades - Ingen Google kalender kunde hittas.</string>
-  
-  <string name="course_long_press_view_details">Visa detaljer</string>
-  <string name="course_long_press_add_to_favourites">Lägg till favorit</string>
-  <string name="course_long_press_remove_from_favourites">Ta bort favorit</string>
-  <string name="course_long_press_exportera_schema">Exportera schema</string>
-
-  <!--  Detailed Course View -->
-  <string name="course_responsible">Kursansvarig</string>
-  <string name="course_start">Start</string>
-  <string name="course_end">Slut</string>
-  <string name="course_litterature">Kurslitteratur</string>
-  <string name="course_exam">Tentamen</string>
-  <string name="course_description">Kursbeskrivning</string>
-  <string name="course_info_missing">Data saknas</string>
-  <string name="course_export_schedule_button">Exportera Schema</string>
-  <string name="toast_detailed_course_failed_retrieve_info">Ingen info hittad :\</string>
 
   <!--  Main -->
   <string name="main_new_student_button">Ny Student</string>
@@ -77,95 +20,10 @@
   <string name="login_prompt_positive_button">Logga in</string>
   <string name="login_prompt_text"> Logga in\n För att använda denna tjänst behöver du logga in med ditt studentkonto genom att ange akronym och lösenord</string>
 
-  <!--  infobox -->
-  <string name="infobox_title_mainmenu">Hur använder jag denna vyn? Mainmenu</string>
-  <string name="infobox_text_mainmenu">Här skall en beskrivande text finnas om hur denna vyn fungerar.</string>
-
-  <string name="infobox_title_newstudent_mainmenu">Hur använder jag denna vyn? New student mainmenu</string>
-  <string name="infobox_text_newstudent_mainmenu">Här skall en beskrivande text finnas om hur denna vyn fungerar.</string>
-
-  <string name="infobox_title_newstudent">Hur använder jag denna vyn? New student</string>
-  <string name="infobox_text_newstudent">Här skall en beskrivande text finnas om hur denna vyn fungerar.</string>
-
-  <string name="infobox_title_courses">Hur använder jag denna vyn? Courses</string>
-  <string name="infobox_text_courses">Här skall en beskrivande text finnas om hur denna vyn fungerar.</string>
-
-  <string name="infobox_title_detailed_courses">Hur använder jag denna vyn? Detailed course</string>
-  <string name="infobox_text_detailed_courses">Här skall en beskrivande text finnas om hur denna vyn fungerar.</string>
-
-  <string name="infobox_title_map">Hur använder jag denna vyn? Map</string>
-  <string name="infobox_text_map">This dialog should contain information about how the map view works. But it doesn\'t, this is just some random text specified in a random .xml file somewhere.</string>
-
-  <string name="infobox_title_studentunion">Hur använder jag denna vyn? Studentunion</string>
-  <string name="infobox_text_studentunion">Här skall en beskrivande text finnas om hur denna vyn fungerar.</string>
-
-
-  <string-array name="new_student_menu" >
-    <item >Att göra som ny student</item>
-    <item >Boende</item>
-    <item >Studentportalen</item>
-    <item >Studentcentrum</item>
-    <item >Studentkåren</item>
-    <item >Kursmaterial</item>
-  </string-array>
-
-  <string-array name="new_student_menu_checklist_header" >
-    <item >Fixa boende</item>
-    <item >Registrera dig på kurser/program</item>
-    <item >Registrera dig på CSN</item>
-    <item >Skaffa BTH-kort</item>
-    <item >Skaffa din kurslitteratur</item>
-    <item >Bli medlem i studentkåren</item>
-  </string-array>
-  <string-array name="new_student_menu_checklist_text" >
-    <item >För att kunna genomföra dina studier på ett bra sätt behöver du ett boende med god tillgång till skolan. Se till att vara ute i god tid då de bästa lägenheterna försvinner snabbast.</item>
-    <item >Som student behöver du registrera dig till programmet du läser. Detta för att få full tillgång till scheman och uppgifter som publiceras men även för att kunna söka CSN.</item>
-    <item >För att få studiebidrag och lån behöver man söka studiemedel och lämna en studieförsäkran hos CSN som görs via deras hemsida.</item>
-    <item >behövs för att kunna komma in i vissa låsta salar, ex datorsalar, samt på skolan efter stängning. Kan även användas som studentlegitimation och kopplas till skrivarna för lättare inloggning vid utskrift. Då det används som legitimation kommer ni till att bli fotograferade vid framtagning av kortet. [KNAPP]</item>
-    <item >För att tidigt kunna hänga med i dina studier behöver man införskaffa den litteratur som krävs enligt kursplanen. Gör man detta i god tid så finns det många kronor att spara och mycket kunnande att läsa in. [KNAPP]</item>
-    <item >För att kunna vara med och kvalitetssäkra utbildningen och som student få hjälp vid tvister med högskolan behöver man vara medlem i studentkåren. Man har även genom organisationen en möjlighet att påverka beslutsfattare lokalt och nationellt, andra arbetsområden är studiesociala frågor från miljön på campus till aktiviteter utanför skolan. Besök BTHstudent.se för att läsa mer om det viktiga och roliga arbete som görs. [Knapp]</item>
-  </string-array>
-
-  <string-array name="new_student_menu_residence_header" >
-    <item >Boende</item>
-    <item >Karlskrona Hem</item>
-    <item >Krebo</item>
-    <item >HSB Sydost</item>
-    <item >Studentlya</item>
-  </string-array>
-  <string-array name="new_student_menu_residence_text" >
-    <item >De flesta studenterna bor i närheten av skolan i området Galgamarken och Annebo. Skolan ligger enbart några hundra meter från dessa områden och med god tillgång till kollektivtrafiken.</item>
-    <item >AB Karlskronahem är Karlskronas största bostadsbolag med fastigheter på ett flertal orter i kommunen. </item>
-    <item >Krebo har till största del riktat in sig på studentlägenheter där bostadsområdena ska ge trygghet, en känsla av tillhörighet och underlätta för god gemenskap.</item>
-    <item >Sveriges största bostadskooperation där medlemmarna äger och driver organisationen med principen ”en medlem – en röst”.</item>
-    <item >En förmedlingssajt åt studenter som söker bostad. Studentlya äger inte själv några bostäder utan är en mellanhand åt bostadsägare som vill hyra ut sin bostad till studenter. [KNAPP]</item>
-  </string-array>
-
-  <string-array name="new_student_menu_coursematerial_header" >
-    <item >Kurslitteratur</item>
-    <item >Bibliotek</item>
-    <item >Bokfynd</item>
-    <item >Adlibris</item>
-    <item >Bokus</item>
-    <item >CDON</item>
-  </string-array>
-  <string-array name="new_student_menu_coursematerial_text" >
-    <item >För studenten är kurslitteraturen något av det viktigaste, inte bara att ha rätt kurslitteratur men även att man ska ha kvar pengar att leva för när denna är inhandlad. Nedan hittar du några nyttiga länkar.</item>
-    <item >Om du är ute i god tid finns det stora möjligheter att låna sin kurslitteratur kostnadsfritt via biblioteket på skolan.</item>
-    <item >Bokfynd är en jämförelsesida som samlar kostnaden för hela ditt köp och meddelar var du får den billigast. www.bokfynd.nu</item>
-    <item >Adlibris.com vill leverera böcker från hela världen till Sverige, Finland och Norge. Sveriges största nätbokhandel.</item>
-    <item >Bokus.com bokhandeln som enligt sig själva alltid är vaken och har nyheterna samtidigt som de släpps.</item>
-    <item >CDON.se nordens största nätvaruhus med ständigt nya kampanjer och säkra snabba leveranser.</item>
-  </string-array>
-
+  <!-- Dialogs -->
   <string-array name="cities_dialog" >
     <item >Campus Karlskrona</item>
     <item >Campus Karlshamn</item>
   </string-array>
 
-  <string-array name="map_drawer_items">
-    <item>Campus Karlskrona</item>
-    <item>Campus Karlshamn</item>
-    <item>J1270</item>
-  </string-array>
 </resources>

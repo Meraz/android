@@ -27,7 +27,7 @@ public class DialogChooseCity extends DialogFragment {
 				R.array.cities_dialog, new DialogInterface.OnClickListener() {			
 					@Override
 					public void onClick(DialogInterface dialog, int option) {
-						if(Utilities.verbose) {Log.v(TAG, mClassName + ":informStart()");} // TODO Does this work?
+						if(Utilities.verbose) {Log.v(TAG, mClassName + ":informStart()");}
 						assert option <= 0 && option >= 2;
 						
 						//Start the map activity
