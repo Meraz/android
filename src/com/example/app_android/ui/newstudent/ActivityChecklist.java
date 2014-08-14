@@ -25,6 +25,9 @@ public class ActivityChecklist extends BaseNewStudentActivity implements IButton
 		mExpandableListAdapter.setUseHtmlFormattingOnText(true);	// name says it all
 		mExpandableListAdapter.setButtonCallBack(this);
 		
+		
+//		mInfoBoxTitle = getString(R.string.infobox_title_newstudent_residence);			// TODO
+//		mInfoBoxMessage = getString(R.string.infobox_text_newstudent_residence); 		// TODO
 		mActionBarTitle += getString(R.string.actionbar_nextsign) + getString(R.string.actionbar_newstudent_checklist);
     }        
     
@@ -52,6 +55,6 @@ public class ActivityChecklist extends BaseNewStudentActivity implements IButton
     
 	@Override
 	public void onButtonClick(ExpandableListMetaButton metabutton) {
-		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":onButtonClick()");}
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onButtonClick()");}
 	}     
 }

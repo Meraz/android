@@ -25,8 +25,11 @@ public class ActivityResidence extends BaseNewStudentActivity implements IButton
 		mExpandableListAdapter.openSpecificGroups(new int[]{0}); 	// Open first
 		mExpandableListAdapter.setOnlyOneOpenBehavior(true);		// only one group can be opened at the time
 		mExpandableListAdapter.setUseHtmlFormattingOnText(true);	// name says it all
+		mExpandableListAdapter.setClickableHtmlLinks(true);			// name says it all
 		mExpandableListAdapter.setButtonCallBack(this);
 		
+		mInfoBoxTitle = getString(R.string.infobox_title_newstudent_residence);
+		mInfoBoxMessage = getString(R.string.infobox_text_newstudent_residence); 				
 		mActionBarTitle += getString(R.string.actionbar_nextsign) + getString(R.string.actionbar_newstudent_residence);
     }
     
@@ -39,8 +42,8 @@ public class ActivityResidence extends BaseNewStudentActivity implements IButton
     	ExpandableListGroup group;
 
     	Resources res = getResources();
-    	String[] header = res.getStringArray(R.array.new_student_menu_residence_header);
-    	String[] text = res.getStringArray(R.array.new_student_menu_residence_text);
+    	String[] header = res.getStringArray(R.array.new_student_menu_residence_header_kna);	// TODO KHN/KNA
+    	String[] text = res.getStringArray(R.array.new_student_menu_residence_text_kna);
     	
     	for(int i = 0; i < header.length; i++) {
     		group = ExpandableListGroup.ConstructOneGroupWithOneChild(header[i], text[i], null);
@@ -51,6 +54,6 @@ public class ActivityResidence extends BaseNewStudentActivity implements IButton
 
 	@Override
 	public void onButtonClick(ExpandableListMetaButton metabutton) {
-		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":onButtonClick()");}	
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onButtonClick()");}	
 	} 	
 }

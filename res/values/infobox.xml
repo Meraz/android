@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="infobox_title_mainmenu">Hur använder jag denna vyn? Mainmenu</string>
-  <string name="infobox_text_mainmenu">Här skall en beskrivande text finnas om hur denna vyn fungerar.</string>
+  <string name="infobox_title_mainmenu">Huvudmenyn</string>
+  <string name="infobox_text_mainmenu">De sex olika valen är de som anses vara nödvändiga för studenter. Som ny student ges information om vad som behövs göras och vad som är bra att sätta sig in i för att snabbt komma in i sin studietid.</string>
 
-  <string name="infobox_title_newstudent_mainmenu">Hur använder jag denna vyn? New student mainmenu</string>
-  <string name="infobox_text_newstudent_mainmenu">Här skall en beskrivande text finnas om hur denna vyn fungerar.</string>
+  <string name="infobox_title_newstudent_mainmenu">Ny Student meny</string>
+  <string name="infobox_text_newstudent_mainmenu">Som ny student är kategorierna en hjälp för att snabbt kunna komma igång med sin studietid på BTH. </string>
+
+  <string name="infobox_title_newstudent_residence">Information</string>
+  <string name="infobox_text_newstudent_residence">Informationen är kopplad till vilket campus du tidigare valt. Vyn presenterar de leverantörer av boende som erbjuder studentlägenheter. För andra lägenheter se alternativet längst ner.</string>
+
+  <string name="infobox_title_newstudent_student_centre">Information</string>
+  <string name="infobox_text_newstudent_student_centre"> Informationen är anpassad efter vilket campus du tidigare val. Vyn presenterar vad studentcentrum kan hjälpa dig med, deras öppettider samt en lista längst ner med vanliga funderingar man har som student när man vänder sig till studentcentrum.</string>
 
   <string name="infobox_title_newstudent">Hur använder jag denna vyn? New student</string>
   <string name="infobox_text_newstudent">Här skall en beskrivande text finnas om hur denna vyn fungerar.</string>

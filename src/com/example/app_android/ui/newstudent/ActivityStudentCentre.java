@@ -9,17 +9,11 @@ import com.example.app_android.ui.elements.expandablelist.IButtonCallback;
 import com.example.app_android.ui.elements.expandablelist.MyBaseExpandableListAdapter;
 import com.example.app_android.util.Utilities;
 
-import android.content.Intent;
 import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
 public class ActivityStudentCentre extends BaseNewStudentActivity implements IButtonCallback {
-
-	private enum ButtonAction{
-		StudentCentreWebsite
-	}
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +27,8 @@ public class ActivityStudentCentre extends BaseNewStudentActivity implements IBu
 		mExpandableListAdapter.setClickableHtmlLinks(true);
 		mExpandableListAdapter.setButtonCallBack(this);
 		
+		mInfoBoxTitle = getString(R.string.infobox_title_newstudent_student_centre);
+		mInfoBoxMessage = getString(R.string.infobox_text_newstudent_student_centre); 	
 		mActionBarTitle += getString(R.string.actionbar_nextsign) + getString(R.string.actionbar_newstudent_student_centre);
     }        
     
@@ -45,8 +41,8 @@ public class ActivityStudentCentre extends BaseNewStudentActivity implements IBu
     	ExpandableListGroup group;
    	
     	Resources res = getResources();
-    	String[] header = res.getStringArray(R.array.new_student_menu_studentcentre_header);
-    	String[] text = res.getStringArray(R.array.new_student_menu_studentcentre_text);
+    	String[] header = res.getStringArray(R.array.new_student_menu_studentcentre_header_kna);	// TODO KHN/KNA
+    	String[] text = res.getStringArray(R.array.new_student_menu_studentcentre_text_kna);
     	
     	for(int i = 0; i < header.length; i++) {
     		
@@ -62,15 +58,6 @@ public class ActivityStudentCentre extends BaseNewStudentActivity implements IBu
     
 	@Override
 	public void onButtonClick(ExpandableListMetaButton metabutton) {
-		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":onButtonClick()");}
-		
-		int actionID = metabutton.getAction();
-		ButtonAction actionEnum = ButtonAction.values()[actionID];
-		
-		if(actionEnum == ButtonAction.StudentCentreWebsite) {
-		    Uri uriUrl = Uri.parse(getString(R.string.new_student_menu_studentcentre_url));
-	        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-	        startActivity(launchBrowser);
-		}		
+		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onButtonClick()");}	
 	} 	
 }
