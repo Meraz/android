@@ -58,6 +58,7 @@ public class ActivityMap extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
 		mClassName = getClass().getSimpleName();
 		mTag = TAG;
+		mActionBarTitle = getString(R.string.actionbar_map);
         super.onCreate(savedInstanceState);
 		mInfoBoxTitle = getString(R.string.infobox_title_map);
 		mInfoBoxMessage = getString(R.string.infobox_text_map);

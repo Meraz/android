@@ -11,5 +11,7 @@
   <string name="actionbar_newstudent_student_portal">Studentportalen</string>
   <string name="actionbar_newstudent_student_union">StudentkAren</string>
   <string name="actionbar_newstudent_base">Ny Student</string>
+  <string name="actionbar_map">Kartor</string>
+  <string name="actionbar_courses">Kurser</string>
   
 </resources>
