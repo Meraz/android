@@ -46,7 +46,7 @@ public class CalendarEventTable extends BaseTable implements ICalendarEventTable
 
 	@Override
 	public boolean add(long id, String title, String description ,String startTime, String endTime) throws DBException, NoRowsAffectedDBException {
-		if(Utilities.verbose) {Log.v(TAG, mClass + ":createTable()");}
+		if(Utilities.verbose) {Log.v(TAG, mClass + ":add()");}
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
 		
