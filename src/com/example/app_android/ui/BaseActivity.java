@@ -18,6 +18,7 @@ public class BaseActivity extends Activity {
 	
 	protected String mClassName;
 	protected String mTag;
+	protected String mActionBarTitle;	
 	
 	protected String mInfoBoxTitle = "About";		
 	protected String mInfoBoxMessage = "This dialog will show general information about the app. TODO - Add bragging rights";
@@ -53,6 +54,8 @@ public class BaseActivity extends Activity {
 	protected void onResume() {
 		if(Utilities.verbose) {Log.v(mTag, mClassName + ":onResume()");}
 		super.onResume();
+		
+		getActionBar().setTitle(mActionBarTitle);   
 	}
 
 	@Override

@@ -27,6 +27,8 @@ public class ActivityStudentUnion extends BaseNewStudentActivity implements IBut
 		mExpandableListAdapter.setUseHtmlFormattingOnText(true);	// name says it all
 		mExpandableListAdapter.setClickableHtmlLinks(true);			// name says it all
 		mExpandableListAdapter.setButtonCallBack(this);
+		
+		mActionBarTitle += getString(R.string.actionbar_newstudent_student_union);
     }        
     
     public ArrayList<ExpandableListGroup> SetStandardGroups() {

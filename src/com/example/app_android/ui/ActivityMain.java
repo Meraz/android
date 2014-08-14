@@ -44,6 +44,8 @@ public class ActivityMain extends BaseActivity implements Receiver, LoginPromptC
     	super.onCreate(savedInstanceState);
 		mInfoBoxTitle = getString(R.string.infobox_title_mainmenu);
 		mInfoBoxMessage = getString(R.string.infobox_text_mainmenu);
+		
+		mActionBarTitle = getString(R.string.actionbar_mainmenu);
     	
         // Sets the content specified in the file in res/layout/activity_main.xml
         // This also specifies which fragment(s) to activate

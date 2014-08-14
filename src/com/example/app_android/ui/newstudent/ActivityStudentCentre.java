@@ -32,6 +32,8 @@ public class ActivityStudentCentre extends BaseNewStudentActivity implements IBu
 		mExpandableListAdapter.setUseHtmlFormattingOnText(true);	// name says it all
 		mExpandableListAdapter.setClickableHtmlLinks(true);
 		mExpandableListAdapter.setButtonCallBack(this);
+		
+		mActionBarTitle += getString(R.string.actionbar_newstudent_student_centre);
     }        
     
     public ArrayList<ExpandableListGroup> SetStandardGroups() {

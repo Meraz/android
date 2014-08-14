@@ -33,6 +33,8 @@ abstract public class BaseNewStudentActivity extends BaseActivity implements IBu
 		mExpandableListItems = SetStandardGroups();
 		mInfoBoxTitle = getString(R.string.infobox_title_newstudent);
 		mInfoBoxMessage = getString(R.string.infobox_text_newstudent);
+		
+		mActionBarTitle = getString(R.string.actionbar_newstudent_base);
     }        
     
 	abstract protected ArrayList<ExpandableListGroup> SetStandardGroups();

@@ -26,6 +26,8 @@ public class ActivityCourseMaterial extends BaseNewStudentActivity implements IB
 		mExpandableListAdapter.setOnlyOneOpenBehavior(true);		// only one group can be opened at the time
 		mExpandableListAdapter.setUseHtmlFormattingOnText(true);	// name says it all
 		mExpandableListAdapter.setButtonCallBack(this);
+		
+		mActionBarTitle += getString(R.string.actionbar_newstudent_course_material);
     }        
     
     public ArrayList<ExpandableListGroup> SetStandardGroups() {
