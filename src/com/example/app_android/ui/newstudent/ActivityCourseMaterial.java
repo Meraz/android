@@ -27,7 +27,7 @@ public class ActivityCourseMaterial extends BaseNewStudentActivity implements IB
 		mExpandableListAdapter.setUseHtmlFormattingOnText(true);	// name says it all
 		mExpandableListAdapter.setButtonCallBack(this);
 		
-		mActionBarTitle += getString(R.string.actionbar_newstudent_course_material);
+		mActionBarTitle += getString(R.string.actionbar_nextsign) + getString(R.string.actionbar_newstudent_course_material);
     }        
     
     public ArrayList<ExpandableListGroup> SetStandardGroups() {

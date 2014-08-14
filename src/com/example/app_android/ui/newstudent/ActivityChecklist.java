@@ -25,7 +25,7 @@ public class ActivityChecklist extends BaseNewStudentActivity implements IButton
 		mExpandableListAdapter.setUseHtmlFormattingOnText(true);	// name says it all
 		mExpandableListAdapter.setButtonCallBack(this);
 		
-		mActionBarTitle += getString(R.string.actionbar_newstudent_checklist);
+		mActionBarTitle += getString(R.string.actionbar_nextsign) + getString(R.string.actionbar_newstudent_checklist);
     }        
     
 	@Override
