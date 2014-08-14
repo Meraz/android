@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--  Actionbar -->
+    
   <string name="actionbar_nextsign">/</string>
   <string name="actionbar_mainmenu">Blekinge Tekniska Högskola</string>
   <string name="actionbar_newstudent_mainmenu">Ny Student</string>
@@ -13,5 +13,6 @@
   <string name="actionbar_newstudent_base">Ny Student</string>
   <string name="actionbar_map">Kartor</string>
   <string name="actionbar_courses">Kurser</string>
+  <string name="actionbar_student_union">Blekinge Studentkår</string>
   
 </resources>

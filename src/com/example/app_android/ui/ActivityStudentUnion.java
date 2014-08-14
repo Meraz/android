@@ -19,6 +19,7 @@ public class ActivityStudentUnion extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
     	mClassName = getClass().getSimpleName();    
     	mTag = TAG;
+    	mActionBarTitle = getString(R.string.actionbar_student_union);
     	super.onCreate(savedInstanceState);
     	mInfoBoxTitle = getString(R.string.infobox_title_studentunion);
 		mInfoBoxMessage = getString(R.string.infobox_text_studentunion);
