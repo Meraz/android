@@ -141,18 +141,18 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 		values[10].put(COLUMN_TOGGLE_ID, MapPlaceIdentifiers.TOGGLE_ID_STUDENT_UNION);
 		
 		//TEST VALUES
-		values[11].put(COLUMN_NAME, "Alpackahage");
-		values[11].put(COLUMN_DESCRIPTION, "Description missing");
-		values[11].put(COLUMN_COORDINATE_LATITUDE, 56.181375);
-		values[11].put(COLUMN_COORDINATE_LONGITUDE, 15.585975);
-		values[11].put(COLUMN_ICON_ID, MapPlaceIdentifiers.MARKER_ÌCON_ID_BSK_OFFICE);
+		values[11].put(COLUMN_NAME, "J2170");
+		values[11].put(COLUMN_DESCRIPTION, "[Hardcoded test description]");
+		values[11].put(COLUMN_COORDINATE_LATITUDE, 56.182810);
+		values[11].put(COLUMN_COORDINATE_LONGITUDE, 15.590314);
+		values[11].put(COLUMN_ICON_ID, MapPlaceIdentifiers.MARKER_ICON_ID_DEBUG);
 		values[11].put(COLUMN_TOGGLE_ID, MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE);
 		
-		values[12].put(COLUMN_NAME, "Alpackahage2");
-		values[12].put(COLUMN_DESCRIPTION, "Description missing");
-		values[12].put(COLUMN_COORDINATE_LATITUDE, 56.184375);
-		values[12].put(COLUMN_COORDINATE_LONGITUDE, 15.535975);
-		values[12].put(COLUMN_ICON_ID, MapPlaceIdentifiers.MARKER_ÌCON_ID_BSK_OFFICE);
+		values[12].put(COLUMN_NAME, "G311");
+		values[12].put(COLUMN_DESCRIPTION, "[Hardcoded test description]");
+		values[12].put(COLUMN_COORDINATE_LATITUDE, 56.181890);
+		values[12].put(COLUMN_COORDINATE_LONGITUDE, 15.591293);
+		values[12].put(COLUMN_ICON_ID, MapPlaceIdentifiers.MARKER_ICON_ID_DEBUG);
 		values[12].put(COLUMN_TOGGLE_ID, MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE);
 		
 		db.beginTransaction();
@@ -388,6 +388,9 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 			
 		case MapPlaceIdentifiers.MARKER_ÌCON_ID_BSK_OFFICE:
 			icon = BitmapDescriptorFactory.fromResource(R.drawable.marker_bsk);
+			break;
+		case MapPlaceIdentifiers.MARKER_ICON_ID_DEBUG:
+			icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher);
 			break;
 		}
 		return icon;

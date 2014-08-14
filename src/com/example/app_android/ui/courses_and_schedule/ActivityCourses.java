@@ -315,7 +315,6 @@ public class ActivityCourses extends BaseActivity {
 	//Removes all schedule events that has a specific tag in the description
 	private void deleteAllScheduleEvents() {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":deleteAllScheduleEvents()");}
- 		
 		new DelteAllScheduleEventsTask().execute();
 	}
 	

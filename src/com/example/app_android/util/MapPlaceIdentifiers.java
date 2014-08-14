@@ -9,6 +9,7 @@ public abstract class MapPlaceIdentifiers {
 	public static final int TOGGLE_ID_STUDENT_PUBS		= 2;
 	
 	//Marker icon IDs
+	public static final int MARKER_ICON_ID_DEBUG		= -1;
 	public static final int MARKER_ICON_ID_HOUSE_A 		= 0;
 	public static final int MARKER_ICON_ID_HOUSE_B 		= 1;
 	public static final int MARKER_ICON_ID_HOUSE_C 		= 2;
