@@ -62,6 +62,7 @@ public class ActivityDetailedCourse extends BaseActivity {
 		} else {
 			mActionBarTitle = mCourseCode + " - " + courseInfo.getCourseName();
 		
+			//Set the textviews text to the fetched data
 			((TextView)findViewById(R.id.course_responsible_text)).setText(courseInfo.getCourseResponsible());
 			((TextView)findViewById(R.id.course_start_text)).setText(courseInfo.getStartDate());
 			((TextView)findViewById(R.id.course_end_text)).setText(courseInfo.getEndDate());
@@ -85,7 +86,6 @@ public class ActivityDetailedCourse extends BaseActivity {
 	@SuppressWarnings("unchecked")
 	public void onExportButtonPressed(View exportButton) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onExportButtonPressed()");}
-		
 		if(Utilities.isNetworkAvailable(getApplicationContext())) {
 			ArrayList<String> requests = new ArrayList<String>();
 			requests.add(CalendarUtilities.buildTimeEditRequest(mCourseCode,
@@ -96,12 +96,6 @@ public class ActivityDetailedCourse extends BaseActivity {
 		}
 		else 
 			Toast.makeText(getApplicationContext(), R.string.toast_general_missing_internet_connection, Toast.LENGTH_SHORT).show();
-	}
-	
-	public void onRegisterCourseButtonPressed(View RegisterCourseButton) {
-		if(Utilities.verbose) {Log.v(TAG, mClassName + ":onRegisterCourseButtonPressed()");}
-		
-		//TODO - Check if the user is registered on the course and if not, make an attempt at registering him/her.
 	}
 	
 	@Override
