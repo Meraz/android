@@ -174,6 +174,9 @@ public class ActivityCourses extends BaseActivity {
     
 	public void startCalendar(View view) {
 		if(Utilities.verbose) {Log.v(TAG, mClassName + ":startCalendar()");}
+		//Sync the schedule
+		exportSchedule();
+		
     	//Start the calendar app
     	Uri uri = Uri.parse("content://com.android.calendar/time");
 		Intent intent = new Intent("android.intent.action.VIEW", uri);
