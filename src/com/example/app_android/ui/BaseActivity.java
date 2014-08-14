@@ -18,8 +18,9 @@ public class BaseActivity extends Activity {
 	
 	protected String mClassName;
 	protected String mTag;
+	protected String mActionBarTitle;	
 	
-	protected String mTitle = "About";		// Rename this to mInfoBoxTitle // TODO
+	protected String mInfoBoxTitle = "About";		
 	protected String mInfoBoxMessage = "This dialog will show general information about the app. TODO - Add bragging rights";
 	
     @Override
@@ -53,6 +54,8 @@ public class BaseActivity extends Activity {
 	protected void onResume() {
 		if(Utilities.verbose) {Log.v(mTag, mClassName + ":onResume()");}
 		super.onResume();
+		
+		getActionBar().setTitle(mActionBarTitle);   
 	}
 
 	@Override
@@ -83,11 +86,13 @@ public class BaseActivity extends Activity {
     	
         if(item.getItemId() == R.id.about_info) {
         	Builder alert = new AlertDialog.Builder(this);
-        	alert.setTitle(mTitle);
+        	alert.setTitle(mInfoBoxTitle);
         	alert.setMessage(mInfoBoxMessage);
         	alert.setPositiveButton("OK",null);
         	alert.show();
         }
         return super.onOptionsItemSelected(item);
     }
+    
+    
 }

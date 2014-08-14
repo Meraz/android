@@ -35,6 +35,8 @@ public class ActivityStudentPortal extends BaseNewStudentActivity implements IBu
 		mExpandableListAdapter.setOnlyOneOpenBehavior(true);		// only one group can be opened at the time
 		mExpandableListAdapter.setUseHtmlFormattingOnText(true);	// name says it all
 		mExpandableListAdapter.setButtonCallBack(this);
+		
+		mActionBarTitle += getString(R.string.actionbar_nextsign) + getString(R.string.actionbar_newstudent_student_portal);
     }        
     
     public ArrayList<ExpandableListGroup> SetStandardGroups() {

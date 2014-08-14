@@ -59,7 +59,7 @@ public class ActivityMap extends BaseActivity {
 		mClassName = getClass().getSimpleName();
 		mTag = TAG;
         super.onCreate(savedInstanceState);
-		mTitle = getString(R.string.infobox_title_map);
+		mInfoBoxTitle = getString(R.string.infobox_title_map);
 		mInfoBoxMessage = getString(R.string.infobox_text_map);
                 
         LatLng place = null;

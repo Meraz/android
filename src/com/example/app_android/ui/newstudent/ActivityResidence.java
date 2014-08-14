@@ -26,9 +26,11 @@ public class ActivityResidence extends BaseNewStudentActivity implements IButton
 		mExpandableListAdapter.setOnlyOneOpenBehavior(true);		// only one group can be opened at the time
 		mExpandableListAdapter.setUseHtmlFormattingOnText(true);	// name says it all
 		mExpandableListAdapter.setButtonCallBack(this);
+		
+		mActionBarTitle += getString(R.string.actionbar_nextsign) + getString(R.string.actionbar_newstudent_residence);
     }
     
-    public ArrayList<ExpandableListGroup> SetStandardGroups() { // TODO engrish / swedrish
+    public ArrayList<ExpandableListGroup> SetStandardGroups() {
 		if(Utilities.verbose) {Log.v(TAG, getClass().getSimpleName() + ":SetStandardGroups()");}
     	// Return list of groups
     	ArrayList<ExpandableListGroup> finalList = new ArrayList<ExpandableListGroup>();

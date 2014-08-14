@@ -14,8 +14,9 @@ public class ActivityNewStudent extends BaseActivity implements NewStudentListen
     	mClassName = getClass().getSimpleName();
     	mTag = TAG;
         super.onCreate(savedInstanceState);
-		mTitle = getString(R.string.infobox_title_newstudent_mainmenu);
+		mInfoBoxTitle = getString(R.string.infobox_title_newstudent_mainmenu);
 		mInfoBoxMessage = getString(R.string.infobox_text_newstudent_mainmenu);
+		mActionBarTitle = "Ny Student";
         
         setContentView(R.layout.activity_newstudent);        
     } 
