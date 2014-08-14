@@ -49,8 +49,8 @@
          <activity android:name="com.example.app_android.ui.ActivityNewStudentContent"></activity>
          <activity android:name="com.example.app_android.ui.ActivityMap"></activity>
          <activity android:name="com.example.app_android.ui.ActivitySchedule"></activity>
-         <activity android:name="com.example.app_android.ui.ActivityCourses"></activity>
-         <activity android:name="com.example.app_android.ui.ActivityDetailedCourse"></activity>
+         <activity android:name="com.example.app_android.ui.courses_and_schedule.ActivityCourses"></activity>
+         <activity android:name="com.example.app_android.ui.courses_and_schedule.ActivityDetailedCourse"></activity>
 		 <activity android:name="com.example.app_android.ui.ActivityStudentUnion"></activity>
          
 		<!-- NewStudent UI views -->   

@@ -21,12 +21,12 @@ import android.widget.ToggleButton;
 
 import java.util.HashMap;
 
-import com.example.app_android.MapPlaceIdentifiers;
 import com.example.app_android.R;
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.NoResultFoundDBException;
 import com.example.app_android.database.interfaces.IMapPlaceTable;
+import com.example.app_android.util.MapPlaceIdentifiers;
 import com.example.app_android.util.Utilities;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

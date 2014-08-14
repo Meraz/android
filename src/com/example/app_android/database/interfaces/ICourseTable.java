@@ -2,10 +2,10 @@ package com.example.app_android.database.interfaces;
 
 import java.util.ArrayList;
 
-import com.example.app_android.CourseBean;
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.NoResultFoundDBException;
 import com.example.app_android.database.NoRowsAffectedDBException;
+import com.example.app_android.ui.courses_and_schedule.CourseBean;
 
 public interface ICourseTable {
 	

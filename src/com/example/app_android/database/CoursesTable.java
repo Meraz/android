@@ -2,8 +2,8 @@ package com.example.app_android.database;
 
 import java.util.ArrayList;
 
-import com.example.app_android.CourseBean;
 import com.example.app_android.database.interfaces.ICourseTable;
+import com.example.app_android.ui.courses_and_schedule.CourseBean;
 import com.example.app_android.util.Utilities;
 
 import android.content.ContentValues;
