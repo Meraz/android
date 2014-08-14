@@ -1,4 +1,4 @@
-package com.example.app_android;
+package com.example.app_android.ui.courses_and_schedule;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,12 +25,14 @@ import android.provider.CalendarContract.Events;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.app_android.R;
+import com.example.app_android.R.string;
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
 import com.example.app_android.database.NoResultFoundDBException;
 import com.example.app_android.database.NoRowsAffectedDBException;
 import com.example.app_android.database.interfaces.ICalendarEventTable;
-import com.example.app_android.util.CalendarUtilities;
+import com.example.app_android.ui.courses_and_schedule.CalendarUtilities.ExportResultBean;
 
 public class ExportToGCalFromTimeEditTask extends AsyncTask<ArrayList<String>, Void, CalendarUtilities.ExportResultBean> {
 	 final Context context;
@@ -122,8 +124,10 @@ public class ExportToGCalFromTimeEditTask extends AsyncTask<ArrayList<String>, V
 		 				Toast.LENGTH_SHORT).show();
 		 		break;
 		 }
-		 if(syncItem != null)//TODO - Make a callback to set syncitem instead of inputing it here. This is only a hack.
+		 if(syncItem != null) {//TODO - Make a callback to set syncitem instead of inputing it here. This is only a hack.
 			 syncItem.setVisible(false);
+			 syncItem.setActionView(null); //Not sure if it will animate in the background if I odn't do this. //TODO Check how this works
+		 }
 	 }
 	 //Finds the id of a calendar connected to a gmail account
 	 private int findCalendarID() {

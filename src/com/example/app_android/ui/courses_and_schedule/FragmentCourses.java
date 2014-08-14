@@ -1,4 +1,4 @@
-package com.example.app_android.ui;
+package com.example.app_android.ui.courses_and_schedule;
 
 import com.example.app_android.R;
 import com.example.app_android.util.Utilities;

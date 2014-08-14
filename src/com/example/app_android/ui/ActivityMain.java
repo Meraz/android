@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
 import android.view.View;
 import android.widget.Toast;
 
@@ -18,6 +17,7 @@ import com.example.app_android.database.NoRowsAffectedDBException;
 import com.example.app_android.database.interfaces.ITokenTable;
 import com.example.app_android.services.ServiceManager;
 import com.example.app_android.ui.LoginPrompt.LoginPromptCallback;
+import com.example.app_android.ui.courses_and_schedule.ActivityCourses;
 import com.example.app_android.util.Utilities;
 import com.example.app_android.util.MyBroadcastReceiver;
 import com.example.app_android.util.MyBroadcastReceiver.Receiver;

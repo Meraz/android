@@ -1,4 +1,4 @@
-package com.example.app_android;
+package com.example.app_android.util;
 
 public abstract class MapPlaceIdentifiers {
 

@@ -1,9 +1,7 @@
-package com.example.app_android.ui;
+package com.example.app_android.ui.courses_and_schedule;
 
 import java.util.ArrayList;
 
-import com.example.app_android.CourseBean;
-import com.example.app_android.ExportToGCalFromTimeEditTask;
 import com.example.app_android.R;
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
@@ -11,7 +9,7 @@ import com.example.app_android.database.NoResultFoundDBException;
 import com.example.app_android.database.NoRowsAffectedDBException;
 import com.example.app_android.database.interfaces.ICourseTable;
 import com.example.app_android.database.interfaces.IFavouriteCourseTable;
-import com.example.app_android.util.CalendarUtilities;
+import com.example.app_android.ui.BaseActivity;
 import com.example.app_android.util.Utilities;
 
 import android.os.Bundle;

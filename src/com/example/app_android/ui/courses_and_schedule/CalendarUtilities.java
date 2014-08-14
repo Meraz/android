@@ -1,4 +1,4 @@
-package com.example.app_android.util;
+package com.example.app_android.ui.courses_and_schedule;
 
 public abstract class CalendarUtilities {
 	

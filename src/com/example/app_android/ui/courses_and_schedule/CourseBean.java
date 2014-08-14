@@ -1,4 +1,4 @@
-package com.example.app_android;
+package com.example.app_android.ui.courses_and_schedule;
 
 public final class CourseBean {
 	private String courseCode;

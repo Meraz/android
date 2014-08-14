@@ -1,10 +1,8 @@
-package com.example.app_android.ui;
+package com.example.app_android.ui.courses_and_schedule;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import com.example.app_android.CourseBean;
-import com.example.app_android.ExportToGCalFromTimeEditTask;
 import com.example.app_android.R;
 import com.example.app_android.database.DBException;
 import com.example.app_android.database.DatabaseManager;
@@ -12,7 +10,7 @@ import com.example.app_android.database.NoResultFoundDBException;
 import com.example.app_android.database.NoRowsAffectedDBException;
 import com.example.app_android.database.interfaces.ICourseTable;
 import com.example.app_android.database.interfaces.IFavouriteCourseTable;
-import com.example.app_android.util.CalendarUtilities;
+import com.example.app_android.ui.BaseActivity;
 import com.example.app_android.util.Utilities;
 
 import android.annotation.SuppressLint;
@@ -127,7 +125,6 @@ public class ActivityCourses extends BaseActivity {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.layout.activity_courses_action, menu);
 	    mSyncActionItem = menu.findItem(R.id.courses_Action_sync_indicator);
-	    mSyncActionItem.setActionView(R.layout.item_action_sync_indicator);
 	    mSyncActionItem.setVisible(false);
 	    return super.onCreateOptionsMenu(menu);
 	}
@@ -342,6 +339,7 @@ public class ActivityCourses extends BaseActivity {
 						course.getEndDate().replaceAll("-", "")));
 				ExportToGCalFromTimeEditTask exportTask = new ExportToGCalFromTimeEditTask(getApplicationContext(), mSyncActionItem);
 				mSyncActionItem.setVisible(true);
+			    mSyncActionItem.setActionView(R.layout.item_action_sync_indicator);
 				exportTask.execute(requests);
 			}
 			else
@@ -389,6 +387,7 @@ public class ActivityCourses extends BaseActivity {
 					ExportToGCalFromTimeEditTask exportTask = new ExportToGCalFromTimeEditTask(getApplicationContext(), mSyncActionItem);
 					exportTask.execute(requests);
 					mSyncActionItem.setVisible(true);
+				    mSyncActionItem.setActionView(R.layout.item_action_sync_indicator);
 				}
 			}
 			else
