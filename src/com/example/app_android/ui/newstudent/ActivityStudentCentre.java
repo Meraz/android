@@ -3,7 +3,6 @@ package com.example.app_android.ui.newstudent;
 import java.util.ArrayList;
 
 import com.example.app_android.R;
-import com.example.app_android.ui.elements.expandablelist.ExpandableListChild;
 import com.example.app_android.ui.elements.expandablelist.ExpandableListGroup;
 import com.example.app_android.ui.elements.expandablelist.ExpandableListMetaButton;
 import com.example.app_android.ui.elements.expandablelist.IButtonCallback;
@@ -15,7 +14,6 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 
 public class ActivityStudentCentre extends BaseNewStudentActivity implements IButtonCallback {
 
@@ -32,6 +30,7 @@ public class ActivityStudentCentre extends BaseNewStudentActivity implements IBu
 		mExpandableListAdapter.openSpecificGroups(new int[]{0}); 	// Open first
 		mExpandableListAdapter.setOnlyOneOpenBehavior(true);		// only one group can be opened at the time
 		mExpandableListAdapter.setUseHtmlFormattingOnText(true);	// name says it all
+		mExpandableListAdapter.setClickableHtmlLinks(true);
 		mExpandableListAdapter.setButtonCallBack(this);
     }        
     
@@ -48,14 +47,10 @@ public class ActivityStudentCentre extends BaseNewStudentActivity implements IBu
     	String[] text = res.getStringArray(R.array.new_student_menu_studentcentre_text);
     	
     	for(int i = 0; i < header.length; i++) {
-    		group = ExpandableListGroup.ConstructOneGroupWithOneChild(header[i], text[i], null);
     		
-    		ExpandableListChild child = new ExpandableListChild();
-    		child.setText(null); child.setTag(null);
-    		ExpandableListMetaButton metaButton = new ExpandableListMetaButton();
-    		metaButton.setButton(Button.VISIBLE, getString(R.string.new_student_menu_studentcentre_button), ButtonAction.StudentCentreWebsite.ordinal());
-    		child.setMetaButton(metaButton);
-    		group.appendItem(child);    
+    		if(i == 0) // Adds link to text
+    			text[0] += getString(R.string.new_student_menu_studentcentre_text_url);
+    		group = ExpandableListGroup.ConstructOneGroupWithOneChild(header[i], text[i], null);
     		
     		finalList.add(group);
     	}
@@ -71,7 +66,7 @@ public class ActivityStudentCentre extends BaseNewStudentActivity implements IBu
 		ButtonAction actionEnum = ButtonAction.values()[actionID];
 		
 		if(actionEnum == ButtonAction.StudentCentreWebsite) {
-		    Uri uriUrl = Uri.parse(getString(R.string.new_student_menu_studentcentre_button_url));
+		    Uri uriUrl = Uri.parse(getString(R.string.new_student_menu_studentcentre_url));
 	        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
 	        startActivity(launchBrowser);
 		}		

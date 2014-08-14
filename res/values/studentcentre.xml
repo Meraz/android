@@ -8,9 +8,8 @@
     <item >@string/new_student_menu_studentcentre</item>
   </string-array>
 
-  <string name="new_student_menu_studentcentre_button">Studentcentrums hemsida</string>
-  <string name="new_student_menu_studentcentre_button_url">https://studentportal.bth.se/web/studentportal.nsf/web.xsp/studentcentrum</string>
-
+  <string name="new_student_menu_studentcentre_text_url"><![CDATA[<a href="https://studentportal.bth.se/web/studentportal.nsf/web.xsp/studentcentrum">Studentcentrums hemsida</a>]]></string>
+  <string name="new_student_menu_studentcentre_url">https://studentportal.bth.se/web/studentportal.nsf/web.xsp/studentcentrum</string>
 
   <string name="new_student_menu_studentcentre"><![CDATA[
 <b>Studentcentrum</b> hjälper dig med att få svar på dina frågor kring registreringar på program/kurser, BTH-kortet, ditt studentkonto, parkeringstillstånd på campus Gräsvik, utelämning av tentamen och intyg för tidigare studenter.
@@ -18,14 +17,18 @@
 <br>
 Studentcentrums öppetider är:
 <br>
-Mån-Tors 10-14
+Mån-Tors 10:00-14:00
 <br>
-10-11:30
+Fredag 10:00-11:30
 <br>
 <br>
-Man kan även nå studentcentrum via telefonnummer 0455-385700 mån-fre mellan 10-11:30.
+Man kan även nå studentcentrum via telefonnummer 0455-385700
+mån-fre mellan 10:00-11:30.
+<br>
 För ytterliggare information besök studentcentrum på <u>andra</u> våningen i J-huset, ovanför Bistron.
-]]></string>
+<br
+<br>
+  ]]></string>
 
 
 
