@@ -64,77 +64,77 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 		}
 		
 		values[0].put(COLUMN_NAME, "HOUSE_A");
-		values[0].put(COLUMN_DESCRIPTION, "Description missing");
+		values[0].put(COLUMN_DESCRIPTION,"<b>Hus A<br>Våning 1:</b><br> IT- och Serviceavdelningen<br><b>Våning 2:</b><br> Reception<br><b>Våning 3:</b><br> Konferensrum");
 		values[0].put(COLUMN_COORDINATE_LATITUDE, 56.182016);
 		values[0].put(COLUMN_COORDINATE_LONGITUDE, 15.590502);
 		values[0].put(COLUMN_ICON_ID, MapPlaceIdentifiers.MARKER_ICON_ID_HOUSE_A);
 		values[0].put(COLUMN_TOGGLE_ID, MapPlaceIdentifiers.TOGGLE_ID_CAMPUS_HOUSES);
 		
 		values[1].put(COLUMN_NAME, "HOUSE_B");
-		values[1].put(COLUMN_DESCRIPTION, "Description missing");
+		values[1].put(COLUMN_DESCRIPTION, "<b>Hus B</b><br>Region Blekinge");
 		values[1].put(COLUMN_COORDINATE_LATITUDE, 56.180673);
 		values[1].put(COLUMN_COORDINATE_LONGITUDE, 15.590691);
 		values[1].put(COLUMN_ICON_ID, MapPlaceIdentifiers.MARKER_ICON_ID_HOUSE_B);
 		values[1].put(COLUMN_TOGGLE_ID, MapPlaceIdentifiers.TOGGLE_ID_CAMPUS_HOUSES);
 		
 		values[2].put(COLUMN_NAME, "HOUSE_C");
-		values[2].put(COLUMN_DESCRIPTION, "Description missing");
+		values[2].put(COLUMN_DESCRIPTION, "<b>Hus C<br>Våning 1:</b><br> Källarplan<br><b>Våning 2:</b><br>Föreläsningssalar, Toaletter<br><b>Våning 3:</b><br> Föreläsningssalar, Toaletter<br><b>Våning 4:</b><br>Institutionen för Fysisk Planering");
 		values[2].put(COLUMN_COORDINATE_LATITUDE, 56.181189);
 		values[2].put(COLUMN_COORDINATE_LONGITUDE, 15.592303);
 		values[2].put(COLUMN_ICON_ID, MapPlaceIdentifiers.MARKER_ICON_ID_HOUSE_C);
 		values[2].put(COLUMN_TOGGLE_ID, MapPlaceIdentifiers.TOGGLE_ID_CAMPUS_HOUSES);
 		
 		values[3].put(COLUMN_NAME, "HOUSE_D");
-		values[3].put(COLUMN_DESCRIPTION, "Description missing");
+		values[3].put(COLUMN_DESCRIPTION, "<b>Hus D<br>Våning 1:</b><br>Region Blekinge<br><b>Våning 2:</b><br>Café Länken, Studieytor, Mikrovågsugnar");
 		values[3].put(COLUMN_COORDINATE_LATITUDE, 56.181670);
 		values[3].put(COLUMN_COORDINATE_LONGITUDE, 15.592375);
 		values[3].put(COLUMN_ICON_ID, MapPlaceIdentifiers.MARKER_ICON_ID_HOUSE_D);
 		values[3].put(COLUMN_TOGGLE_ID, MapPlaceIdentifiers.TOGGLE_ID_CAMPUS_HOUSES);
 		
 		values[4].put(COLUMN_NAME, "HOUSE_G");
-		values[4].put(COLUMN_DESCRIPTION, "Description missing");
+		values[4].put(COLUMN_DESCRIPTION, "<b>Hus G<br>Våning 1:</b><br>Källarplan<br><b>Våning 2:</b><br>Föreläsningssalar, Studenthälsan, Konfuciusinstitutet, Datorsalar, Toaletter<br><b>Våning 3:</b><br>Föreläsningssalar, Toaletter, Datorsalar<br><b>Våning 4:</b><br>Föreläsningssalar, Datorsalar, Toaletter<br><b>Våning 5:</b><br> Föreläsningssalar, Datorsalar, Toaletter");
 		values[4].put(COLUMN_COORDINATE_LATITUDE, 56.181891);
 		values[4].put(COLUMN_COORDINATE_LONGITUDE, 15.591308);
 		values[4].put(COLUMN_ICON_ID, MapPlaceIdentifiers.MARKER_ICON_ID_HOUSE_G);
 		values[4].put(COLUMN_TOGGLE_ID, MapPlaceIdentifiers.TOGGLE_ID_CAMPUS_HOUSES);
 		
 		values[5].put(COLUMN_NAME, "HOUSE_H");
-		values[5].put(COLUMN_DESCRIPTION, "Description missing");
+		values[5].put(COLUMN_DESCRIPTION, "<b>Hus H<br>Våning 1:</b><br>Toaletter<br><b>Våning 2:</b><br>Bibliotek<br><b>Våning 3:</b><br> Bibliotek, Datorsalar, Grupprum<br><b>Våning 4:</b><br>Institiutionen för kommunikationssytem, Datorsalar, Föreläsningssalar<br><b>Våning 5:</b><br> Institutionen för Hälsa");
 		values[5].put(COLUMN_COORDINATE_LATITUDE, 56.182348);
 		values[5].put(COLUMN_COORDINATE_LONGITUDE, 15.590819);
 		values[5].put(COLUMN_ICON_ID, MapPlaceIdentifiers.MARKER_ICON_ID_HOUSE_H);
 		values[5].put(COLUMN_TOGGLE_ID, MapPlaceIdentifiers.TOGGLE_ID_CAMPUS_HOUSES);
 		
 		values[6].put(COLUMN_NAME, "HOUSE_J");
-		values[6].put(COLUMN_DESCRIPTION, "Description missing");
+		values[6].put(COLUMN_DESCRIPTION, "<b>Hus J<br>Våning 1:</b><br>Restaurang Bistro, föreläsningssalar, multisalen, toaletter<br><b>Våning 2:</b><br>Kontor, Konferensrum, Studentcentrum, Studentkårens expedition, Toalett<br><b>Våning 3:</b><br>Kontor<br><b>Våning 4:</b><br>Ledningsenheten & Ledningskansli");
 		values[6].put(COLUMN_COORDINATE_LATITUDE, 56.182933);
 		values[6].put(COLUMN_COORDINATE_LONGITUDE, 15.590401);
 		values[6].put(COLUMN_ICON_ID, MapPlaceIdentifiers.MARKER_ICON_ID_HOUSE_J);
 		values[6].put(COLUMN_TOGGLE_ID, MapPlaceIdentifiers.TOGGLE_ID_CAMPUS_HOUSES);
 		
 		values[7].put(COLUMN_NAME, "HOUSE_K");
-		values[7].put(COLUMN_DESCRIPTION, "Description missing");
+		values[7].put(COLUMN_DESCRIPTION, "<b>Studentpub Rotundan</b>");
 		values[7].put(COLUMN_COORDINATE_LATITUDE, 56.181711);
 		values[7].put(COLUMN_COORDINATE_LONGITUDE, 15.589841);
 		values[7].put(COLUMN_ICON_ID, MapPlaceIdentifiers.MARKER_ICON_ID_ROTUNDAN);
 		values[7].put(COLUMN_TOGGLE_ID, MapPlaceIdentifiers.TOGGLE_ID_STUDENT_PUBS);
 		
 		values[8].put(COLUMN_NAME, "KARLSHAMN_HOUSE_A");
-		values[8].put(COLUMN_DESCRIPTION, "Description missing");
+		values[8].put(COLUMN_DESCRIPTION, "<b>Hus A<br>Våning 1:</b><br>Institutionen för Teknik och Estetik<br>Institutionen för Datalogi och Datorsystemteknik<br><b>Våning 2:</b><br>Bibliotek");
 		values[8].put(COLUMN_COORDINATE_LATITUDE, 56.163626);
 		values[8].put(COLUMN_COORDINATE_LONGITUDE, 14.866623);
 		values[8].put(COLUMN_ICON_ID, MapPlaceIdentifiers.MARKER_ICON_ID_HOUSE_A);
 		values[8].put(COLUMN_TOGGLE_ID, MapPlaceIdentifiers.TOGGLE_ID_CAMPUS_HOUSES );
 		
 		values[9].put(COLUMN_NAME, "KARLSHAMN_HOUSE_B");
-		values[9].put(COLUMN_DESCRIPTION, "Description missing");
+		values[9].put(COLUMN_DESCRIPTION, "<b>Hus B</b><br>Institutionen för Teknik och Estetik");
 		values[9].put(COLUMN_COORDINATE_LATITUDE, 56.164464);
 		values[9].put(COLUMN_COORDINATE_LONGITUDE, 14.866012);
 		values[9].put(COLUMN_ICON_ID, MapPlaceIdentifiers.MARKER_ICON_ID_HOUSE_B);
 		values[9].put(COLUMN_TOGGLE_ID, MapPlaceIdentifiers.TOGGLE_ID_CAMPUS_HOUSES);
 		
 		values[10].put(COLUMN_NAME, "BSK_OFFICE");
-		values[10].put(COLUMN_DESCRIPTION, "Description missing");
+		values[10].put(COLUMN_DESCRIPTION, "<b>Blekinge Studentkårs kansli</b>");
 		values[10].put(COLUMN_COORDINATE_LATITUDE, 56.181975);
 		values[10].put(COLUMN_COORDINATE_LONGITUDE, 15.589975);
 		values[10].put(COLUMN_ICON_ID, MapPlaceIdentifiers.MARKER_ÌCON_ID_BSK_OFFICE);
@@ -142,14 +142,14 @@ public class MapPlaceTable extends BaseTable implements IMapPlaceTable {
 		
 		//TEST VALUES
 		values[11].put(COLUMN_NAME, "J2170");
-		values[11].put(COLUMN_DESCRIPTION, "[Hardcoded test description]");
+		values[11].put(COLUMN_DESCRIPTION, "Föreläsningssal");
 		values[11].put(COLUMN_COORDINATE_LATITUDE, 56.182810);
 		values[11].put(COLUMN_COORDINATE_LONGITUDE, 15.590314);
 		values[11].put(COLUMN_ICON_ID, MapPlaceIdentifiers.MARKER_ICON_ID_DEBUG);
 		values[11].put(COLUMN_TOGGLE_ID, MapPlaceIdentifiers.TOGGLE_ID_NO_TOGGLE);
 		
 		values[12].put(COLUMN_NAME, "G311");
-		values[12].put(COLUMN_DESCRIPTION, "[Hardcoded test description]");
+		values[12].put(COLUMN_DESCRIPTION, "Datorsal");
 		values[12].put(COLUMN_COORDINATE_LATITUDE, 56.181890);
 		values[12].put(COLUMN_COORDINATE_LONGITUDE, 15.591293);
 		values[12].put(COLUMN_ICON_ID, MapPlaceIdentifiers.MARKER_ICON_ID_DEBUG);

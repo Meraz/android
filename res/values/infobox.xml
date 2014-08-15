@@ -3,27 +3,40 @@
   <string name="infobox_title_mainmenu">Huvudmenyn</string>
   <string name="infobox_text_mainmenu">De sex olika valen är de som anses vara nödvändiga för studenter. Som ny student ges information om vad som behövs göras och vad som är bra att sätta sig in i för att snabbt komma in i sin studietid.</string>
 
-  <string name="infobox_title_newstudent_mainmenu">Ny Student meny</string>
-  <string name="infobox_text_newstudent_mainmenu">Som ny student är kategorierna en hjälp för att snabbt kunna komma igång med sin studietid på BTH. </string>
+  <string name="infobox_title_newstudent_mainmenu">Information</string>
+  <string name="infobox_text_newstudent_mainmenu">Som ny student är kategorierna en hjälp för att snabbt kunna komma igång med sin studietid på BTH. De olika kategorierna öppnar nya vyer i appen som ger ytterligare information om det specifika valet. </string>
 
+  <string name="infobox_title_newstudent_checklist">Information</string>
+  <string name="infobox_text_newstudent_checklist">Med listan får du generell information om vad som är relevant inför din nya studietid. Kategorierna innehåller en möjlighet att gå vidare inom appen eller via telefonens webbläsare. Vid klick på rubrikerna öppnar eller stänger du texten som visas, enbart en text visas åt gången. </string>
+  
+  <string name="infobox_title_newstudent_student_portal">Information om studentportalen</string>
+  <string name="infobox_text_newstudent_student_portal">Studentportalen är det system som används när man bland annat ska registrera sig till sitt program, kurser eller tenta. Studentportalen på webben har fler än de funktioner som finns åtkomliga här.</string>
+  
   <string name="infobox_title_newstudent_residence">Information</string>
-  <string name="infobox_text_newstudent_residence">Informationen är kopplad till vilket campus du tidigare valt. Vyn presenterar de leverantörer av boende som erbjuder studentlägenheter. För andra lägenheter se alternativet längst ner.</string>
+  <string name="infobox_text_newstudent_residence">Här presenteras de leverantörer av boende som erbjuder studentlägenheter i din stad. För andra lägenheter se alternativet längst ner. Vid klick på rubriken av leverantör öppnar alternativt stänger du texten om leverantören. För att ändra campus behöver inställningen för standard-campus ändras i appens inställningar.</string>
+  
+  <string name="infobox_title_newstudent_student_union">Information</string>
+  <string name="infobox_text_newstudent_student_union">Studentkåren arbetar på skolan som ett fackförbund för studenter. På BTH finns det många linje/utbildnings-föreningar för skolans olika utbildnings-inriktningar. Dessa arbetar alltid med att förbättra tillvaron för de studenter de har hand om. Linjeföreningar arbetar separat från studentkåren med utbildningsföreningar är en organ inom studentkåren. I denna vy öppnar du ytterligare information om föreningarna genom att klicka deras rubrik och väl där kan du även gå vidare till deras respektive hemsida.</string>
+  
+  <string name="infobox_title_exam_registration">Information om tentamensanmälan</string>
+  <string name="infobox_text_exam_registration">De kurser du ser är de som har tentor som är möjliga att anmäla sig till. Om en kurs visas mer än en gång betyder det att den har multipla tentor. En mer detaljerad vy av tentan kan fås genom att klicka på önskad kurs. För att hämta ny information om tentorna behöver du logga in med ditt studentkonto. Har du inte ett studentkonto behöver du kontakta studentcentrum.</string>
 
   <string name="infobox_title_newstudent_student_centre">Information</string>
-  <string name="infobox_text_newstudent_student_centre"> Informationen är anpassad efter vilket campus du tidigare val. Vyn presenterar vad studentcentrum kan hjälpa dig med, deras öppettider samt en lista längst ner med vanliga funderingar man har som student när man vänder sig till studentcentrum.</string>
+  <string name="infobox_text_newstudent_student_centre">Här presenteras information om vad studentcentrum kan hjälpa dig med, deras öppettider samt en lista längst med vanliga frågor som studentcentrum får. Informationen här är anpassad efter vilket campus som är inställt som standard. Denna inställningen kan ändras från inställningsmenyn som är tillgänglig genom appens huvudmeny.</string>
 
-  <string name="infobox_title_newstudent">Hur använder jag denna vyn? New student</string>
-  <string name="infobox_text_newstudent">Här skall en beskrivande text finnas om hur denna vyn fungerar.</string>
+  <string name="infobox_title_newstudent_course_material">Information</string>
+  <string name="infobox_text_newstudent_course_material">För att öppna information om leverantören klickar man på rubriken, endast en undertext kan visas åt gången. Du kan besöka leverantörens hemsida genom att klicka på deras länk som öppnas i telefonens webbläsare.</string>
+  
+  <string name="infobox_title_student_union">Information om studentkåren</string>
+  <string name="infobox_text_student_union">Studentkåren arbetar på skolan som ett fackförbund för studenter. På BTH finns det många linje/utbildnings-föreningar för skolans olika utbildnings-inriktningar. Dessa arbetar alltid med att förbättra tillvaron för de studenter de har hand om. Linjeföreningar arbetar separat från studentkåren med utbildningsföreningar är en organ inom studentkåren. I denna vy öppnar du ytterligare information om föreningarna genom att klicka deras rubrik och väl där kan du även gå vidare till deras respektive hemsida.</string>
 
-  <string name="infobox_title_courses">Hur använder jag denna vyn? Courses</string>
-  <string name="infobox_text_courses">Här skall en beskrivande text finnas om hur denna vyn fungerar.</string>
+  <string name="infobox_title_courses">Information</string>
+  <string name="infobox_text_courses">Med hjälp av sökfältet kan du snabbt hitta kurser du är intresserad av och från listan som skapas när du söker kan du antingen klicka på en kurs och få mer information om den eller använda long press för att få snabbt kunna lägga till den bland dina favoriter. Menyknappen kan även användas för att komma åt de funktioner som rör schema och exportering till Google Calendar.</string>
 
-  <string name="infobox_title_detailed_courses">Hur använder jag denna vyn? Detailed course</string>
-  <string name="infobox_text_detailed_courses">Här skall en beskrivande text finnas om hur denna vyn fungerar.</string>
+  <string name="infobox_title_detailed_courses">Information</string>
+  <string name="infobox_text_detailed_courses">Här presenteras översiktligt information om kursen du valt. Om stjärn-iknonen är ifylld ligger kursen bland dina favoriter. Stjärn ikonen kan du även klicka på för att ta bort/lägga till kursen bland dina favoriter. Knappen i botten av vyn exporterar denna kursens timeedit-schema till din Google Calendar.</string>
 
-  <string name="infobox_title_map">Hur använder jag denna vyn? Map</string>
-  <string name="infobox_text_map">This dialog should contain information about how the map view works. But it doesn\'t, this is just some random text specified in a random .xml file somewhere.</string>
-
-  <string name="infobox_title_studentunion">Hur använder jag denna vyn? Studentunion</string>
-  <string name="infobox_text_studentunion">Här skall en beskrivande text finnas om hur denna vyn fungerar.</string>
+  <string name="infobox_title_map">Information</string>
+  <string name="infobox_text_map">Om du drar I vänsterkanten av denna vyn eller trycker på den hamburgar-liknande ikonen längs upp till vänster öppnas en meny. Med hjälp av denna menyn kan du ändra hur kartan presenteras och vad som presenteras på den. Du kan bland annat söka efter salar eller andra platser genom att använda det sökfält som finns där. Kartans startvy är baserad på appens inställning för standard-campus. Denna inställningen kan ändras i appens inställningar som är åtkomliga från huvudmenyn.</string>
+  
 </resources>

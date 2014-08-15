@@ -27,9 +27,8 @@ public class ActivityStudentUnion extends BaseNewStudentActivity implements IBut
 		mExpandableListAdapter.setClickableHtmlLinks(true);			// name says it all
 		mExpandableListAdapter.setButtonCallBack(this);
 		
-//		mInfoBoxTitle = getString(R.string.infobox_title_newstudent_residence);			// TODO
-//		mInfoBoxMessage = getString(R.string.infobox_text_newstudent_residence); 		// TODO
-		mActionBarTitle += getString(R.string.actionbar_nextsign) + getString(R.string.actionbar_newstudent_student_union);
+		mInfoBoxTitle = getString(R.string.infobox_title_newstudent_student_union);
+		mInfoBoxMessage = getString(R.string.infobox_text_newstudent_student_union);
     }        
     
     public ArrayList<ExpandableListGroup> SetStandardGroups() {

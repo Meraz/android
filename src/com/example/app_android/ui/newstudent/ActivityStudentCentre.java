@@ -29,7 +29,6 @@ public class ActivityStudentCentre extends BaseNewStudentActivity implements IBu
 		
 		mInfoBoxTitle = getString(R.string.infobox_title_newstudent_student_centre);
 		mInfoBoxMessage = getString(R.string.infobox_text_newstudent_student_centre); 	
-		mActionBarTitle += getString(R.string.actionbar_nextsign) + getString(R.string.actionbar_newstudent_student_centre);
     }        
     
     public ArrayList<ExpandableListGroup> SetStandardGroups() {

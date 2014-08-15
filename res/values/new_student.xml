@@ -13,11 +13,11 @@
 
   <!-- Checklist -->
   <string-array name="new_student_menu_checklist_header" >
-    <item >Fixa boende</item>
+    <item >Ordna boende</item>
     <item >Registrera dig på kurser/program</item>
-    <item >Registrera dig på CSN</item>
+    <item >Registrera dig hos CSN</item>
     <item >Skaffa BTH-kort</item>
-    <item >Skaffa din kurslitteratur</item>
+    <item >Införskaffa din kurslitteratur</item>
     <item >Bli medlem i studentkåren</item>
   </string-array>
   <string-array name="new_student_menu_checklist_text" >

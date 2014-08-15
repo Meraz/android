@@ -58,7 +58,7 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 	@Override
 	public void fillTableWithDefaultData(SQLiteDatabase db) throws SQLException, DBException {
 		super.fillTableWithDefaultData(db);
-		int defaultValueCount = 3;
+		int defaultValueCount = 2;
 		
 		ContentValues[] values = new ContentValues[defaultValueCount];
 		for (int i = 0; i < defaultValueCount; ++i) {
@@ -66,32 +66,32 @@ public class CoursesTable extends BaseTable implements ICourseTable{
 		}
 		
 		//	TODO - remove test data
-		values[0].put(COLUMN_COURSE_CODE, "testCode");
-		values[0].put(COLUMN_COURSE_NAME, "testName");
-		values[0].put(COLUMN_COURSE_RESPONSIBLE, "testPerson");
-		values[0].put(COLUMN_COURSE_START_DATE, "2014-07-01");
-		values[0].put(COLUMN_COURSE_END_DATE, "2015-03-30");
-		values[0].put(COLUMN_COURSE_LITERATURE, "testBook");
-		values[0].put(COLUMN_COURSE_NEXT_EXAM_DATE, "2014-07-01");
+		values[0].put(COLUMN_COURSE_CODE, "DV1415");
+		values[0].put(COLUMN_COURSE_NAME, "3D-Programmering II");
+		values[0].put(COLUMN_COURSE_RESPONSIBLE, "Stefan Peterson");
+		values[0].put(COLUMN_COURSE_START_DATE, "2014-03-01");
+		values[0].put(COLUMN_COURSE_END_DATE, "2014-05-30");
+		values[0].put(COLUMN_COURSE_LITERATURE, "DirectX Frank D Luna");
+		values[0].put(COLUMN_COURSE_NEXT_EXAM_DATE, "2014-09-01");
 		values[0].put(COLUMN_COURSE_DESCRIPTION, "THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!THISDESCRIPTIONISSOLONGWEHAVETOSCROLL!");
 		
-		values[1].put(COLUMN_COURSE_CODE, "PA1001");
+		/*values[1].put(COLUMN_COURSE_CODE, "PA1001");
 		values[1].put(COLUMN_COURSE_NAME, "Alpackameditation");
 		values[1].put(COLUMN_COURSE_RESPONSIBLE, "Baron & Otto");
 		values[1].put(COLUMN_COURSE_START_DATE, "2015-07-01");
 		values[1].put(COLUMN_COURSE_END_DATE, "2015-08-30");
 		values[1].put(COLUMN_COURSE_LITERATURE, "Free your fluffy mind - Utgåva 3");
 		values[1].put(COLUMN_COURSE_NEXT_EXAM_DATE, "2014-08-30");
-		values[1].put(COLUMN_COURSE_DESCRIPTION, "It's so fluffy I'm gonna die!!!");
+		values[1].put(COLUMN_COURSE_DESCRIPTION, "It's so fluffy I'm gonna die!!!");*/
 		
-		values[2].put(COLUMN_COURSE_CODE, "DV1456");
-		values[2].put(COLUMN_COURSE_NAME, "Programmering och algoritmer i C++");
-		values[2].put(COLUMN_COURSE_RESPONSIBLE, "Betty Berqvist");
-		values[2].put(COLUMN_COURSE_START_DATE, "2014-09-01");
-		values[2].put(COLUMN_COURSE_END_DATE, "2015-03-30");
-		values[2].put(COLUMN_COURSE_LITERATURE, "Stackoverflow");
-		values[2].put(COLUMN_COURSE_NEXT_EXAM_DATE, "2014-10-25");
-		values[2].put(COLUMN_COURSE_DESCRIPTION, "22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n");
+		values[1].put(COLUMN_COURSE_CODE, "DV1456");
+		values[1].put(COLUMN_COURSE_NAME, "Programmering och algoritmer i C++");
+		values[1].put(COLUMN_COURSE_RESPONSIBLE, "Betty Berqvist");
+		values[1].put(COLUMN_COURSE_START_DATE, "2014-09-01");
+		values[1].put(COLUMN_COURSE_END_DATE, "2015-03-30");
+		values[1].put(COLUMN_COURSE_LITERATURE, "Stackoverflow");
+		values[1].put(COLUMN_COURSE_NEXT_EXAM_DATE, "2014-10-25");
+		values[1].put(COLUMN_COURSE_DESCRIPTION, "22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n22.5hp och annan vettig information som jag upprepar för att visa att denna vyn kan scrolla!\n");
 		
 		db.beginTransaction();
 		
