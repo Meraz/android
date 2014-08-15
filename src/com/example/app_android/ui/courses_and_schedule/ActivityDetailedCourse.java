@@ -149,7 +149,7 @@ public class ActivityDetailedCourse extends BaseActivity {
 	    		if(result) {
 	    			mIsFavourite = true;
 	    			mAddOrRemoveFavouriteButton.setIcon(R.drawable.ic_action_important);
-	    			Toast.makeText(getApplicationContext(), R.string.toast_courses_confirm_removed_favourite_course, Toast.LENGTH_SHORT).show();
+	    			Toast.makeText(getApplicationContext(), R.string.toast_courses_confirm_added_favourite_course, Toast.LENGTH_SHORT).show();
 	    		}
 	    	}
 	    	break;
